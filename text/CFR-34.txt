@@ -1,0 +1,167 @@
+
+10 CFR Part 34 - Licenses for Industrial Radiography and Radiation Safety Requirements
+======================================================================================
+
+
+§ 34.1 Purpose and scope.
+-------------------------
+
+This part prescribes requirements for the issuance of licenses for the use of sealed sources
+containing byproduct material and radiation safety requirements for persons using these
+sealed sources in industrial radiography. The provisions and requirements of this part are
+in addition to, and not in substitution for, other requirements of this chapter. In
+particular, the requirements and provisions of parts 19, 20, 21, 30, 37, 71, 150, 170, and
+171 of this chapter apply to applications and licenses subject to this part. This rule does
+not apply to medical uses of byproduct material.
+
+
+----------------------------------------------------------------------
+
+
+§ 34.13 Specific license for industrial radiography.
+----------------------------------------------------
+
+An application for a specific license for the use of licensed material in industrial
+radiography will be approved if the applicant meets the following requirements:
+
+(a) The applicant satisfies the general requirements specified in § 30.33 of this chapter
+for byproduct material, as appropriate, and any special requirements contained in this part.
+
+(b) The applicant submits an adequate program for training radiographers and radiographers'
+assistants that meets the requirements of § 34.43.
+
+(1) After May 28, 1999, a license applicant need not describe its initial training and
+examination program for radiographers in the subjects outlined in § 34.43(g).
+
+(2) From June 27, 1997 to May 28, 1999 a license applicant may affirm that all individuals
+acting as industrial radiographers will be certified in radiation safety by a certifying
+entity before commencing duty as radiographers. This affirmation substitutes for a
+description of its initial training and examination program for radiographers in the
+subjects outlined in § 34.43(g).
+
+(c) The applicant submits procedures for verifying and documenting the certification status
+of radiographers and for ensuring that the certification of individuals acting as
+radiographers remains valid.
+
+(d) The applicant submits written operating and emergency procedures as described in §
+34.45.
+
+(e) The applicant submits a description of a program for inspections of the job performance
+of each radiographer and radiographers' assistant at intervals not to exceed 6 months as
+described in § 34.43(e).
+
+(f) The applicant submits a description of the applicant's overall organizational structure
+as it applies to the radiation safety responsibilities in industrial radiography, including
+specified delegation of authority and responsibility.
+
+(g) The applicant identifies and lists the qualifications of the individual(s) designated as
+the RSO (§ 34.42) and potential designees responsible for ensuring that the licensee's
+radiation safety program is implemented in accordance with approved procedures.
+
+(h) If an applicant intends to perform leak testing of sealed sources or exposure devices
+containing depleted uranium (DU) shielding, the applicant must describe the procedures for
+performing and the qualifications of the person(s) authorized to do the leak testing. If the
+applicant intends to analyze its own wipe samples, the application must include a
+description of the procedures to be followed. The description must include the—
+
+(1) Instruments to be used;
+
+(2) Methods of performing the analysis; and
+
+(3) Pertinent experience of the person who will analyze the wipe samples.
+
+(i) If the applicant intends to perform “in-house” calibrations of survey instruments the
+applicant must describe methods to be used and the relevant experience of the person(s) who
+will perform the calibrations. All calibrations must be performed according to the
+procedures described and at the intervals prescribed in § 34.25.
+
+(j) The applicant identifies and describes the location(s) of all field stations and
+permanent radiographic installations.
+
+(k) The applicant identifies the locations where all records required by this part and other
+parts of this chapter will be maintained.
+
+
+----------------------------------------------------------------------
+
+
+§ 34.71 Utilization logs.
+-------------------------
+
+(a) Each licensee shall maintain utilization logs showing for each sealed source the
+following information:
+
+(1) A description, including the make, model, and serial number of the radiographic exposure
+device or transport or storage container in which the sealed source is located;
+
+(2) The identity and signature of the radiographer to whom assigned; and
+
+(3) The plant or site where used and dates of use, including the dates removed and returned
+to storage.
+
+(b) The licensee shall retain the logs required by paragraph (a) of this section for 3 years
+after the log is made.
+
+
+----------------------------------------------------------------------
+
+
+§ 34.83 Records of personnel monitoring procedures.
+---------------------------------------------------
+
+Each licensee shall maintain the following exposure records specified in § 34.47:
+
+(a) Direct reading dosimeter readings and yearly operability checks required by § 34.47 (b)
+and (c) for 3 years after the record is made.
+
+(b) Records of alarm ratemeter calibrations for 3 years after the record is made.
+
+(c) Personnel dosimeter results until the Commission terminates the license.
+
+(d) Records of estimates of exposures as a result of: off-scale personal direct reading
+dosimeters, or lost or damaged personnel dosimeters until the Commission terminates the
+license.
+
+
+----------------------------------------------------------------------
+
+
+§ 34.101 Notifications.
+-----------------------
+
+(a) In addition to the reporting requirements specified in § 30.50 and under other sections
+of this chapter, such as § 21.21, each licensee shall send a written report to the NRC's
+Office of Nuclear Material Safety and Safeguards, by an appropriate method listed in §
+30.6(a) of this chapter, within 30 days of the occurrence of any of the following incidents
+involving radiographic equipment:
+
+(1) Unintentional disconnection of the source assembly from the control cable;
+
+(2) Inability to retract the source assembly to its fully shielded position and secure it in
+this position; or
+
+(3) Failure of any component (critical to safe operation of the device) to properly perform
+its intended function;
+
+(b) The licensee shall include the following information in each report submitted under
+paragraph (a) of this section, and in each report of overexposure submitted under 10 CFR
+20.2203 which involves failure of safety components of radiography equipment:
+
+(1) A description of the equipment problem;
+
+(2) Cause of each incident, if known;
+
+(3) Name of the manufacturer and model number of equipment involved in the incident;
+
+(4) Place, date, and time of the incident;
+
+(5) Actions taken to establish normal operations;
+
+(6) Corrective actions taken or planned to prevent recurrence; and
+
+(7) Qualifications of personnel involved in the incident.
+
+(c) Any licensee conducting radiographic operations or storing radioactive material at any
+location not listed on the license for a period in excess of 180 days in a calendar year,
+shall notify the appropriate NRC regional office listed in § 30.6(b)(2) of this chapter
+prior to exceeding the 180 days.

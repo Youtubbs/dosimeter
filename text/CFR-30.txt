@@ -1,0 +1,556 @@
+
+10 CFR 30.70-30.72 - Schedules A, B and C: Exempt Concentrations and Quantities
+===============================================================================
+
+
+§ 30.70 Schedule A—Exempt concentrations.
+-----------------------------------------
+
+
+[See footnotes at end of this table]
+------------------------------------
+
+Element (atomic number)                                     Isotop  Col. I               Col. II
+                                                            e
+
+Gas concentration µCi/ml 1                                  Liquid
+                                                            and
+                                                            solid
+                                                            concen
+                                                            tratio
+                                                            n
+                                                            µCi/ml
+                                                            2
+
+Antimony (51)                                               Sb 122                       3 × 10−4
+                                                            Sb 124                       2 × 10−4
+                                                            Sb 125                       1 × 10−3
+Argon (18)                                                  A 37    1 × 10−3
+                                                            A 41    4 × 10−7
+Arsenic (33)                                                As 73                        5 × 10−3
+                                                            As 74                        5 × 10−4
+                                                            As 76                        2 × 10−4
+                                                            As 77                        8 × 10−4
+Barium (56)                                                 Ba 131                       2 × 10−3
+                                                            Ba 140                       3 × 10−4
+Beryllium (4)                                               Be 7                         2 × 10−2
+Bismuth (83)                                                Bi 206                       4 × 10−4
+Bromine (35)                                                Br 82   4 × 10−7             3 × 10−3
+Cadmium (48)                                                Cd 109                       2 × 10−3
+                                                            Cd                           3 × 10−4
+                                                            115m
+
+                                                            Cd 115                       3 × 10−4
+Calcium (20)                                                Ca 45                        9 × 10−5
+                                                            Ca 47                        5 × 10−4
+Carbon (6)                                                  C 14    1 × 10−6             8 × 10−3
+Cerium (58)                                                 Ce 141                       9 × 10−4
+                                                            Ce 143                       4 × 10−4
+                                                            Ce 144                       1 × 10−4
+Cesium (55)                                                 Cs 131                       2 × 10−2
+                                                            Cs                           6 × 10−2
+                                                            134m
+
+                                                            Cs 134                       9 × 10−5
+Chlorine (17)                                               Cl 38   9 × 10−7             4 × 10−3
+Chromium (24)                                               Cr 51                        2 × 10−2
+Cobalt (27)                                                 Co 57                        5 × 10−3
+                                                            Co 58                        1 × 10−3
+                                                            Co 60                        5 × 10−4
+Copper (29)                                                 Cu 64                        3 × 10−3
+Dysprosium (66)                                             Dy 165                       4 × 10−3
+                                                            Dy 166                       4 × 10−4
+Erbium (68)                                                 Er 169                       9 × 10−4
+                                                            Er 171                       1 × 10−3
+Europium (63)                                               Eu 152                       6 × 10−4
+                                                            (T/2 =
+                                                            9.2
+                                                            Hrs)
+
+                                                            Eu 155                       2 × 10−3
+Fluorine (9)                                                F 18    2 × 10−6             8 × 10−3
+Gadolinium (64)                                             Gd 153                       2 × 10−3
+                                                            Gd 159                       8 × 10−4
+Gallium (31)                                                Ga 72                        4 × 10−4
+Germanium (32)                                              Ge 71                        2 × 10−2
+Gold (79)                                                   Au 196                       2 × 10−3
+                                                            Au 198                       5 × 10−4
+                                                            Au 199                       2 × 10−3
+Hafnium (72)                                                Hf 181                       7 × 10−4
+Hydrogen (1)                                                H 3     5 × 10−6             3 × 10−2
+Indium (49)                                                 In                           1 × 10−2
+                                                            113m
+
+                                                            In                           2 × 10−4
+                                                            114m
+
+Iodine (53)                                                 I 126   3 × 10−9             2 × 10−5
+                                                            I 131   3 × 10−9             2 × 10−5
+                                                            I 132   8 × 10−8             6 × 10−4
+                                                            I 133   1 × 10−8             7 × 10−5
+                                                            I 134   2 × 10−7             1 × 10−3
+Iridium (77)                                                Ir 190                       2 × 10−3
+                                                            Ir 192                       4 × 10−4
+                                                            Ir 194                       3 × 10−4
+Iron (26)                                                   Fe 55                        8 × 10−3
+                                                            Fe 59                        6 × 10−4
+Krypton (36)                                                Kr 85m  1 × 10−6
+                                                            Kr 85   3 × 10−6
+Lanthanum (57)                                              La 140                       2 × 10−4
+Lead (82)                                                   Pb 203                       4 × 10−3
+Lutetium (71)                                               Lu 177                       1 × 10−3
+Manganese (25)                                              Mn 52                        3 × 10−4
+                                                            Mn 54                        1 × 10−3
+                                                            Mn 56                        1 × 10−3
+Mercury (80)                                                Hg                           2 × 10−3
+                                                            197m
+
+                                                            Hg 197                       3 × 10−3
+                                                            Hg 203                       2 × 10−4
+Molybdenum (42)                                             Mo 99                        2 × 10−3
+Neodymium (60)                                              Nd 147                       6 × 10−4
+                                                            Nd 149                       3 × 10−3
+Nickel (28)                                                 Ni 65                        1 × 10−3
+Niobium (Columbium) (41)                                    Nb 95                        1 × 10−3
+                                                            Nb 97                        9 × 10−3
+Osmium (76)                                                 Os 185                       7 × 10−4
+                                                            Os                           3 × 10−2
+                                                            191m
+
+                                                            Os 191                       2 × 10−3
+                                                            Os 193                       6 × 10−4
+Palladium (46)                                              Pd 103                       3 × 10−3
+                                                            Pd 109                       9 × 10−4
+Phosphorus (15)                                             P 32                         2 × 10−4
+Platinum (78)                                               Pt 191                       1 × 10−3
+                                                            Pt                           1 × 10−2
+                                                            193m
+
+                                                            Pt                           1 × 10−2
+                                                            197m
+
+                                                            Pt 197                       1 × 10−3
+Potassium (19)                                              K 42                         3 × 10−3
+Praseodymium (59)                                           Pr 142                       3 × 10−4
+                                                            Pr 143                       5 × 10−4
+Promethium (61)                                             Pm 147                       2 × 10−3
+                                                            Pm 149                       4 × 10−4
+Rhenium (75)                                                Re 183                       6 × 10−3
+                                                            Re 186                       9 × 10−4
+                                                            Re 188                       6 × 10−4
+Rhodium (45)                                                Rh                           1 × 10−1
+                                                            103m
+
+                                                            Rh 105                       1 × 10−3
+Rubidium (37)                                               Rb 86                        7 × 10−4
+Ruthenium (44)                                              Ru 97                        4 × 10−4
+                                                            Ru 103                       8 × 10−4
+                                                            Ru 105                       1 × 10−3
+                                                            Ru 106                       1 × 10−4
+Samarium (62)                                               Sm 153                       8 × 10−4
+Scandium (21)                                               Sc 46                        4 × 10−4
+                                                            Sc 47                        9 × 10−4
+                                                            Sc 48                        3 × 10−4
+Selenium (34)                                               Se 75                        3 × 10−3
+Silicon (14)                                                Si 31                        9 × 10−3
+Silver (47)                                                 Ag 105                       1 × 10−3
+                                                            Ag                           3 × 10−4
+                                                            110m
+
+                                                            Ag 111                       4 × 10−4
+Sodium (11)                                                 Na 24                        2 × 10−3
+Strontium (38)                                              Sr 85                        1 × 10−4
+                                                            Sr 89                        1 × 10−4
+                                                            Sr 91                        7 × 10−4
+                                                            Sr 92                        7 × 10−4
+Sulfur (16)                                                 S 35    9 × 10−8             6 × 10−4
+Tantalum (73)                                               Ta 182                       4 × 10−4
+Technetium (43)                                             Tc 96m                       1 × 10−1
+                                                            Tc 96                        1 × 10−3
+Tellurium (52)                                              Te                           2 × 10−3
+                                                            125m
+
+                                                            Te                           6 × 10−4
+                                                            127m
+
+                                                            Te 127                       3 × 10−3
+                                                            Te                           3 × 10−4
+                                                            129m
+
+                                                            Te                           6 × 10−4
+                                                            131m
+
+                                                            Te 132                       3 × 10−4
+Terbium (65)                                                Tb 160                       4 × 10−4
+Thallium (81)                                               Tl 200                       4 × 10−3
+                                                            Tl 201                       3 × 10−3
+                                                            Tl 202                       1 × 10−3
+                                                            Tl 204                       1 × 10−3
+Thulium (69)                                                Tm 170                       5 × 10−4
+                                                            Tm 171                       5 × 10−3
+Tin (50)                                                    Sn 113                       9 × 10−4
+                                                            Sn 125                       2 × 10−4
+Tungsten (Wolfram) (74)                                     W 181                        4 × 10−3
+                                                            W 187                        7 × 10−4
+Vanadium (23)                                               V 48                         3 × 10−4
+Xenon (54)                                                  Xe      4 × 10−6
+                                                            131m
+
+                                                            Xe 133  3 × 10−6
+                                                            Xe 135  1 × 10−6
+Ytterbium (70)                                              Yb 175                       1 × 10−3
+Yttrium (39)                                                Y 90                         2 × 10−4
+                                                            Y 91m                        3 × 10−2
+                                                            Y 91                         3 × 10−4
+                                                            Y 92                         6 × 10−4
+                                                            Y 93                         3 × 10−4
+Zinc (30)                                                   Zn 65                        1 × 10−3
+                                                            Zn 69m                       7 × 10−4
+                                                            Zn 69                        2 × 10−2
+Zirconium (40)                                              Zr 95                        6 × 10−4
+                                                            Zr 97                        2 × 10−4
+Beta and/or gamma emitting byproduct material not listed            1 × 10−10            1 × 10−6
+above with half-life less than 3 years
+
+Footnotes to Schedule A:
+1 Values are given only for those materials normally used
+as gases.
+
+2 µCi/gm for solids.
+Note 1: Many radioisotopes disintegrate into isotopes
+which are also radioactive. In expressing the
+concentrations in Schedule A, the activity stated is that
+of the parent isotope and takes into account the
+daughters.
+
+Note 2: For purposes of § 30.14 where there is involved a
+combination of isotopes, the limit for the combination
+should be derived as follows:
+
+Determine for each isotope in the product the ratio
+between the concentration present in the product and the
+exempt concentration established in Schedule A for the
+specific isotope when not in combination. The sum of such
+ratios may not exceed “1” (i.e., unity).
+
+Example:
+
+
+----------------------------------------------------------------------
+
+
+§ 30.71 Schedule B.
+-------------------
+
+Byproduct material                                                                    Microcuries
+Antimony 122 (Sb 122)                                                                 100
+Antimony 124 (Sb 124)                                                                 10
+Antimony 125 (Sb 125)                                                                 10
+Arsenic 73 (As 73)                                                                    100
+Arsenic 74 (As 74)                                                                    10
+Arsenic 76 (As 76)                                                                    10
+Arsenic 77 (As 77)                                                                    100
+Barium 131 (Ba 131)                                                                   10
+Barium 133 (Ba 133)                                                                   10
+Barium 140 (Ba 140)                                                                   10
+Bismuth 210 (Bi 210)                                                                  1
+Bromine 82 (Br 82)                                                                    10
+Cadmium 109 (Cd 109)                                                                  10
+Cadmium 115m (Cd 115m)                                                                10
+Cadmium 115 (Cd 115)                                                                  100
+Calcium 45 (Ca 45)                                                                    10
+Calcium 47 (Ca 47)                                                                    10
+Carbon 14 (C 14)                                                                      100
+Cerium 141 (Ce 141)                                                                   100
+Cerium 143 (Ce 143)                                                                   100
+Cerium 144 (Ce 144)                                                                   1
+Cesium 129 (Cs 129)                                                                   100
+Cesium 131 (Cs 131)                                                                   1,000
+Cesium 134m (Cs 134m)                                                                 100
+Cesium 134 (Cs 134)                                                                   1
+Cesium 135 (Cs 135)                                                                   10
+Cesium 136 (Cs 136)                                                                   10
+Cesium 137 (Cs 137)                                                                   10
+Chlorine 36 (C1 36)                                                                   10
+Chlorine 38 (Cl 38)                                                                   10
+Chromium 51 (Cr 51)                                                                   1,000
+Cobalt 57 (Co 57)                                                                     100
+Cobalt 58m (Co 58m)                                                                   10
+Cobalt 58 (Co 58)                                                                     10
+Cobalt 60 (Co 60)                                                                     1
+Copper 64 (Cu 64)                                                                     100
+Dysprosium 165 (Dy 165)                                                               10
+Dysprosium 166 (Dy 166)                                                               100
+Erbium 169 (Er 169)                                                                   100
+Erbium 171 (Er 171)                                                                   100
+Europium 152 9.2 h (Eu 152 9.2 h)                                                     100
+Europium 152 13 yr (Eu 152 13 yr)                                                     1
+Europium 154 (Eu 154)                                                                 1
+Europium 155 (Eu 155)                                                                 10
+Fluorine 18 (F 18)                                                                    1,000
+Gadolinium 153 (Gd 153)                                                               10
+Gadolinium 159 (Gd 159)                                                               100
+Gallium 67 (Ga 67)                                                                    100
+Gallium 72 (Ga 72)                                                                    10
+Germanium 68 (Ge 68)                                                                  10
+Germanium 71 (Ge 71)                                                                  100
+Gold 195 (Au 195)                                                                     10
+Gold 198 (Au 198)                                                                     100
+Gold 199 (Au 199)                                                                     100
+Hafnium 181 (Hf 181)                                                                  10
+Holmium 166 (Ho 166)                                                                  100
+Hydrogen 3 (H 3)                                                                      1,000
+Indium 111 (In 111)                                                                   100
+Indium 113m (In 113m)                                                                 100
+Indium 114m (In 114m)                                                                 10
+Indium 115m (In 115m)                                                                 100
+Indium 115 (In 115)                                                                   10
+Iodine 123 (I 123)                                                                    100
+Iodine 125 (I 125)                                                                    1
+Iodine 126 (I 126)                                                                    1
+Iodine 129 (I 129)                                                                    0.1
+Iodine 131 (I 131)                                                                    1
+Iodine 132 (I 132)                                                                    10
+Iodine 133 (I 133)                                                                    1
+Iodine 134 (I 134)                                                                    10
+Iodine 135 (I 135)                                                                    10
+Iridium 192 (Ir 192)                                                                  10
+Iridium 194 (Ir 194)                                                                  100
+Iron 52 (Fe 52)                                                                       10
+Iron 55 (Fe 55)                                                                       100
+Iron 59 (Fe 59)                                                                       10
+Krypton 85 (Kr 85)                                                                    100
+Krypton 87 (Kr 87)                                                                    10
+Lanthanum 140 (La 140)                                                                10
+Lutetium 177 (Lu 177)                                                                 100
+Manganese 52 (Mn 52)                                                                  10
+Manganese 54 (Mn 54)                                                                  10
+Manganese 56 (Mn 56)                                                                  10
+Mercury 197m (Hg 197m)                                                                100
+Mercury 197 (Hg 197)                                                                  100
+Mercury 203 (Hg 203)                                                                  10
+Molybdenum 99 (Mo 99)                                                                 100
+Neodymium 147 (Nd 147)                                                                100
+Neodymium 149 (Nd 149)                                                                100
+Nickel 59 (Ni 59)                                                                     100
+Nickel 63 (Ni 63)                                                                     10
+Nickel 65 (Ni 65)                                                                     100
+Niobium 93m (Nb 93m)                                                                  10
+Niobium 95 (Nb 95)                                                                    10
+Niobium 97 (Nb 97)                                                                    10
+Osmium 185 (Os 185)                                                                   10
+Osmium 191m (Os 191m)                                                                 100
+Osmium 191 (Os 191)                                                                   100
+Osmium 193 (Os 193)                                                                   100
+Palladium 103 (Pd 103)                                                                100
+Palladium 109 (Pd 109)                                                                100
+Phosphorus 32 (P 32)                                                                  10
+Platinum 191 (Pt 191)                                                                 100
+Platinum 193m (Pt 193m)                                                               100
+Platinum 193 (Pt 193)                                                                 100
+Platinum 197m (Pt 197m)                                                               100
+Platinum 197 (Pt 197)                                                                 100
+Polonium 210 (Po 210)                                                                 0.1
+Potassium 42 (K 42)                                                                   10
+Potassium 43 (K 43)                                                                   10
+Praseodymium 142 (Pr 142)                                                             100
+Praseodymium 143 (Pr 143)                                                             100
+Promethium 147 (Pm 147)                                                               10
+Promethium 149 (Pm 149)                                                               10
+Rhenium 186 (Re 186)                                                                  100
+Rhenium 188 (Re 188)                                                                  100
+Rhodium 103m (Rh 103m)                                                                100
+Rhodium 105 (Rh 105)                                                                  100
+Rubidium 81 (Rb 81)                                                                   10
+Rubidium 86 (Rb 86)                                                                   10
+Rubidium 87 (Rb 87)                                                                   10
+Ruthenium 97 (Ru 97)                                                                  100
+Ruthenium 103 (Ru 103)                                                                10
+Ruthenium 105 (Ru 105)                                                                10
+Ruthenium 106 (Ru 106)                                                                1
+Samarium 151 (Sm 151)                                                                 10
+Samarium 153 (Sm 153)                                                                 100
+Scandium 46 (Sc 46)                                                                   10
+Scandium 47 (Sc 47)                                                                   100
+Scandium 48 (Sc 48)                                                                   10
+Selenium 75 (Se 75)                                                                   10
+Silicon 31 (Si 31)                                                                    100
+Silver 105 (Ag 105)                                                                   10
+Silver 110m (Ag 110m)                                                                 1
+Silver 111 (Ag 111)                                                                   100
+Sodium 22 (Na 22)                                                                     10
+Sodium 24 (Na 24)                                                                     10
+Strontium 85 (Sr 85)                                                                  10
+Strontium 89 (Sr 89)                                                                  1
+Strontium 90 (Sr 90)                                                                  0.1
+Strontium 91 (Sr 91)                                                                  10
+Strontium 92 (Sr 92)                                                                  10
+Sulphur 35 (S 35)                                                                     100
+Tantalum 182 (Ta 182)                                                                 10
+Technetium 96 (Tc 96)                                                                 10
+Technetium 97m (Tc 97m)                                                               100
+Technetium 97 (Tc 97)                                                                 100
+Technetium 99m (Tc 99m)                                                               100
+Technetium 99 (Tc 99)                                                                 10
+Tellurium 125m (Te 125m)                                                              10
+Tellurium 127m (Te 127m)                                                              10
+Tellurium 127 (Te 127)                                                                100
+Tellurium 129m (Te 129m)                                                              10
+Tellurium 129 (Te 129)                                                                100
+Tellurium 131m (Te 131m)                                                              10
+Tellurium 132 (Te 132)                                                                10
+Terbium 160 (Tb 160)                                                                  10
+Thallium 200 (Tl 200)                                                                 100
+Thallium 201 (Tl 201)                                                                 100
+Thallium 202 (Tl 202)                                                                 100
+Thallium 204 (Tl 204)                                                                 10
+Thulium 170 (Tm 170)                                                                  10
+Thulium 171 (Tm 171)                                                                  10
+Tin 113 (Sn 113)                                                                      10
+Tin 125 (Sn 125)                                                                      10
+Tungsten 181 (W 181)                                                                  10
+Tungsten 185 (W 185)                                                                  10
+Tungsten 187 (W 187)                                                                  100
+Vanadium 48 (V 48)                                                                    10
+Xenon 131m (Xe 131m)                                                                  1,000
+Xenon 133 (Xe 133)                                                                    100
+Xenon 135 (Xe 135)                                                                    100
+Ytterbium 175 (Yb 175)                                                                100
+Yttrium 87 (Y 87)                                                                     10
+Yttrium 88 (Y 88)                                                                     10
+Yttrium 90 (Y 90)                                                                     10
+Yttrium 91 (Y 91)                                                                     10
+Yttrium 92 (Y 92)                                                                     100
+Yttrium 93 (Y 93)                                                                     100
+Zinc 65 (Zn 65)                                                                       10
+Zinc 69m (Zn 69m)                                                                     100
+Zinc 69 (Zn 69)                                                                       1,000
+Zirconium 93 (Zr 93)                                                                  10
+Zirconium 95 (Zr 95)                                                                  10
+Zirconium 97 (Zr 97)                                                                  10
+Any byproduct material not listed above other than alpha emitting byproduct material  0.1
+
+
+----------------------------------------------------------------------
+
+
+§ 30.72 Schedule C—Quantities of radioactive materials requiring consideration of the need for an emergency plan for responding to a release.
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Radioactive material 1                                                                        Releas  Quanti
+                                                                                              e frac  ty (cu
+                                                                                              tion    ries)
+
+Actinium-228                                                                                  0.001   4,000
+Americium-241                                                                                 .001    2
+Americium-242                                                                                 .001    2
+Americium-243                                                                                 .001    2
+Antimony-124                                                                                  .01     4,000
+Antimony-126                                                                                  .01     6,000
+Barium-133                                                                                    .01     10,000
+Barium-140                                                                                    .01     30,000
+Bismuth-207                                                                                   .01     5,000
+Bismuth-210                                                                                   .01     600
+Cadmium-109                                                                                   .01     1,000
+Cadmium-113                                                                                   .01     80
+Calcium-45                                                                                    .01     20,000
+Californium-252                                                                               .001    9 (20
+                                                                                                      mg)
+
+Carbon-14 (non-carbon dioxide)                                                                .01     50,000
+Cerium-141                                                                                    .01     10,000
+Cerium-144                                                                                    .01     300
+Cesium-134                                                                                    .01     2,000
+Cesium-137                                                                                    .01     3,000
+Chlorine-36                                                                                   .5      100
+Chromium-51                                                                                   .01     300,00
+                                                                                                      0
+
+Cobalt-60                                                                                     .001    5,000
+Copper-64                                                                                     .01     200,00
+                                                                                                      0
+
+Curium-242                                                                                    .001    60
+Curium-243                                                                                    .001    3
+Curium-244                                                                                    .001    4
+Curium-245                                                                                    .001    2
+Europium-152                                                                                  .01     500
+Europium-154                                                                                  .01     400
+Europium-155                                                                                  .01     3,000
+Germanium-68                                                                                  .01     2,000
+Gadolinium-153                                                                                .01     5,000
+Gold-198                                                                                      .01     30,000
+Hafnium-172                                                                                   .01     400
+Hafnium-181                                                                                   .01     7,000
+Holmium-166m                                                                                  .01     100
+Hydrogen-3                                                                                    .5      20,000
+Iodine-125                                                                                    .5      10
+Iodine-131                                                                                    .5      10
+Indium-114m                                                                                   .01     1,000
+Iridium-192                                                                                   .001    40,000
+Iron-55                                                                                       .01     40,000
+Iron-59                                                                                       .01     7,000
+Krypton-85                                                                                    1.0     6,000,
+                                                                                                      000
+
+Lead-210                                                                                      .01     8
+Manganese-56                                                                                  .01     60,000
+Mercury-203                                                                                   .01     10,000
+Molybdenum-99                                                                                 .01     30,000
+Neptunium-237                                                                                 .001    2
+Nickel-63                                                                                     .01     20,000
+Niobium-94                                                                                    .01     300
+Phosphorus-32                                                                                 .5      100
+Phosphorus-33                                                                                 .5      1,000
+Polonium-210                                                                                  .01     10
+Potassium-42                                                                                  .01     9,000
+Promethium-145                                                                                .01     4,000
+Promethium-147                                                                                .01     4,000
+Radium-226                                                                                    0.001   100
+Ruthenium-106                                                                                 .01     200
+Samarium-151                                                                                  .01     4,000
+Scandium-46                                                                                   .01     3,000
+Selenium-75                                                                                   .01     10,000
+Silver-110m                                                                                   .01     1,000
+Sodium-22                                                                                     .01     9,000
+Sodium-24                                                                                     .01     10,000
+Strontium-89                                                                                  .01     3,000
+Strontium-90                                                                                  .01     90
+Sulfur-35                                                                                     .5      900
+Technitium-99                                                                                 .01     10,000
+Technitium-99m                                                                                .01     400,00
+                                                                                                      0
+
+Tellurium-127m                                                                                .01     5,000
+Tellurium-129m                                                                                .01     5,000
+Terbium-160                                                                                   .01     4,000
+Thulium-170                                                                                   .01     4,000
+Tin-113                                                                                       .01     10,000
+Tin-123                                                                                       .01     3,000
+Tin-126                                                                                       .01     1,000
+Titanium-44                                                                                   .01     100
+Vanadium-48                                                                                   .01     7,000
+Xenon-133                                                                                     1.0     900,00
+                                                                                                      0
+
+Yttrium-91                                                                                    .01     2,000
+Zinc-65                                                                                       .01     5,000
+Zirconium-93                                                                                  .01     400
+Zirconium-95                                                                                  .01     5,000
+Any other beta-gamma emitter                                                                  .01     10,000
+Mixed fission products                                                                        .01     1,000
+Mixed corrosion products                                                                      .01     10,000
+Contaminated equipment beta-gamma                                                             .001    10,000
+Irradiated material, any form other than solid noncombustible                                 .01     1,000
+Irradiated material, solid noncombustible                                                     .001    10,000
+Mixed radioactive waste, beta-gamma                                                           .01     1,000
+Packaged mixed waste, beta-gamma 4                                                            .001    10,000
+Any other alpha emitter                                                                       .001    2
+Contaminated equipment, alpha                                                                 .0001   20
+Packaged waste, alpha 4                                                                       .0001   20
+Combinations of radioactive materials listed above 1
+1 For combinations of radioactive materials, consideration of the need for an emergency plan
+is required if the sum of the ratios of the quantity of each radioactive material authorized
+to the quantity listed for that material in Schedule C exceeds one.
+
+2 Waste packaged in Type B containers does not require an emergency plan.

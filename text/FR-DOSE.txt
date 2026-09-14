@@ -1,0 +1,3023 @@
+
+--- page 1 ---
+43469 Federal Register / Vol. 91, No. 134 / Wednesday, July 15, 2026 / Proposed Rules 
+safety, and registrants and licensees 
+shall ensure that protection and safety is 
+optimized.’’ Further details regarding 
+the regulatory body’s responsibilities 
+pertaining to optimization include 
+establishing requirements for 
+optimization, requiring documentation 
+addressing optimization, and the 
+administration of constraints (or 
+thresholds) on dose, or risk, as 
+appropriate. The 2022 IAEA Nuclear 
+Safety and Security Glossary describes 
+the purpose of constraints as boundaries 
+in defining the range of options in 
+optimization. 
+As discussed previously in this 
+notice, in order to address the problems 
+of subjectivity and over-conservatism 
+that were introduced over time through 
+the implementation of the references to 
+the ALARA principle throughout the 
+NRC’s regulations, the NRC proposes 
+removing these references and replacing 
+them with a requirement for a graded 
+approach to dose management, which 
+would essentially be an application of 
+the concept of optimization that, below 
+the dose limits, relies on various 
+existing regulatory requirements as well 
+as licensees’ individual radiation 
+protection programs to manage dose. 
+NRC guidance would provide an 
+acceptable approach for this. The graded 
+approach to dose management would 
+rely on a series of threshold doses below 
+the regulatory dose limits and dose 
+management actions to be taken at each 
+threshold dose. These threshold doses 
+and dose management actions would 
+generally correspond to existing 
+requirements in 10 CFR part 20 or other 
+regulations and, therefore, should 
+already be incorporated within the 
+radiation protection programs of 
+existing licensees to a degree 
+‘‘commensurate with the scope and 
+extent of licensed activities’’ as is 
+currently required by § 20.1101. 
+For any occupational exposure 
+scenario, compliance with 10 CFR part 
+20 would provide both optimization and 
+reasonable assurance of adequate 
+protection from radiation exposure up 
+to and including planned special 
+exposure events and the proposed 
+planned occupational dose limit 
+extensions. For example, licensees are 
+required to conduct surveys, control 
+access to certain areas, store material 
+appropriately, and use signs, postings, 
+and labels to warn workers of 
+radiological hazards. These provisions 
+are in effect for the full spectrum of 
+radiological hazards that a licensee 
+could encounter during the course of its 
+licensed activities, and thus, these 
+provisions form the first set of dose 
+management actions below the 
+regulatory dose limits that would be 
+credited as part of a graded approach to 
+dose management. 
+Under a graded approach to dose 
+management, additional dose 
+management actions would apply as 
+radiological hazards increase and move 
+closer to the applicable regulatory dose 
+limit. The dose levels corresponding to 
+dose management actions are threshold 
+doses in that they represent determinate 
+boundaries above which a specific 
+action is required and below which they 
+are inapplicable (i.e., there is no 
+subjectivity to when a specific dose 
+management action should be taken). 
+Examples of these progressively 
+increasing, threshold doses for 
+occupational exposure are: expected 
+doses of 100 mrem/year, 500 mrem/ 
+year, and 5 rem/year. Specifically, above 
+an expected dose of 100 mrem/year, 
+licensees are required to provide 
+instructions to workers (i.e., radiation 
+worker training) per 10 CFR 19.12; 
+above an expected dose of 500 mrem/ 
+year, or, more specifically, 10 percent of 
+the applicable limit, licensees are 
+required to monitor doses to individual 
+workers per 10 CFR 20.1502; and above 
+an expected dose of 5 rem/year (i.e., the 
+regulatory dose limit), licensees can 
+exercise the proposed new planned 
+occupational dose limit extension of 
+§ 20.1205 or the existing planned 
+special exposure process of § 20.1206, if 
+the situation requires higher dose. 
+The NRC is developing guidance to 
+further explain and provide acceptable 
+approaches for implementing the graded 
+approach to dose management, 
+including alternative radiation 
+protection measures not already set out 
+in the NRC’s regulations that would 
+help ensure that dose limits are not 
+exceeded. The NRC’s guidance would 
+explain that it would be acceptable for 
+radiation protection measures under the 
+graded approach to dose management to 
+be supported by a comparison of the 
+cost of the radiation protection measure 
+(e.g., shielding, additional workers, 
+robotics) to a reasonably calculated cost- 
+basis of an averted person-rem. The 
+proposed guidance would provide that 
+one example of a reasonable cost-basis 
+standard is provided in NUREG–1530, 
+‘‘Reassessment of NRC’s Dollar Per 
+Person-Rem Conversion Factor Policy.’’ 
+Specifically, in that guidance document, 
+the NRC establishes the cost of an 
+averted person-rem by multiplying a 
+value of a statistical life coefficient—a 
+factor that corresponds to society’s 
+willingness-to-pay for small reductions 
+in a particular mortality risk—by a 
+cancer mortality risk coefficient. The 
+nominal cost of an averted person-rem 
+under this standard is $5,200 (in 2014 
+dollars). Taken together, this means that 
+it would be acceptable for considering 
+under the graded approach to dose 
+management whether additional 
+radiation protection measures are 
+reasonable based on a need to spend 
+$5,200 to avoid a person-rem of 
+exposure. Consequently, if a radiation 
+protection measure were more costly 
+than that, the licensee would have an 
+acceptable cost-justified basis for not 
+implementing the measure and instead 
+accruing the dose as long as that dose 
+is within the regulatory dose limits or, 
+if applicable, the licensee complies with 
+the provisions regarding planned 
+occupational dose limit extensions or 
+planned special exposures. In this 
+manner the graded approach to dose 
+management would maintain 
+occupational dose below the regulatory 
+dose limits while replacing the 
+subjectivity of the current ALARA-based 
+regulations with objective cost-benefit 
+analyses. This guidance would be 
+issued subsequent to this rulemaking as 
+part of the NRC’s planned two-phased 
+approach to issuing guidance associated 
+with this rulemaking, see Section VI, 
+‘‘Availability of Guidance,’’ for more 
+information. 
+As part of this rulemaking, the NRC 
+also proposes to require a graded 
+approach to dose management with 
+respect to public dose in place of the 
+existing implementation of the ALARA 
+principle. The objective is to maintain a 
+layered protective approach to potential 
+public dose as a precautionary measure. 
+Public dose differs from occupational 
+exposure in several key respects. First, 
+the dose to individual members of the 
+public is generally calculated based on 
+an exposure scenario, whereas 
+occupationally exposed individuals are 
+usually monitored. For example, with 
+respect to nuclear power plant effluents, 
+the member of the public is assumed to 
+be a hypothetical maximally exposed 
+individual who represents the 
+maximum exposure regarding food 
+consumption, occupancy, and other 
+usage in the vicinity of the plant site. 
+Another example is that for a waiting 
+room in a medical facility, the facility 
+may conduct area monitoring and 
+assume conservative occupancy of the 
+waiting room. Another difference 
+between public dose and occupational 
+dose is that the dose limit itself is much 
+lower for the public than for 
+occupationally exposed individuals 
+(i.e., 100 mrem/year vs. 5,000 mrem/ 
+year, respectively), and the public dose 
+limit represents a very low level of risk. 
+Specifically, as described in Table 12– 
+4 of the BEIR VII report, the average 
+lifetime risk of dying from cancer is 20 
+percent, and a lifetime (i.e., 70 years) of 
+VerDate Sep<11>2014 16:30 Jul 14, 2026 Jkt 268001 PO 00000 Frm 00015 Fmt 4701 Sfmt 4702 E:\FR\FM\15JYP2.SGM 15JYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 2 ---
+43470 Federal Register / Vol. 91, No. 134 / Wednesday, July 15, 2026 / Proposed Rules 
+exposure at the public dose limit of 100 
+mrem/year would conservatively result 
+in an addition of only 0.35 percent to 
+that average lifetime risk. Importantly, 
+the public dose limit is based on the risk 
+of cancer mortality to a large population 
+that is assumed to be exposed at the full 
+limit for a lifetime. However, as just 
+mentioned in the nuclear power plant 
+effluent and medical waiting room 
+examples, in practice, licensees 
+calculate bounding doses to smaller 
+subsets of the population and use the 
+parameters in those calculations to 
+control doses (e.g., reducing effluents 
+from power plants or installing 
+shielding around medical equipment). 
+This means that the actual dose to the 
+average member of the public from NRC 
+licensed activities is assuredly below 
+the limit, and thus, that that individual 
+faces an even smaller risk than the 
+already small risk that is assumed by a 
+lifetime of exposure at the limit. 
+Because of these inherent 
+conservatisms, the NRC would explain 
+in guidance that one acceptable way of 
+managing dose below the public dose 
+limit—which management would be 
+required under the proposed new 
+graded approach to dose management— 
+is to perform cost-benefit analyses using 
+the assumptions of NUREG–1530, or 
+equivalent assumptions, for any doses to 
+members of the public that are projected 
+to be greater than or equal to 25 percent 
+of the public dose limit (i.e., 25 mrem/ 
+year). In addition, this approach to 
+managing public dose would also be 
+acceptable because the existing 
+precautions in 10 CFR part 20 (e.g., 
+waste disposal regulations in subpart K) 
+or other regulations intended to limit 
+public dose (e.g., 10 CFR 50.36a) are 
+sufficient to manage doses to the public 
+within the public dose limits as 
+required by § 20.1101. Stated another 
+way, the assumptions in the calculation 
+of public dose and in the public dose 
+limit itself, in combination with 
+already-existing NRC requirements 
+related to dose management, make it so 
+that it is acceptable to comply with the 
+proposed new graded approach to dose 
+management by not analyzing projected 
+public doses below 25 mrem/year and 
+by performing a cost-benefit analysis for 
+projected public doses greater than or 
+equal to 25 mrem/year. This approach 
+would essentially reestablish the 
+original intent of the ALARA principle 
+of minimizing dose below limits to the 
+extent that doing so is reasonably 
+achievable and would ensure that dose 
+limits are not exceeded. Again, as with 
+the implementation of the proposed 
+new graded approach to dose 
+management for occupational dose, 
+whereas the NRC’s proposed guidance 
+provides one way by which a licensee 
+can satisfy that requirement for public 
+dose, licensees may propose other ways 
+to satisfy the requirement. 
+Effluents 
+The NRC’s regulations include 
+requirements for maintaining control 
+over the release of radioactive material 
+to the environment during normal 
+reactor operations. For example, under 
+§ 50.34a and § 50.36a, the NRC requires 
+nuclear power plant licensees to include 
+in their facilities measures to control 
+radiological effluents to the 
+environment—including via monitoring 
+and control systems—and to have in 
+their licenses technical specifications to 
+control the release of effluents. For 
+power reactors, Appendix I to 10 CFR 
+part 50 provides numerical design 
+objectives regarding effluents. These 
+design objectives are translated into 
+performance criteria that are reflected in 
+plant-specific technical specifications. 
+In these requirements, effluents are 
+quantified using the calculated dose that 
+a member of the public would receive 
+when exposed to the effluents under 
+limiting conditions, i.e., the 
+hypothetical maximally exposed 
+individual who represents the 
+maximum exposure regarding food 
+consumption, occupancy, and other 
+usage in the vicinity of the plant site. 
+A similar requirement regarding air 
+emissions for licensees not subject to 
+§ 50.34a and § 50.36a is provided in 
+§ 20.1101(d). These requirements were 
+added to the NRC’s regulations to 
+provide design objectives and 
+constraints to ensure that radioactive 
+effluents (and thus the resulting public 
+doses) would be maintained consistent 
+with the ALARA principle. 
+Additionally, the NRC has used these 
+types of regulations to meet 
+environmental protection-related 
+obligations under the Clean Air Act 
+(CAA) and to demonstrate compliance 
+with the environmental protection 
+standards for nuclear power operations 
+under 40 CFR part 190. In NUREG– 
+0543, the NRC describes how a licensee 
+would be in compliance with the dose- 
+based requirement in 40 CFR part 190, 
+if the licensee maintains effluents below 
+the numerical criteria of Appendix I to 
+10 CFR part 50. 
+In the context of the CAA, the NRC 
+has historically worked with the U.S. 
+Environmental Protection Agency (EPA) 
+to develop effluent standards that are 
+sufficiently low to support EPA 
+determinations and to ensure that NRC 
+licensees are not subjected to redundant 
+regulation from multiple agencies (see, 
+e.g., 42 FR 2858, 54 FR 51654, and 61 
+FR 65120). As part of the development 
+of the current air emissions constraint in 
+§ 20.1101(d), the NRC ensured that the 
+value of that constraint would be such 
+that the Administrator of the EPA could 
+determine that the constraint provided 
+‘‘ample margin of safety,’’ as is required 
+under Section 112(d)(9) of the CAA. 
+This ‘‘ample margin’’ determination is 
+explained in the proposed and final 
+rules that promulgated the National 
+Emissions Standards for Hazardous 
+Pollutants (NESHAPs) for radionuclides 
+(54 FR 9612 and 54 FR 51654, 
+respectively). EPA supported its 
+determination that the NRC’s 
+regulations would satisfy the ‘‘ample 
+margin’’ statutory requirement with 
+studies of air emissions from NRC and 
+Agreement State licensees. In total, 
+these studies considered air emissions 
+from 412 facilities on an annualized 
+basis. EPA found that air emissions from 
+most facilities do not result in doses 
+exceeding 1 mrem/year with a small 
+percentage of facilities approaching, but 
+none exceeding, 10 mrem/year. 
+As part of its response to E.O. 14300, 
+the NRC reconsidered risk analyses that 
+are based on the LNT model and the 
+implementation of the ALARA 
+principle, as described elsewhere in this 
+proposed rule. As it pertains to doses to 
+members of the public, the NRC 
+maintains that there is reasonable 
+assurance that public health and safety 
+is adequately protected at all doses 
+below the NRC’s current regulatory dose 
+limit of 100 mrem/year. Dose reduction 
+below this limit in and of itself is not 
+necessary for ensuring the public health 
+and safety; instead, as clarified by this 
+proposed rulemaking, dose reduction 
+serves the purpose of ensuring that 
+ample margin exists to the regulatory 
+dose limit and thus ensures that the 
+limit is not exceeded. Regarding the 
+contribution of effluents to public dose, 
+this margin to the dose limit is 
+maintained by the requirements in the 
+NRC’s regulations that pertain to the 
+monitoring and control of effluents and 
+by licensees’ actions to manage dose, 
+which could include performing cost- 
+benefit analyses to support decision 
+making on additional measures for 
+controlling doses below the dose limits. 
+Accordingly, the NRC is proposing 
+revisions to radionuclide emissions 
+standards in 10 CFR 50.34a, 10 CFR 
+50.36a, 10 CFR part 50 Appendix I, and 
+10 CFR 20.1101(d) because it has 
+determined that they are excessively 
+cautious and overly burdensome. 
+Specifically, the NRC is proposing to 
+increase its radionuclide emissions 
+standards from the current regulatory 
+constraint in 10 CFR 20.1101(d) of 10 
+mrem per year to 25 mrem per year. The 
+VerDate Sep<11>2014 16:30 Jul 14, 2026 Jkt 268001 PO 00000 Frm 00016 Fmt 4701 Sfmt 4702 E:\FR\FM\15JYP2.SGM 15JYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 3 ---
+43471 Federal Register / Vol. 91, No. 134 / Wednesday, July 15, 2026 / Proposed Rules 
+NRC’s position is that this would 
+remove excess conservatisms while 
+continuing to provide an adequate basis 
+to EPA that the NRC’s regulatory 
+framework provides ‘‘ample margin of 
+safety to protect the public health’’ 
+under section 112(d)(9) of the CAA. To 
+illustrate, in its proposed NESHAP rule 
+for radionuclides, the EPA characterized 
+the maximum lifetime risk of fatal 
+cancer from natural background 
+radiation from all sources, including 
+naturally occurring radon, as 
+approximately 1x10¥2, or 1 case per 100 
+people. Using a current, widely 
+accepted, and likely conservative cancer 
+risk coefficient of 5x10¥4 per rem (see 
+NCRP 180, Section 4.1), an individual 
+receiving a dose of 10 mrem per year, 
+the current regulatory constraint in 10 
+CFR 20.1101(d), for 70 years would 
+experience an excess fatal cancer risk of 
+3.5x10¥4, or about 0.04 cases per 100 
+people. If the dose to that individual 
+were raised to 25 mrem per year, the 
+proposed new regulatory constraint, for 
+70 years, the individual would 
+experience an excess fatal cancer risk of 
+8.7x10¥4, or about 0.09 cases per 100 
+people. When compared to the baseline 
+lifetime risk of fatal cancer of 
+approximately 0.2 (e.g., as provided in 
+Table 12–4 of the BEIR VII report), or 20 
+cases per 100 people, the risks of these 
+environmental levels of radiation 
+exposure, at both 10 mrem per year and 
+25 mrem per year, are a small fraction 
+and well below the 100 mrem per year 
+public dose limit. 
+In addition to reconsidering its 
+current radionuclide emissions 
+standards through a risk perspective, the 
+uncertainties associated with risk 
+estimates based on extrapolations from 
+high-dose and high-dose-rate data 
+provide additional support for the 
+NRC’s position that its proposed 
+increase to its radionuclide emissions 
+standards would remove excess 
+conservatisms while still providing 
+reasonable assurance of adequate 
+protection of the public health and 
+safety and would also continue to 
+support EPA’s determination that the 
+NRC’s standards provide an ample 
+margin of safety under the CAA. 
+Adjustments in the slope of the dose 
+response curve, such as is done with the 
+DDREF, are helpful in the extrapolation 
+of high-dose/high-dose-rate data to low 
+doses; however, there is subjectivity and 
+potential conservatism associated with 
+this adjustment. Additionally, there is 
+evidence for adaptive cellular response, 
+which would mitigate the health effects 
+of exposures at low doses, especially 
+those resulting from effluents. The NRC 
+determined that these uncertainties 
+were undervalued in the establishment 
+of the radionuclide emissions standards 
+that the NRC currently uses. 
+The NRC’s proposed approach to the 
+regulation of effluents would involve 
+allowing licensees to continue using the 
+existing effluent constraints of 10 mrem 
+per year or allowing licensees to use a 
+new constraint of 25 mrem per year 
+TEDE or TED, as applicable. Regardless 
+of the constraint used by a licensee, if 
+the licensee demonstrates that its 
+effluents are below the 25 mrem per 
+year level, it would only be required to 
+collect and retain effluent data on an 
+annual basis and in a format that can be 
+inspected by the NRC. If a licensee 
+releases effluents greater than or equal 
+to the 25 mrem per year constraint, that 
+licensee would be required to collect 
+and retain effluent data and submit 
+relevant reports to the NRC on an 
+annual basis until levels are returned to 
+below the 25 mrem per year constraint. 
+Additionally, such a licensee would be 
+required to evaluate and consider 
+implementing cost-justified corrective 
+actions to restore effluent levels to 
+below the 25 mrem per year constraint. 
+NRC guidance would provide that one 
+acceptable method for performing this 
+evaluation would be to use the dollar 
+per person rem value from NUREG– 
+1530. If a cost analysis demonstrates 
+that corrective actions are not justified, 
+the licensee could propose a new 
+constraint that would support continued 
+operations in a cost-justified manner, 
+but this new constraint would be 
+required to be below the public dose 
+limit. A similar approach would be 
+taken during the licensing of a new 
+facility, i.e., a constraint higher than the 
+regulatory constraint, but lower than the 
+public dose limit, could be proposed as 
+needed to support operations in a cost- 
+justified manner. These changes are 
+being proposed to §§ 20.1101(d), 50.34a, 
+and 50.36a and to appendix I to 10 CFR 
+part 50. To avoid disruptions to existing 
+licensees, the NRC is proposing these 
+changes such that existing effluent 
+programs will remain compliant with 
+the NRC’s requirements, as amended, 
+and that licensees can adopt changes on 
+a voluntary basis. 
+The NRC understands that its 
+radionuclide emissions constraint 
+relates to EPA’s ample margin 
+determination under section 112(d)(9) of 
+the CAA. According to CAA section 
+112(d)(9), the EPA must consult with 
+NRC prior to a new or revised ample 
+margin determination. The NRC’s 
+proposed position is that the proposed 
+change to its radionuclide emissions 
+constraint could continue to provide an 
+adequate basis to EPA for such a 
+determination. 
+Additionally, the NRC is proposing to 
+revise paragraph C of Section IV of 
+Appendix I to 10 CFR part 50 to add 
+‘‘§ 52.110’’ to the applicability of the 
+provisions in that paragraph. This is an 
+editorial change to make paragraph C 
+consistent with the applicability 
+specified in the introductory paragraph 
+of Section IV. 
+Planned Occupational Dose Limit 
+Extension 
+In the NRC’s current regulations, 
+planned special exposures (PSEs) (see 
+10 CFR 20.1206) allow occupationally 
+exposed individuals to receive doses in 
+excess of the applicable limit to a 
+maximum of twice the applicable limit 
+in one year, provided that certain 
+criteria are met (e.g., documentation 
+tracking lifetime dose and remaining 
+bank of PSE-dose). There is a cap on 
+PSE-dose of five times the applicable 
+limit over the lifetime of an individual. 
+To ensure compliance with this lifetime 
+cap, a licensee must ascertain the 
+lifetime exposure history of an 
+individual prior to conducting a PSE of 
+that individual. Additionally, a PSE is 
+viewed as a tool to be used only during 
+exceptional circumstances. As such, 
+PSEs involve additional reporting and 
+recordkeeping requirements when 
+compared to routine occupational 
+exposures. Since the NRC added the 
+regulations allowing for PSEs in the 
+1991 revisions to 10 CFR part 20, PSEs 
+have not been used by licensees, as 
+demonstrated through a lack of reports 
+having been submitted to the NRC per 
+§ 20.2204. 
+The NRC has determined that the 
+administrative burden associated with 
+PSEs (e.g., determination of lifetime 
+exposure histories and additional 
+reporting requirements) combined with 
+the characterization of a PSE as a tool 
+to be used only in exceptional 
+circumstances is not commensurate 
+with the radiological risk involved with 
+exposures at occupational levels. 
+Additionally, the increased 
+administrative burden associated with 
+PSEs likely dissuades licensees from 
+viewing PSEs as a viable option for 
+occupational dose management. Given 
+this background and to enable flexibility 
+in the balancing of occupational 
+exposure with operational needs, the 
+NRC is proposing to codify in 10 CFR 
+20.1205 a new process for allowing 
+workers to receive doses in excess of 
+applicable annual limits: the planned 
+occupational dose limit extension 
+(DLE). This optional process would 
+make available to licensees a method to 
+manage a justified, pre-planned 
+exceedance of annual occupational 
+limits for workers, provided that an 
+VerDate Sep<11>2014 16:30 Jul 14, 2026 Jkt 268001 PO 00000 Frm 00017 Fmt 4701 Sfmt 4702 E:\FR\FM\15JYP2.SGM 15JYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 4 ---
+43472 Federal Register / Vol. 91, No. 134 / Wednesday, July 15, 2026 / Proposed Rules 
+adequate decision-making process is 
+applied to support its use and that the 
+overall dose is limited within specified 
+multi-year average values and annual 
+limits are limited to twice the applicable 
+limit. Although the NRC is also 
+maintaining the current PSE process in 
+its regulations, the proposed new 
+planned occupational DLE would be 
+less burdensome for licensees to 
+implement while still maintaining 
+occupational doses, and thus the 
+underlying risk, within acceptable 
+values. 
+The proposed new planned 
+occupational DLE would allow licensees 
+to access, in the current year, 
+occupational dose that was not given to 
+a worker in previous years. Dose limits 
+generally serve two purposes: (1) to 
+avoid nonstochastic/deterministic 
+effects, also called tissue effects, and (2) 
+to manage stochastic risk to an 
+acceptable level. Nonstochastic/ 
+deterministic effects, or tissue reactions, 
+are effects that are only seen once a 
+threshold is exceeded and their severity 
+is dependent upon the dose received. 
+Protraction of dose reduces the risk of 
+nonstochastic/deterministic effects 
+especially at doses below the threshold 
+because the body is able to heal the 
+biological damage resulting from the 
+dose received. Stochastic effects are 
+random in nature; they are not subject 
+to a threshold and the severity of the 
+health effect is independent of the dose 
+received. Currently accepted models 
+assume that for stochastic effects the 
+likelihood/risk of an adverse health 
+effect occurring increases 
+proportionately with dose. Each of the 
+NRC’s occupational dose limits 
+functions to limit the risk of adverse 
+health effects associated with radiation 
+exposure to levels that have been 
+determined to be acceptable for routine 
+occupational situations. 
+Occupationally exposed individuals 
+rarely approach even small fractions of 
+applicable dose limits (see NUREG– 
+0713) because of licensees’ existing dose 
+management efforts, which are generally 
+founded on ALARA practices. In 
+general, the fact that the risk from 
+radiation exposure has been made 
+negligible because of these dose 
+management efforts is a net benefit. 
+However, it is likely that these measures 
+have resulted from overly conservative 
+decision-making. Additionally, some 
+licensees use locally developed 
+administrative limits to maintain margin 
+to occupational dose limits. 
+Occasionally, normally during 
+maintenance periods, licensees may 
+encounter the need for workers to be 
+exposed to doses in excess of annual 
+limits but still within the standards for 
+protecting against the health effects of 
+radiation exposure (e.g., long-term 
+averages with respect to lifetime doses). 
+In these cases, in part to avoid the 
+added burden of PSE use, licensees 
+employ additional measures (e.g., 
+shielding) or use additional workers to 
+spread out the dose so as to maintain 
+individual doses below limits. However, 
+these actions may increase the cost and 
+the time associated with the work in a 
+manner that is not commensurate with 
+the risk associated with the dose. 
+To encourage more reasonable 
+decision-making regarding doses at 
+levels corresponding to occupational 
+exposures, consistent with the original 
+intent of the ALARA principle and the 
+proposed graded approach to dose 
+management, the NRC is proposing to 
+add to its regulations the planned 
+occupational DLE process to allow 
+licensees to periodically exceed 
+applicable dose limits for an individual 
+worker provided that certain criteria are 
+met. The NRC proposes to define the 
+dose allowed for a planned occupational 
+dose limit extension as the occupational 
+exposure that was unused by the 
+individual over the most recent 5-year 
+period. For example, for the TEDE limit 
+of § 20.1201(a)(1), this would mean the 
+dose available is equal to the product of 
+5 years and 5 rem TEDE, totaling 25 rem 
+TEDE, minus the actual annual TEDE 
+received by the individual in the current 
+year and the preceding 4 years. A 
+similar approach can be used to 
+determine the allowable dose for a 
+planned occupation dose limit 
+extension of the deterministic limits, 
+with the exception of the lens dose 
+limit. Licensees would be able to apply 
+this allowable dose, or ‘‘retrospective 
+dose,’’ up to a total dose of twice the 
+applicable annual dose limit in the 
+current year. Thus, the annual limit for 
+the planned occupational dose limit 
+extension would be consistent with the 
+dose that is allowed through the 
+planned special exposure, with the 
+exception of lens dose. 
+The safety basis for the proposed new 
+planned occupational dose limit 
+extension process relies on the fact that 
+annual dose limits are derived with the 
+intent to limit total lifetime exposure to 
+an individual worker and to preclude 
+deterministic effects. However, because 
+total lifetime exposure is not a practical 
+value to measure, radiation protection 
+standards prescribe annual stochastic 
+limits that are essentially fractionated 
+lifetime totals. Therefore, the annual 
+stochastic limits in and of themselves 
+should not be viewed as demarcations 
+of safety or thresholds above which 
+health effects are expected. Instead, they 
+are regulatory tools to manage the long- 
+term risks of exposure. As such, these 
+limits can safely be exceeded to a 
+certain extent in the short-term, 
+provided that long-term doses continue 
+to be controlled adequately. When an 
+occupationally exposed individual 
+receives an annual dose below the 
+annual limit, that individual is 
+experiencing a smaller risk than was 
+originally assumed to be acceptable for 
+a radiation worker in developing the 
+annual dose limits. In general, this is a 
+positive outcome, primarily because of 
+the corresponding reduction in risk that 
+is associated with reductions in dose 
+inherent to the statistical nature of 
+stochastic effects. However, this also 
+means that there often exists unused 
+retrospective dose that could be safely 
+used, provided that an adequate 
+decision-making process is applied to 
+support its use and that the overall dose 
+is limited within specified multi-year 
+average values. Deterministic effects 
+would not result from the planned 
+occupational dose limit extension 
+process because those effects are only 
+seen when certain thresholds are 
+exceeded, and the restrictions on the 
+planned occupational dose limit 
+extension process would maintain doses 
+below those thresholds. 
+The proposed new planned 
+occupational dose limit extension 
+process, as described in § 20.1205, 
+would allow a licensee to authorize an 
+individual worker to receive a dose in 
+excess of annual occupational dose 
+limits provided that (1) the licensee 
+does not authorize a dose that would 
+cause the individual to receive twice the 
+applicable annual dose limit in a year, 
+and (2) sufficient retrospective dose is 
+available to the individual. This process 
+would also entail limitations and 
+reporting and recordkeeping 
+requirements. For example, approval of 
+a planned occupational dose limit 
+extension for an adult worker must be 
+in writing before the exposure occurs; 
+the individual must be informed of the 
+purpose of the planned operation, 
+estimated doses and their associated 
+risks, and measures taken to manage 
+doses; and the licensee must determine 
+the occupational exposure of the 
+individual during the current and 
+preceding four years (see 10 CFR 
+20.1205). Furthermore, declared 
+pregnant women and minors would not 
+be allowed to participate in planned 
+occupational dose limit extensions. 
+Additionally, because of the uncertainty 
+associated with the health risks of lens 
+dose, as discussed previously in this 
+document, the NRC has decided to 
+exclude exceeding the annual lens dose 
+limit from the proposed new planned 
+VerDate Sep<11>2014 16:30 Jul 14, 2026 Jkt 268001 PO 00000 Frm 00018 Fmt 4701 Sfmt 4702 E:\FR\FM\15JYP2.SGM 15JYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 5 ---
+43473 Federal Register / Vol. 91, No. 134 / Wednesday, July 15, 2026 / Proposed Rules 
+occupational dose limit extension 
+process; however, licensees could still 
+use the current PSE process, which will 
+remain in the NRC’s regulations 
+(including the required lifetime dose 
+determination), in situations that 
+involve a need to exceed the annual lens 
+dose limit. Finally, the requirement to 
+implement a graded approach to dose 
+management would also apply to the 
+management of the doses received 
+during planned occupational dose limit 
+extensions such that unnecessary 
+occupational exposure would be 
+avoided and radiation protection 
+practices would be employed 
+commensurate with the risks involved. 
+Public Dose Limits 
+The NRC is not proposing to change 
+its current public dose limit, which is 
+100 mrem per year. The NRC considered 
+several recommendations to change the 
+public dose limit. As described 
+previously, the 2015 PRMs requested an 
+increase in the public dose limit based, 
+in part, on the assertion that radiation 
+exposure is beneficial. Additionally, the 
+Idaho National Laboratory—a U.S. 
+National Laboratory dedicated to energy 
+research and development—recently 
+suggested in a public report 
+(‘‘Reevaluation of Radiation Protection 
+Standards for Workers and the Public 
+Based on Current Scientific Evidence,’’ 
+INL/RPT–25–85463, Revision 0, July 
+2025) that the public dose limit be 
+raised, in part, to increase public 
+acceptance of radiation exposure. 
+The NRC regulates the civilian use of 
+radioactive materials in a manner that 
+provides reasonable assurance of 
+adequate protection of the public health 
+and safety. Although the current public 
+dose limit is sufficient to provide 
+reasonable assurance of adequate 
+protection of the public health and 
+safety, the NRC understands that it is a 
+generic limit and, thus, may be overly 
+conservative in certain, specific 
+circumstances. The NRC also recognizes 
+that a number of factors may weigh in 
+favor of allowing a higher public dose 
+limit on a case-by-case basis when such 
+conservatisms are specifically identified 
+and accounted for, including why such 
+an allowance would remain protective 
+of the public health and safety. As 
+discussed previously, in response to 
+E.O. 14300 section 5(b), the NRC 
+reexamined its approach to radiation 
+protection and recognizes that there are 
+inherent limitations in the LNT model, 
+particularly at low doses, that could be 
+better addressed in the NRC’s rules. One 
+example is the decision in the NRC’s 
+1991 rulemaking to disallow exceptions 
+to the public dose limit for new 
+applicants. Upon reexamination, such a 
+limitation is not needed for reasonable 
+assurance of adequate protection of 
+public health and safety and is also 
+inconsistent with the principles of the 
+E.O.s discussed in this document 
+concerning enabling the use of nuclear 
+power, particularly in light of the 
+declared energy emergency in E.O. 
+14156. Taken together, these factors 
+weigh in favor of the NRC reconsidering 
+whether exceptions to the generic 
+public dose limit of 100 mrem per year 
+may be allowed. Therefore, although it 
+is not proposing to change its current 
+public dose limit or define specific 
+exceptions to that limit, the NRC is 
+proposing revisions to the regulations in 
+§ 20.1301 that would allow a licensee or 
+an applicant to request alternative 
+public dose limits on a sufficiently 
+supported, case-by-case basis. 
+First, in § 20.1301(b), the NRC is 
+proposing a path to enable a licensee or 
+applicant to request prior NRC 
+authorization for a public dose limit in 
+excess of 100 mrem per year for 
+members of the public who have access 
+to controlled areas. Such requests may 
+be on a generic basis (e.g., for a design). 
+A controlled area, as defined in 
+§ 20.1003, is an area, outside of a 
+restricted area but inside the site 
+boundary, to which access can be 
+limited by the licensee for any reason. 
+The NRC’s current regulations extend 
+the public dose limit to all areas within 
+the site boundary. However, this 
+approach may be excessively restrictive 
+if dose is appropriately managed in the 
+controlled areas. This is because 
+members of the public do not maintain 
+a lifetime of continuous occupancy in 
+spaces within the controlled area 
+boundary of licensed facilities. Instead, 
+members of the public typically access 
+these spaces on a temporary basis for 
+such non-occupational-exposure 
+purposes as tours, awaiting for or 
+accompanying those receiving medical 
+treatments, or work activities separate 
+from those of the facility like making 
+deliveries to/from the facility. Further, it 
+is reasonable to assume that the majority 
+of these individuals will be adults and 
+that the time of exposure of any 
+children will be small when compared 
+to the lifetime of exposure that is 
+considered when determining 
+acceptable risks for stochastic health 
+effects. 
+Therefore, the NRC is proposing to 
+amend its regulations to provide that, as 
+long as a licensee or applicant 
+establishes appropriate dose 
+management measures (e.g., signage, 
+information briefings and area 
+monitoring to ensure compliance with 
+the proposed higher annual dose limit), 
+a higher public dose limit within the 
+controlled area may be approved on a 
+case-by-case basis. The NRC’s case-by- 
+case review would consider such things 
+as the likely cumulative exposure of a 
+member of the public under the 
+proposed new dose limit given the time 
+that the member of the public is 
+expected to be within the controlled 
+area and the effectiveness of the 
+proposed dose management measures. 
+Second, in § 20.1301(d), the NRC is 
+proposing to remove references to 
+ALARA, to remove the upper limit on 
+the annual dose limit for a member of 
+the public that may be requested (which 
+is currently set at 500 mrem per year), 
+and to specify the information that is 
+required in an application by a licensee 
+or applicant for prior NRC 
+authorization, on a case-by-case basis, 
+for a public dose limit in excess of 100 
+mrem per year. The regulation at 
+§ 20.1301(d) was originally intended to 
+provide a process for facilities existing 
+at the time of the regulatory changes 
+implemented in 1991 that found it 
+difficult to meet the then newly enacted 
+public dose limit of 100 mrem per year 
+(see 56 FR 23360). However, the NRC 
+now proposes to clarify that any 
+licensee or applicant can apply for a 
+higher public dose limit by providing 
+the information required by the 
+regulation, which the NRC will review 
+on a case-by-case basis. Specifically, 
+such an application must: (1) 
+demonstrate the need for and the 
+expected duration of operations in 
+excess of the public dose limit; (2) 
+describe the licensee’s program to assess 
+and control dose within the proposed 
+higher limit; and (3) provide a 
+supporting basis for the proposed higher 
+limit, including why it remains 
+protective of the public health and 
+safety. Such a request for a higher 
+public dose limit for the unrestricted 
+area would require a more detailed 
+analysis than a request for a higher 
+public dose limit for the controlled area 
+because of the lack of control that a 
+licensee can exert over the unrestricted 
+area and the presumably larger 
+population that could potentially be 
+subject to the proposed higher doses. 
+Because of the statistical nature of 
+stochastic health effects, the larger the 
+population that receives a given dose, 
+the larger the potential health impact. 
+Therefore, it is likely that the NRC 
+would generally reserve approvals for 
+higher public dose limits that are 
+limited in duration and/or demonstrated 
+to have limited population impacts. 
+In their applications, in order to 
+demonstrate that the requested higher 
+public dose limit remains protective of 
+the public health and safety, licensees 
+and applicants could apply the critical 
+VerDate Sep<11>2014 16:30 Jul 14, 2026 Jkt 268001 PO 00000 Frm 00019 Fmt 4701 Sfmt 4702 E:\FR\FM\15JYP2.SGM 15JYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 6 ---
+43474 Federal Register / Vol. 91, No. 134 / Wednesday, July 15, 2026 / Proposed Rules 
+group or representative person concepts 
+described in ICRP Publication 101, and 
+earlier ICRP references, to perform 
+prospective dose assessments. 
+Determinate or probabilistic 
+assessments, or a combination of both, 
+could be used to support the request. 
+Habit data and physiological 
+characteristics should be representative 
+of the affected population and not 
+overly conservative in terms of 
+assumptions. Additionally, licensees 
+and applicants may consider the use of 
+dose constraints, additional 
+environmental monitoring, and land use 
+censuses as part of their programs to 
+assess and control dose within the 
+proposed higher dose limits. 
+In addition to the proposed changes to 
+allow requests for NRC authorization, 
+on a case-by-case basis, for higher 
+public dose limits in the controlled area 
+and in the unrestricted area, the NRC is 
+proposing two other changes to the 
+requirements at § 20.1301: (1) changes to 
+the limits that apply to caregivers of 
+patients who cannot be released, and (2) 
+deletion of the short-term dose rate limit 
+for external sources in the unrestricted 
+area. 
+First, the NRC is proposing to allow 
+higher doses to members of the public 
+who visit and/or care for medical 
+patients who cannot be released under 
+the provisions of § 35.75. Limits that 
+apply to patient release are contained in 
+10 CFR part 35. The NRC has long 
+permitted a member of the public to 
+receive up to 500 mrem at the 
+Authorized User’s (AU) discretion 
+under § 20.1301(c). Additionally, the 
+NRC has approved several exemptions 
+to this regulation as described in 
+Regulatory Issue Summary (RIS) 2006– 
+18, ‘‘Requesting Exemption from the 
+Public Dose Limits for Certain 
+Caregivers of Hospital Patients.’’ These 
+exemptions allowed a caregiver to 
+receive up to 2 rem, by default, with the 
+flexibility to increase that amount if it 
+was too low for a particular case. 
+Similar to these previously issued 
+exemptions, the NRC proposes to revise 
+§ 20.1301(c) to include a 2-rem limit for 
+a caregiver and a 500-mrem limit for a 
+non-caregiver member of the public per 
+administration regimen. These limits are 
+independent of the patient release 
+regulations in 10 CFR 35.75, and doses 
+accrued by caregivers or non-caregiver 
+members of the public from exposure to 
+a patient prior to release do not 
+contribute to the patient’s release 
+evaluation. The guidance in RIS 2006– 
+18 and the exemption process remain 
+available to licensees should they desire 
+to pursue authorization, on a case-by- 
+case basis, to exceed the proposed new 
+2-rem limit for caregivers. 
+Amending the regulations to allow 
+caregivers to receive up to 2 rem 
+without a licensee requesting and 
+having approved an exemption 
+increases licensee flexibility, reduces 
+regulatory cost and burden, and enables 
+licensees to provide more timely care to 
+patients while maintaining the public 
+health and safety. The justification for 
+the higher limit to the caregiver (i.e., 2 
+rem instead of 100 mrem) is that it is 
+beneficial, or possibly essential, to the 
+wellbeing of the patient for caregivers to 
+have access to the patient and may, 
+therefore, be considered an element of 
+the patient’s medical treatment. 
+Caregivers are usually members of the 
+patient’s family or someone close to the 
+family or the patient. Caregivers receive 
+no financial compensation for the 
+comfort or support that they provide a 
+patient and knowingly consent to being 
+exposed above the public dose limit. 
+Additionally, the higher dose limit is 
+temporary and would not significantly 
+impact the caregiver’s lifetime fatal 
+cancer risk. Similarly, the justification 
+for the higher limit to the non-caregiver 
+(i.e., 500 mrem instead of 100 mrem) is 
+that the higher dose limit is temporary 
+and would not significantly impact the 
+individual’s lifetime fatal cancer risk. A 
+non-caregiver being exposed in a 
+situation relevant to § 20.1301(c) is 
+likely also a family member or a friend 
+of the patient, thus their access to the 
+patient provides relief during medical 
+treatment. In ICRP Publication 60— 
+which provided the ICRP’s first set of 
+comprehensive recommendations after 
+the recommended public dose limit was 
+changed to its current value—the ICRP 
+stated in paragraph 192 that, ‘‘Since the 
+detriment is a function of the 
+accumulation of dose over many years, 
+it would be unduly restrictive to require 
+the controls to be related rigidly to 
+annual dose limits. Some flexibility in 
+the limits is desirable.’’ Accordingly, 
+with this proposed rulemaking the NRC 
+is proposing to exercise this flexibility 
+as it relates to patient care. 
+Second, the NRC is proposing to 
+delete the short-term dose rate limit in 
+the unrestricted area of 0.002 rem in any 
+hour in § 20.1301(b) because it serves no 
+safety purpose that is not already 
+achieved by the public dose limit of 100 
+mrem per year. This is because a 
+member of the public could receive the 
+full 100 mrem annual public dose 
+instantaneously and this fact in and of 
+itself would have minimal safety 
+impact. The actual concern in such a 
+hypothetical case would be that a source 
+that could provide such a high dose rate 
+would most assuredly result in an 
+exceedance of the annual public dose 
+limit in a short period of time and it is 
+that exceedance that would require 
+appropriate corrective actions and not 
+the exceedance of any rate limit in 
+receiving the dose. Licensees can 
+voluntarily include short-term dose rate 
+limits within their radiation protection 
+programs for the purposes of dose 
+management or to facilitate 
+investigations of abnormal conditions; 
+however, these are not necessary in 
+addition to the annual public dose limit 
+for the protection of the public health 
+and safety. Therefore, the NRC is 
+proposing to delete § 20.1301(a)(2) and 
+the provision in § 20.1302(b)(2)(ii) that 
+references 2 mrem in an hour. 
+License Termination Criteria 
+The NRC is proposing to revise the 
+license termination criteria in 10 CFR 
+part 20 subpart E to make conforming 
+changes based on the discontinuation of 
+the use of ALARA terminology in the 
+NRC’s regulations and guidance. 
+Specifically, the NRC is removing the 
+terms ‘‘as low as reasonably achievable’’ 
+and ‘‘ALARA’’ from subpart E and 
+replacing them, as appropriate. As 
+explained previously in this document, 
+the NRC’s regulations and guidance 
+would continue to use justification and 
+optimization analyses to satisfy the 
+original intent of the ALARA principle 
+of, in this instance, reducing residual 
+radioactivity to levels where further 
+reductions would not be justified for 
+both unrestricted and restricted use. The 
+NRC intends for licensees to continue 
+providing a combination of qualitative 
+and quantitative analyses consistent 
+with the guidance in NUREG–1757, 
+volume 2, appendix N to satisfy the 
+requirement to justify such reductions 
+in residual radioactivity. 
+Additionally, the NRC is proposing to 
+include a reference to § 20.1406(c) to its 
+radiological criteria for unrestricted use 
+at § 20.1402 to emphasize that the 
+reduction in residual radioactivity may 
+be justified by actions already taken by 
+the licensee to minimize contamination. 
+For example, licensees may be able to 
+take credit for performing 
+dismantlement and remediation 
+activities in a way that minimizes the 
+introduction of contamination to the 
+environment in the analysis to 
+demonstrate that further reductions are 
+not justified. The NRC’s proposed 
+reference to this requirement would 
+provide additional flexibility in the 
+justification analysis required to comply 
+with the proposed radiological criteria 
+for unrestricted and restricted use. 
+With respect to restricted use, under 
+§ 20.1403 and § 20.1404, the NRC is 
+proposing to increase clarity for 
+licensees to demonstrate compliance 
+with the proposed requirement that 
+VerDate Sep<11>2014 16:30 Jul 14, 2026 Jkt 268001 PO 00000 Frm 00020 Fmt 4701 Sfmt 4702 E:\FR\FM\15JYP2.SGM 15JYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 7 ---
+43475 Federal Register / Vol. 91, No. 134 / Wednesday, July 15, 2026 / Proposed Rules 
+further reductions in residual 
+radioactivity necessary to comply with 
+the provisions of § 20.1402 would not be 
+justified. Currently, licensees must 
+demonstrate that such reductions either 
+would result in net public, or 
+environmental harm or are consistent 
+with ALARA. The NRC is proposing to 
+introduce significantly more clarity by 
+updating the requirement to include an 
+explicit option to provide a cost-benefit 
+analysis. 
+Finally, the NRC is making the 
+language in 10 CFR part 20 subpart E 
+consistent by using the broader term 
+‘‘traffic accidents’’ throughout instead of 
+sometimes using the narrower term 
+‘‘deaths from transportation accidents.’’ 
+The term ‘‘traffic accidents’’ 
+encompasses the term ‘‘deaths from 
+transportation accidents.’’ 
+Respiratory Protection 
+The NRC is proposing to make 
+changes to its respiratory protection 
+regulations to enable more efficient 
+authorizations of respiratory equipment 
+and their use. Currently, licensees are 
+required to obtain individual 
+authorization from the NRC in order to: 
+(1) use respiratory equipment that has 
+not been authorized by the National 
+Institute for Occupational Safety and 
+Health (NIOSH), and (2) use assigned 
+protection factors (APFs) in excess of 
+those specified in 10 CFR part 20. 
+Through this rulemaking, a licensee 
+would be allowed instead to reference 
+approvals that the NRC has already 
+issued to other licensees to use non- 
+NIOSH certified equipment and/or to 
+exceed the APFs in 10 CFR part 20; 
+provided that the conditions in the 
+safety evaluations used by the NRC to 
+justify such approvals are applicable to 
+that licensee. Effectively, this would 
+mean that the NRC would only have to 
+review and approve the use of new 
+equipment or APFs once, and 
+subsequent licensees could avail 
+themselves of those approvals to the 
+extent that they apply in their cases. 
+This change would facilitate the use of 
+modern equipment while minimizing 
+risk and administrative burden because 
+regulatory experience has shown that 
+these reviews have not significantly 
+differed once a precedent is established. 
+In cases where the conditions of prior 
+approvals would not apply or where 
+licensee use of the equipment would not 
+be within the scope of what the NRC 
+considered in its safety evaluation, the 
+licensee would have to individually 
+apply for authorization as the 
+regulations currently require. 
+Doses Received by a Member of the 
+Public Due to Byproduct Material 
+Administered for Medical Purposes 
+The NRC is proposing changes to 10 
+CFR part 35 regarding the release of 
+patients who have been administered 
+byproduct material. The first proposed 
+change would add to 10 CFR 35.2 the 
+definitions of ‘‘caregiver’’ and 
+‘‘administration regimen.’’ The 
+proposed definition of ‘‘caregiver’’ is an 
+adult who provides the patient with 
+support or comfort for non-commercial 
+gains following administration of 
+byproduct material. The proposed 
+definition of ‘‘administration regimen’’ 
+is the course of administrations of a 
+given radiopharmaceutical or 
+brachytherapy source as intended by the 
+authorized user. The second proposed 
+change would amend 10 CFR 35.75 to 
+add a provision to allow a consenting 
+caregiver, who has been educated on the 
+risks of radiation exposure, to receive 
+up to 5 rem (i.e., the occupation dose 
+limit of 10 CFR 20.1201) per patient 
+administration regimen. The dose limit 
+to the general public would remain at 
+0.5 rem; however, the rule would be 
+revised to specify that this limit is per 
+administration regimen instead of per 
+release. The third proposed change 
+would amend 10 CFR 35.2075 to remove 
+the requirement to keep records of dose 
+evaluations for individual releases that 
+meet certain criteria. Instead, the 
+proposed change would require 
+licensees to develop, implement, and 
+maintain a written procedure for 
+ensuring that a member of the public is 
+not likely to exceed the established 
+limits. The licensee would be required 
+to retain this procedure for the duration 
+of the license. Additionally, the 
+proposed change would remove the 
+requirement to document each instance 
+where instructions are given to a 
+breastfeeding patient. 
+In 2002, the NRC adopted the current 
+dose-based criteria used in 10 CFR 
+35.75. At that time, the patient release 
+framework was developed to address 
+brachytherapy implants and single 
+administration therapies (e.g., I–131 
+therapy for conditions of the thyroid). 
+Also at that time, other applications of 
+byproduct material use in medicine did 
+not involve quantities that would 
+warrant concern regarding the release of 
+patients. The medical landscape has 
+evolved substantially since the current 
+10 CFR 35.75 was put in place. Namely, 
+radiopharmaceuticals are increasingly 
+being administered over a series of 
+administrations as a matter of protocol, 
+instead of all at once. With the proposed 
+changes to 10 CFR 35.75, the NRC 
+intends to adapt its patient release 
+framework to better address the 
+evolving use of byproduct material in 
+medicine. While the limit for dose 
+received by an individual member of the 
+public is 0.5 rem per patient 
+administration regimen, the NRC is 
+proposing to introduce flexibility 
+through the identification of a caregiver, 
+who is eligible to receive up to the 
+occupational dose limit (i.e., 5 rem) per 
+patient administration regimen. 
+Individuals identified as caregivers (e.g., 
+spouses, parents) are likely to receive 
+the most dose as a result of a given 
+patient release due to high duration or 
+close contact activities, such as co- 
+sleeping. Other members of the public 
+are unlikely to receive a dose on the 
+same order of magnitude as these 
+potential caregivers. This is reflected in 
+DG–8061 (the proposed revision 2 to 
+Regulatory Guide (RG) 8.39) by using an 
+assumed occupancy factor of 0.25 at 1 
+meter for a general member of the public 
+(also referred to as a bystander) and an 
+assumed occupancy factor of 1 at 1 
+meter for a caregiver in the tables 
+provided. RG 8.39 contains additional 
+information regarding patient-specific 
+calculations for added flexibility, 
+including lower occupancies for both 
+caregivers and other members of the 
+public. 
+The NRC is also proposing to change 
+the recordkeeping requirements for 
+patient release outlined in 10 CFR 
+35.2075 to better align with common 
+practice. Most patients are likely to fall 
+into certain categories that a licensee 
+has previously determined to be 
+compliant with release in accordance 
+with 10 CFR 35.75. It is unnecessarily 
+burdensome for licensees to retain the 
+bases of release for individual patients 
+who are released in such a way. As 
+such, the NRC is proposing to instead 
+require licensees to develop, implement, 
+and maintain a written procedure for 
+releasing patients in accordance with 10 
+CFR 35.75. The NRC is also proposing 
+to remove the requirement to 
+individually document when a 
+breastfeeding patient has been given 
+instructions following administration of 
+byproduct material. The procedures 
+required by the proposed 10 CFR 35.75 
+should detail the process for ensuring 
+compliance for all patients who have 
+been administered byproduct material, 
+including situations where licensees 
+provide instructions to patients who are 
+breastfeeding. This change is intended 
+to alleviate the burden associated with 
+prescriptive recordkeeping requirements 
+and to instead focus on the need to 
+maintain a robust patient release 
+program that enables the treatment of 
+VerDate Sep<11>2014 16:30 Jul 14, 2026 Jkt 268001 PO 00000 Frm 00021 Fmt 4701 Sfmt 4702 E:\FR\FM\15JYP2.SGM 15JYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 8 ---
+43476 Federal Register / Vol. 91, No. 134 / Wednesday, July 15, 2026 / Proposed Rules 
+patients while protecting members of 
+the public. 
+For patients who cannot be released 
+under 10 CFR 35.75, the NRC is 
+proposing to amend 10 CFR 20.1301 to 
+incorporate into that rule flexibilities 
+introduced in RIS 2006–18. The 
+proposed changes to 10 CFR 20.1301(c) 
+would permit licensees, without having 
+to apply for an exemption, to allow a 
+caregiver, newly defined in the 
+proposed changes to 10 CFR part 35, to 
+receive up to 2 rem while providing care 
+to a patient who cannot be released 
+under 10 CFR 35.75. Any receipt of dose 
+in excess of 2 rem would still require an 
+application for an exemption and case- 
+by-case prior approval by the NRC. 
+In 2002, the NRC amended 10 CFR 
+part 20 to allow some visitors of patients 
+who cannot be released under 10 CFR 
+35.75 to receive up to 500 mrem. At that 
+time, the NRC acknowledged that, 
+because visitors are often family 
+members or close friends of patients, 
+there is a substantial benefit that 
+outweighs the risk of additional 
+exposure. However, as the medical use 
+of byproduct material has changed, it 
+has come to the NRC’s attention that a 
+limit of 500 mrem is insufficient and 
+overly cautious for some situations. 
+While RIS 2006–18 does not set a 
+maximum dose for which a licensee 
+may apply for an exemption, 2 rem is 
+the established initial dose limit for the 
+outlined exemption. The NRC has 
+already deemed a limit of 2 rem 
+adequately protective for situations 
+where a caregiver is necessary while a 
+patient is hospitalized, provided that 
+the licensee justifies the use of the 
+exemption. The proposed rule would 
+therefore eliminate the need for 
+licensees to apply for an exemption for 
+caregiver doses up to 2 rem. For 
+caregiver doses in excess of 2 rem, 
+licensees may still refer to RIS 2006–18. 
+Note that caregiver doses received prior 
+to the patient’s release do not contribute 
+to the 5 rem allowed by 10 CFR 35.75 
+following release. Finally, the proposed 
+update to 10 CFR 20.2107 would require 
+licensees to retain a record of the 
+justification for a caregiver’s dose for 
+three years following the exposure. 
+Industrial Radiography 
+The NRC is proposing to remove from 
+10 CFR part 34 the definition of the term 
+‘‘ALARA’’ in § 34.3 and the prescriptive 
+list of the radiation safety officer (RSO) 
+responsibilities in § 34.42(c), which 
+includes the term ‘‘ALARA.’’ Removing 
+this term is consistent with the other 
+changes being made as part of this 
+rulemaking and removing the RSO 
+responsibilities is consistent with other 
+similar descriptions of requirements for 
+RSOs. Licensees would continue to be 
+able to look to guidance in NUREG– 
+1556, volume 2, for more detailed 
+information regarding the 
+responsibilities of an RSO for industrial 
+radiography. 
+Uniform Waste Manifest Forms 
+The NRC is also proposing changes to 
+10 CFR part 20 appendix G to provide 
+additional clarity and flexibility on how 
+the information requested on the 
+Uniform Waste Manifest forms (NRC 
+Forms 540 and 540A, 541 and 541A, 
+and 542 and 542A) could be provided. 
+The proposed changes would clarify 
+that the Manifest does not need to 
+include these NRC forms themselves as 
+long as the Manifest reflects the 
+information requested on the applicable 
+NRC forms. Other proposed changes 
+would remove language specifying 
+when NRC Form 540 must physically 
+accompany a shipment and would 
+instead reference Department of 
+Transportation (DOT) regulations. This 
+change would ensure that the NRC’s 
+regulations are consistent with the 
+DOT’s regulations, including potential 
+future changes to the DOT’s regulations. 
+The remaining proposed changes would 
+add clarity and correct minor 
+grammatical errors. 
+Clarifying Changes to Appendix A to 10 
+CFR Part 40 
+The NRC is proposing a change to the 
+introduction section of Appendix A to 
+10 CFR part 40. The purpose of this 
+change would be to clarify that the use 
+of the phrase ‘‘as low as is reasonably 
+achievable’’ in Appendix A has the 
+same meaning as in EPA’s generally 
+applicable standards in 40 CFR part 192, 
+which is different than how NRC has 
+traditionally used ALARA. In this 
+context, the use of the phrase ‘‘as low 
+as reasonably achievable’’ is focused on 
+the technical practicability of corrective 
+actions. The remaining proposed 
+changes to Appendix A are consistent 
+with the proposed changes to 10 CFR 
+part 20 in that they would require 
+licensees to manage dose within the 
+applicable limits and would require that 
+practicable dose reduction measures be 
+taken. The proposed changes would 
+remove any language that implies that 
+further dose reduction is required. In 
+this context, the phrase ‘‘as low as 
+reasonably achievable’’ will remain in 
+Appendix A, Criterion 5B(6) to conform 
+to EPA’s generally applicable standards 
+in 40 CFR part 192. 
+Conforming Changes to 10 CFR Parts 50, 
+61, 71, and 72 
+This proposed rule would also 
+include additional conforming changes 
+to align with the removal of references 
+to ALARA. This includes the removal of 
+a reference to ALARA in 10 CFR 50.66 
+and in 10 CFR 71.78. Additionally, 
+removals of references to ALARA are 
+proposed in 10 CFR part 72, specifically 
+in §§ 72.3, 72.24, 72.44, 72.104, and 
+72.126. The changes proposed to 
+§ 72.44(d)(3) are conforming changes to 
+align with the proposed changes to 
+effluent reporting requirements in 10 
+CFR 50.34a, which are discussed in the 
+previous section entitled ‘‘Effluents.’’ 
+Finally, the NRC is proposing to 
+revise the public dose limits in 10 CFR 
+part 61 to make conforming changes 
+based on the discontinuation of the use 
+of ALARA terminology in the NRC’s 
+regulations and guidance. Specifically, 
+the NRC is proposing to remove the 
+terms ‘‘as low as reasonably achievable’’ 
+and ‘‘ALARA’’ from subpart C, 
+‘‘Performance Objectives.’’ 
+Conforming Changes to 10 CFR Part 53 
+The changes proposed in this 
+rulemaking necessitate conforming 
+changes to the recently issued 10 CFR 
+part 53. In general, these changes serve 
+two purposes. First, they acknowledge 
+that licensees may potentially use 
+dosimetry systems that provide results 
+in terms of total effective dose, as 
+opposed to total effective dose 
+equivalent. Second, they provide the 
+additional flexibility that is being 
+included in the proposed changes to the 
+NRC’s overall radiation protection 
+regulatory framework based on the 
+agency’s reconsideration of its use of the 
+LNT model and its application of the 
+ALARA principle. 
+The regulations at § 53.210, § 53.425, 
+and § 53.530 are proposed to be revised 
+to add reference to total effective dose 
+to the units for dose-based criteria. 
+Additionally, footnote 1 to § 53.210 is 
+proposed to be revised to delete ‘‘TEDE’’ 
+as the designation of the type of 
+effective dose is not central to the 
+purpose of the footnote, rather the 
+magnitude of the dose is. The 
+requirements at § 53.850 are proposed to 
+be revised to change ‘‘limiting’’ to 
+‘‘controlling’’ to be consistent with the 
+intent of effluent monitoring and control 
+measures. Additionally, § 53.850(b)(2) is 
+proposed to be revised to remove 
+reference to the ‘‘Annual Radiological 
+Environmental Operating and 
+Radioactive Effluent Release Reports,’’ 
+in lieu of a more generalized 
+requirement for an effluent program to 
+retain records and develop reporting 
+criteria. This change conforms to 
+changes being proposed in this 
+rulemaking for radiological effluent 
+monitoring and control through 
+revisions to § 50.34a, § 50.36a, and 
+VerDate Sep<11>2014 16:30 Jul 14, 2026 Jkt 268001 PO 00000 Frm 00022 Fmt 4701 Sfmt 4702 E:\FR\FM\15JYP2.SGM 15JYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 9 ---
+43483 Federal Register / Vol. 91, No. 134 / Wednesday, July 15, 2026 / Proposed Rules 
+The NRC is proposing to assign these 
+regulations Category B because the use 
+of dosimetry methods is cross- 
+jurisdictional and the uniformity of 
+approved alternatives is necessary to 
+ensure an orderly regulatory pattern for 
+the use and regulation of material 
+between all Agreement States and NRC 
+jurisdictions. 
+Next, the NRC is proposing to change 
+the compatibility category of 10 CFR 
+20.1301(d) from Category C to Category 
+A. Currently, 10 CFR 20.1301(d) allows 
+a licensee or applicant to apply for prior 
+NRC authorization to operate in excess 
+of the public dose limit (i.e., 100 mrem) 
+for an individual member of the public, 
+up to 500 mrem, and specifies the 
+information the entity should provide in 
+this application. The proposed revision 
+to 10 CFR 20.1301(d) would remove the 
+500 mrem upper limit. This change does 
+not affect the ability for Agreement 
+States to approve an optional upper 
+public dose limit consistent with past 
+practices. With the removal of that 
+upper limit and the regulation tied to 
+the public dose limit of 100 mrem, the 
+NRC proposes designating the 
+regulation Compatibility Category A, 
+consistent with the designation for the 
+public dose limit. 
+For the newly proposed 10 CFR 
+20.1205, which concerns a new process 
+for allowing workers to receive 
+occupational doses in excess of 
+applicable annual limits, the NRC is 
+proposing to assign Compatibility 
+Category A. As explained above, this 
+optional process in the newly proposed 
+10 CFR 20.1205 would allow licensees 
+to periodically exceed annual 
+occupational dose limits for workers, 
+provided that an adequate decision- 
+making process is applied to support its 
+use and that the overall dose is limited 
+within specified multi-year average 
+values. The proposed approach would 
+allow for dose averaging across several 
+years to demonstrate compliance with 
+occupational dose limits. Similar to 10 
+CFR 20.1301(d) for the public dose 
+limit, 10 CFR 20.1205 allows licensees 
+flexibility with respect to the 
+occupational dose limit. Thus, the NRC 
+proposes designating 10 CFR 20.1205 as 
+Category A, consistent with the 
+designation for the occupational dose 
+limit itself and the similar proposed 
+designation for 10 CFR 20.1301(d) for 
+the public dose limit flexibility. 
+Moreover, in order to protect radiation 
+workers’ ability to work in different 
+jurisdictions within the same calendar 
+year when utilizing this provision, it is 
+necessary for all jurisdictions to have 
+the same flexibility built into their 
+regulations. 
+With respect to 10 CFR part 35, the 
+NRC is proposing to assign 
+compatibility Category B to the new 
+definitions for ‘‘Caregiver’’ and 
+‘‘Administration regimen’’ as well as the 
+revised 10 CFR 35.75(b) regarding the 
+dose limits for patient release, which 
+means that these requirements have 
+cross-jurisdictional boundaries 
+implications. Agreement States’ 
+requirements should be essentially 
+identical to those of the NRC so that 
+there are consistent standards for 
+patient release requirements between 
+the NRC and the Agreement States. 
+Since the 2002 adoption of the current 
+dose-based criteria in 10 CFR 35.75, the 
+treatment and release of patients with 
+byproduct materials have undergone a 
+number of significant changes with 
+regard to the doses and administrative 
+regimens of therapeutic radioisotopes 
+used, treatment modalities, and the 
+treatment and release of patient at 
+regional treatment centers that require 
+patients to travel in multiple 
+jurisdictions. These changes require 
+consistent standards to ensure 
+equivalent levels of protection. For 
+example, an increasing number of 
+therapeutic radiopharmaceuticals are 
+being delivered over the course of 
+multiple administrations. Safe 
+implementation of the proposed 
+revision to 10 CFR 35.75(b) relies on 
+consistent application of release 
+considerations over the course of the 
+entire administration regimen, which 
+could be delivered in multiple 
+jurisdictions. 
+The compatibility (A, B, C, D, and 
+NRC) and adequacy (H&S) categories are 
+designated in the following tables: 
+ADEQUACY AND COMPATIBILITY TABLE FOR 10 CFR PART 19 
+Section Change Subject 
+Compatibility 
+Existing New 
+19.12 ..................... Amend ............. Instruction to workers ............................. C ............................... .............................. C. 
+19.13 ..................... Amend ............. Notifications and reports to individuals .. C ........................................ ..................... C. 
+ADEQUACY AND COMPATIBILITY TABLE FOR 10 CFR PART 20 
+Section Change Subject 
+Compatibility 
+Existing New 
+20.1003 ................. Amend ............. Definition—Airborne radioactivity area ... A ........................................... .................. A. 
+20.1003 ................. Delete .............. Definition—ALARA ................................. A.
+20.1003 ................. Amend ............. Definition—Annual limit on intake .......... A ......................................... .................... A. 
+20.1003 ................. Amend ............. Definition—Committed Dose Equivalent A ............................................... .............. A. 
+20.1003 ................. New ................. Definition—Committed equivalent dose ............................................... ................. A. 
+20.1003 ................. Amend ............. Definition—Committed effective dose 
+equivalent.
+A ............................................................. A. 
+20.1003 ................. New ................. Definition—Committed effective dose .... ............................................ .................... A. 
+20.1003 ................. Amend ............. Definition—Derived air concentration .... A ............................................ ................. A. 
+20.1003 ................. Amend ............. Definition—Dose or radiation dose ........ D ........................................... .................. D. 
+20.1003 ................. Amend ............. Definition—Dose equivalent ................... A ....................................... ...................... A. 
+20.1003 ................. New ................. Definition—Dosimetry method (or sys-
+tem).
+................................................................ A. 
+20.1003 ................. New ................. Definition—Effective dose ...................... .................................... ............................ A. 
+20.1003 ................. Amend ............. Definition—Effective dose equivalent .... A ............................................ ................. A. 
+20.1003 ................. New ................. Definition—Equivalent Dose .................. ....................................... ......................... A. 
+20.1003 ................. New ................. Definition—Graded approach to dose 
+management.
+................................................................ A. 
+20.1003 ................. Amend ............. Definition—License ................................ D ............................................................. D. 
+20.1003 ................. Amend ............. Definition—Nonstochastic effect ............ A ......................................... .................... A. 
+20.1003 ................. Amend ............. Definition—Planned special exposure ... D .............................................. ............... D. 
+VerDate Sep<11>2014 16:30 Jul 14, 2026 Jkt 268001 PO 00000 Frm 00029 Fmt 4701 Sfmt 4702 E:\FR\FM\15JYP2.SGM 15JYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 10 ---
+43484 Federal Register / Vol. 91, No. 134 / Wednesday, July 15, 2026 / Proposed Rules 
+ADEQUACY AND COMPATIBILITY TABLE FOR 10 CFR PART 20—Continued 
+Section Change Subject 
+Compatibility 
+Existing New 
+20.1003 ................. New ................. Definition—Planned occupational dose 
+limit extension.
+................................................................ A. 
+20.1003 ................. New ................. Definition—Radiation weighting factor ... ........................................... ..................... A. 
+20.1003 ................. Amend ............. Definition—Stochastic effects ................ A ....................................... ...................... A. 
+20.1003 ................. New ................. Definition—Total effective dose ............. ....................................... ......................... A. 
+20.1003 ................. Amend ............. Definition—Weighting factor ................... A ...................................... ....................... A. 
+20.1004 ................. Amend ............. Units of radiation dose ........................... A .................................. ........................... A. 
+20.1010 ................. New ................. Dosimetry methods ................................ .................................. .............................. B. 
+20.1101(a) and (c) Amend ............. Radiation protection programs ............... H&S ........................................... ............. H&S. 
+20.1101(b) ............. Amend ............. Radiation protection programs ............... H&S ....................................... ................. A. 
+20.1101(d) ............. Amend ............. Radiation protection programs ............... C ............................................................. A, except portions of these provisions 
+are designated as NRC (Those por-
+tions of the provision that address 
+areas reserved to the NRC, e.g., 10 
+CFR Parts 50.34a and 53.260 are 
+designated as a Compatibility Cat-
+egory NRC). 
+20.1201 ................. Amend ............. Occupational dose limits for adults ........ A ......................................... .................... A. 
+20.1202 ................. Amend ............. Compliance with requirements for sum-
+mation of external and internal doses.
+A ............................................................. A. 
+20.1204 ................. Amend ............. Determination of internal exposure ........ A .......................................... ................... A. 
+20.1205 ................. New ................. Planned occupational dose limit exten-
+sion.
+................................................................ A. 
+20.1206 ................. Amend ............. Planned special exposures .................... D ....................................... ...................... D. 
+20.1301(a), (b), (c) Amend ............. Dose limits for individual members of 
+the public.
+A ............................................................. A. 
+20.1301(d) ............. Amend ............. Dose limits for individual members of 
+the public.
+C ............................................................. A. 
+20.1302(b) ............. Amend ............. Compliance with dose limits for indi-
+vidual members of the public.
+H&S ........................................................ H&S. 
+20.1302(c) ............. Amend ............. Compliance with dose limits for indi-
+vidual members of the public.
+D ............................................................. D. 
+20.1402 ................. Amend ............. Radiological criteria for unrestricted use C ............................................................. B—for source material recovered from 
+any mineral resources processed pri-
+marily for purposes other than obtain-
+ing the source material content. 
+C—for all other Agreement State li-
+censed activities.* 
+20.1403 ................. Amend ............. Criteria for license termination under re-
+stricted conditions.
+C ............................................................. B—for source material recovered from 
+any mineral resources processed pri-
+marily for purposes other than obtain-
+ing the source material content. 
+C—for all other Agreement State li-
+censed activities.* 
+20.1404 ................. Amend ............. Alternate criteria for license termination C ............................................................. B—for source material recovered from 
+any mineral resources processed pri-
+marily for purposes other than obtain-
+ing the source material content. 
+C—for all other Agreement State li-
+censed activities.* 
+20.1405 ................. Amend ............. Public notification and public participa-
+tion.
+C ............................................................. C. 
+20.1502 ................. Amend ............. Conditions requiring individual moni-
+toring of external and internal occupa-
+tional dose.
+H&S ........................................................ H&S. 
+20.1601(f) .............. Amend ............. Control of access to high radiation 
+areas.
+H&S ........................................................ H&S. 
+20.1702 ................. Amend ............. Use of other controls .............................. H&S ............................... ......................... H&S. 
+20.1703 ................. Amend ............. Use of individual respiratory protection 
+equipment.
+H&S ........................................................ H&S. 
+20.1704 ................. Amend ............. Further restrictions on the use of res-
+piratory protection equipment.
+D ............................................................. D. 
+20.1705 ................. Amend ............. Application for use of higher assigned 
+protection factors.
+B ............................................................. B. 
+20.1905(b) ............. Amend ............. Exceptions to labeling requirements ...... A ............................................ ................. A. 
+20.2002 ................. Amend ............. Method for obtaining approval of pro-
+posed disposal procedures.
+D ............................................................. D. 
+20.2003 
+(a)(2)&(a)(3).
+Amend ............. Disposal by release into sanitary sewer-
+age.
+A ............................................................. A. 
+20.2004 ................. Amend ............. Treatment or disposal by incineration .... D ........................................... .................. D. 
+20.2101 ................. Amend ............. General provisions ................................. C ................................. ............................ C. 
+20.2104 ................. Amend ............. Determination of prior occupational 
+dose.
+D or H&S (for States who adopt 
+planned special exposure).
+D or H&S (for States who adopt 
+planned special exposure. 
+20.2105 ................. Amend ............. Records of planned special exposures .. D .............................................. ............... D. 
+20.2106(a) ............. Amend ............. Records of individual monitoring results C ............................................ ................. C. 
+20.2107 ................. Amend ............. Records of dose to individual members 
+of the public.
+D ............................................................. D. 
+20.2202(e) ............. Amend ............. Notification of incidents .......................... D .................................. ........................... D. 
+VerDate Sep<11>2014 16:30 Jul 14, 2026 Jkt 268001 PO 00000 Frm 00030 Fmt 4701 Sfmt 4702 E:\FR\FM\15JYP2.SGM 15JYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 11 ---
+43485 Federal Register / Vol. 91, No. 134 / Wednesday, July 15, 2026 / Proposed Rules 
+ADEQUACY AND COMPATIBILITY TABLE FOR 10 CFR PART 20—Continued 
+Section Change Subject 
+Compatibility 
+Existing New 
+20.2203(a), (b) ...... Amend ............. Reports of exposures, radiation levels, 
+and concentrations of radioactive ma-
+terial exceeding the constraints or 
+limits.
+C ............................................................. C. 
+Appendix G ........... Amend ............. Requirements for Low-level radioactive 
+waste intended for disposal at land 
+disposal facilities and manifests.
+B ............................................................. B. 
+App. G I ................. Amend ............. Manifest .................................................. B ......................... .................................... B. 
+App. G I ................. New ................. Definition—Carrier .................................. .............................. .................................. B. 
+App. G I ................. Delete .............. Definition—Computer readable medium B.
+App. G I ................. Amend ............. Definition—EPA identification number ... B ............................................ ................. B. 
+App. G I ................. Amend ............. Definition—High integrity container ........ B ........................................ ..................... B. 
+App. G I ................. Amend ............. Definition—NRC Forms 540, 540A, 541, 
+541A, 542, and 542A.
+B ............................................................. B. 
+App. G I ................. Amend ............. Definition—Shipping paper .................... B ...................................... ....................... B. 
+App. G I ................. Amend ............. Definition—Uniform Low-Level Radio-
+active Waste Manifest.
+B ............................................................. B. 
+App. G III.A ........... Amend ............. Control and Tracking .............................. B ................................... .......................... B. 
+App. G III.B ........... Amend ............. Control and Tracking .............................. B ................................... .......................... B. 
+App. G III.C ........... Amend ............. Control and Tracking .............................. B ................................... .......................... B. 
+App. G III.D ........... Amend ............. Control and Tracking .............................. B ................................... .......................... B. 
+Appendix H ............ New ................. Alternative Dosimetry Methods Accept-
+able for Use to Demonstrate Compli-
+ance with NRC’s Standards for Pro-
+tection Against Radiation.
+................................................................ B. 
+* Consistent with 10 CFR 20.1401(a), the criteria in 10 CFR part 20, subpart E do not apply to uranium and thorium recovery facilities already subject to appendix A 
+to 10 CFR part 40 or the uranium solution extraction facilities. 
+ADEQUACY AND COMPATIBILITY TABLE FOR 10 CFR PART 34 
+Section Change Subject 
+Compatibility 
+Existing New 
+34.3 ....................... Delete .............. Definitions—ALARA ............................... [A].
+34.42(c), (d) ........... Delete .............. Radiation Safety Officer for industrial ra-
+diography.
+D.
+ADEQUACY AND COMPATIBILITY TABLE FOR 10 CFR PART 35 
+Section Change Subject 
+Compatibility 
+Existing New 
+35.2 ....................... New ................. Definitions—Administration Regimen ..... ......................................... ....................... B. 
+35.2 ....................... New ................. Definitions—Caregiver ........................... ................................................................ B. 
+35.75(a) ................. Revised ........... Release of individuals containing un-
+sealed byproduct material or implants 
+containing byproduct material.
+C ............................................................. C. 
+35.75(b) ................. Amend ............. Release of individuals containing un-
+sealed byproduct material or implants 
+containing byproduct material.
+C ............................................................. B. 
+35.75(c) ................. Amend ............. Release of individuals containing un-
+sealed byproduct material or implants 
+containing byproduct material.
+C ............................................................. C. 
+35.75(d) ................. Amend ............. Release of individuals containing un-
+sealed byproduct material or implants 
+containing byproduct material.
+D ............................................................. D. 
+35.2075 ................. Amend ............. Records of the release of individuals 
+containing unsealed byproduct mate-
+rial or implants containing byproduct 
+material.
+D ............................................................. D. 
+VerDate Sep<11>2014 16:30 Jul 14, 2026 Jkt 268001 PO 00000 Frm 00031 Fmt 4701 Sfmt 4702 E:\FR\FM\15JYP2.SGM 15JYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 12 ---
+43494 Federal Register / Vol. 91, No. 134 / Wednesday, July 15, 2026 / Proposed Rules 
+§ 50.34a or § 53.260 of this chapter, such 
+that the individual member of the 
+public likely to receive the highest dose 
+will not be expected to receive a total 
+effective dose equivalent in excess of 25 
+mrem (0.25 mSv) per year from these 
+emissions. If a licensee subject to this 
+requirement exceeds this dose 
+constraint, the licensee shall report the 
+exceedance as provided in § 20.2203 
+and promptly take appropriate 
+corrective action to ensure against 
+recurrence. A licensee or applicant may 
+request prior NRC authorization to 
+establish a higher constraint, provided 
+that the proposed constraint provides an 
+ample margin of safety to protect public 
+health. 
+■ 9. Revise and republish § 20.1201(a) 
+through (d) to read as follows: 
+§ 20.1201 Occupational dose limits for 
+adults. 
+(a) The licensee shall control the 
+occupational dose to individual adults, 
+except for planned occupational dose 
+limit extensions under § 20.1205 and 
+planned special exposures under 
+§ 20.1206, to the following dose limits. 
+(1) An annual limit, which is the more 
+limiting of— 
+(i) The total effective dose equivalent 
+being equal to 5 rems (0.05 Sv); or 
+(ii) The sum of the deep-dose 
+equivalent and the committed dose 
+equivalent to any individual organ or 
+tissue other than the lens of the eye 
+being equal to 50 rems (0.5 Sv). 
+(2) The annual limits to the lens of the 
+eye, to the skin of the whole body, and 
+to the skin of the extremities, which are: 
+(i) A lens dose equivalent of 15 rems 
+(0.15 Sv), and 
+(ii) A shallow-dose equivalent of 50 
+rem (0.5 Sv) to the skin of the whole 
+body or to the skin of any extremity. 
+(b) Doses received in excess of the 
+annual limits, with the exception of 
+doses received under § 20.1205, 
+including doses received during 
+accidents, emergencies, and planned 
+special exposures, must be subtracted 
+from the limits for planned special 
+exposures that the individual may 
+receive during the current year (see 
+§ 20.1206(e)(1)) and during the 
+individual’s lifetime (see 
+§ 20.1206(e)(2)). 
+(c) When the external exposure is 
+determined by measurement with an 
+external personal monitoring device, the 
+deep-dose equivalent must be used in 
+place of the effective dose equivalent, 
+unless the effective dose equivalent is 
+determined by a dosimetry method 
+approved by the NRC or by an 
+alternative dosimetry method pursuant 
+to § 20.1010. The assigned deep-dose 
+equivalent must be for the part of the 
+body receiving the highest exposure. 
+The assigned shallow-dose equivalent 
+must be the dose averaged over the 
+contiguous 10 square centimeters of 
+skin receiving the highest exposure. The 
+deep-dose equivalent, lens-dose 
+equivalent, and shallow-dose equivalent 
+may be assessed from surveys or other 
+radiation measurements for the purpose 
+of demonstrating compliance with the 
+occupational dose limits, if the 
+individual monitoring device was not in 
+the region of highest potential exposure, 
+or the results of individual monitoring 
+are unavailable. 
+(d) Derived air concentration (DAC) 
+and annual limit on intake (ALI) values 
+are presented in table 1 of appendix B 
+to part 20 and may be used to determine 
+the individual’s dose (see § 20.2106) and 
+to demonstrate compliance with the 
+occupational dose limits. Alternatively, 
+the licensee may use alternative 
+dosimetry methods to demonstrate 
+compliance with the occupational dose 
+limits (see § 20.1010). 
+* * * * * 
+■ 10. In § 20.1202, revise footnote 1 to 
+read as follows: 
+§ 20.1202 Compliance with requirements 
+for summation of external and internal 
+doses. 
+* * * * * 
+[1] An organ or tissue is deemed to be 
+significantly irradiated if, for that organ or 
+tissue, the product of the weighting factor, 
+wT, and the committed dose equivalent, 
+HT,Q,50, per unit intake is greater than 10 
+percent of the maximum weighted value of 
+HT,Q,50, (i.e., wT HT,Q,50) per unit intake for 
+any organ or tissue. 
+■ 11. In § 20.1204, revise paragraphs 
+(c)(2) and (3), (e)(1), and (h)(2), to read 
+as follows: 
+§ 20.1204 Determination of internal 
+exposure. 
+* * * * * 
+(c) * * * 
+(2) Upon prior approval of the 
+Commission or consistent with the use 
+of alternative dosimetry methods to 
+demonstrate compliance with dose 
+limits as allowed by § 20.1010, adjust 
+the DAC or ALI values to reflect the 
+actual physical and chemical 
+characteristics of airborne radioactive 
+material (e.g., aerosol size distribution 
+or density); and 
+(3) If applicable, separately assess the 
+contribution of fractional intakes of 
+different solubility classes (e.g., Class D, 
+W, or Y compounds of a given 
+radionuclide (see appendix B to part 
+20)) to the committed effective dose 
+equivalent. 
+* * * * * 
+(e) * * * 
+(1) The sum of the ratios of the 
+concentration to the appropriate DAC 
+value (e.g., D, W, Y) from appendix B to 
+part 20, or as determined using an 
+alternative dosimetry method as 
+allowed by § 20.1010, for each 
+radionuclide in the mixture; or 
+* * * * * 
+(h) * * * 
+(2) When the ALI (and the associated 
+DAC) is determined by the 
+nonstochastic organ dose limit of 50 rem 
+(0.5 Sv), the licensee may, as a 
+simplifying assumption, use the 
+stochastic ALIs to determine committed 
+effective dose equivalent. However, if 
+the licensee uses the stochastic ALIs, 
+the licensee must also demonstrate that 
+the limit in § 20.1201(a)(1)(ii) is met. 
+Table 1 of appendix B to part 20 lists 
+stochastic ALIs, even when the limiting 
+ALI and DAC is governed by the 
+nonstochastic organ dose limit of 50 rem 
+(0.5 Sv). In cases where a licensee is 
+using an alternative dosimetry method 
+pursuant to § 20.1010, that licensee can 
+develop the stochastic ALI to use for the 
+purposes of this paragraph. 
+■ 12. Add section § 20.1205 to subpart 
+C to read as follows: 
+§ 20.1205 Planned occupational dose limit 
+extension. 
+A licensee may authorize a worker 
+that is not a declared pregnant woman 
+or a minor to receive occupational doses 
+in excess of the limits specified in 
+§ 20.1201 provided that each of the 
+following conditions is satisfied— 
+(a) The licensee (and employer if the 
+employer is not the licensee) authorizes 
+the planned occupational dose limit 
+extension, in writing, before the dose 
+limit specified in § 20.1201 is exceeded. 
+(b) Before a planned occupational 
+dose limit extension, the licensee 
+ensures that the individuals involved 
+are— 
+(1) Informed of the purpose of the 
+planned operation; 
+(2) Informed of the estimated doses 
+and associated potential risks and 
+estimated radiation levels or other 
+conditions that might be involved in 
+performing the task; and 
+(3) Instructed in the measures to be 
+taken to manage doses considering other 
+risks that may be present. 
+(c) Prior to permitting an individual to 
+participate in a planned occupational 
+dose limit extension, the licensee 
+ascertains prior occupational doses as 
+required by § 20.2104(b) during the 
+current year and the preceding four 
+years for each individual involved. 
+(d) The licensee does not authorize a 
+planned occupational dose limit 
+extension that would cause an 
+VerDate Sep<11>2014 16:30 Jul 14, 2026 Jkt 268001 PO 00000 Frm 00040 Fmt 4701 Sfmt 4702 E:\FR\FM\15JYP2.SGM 15JYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 13 ---
+43495 Federal Register / Vol. 91, No. 134 / Wednesday, July 15, 2026 / Proposed Rules 
+individual to receive a dose from all 
+occupational exposures in excess of— 
+(1) Five times the numerical limits in 
+§ 20.1201(a)(1) and § 20.1201(a)(2)(ii) 
+over the current year and the preceding 
+four years; 
+(2) Twice the numerical limits in 
+§ 20.1201(a)(1) and § 20.1201(a)(2)(ii) in 
+any one year; and 
+(3) A lens dose equivalent of 15 rem 
+(0.15 Sv) in any one year. 
+(e) The licensee maintains records of 
+the conduct of a planned occupational 
+dose limit extension in accordance with 
+§ 20.2105. 
+(f) The dose from planned 
+occupational dose limit extensions is 
+not to be considered in controlling 
+future occupational dose of the 
+individual under § 20.1201(a) but is to 
+be included in evaluations required by 
+§§ 20.1205 (c) and (d) and 20.1206 (d) 
+and (e). 
+■ 13. In § 20.1206, revise paragraph 
+(c)(3) to read as follows: 
+§ 20.1206 Planned special exposures. 
+* * * * * 
+(c) * * * 
+(3) Instructed in the measures to be 
+taken to manage doses considering other 
+risks that may be present. 
+* * * * * 
+■ 14. In § 20.1301, revise paragraph 
+(a)(1), remove and reserve paragraph 
+(a)(2), and revise paragraphs (b) through 
+(d) to read as follows: 
+§ 20.1301 Dose limits for individual 
+members of the public. 
+(a) * * * 
+(1) The total effective dose equivalent 
+to individual members of the public 
+from the licensed operation, or any 
+other source of radiation under the 
+control of a licensee, does not exceed 
+0.1 rem (1 mSv) in a year, exclusive of 
+the dose contributions from background 
+radiation, from any medical 
+administration the individual has 
+received, from exposure to individuals 
+administered radioactive material and 
+released under § 35.75, from voluntary 
+participation in medical research 
+programs, and from the licensee’s 
+disposal of radioactive material into 
+sanitary sewerage in accordance with 
+§ 20.2003. 
+(2) [Reserved] 
+(b) If the licensee permits members of 
+the public to have access to controlled 
+areas, the limits for members of the 
+public continue to apply to those 
+individuals. Alternatively, a licensee or 
+applicant may request prior NRC 
+authorization for an annual dose limit in 
+excess of 0.1 rem (1 mSv) for members 
+of the public who have access to 
+controlled areas, provided that dose is 
+appropriately managed. 
+(c) Notwithstanding paragraph (a)(1) 
+of this section, a licensee may permit 
+members of the public to visit an 
+individual who cannot be released, 
+under § 35.75, to receive a radiation 
+dose in excess of 0.1 rem (1 mSv) if— 
+(1) The radiation dose received is not 
+likely to exceed either— 
+(i) 0.5 rem (5 mSv) for a member of 
+the public who is not a caregiver per 
+administration regimen; or 
+(ii) 2 rem (20 mSv) for a caregiver, as 
+defined in 10 CFR part 35, per 
+administration regimen; and 
+(2) The authorized user, as defined in 
+10 CFR part 35, has determined before 
+the visit that it is appropriate. 
+(d) A licensee or applicant may apply 
+for prior NRC authorization to operate 
+with an annual dose limit for an 
+individual member of the public in 
+excess of 0.1 rem (1 mSv). The licensee 
+or applicant shall include the following 
+information in this application: 
+(1) Demonstration of the need for and 
+the expected duration of operations in 
+excess of the limit in paragraph (a) of 
+this section; 
+(2) Description of the licensee’s 
+program to assess and control dose 
+within the proposed dose limit for an 
+individual member of the public; and 
+(3) The proposed dose limit for an 
+individual member of the public and its 
+supporting basis, including why it 
+remains protective of the public health 
+and safety. 
+* * * * * 
+■ 15. In § 20.1302, revise paragraph 
+(b)(2) and remove and reserve paragraph 
+(c) to read as follows: 
+§ 20.1302 Compliance with dose limits for 
+individual members of the public. 
+* * * * * 
+(b) * * * 
+(1) * * * 
+(2) Demonstrating that— 
+(i) The annual average concentrations 
+of radioactive material released in 
+gaseous and liquid effluents at the 
+boundary of the unrestricted area do not 
+exceed the values specified in table 2 of 
+appendix B to part 20 or as developed 
+using alternative dosimetry methods 
+pursuant to § 20.1010; and 
+(ii) If an individual were continuously 
+present in an unrestricted area, the dose 
+from external sources would not exceed 
+0.05 rem (0.5 mSv) in a year. 
+(c) [Reserved] 
+■ 16. Revise § 20.1402 to read as 
+follows: 
+§ 20.1402 Radiological criteria for 
+unrestricted use. 
+A site will be considered acceptable 
+for unrestricted use if the residual 
+radioactivity that is distinguishable 
+from background radiation results in a 
+TEDE to the average member of the 
+critical group that does not exceed 25 
+mrem (0.25 mSv) per year, including 
+that from groundwater sources of 
+drinking water, and, consistent with 
+§ 20.1406(c), the residual radioactivity 
+has been reduced to levels where further 
+reductions would not be justified when 
+considering any detriments, such as 
+traffic accidents, expected to potentially 
+result from decontamination and waste 
+disposal. 
+■ 17. In § 20.1403, revise paragraph (a) 
+and revise and republish paragraph (e) 
+to read as follows: 
+§ 20.1403 Criteria for license termination 
+under restricted conditions. 
+* * * * * 
+(a) The licensee can demonstrate that 
+further reductions in residual 
+radioactivity necessary to comply with 
+the provisions of § 20.1402 would not be 
+justified when considering any 
+detriments, such as traffic accidents, 
+expected to potentially result from 
+decontamination and waste disposal; 
+would result in net public or 
+environmental harm; or would not be 
+justified through a cost-benefit analysis; 
+* * * * * 
+(e) Residual radioactivity at the site 
+has been reduced so that if the 
+institutional controls were no longer in 
+effect, there is reasonable assurance that 
+the TEDE from residual radioactivity 
+distinguishable from background to the 
+average member of the critical group 
+would not exceed either— 
+(1) 100 mrem (1 mSv) per year 
+provided that the licensee— 
+Demonstrates that further reductions 
+in residual radioactivity would not be 
+justified when considering any 
+detriments, such as traffic accidents, 
+expected to potentially result from 
+decontamination and waste disposal; or 
+(2) 500 mrem (5 mSv) per year 
+provided that the licensee— 
+(i) Demonstrates that further 
+reductions in residual radioactivity 
+necessary to comply with the 100 
+mrem/y (1 mSv/y) value of paragraph 
+(e)(1) of this section are not technically 
+achievable, would be prohibitively 
+expensive, or would result in net public 
+or environmental harm; 
+(ii) Makes provisions for durable 
+institutional controls; 
+(iii) Provides sufficient financial 
+assurance to enable a responsible 
+government entity or independent third 
+party, including a governmental 
+custodian of a site, both to carry out 
+periodic rechecks of the site no less 
+frequently than every 5 years to assure 
+that the institutional controls remain in 
+place as necessary to meet the criteria of 
+VerDate Sep<11>2014 16:30 Jul 14, 2026 Jkt 268001 PO 00000 Frm 00041 Fmt 4701 Sfmt 4702 E:\FR\FM\15JYP2.SGM 15JYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 14 ---
+43496 Federal Register / Vol. 91, No. 134 / Wednesday, July 15, 2026 / Proposed Rules 
+§ 20.1403(b) and to assume and carry 
+out responsibilities for any necessary 
+control and maintenance of those 
+controls. Acceptable financial assurance 
+mechanisms are those in paragraph (c) 
+of this section. 
+■ 18. In § 20.1404, revise and republish 
+paragraphs (a)(1) through (a)(4) to read 
+as follows: 
+§ 20.1404 Alternate criteria for license 
+termination. 
+(a) * * * 
+(1) Provides assurance that public 
+health and safety would continue to be 
+protected by submitting an analysis 
+demonstrating that it is unlikely that the 
+dose from all man-made sources 
+combined, other than medical, would be 
+more than 100 mrem/y (1 mSv/y); 
+(2) Has employed to the extent 
+practical restrictions on site use 
+according to the provisions of § 20.1403 
+in minimizing exposures at the site; 
+(3) Demonstrates that further 
+reductions in residual radioactivity 
+would not be justified when considering 
+any detriments, such as traffic 
+accidents, expected to potentially result 
+from decontamination and waste 
+disposal; 
+(4) Has submitted a decommissioning 
+plan or License Termination Plan (LTP) 
+to the Commission indicating the 
+licensee’s intent to decommission in 
+accordance with §§ 30.36(d), 40.42(d), 
+50.82(a) and (b), subpart G of part 53, 
+70.38(d), or 72.54 of this chapter, and 
+specifying that the licensee proposes to 
+decommission by use of alternate 
+criteria. The licensee shall document in 
+the decommissioning plan or LTP how 
+the advice of individuals and 
+institutions in the community who may 
+be affected by the decommissioning has 
+been sought and addressed, as 
+appropriate, following analysis of that 
+advice. In seeking such advice, the 
+licensee shall provide for: 
+(i) Participation by representatives of 
+a broad cross section of community 
+interests who may be affected by the 
+decommissioning; 
+(ii) An opportunity for a 
+comprehensive, collective discussion on 
+the issues by the participants 
+represented; and 
+(iii) A publicly available summary of 
+the results of all such discussions, 
+including a description of the 
+individual viewpoints of the 
+participants on the issues and the extent 
+of agreement and disagreement on the 
+issues; and 
+* * * * * 
+■ 19. In § 20.1405, revise paragraph (b) 
+to read as follows: 
+§ 20.1405 Public notification and public 
+participation. 
+* * * * * 
+(b) Publish a notice in the Federal 
+Register and in a forum, such as local 
+newspapers, letters to State or local 
+organizations, or other appropriate 
+forum, that is readily accessible to 
+individuals in the vicinity of the site, 
+and solicit comments from affected 
+parties. 
+■ 20. In § 20.1502, revise introductory 
+text and paragraphs (a)(4) and (b)(1) to 
+read as follows: 
+§ 20.1502 Conditions requiring individual 
+monitoring of external and internal 
+occupational dose. 
+Each licensee shall monitor exposures 
+to radiation and radioactive material at 
+levels sufficient to demonstrate 
+compliance with the occupational dose 
+limits of this part. 
+(a) * * * 
+(4) Individuals entering a high or very 
+high radiation area. These individuals 
+shall be monitored for external 
+occupational dose, unless any of the 
+conditions of § 20.1502(b) apply, in 
+which case they shall be monitored for 
+both external and internal occupational 
+dose. 
+(b) * * * 
+(1) Adults likely to receive, in 1 year, 
+an intake in excess of 10 percent of the 
+applicable ALI(s) in table 1, columns 1 
+and 2, of appendix B to §§ 20.1001– 
+20.2402 or as developed using 
+alternative dosimetry methods pursuant 
+to § 20.1010; 
+* * * * * 
+§ 20.1601 [Amended] 
+■ 21. In § 20.1601(f), remove the text 
+‘‘ALARA’’. 
+■ 22. Revise and republish § 20.1702 to 
+read as follows: 
+§ 20.1702 Use of other controls. 
+(a) When it is not practical to apply 
+process or other engineering controls to 
+control the concentrations of radioactive 
+material in the air to values below those 
+that define an airborne radioactivity 
+area, the licensee shall increase 
+monitoring and limit intakes by one or 
+more of the following means— 
+(1) Control of access; 
+(2) Limitation of exposure times; 
+(3) Use of respiratory protection 
+equipment; or 
+(4) Other controls. 
+(b) If the licensee performs an analysis 
+to determine whether or not respirators 
+should be used, the licensee may 
+consider safety factors other than 
+radiological factors. The licensee should 
+also consider the impact of respirator 
+use on workers’ industrial health and 
+safety. 
+■ 23. In § 20.1703, revise paragraph (b) 
+to read as follows: 
+§ 20.1703 Use of individual respiratory 
+protection equipment. 
+* * * * * 
+(b) If the licensee wishes to use 
+equipment that has not been tested or 
+certified by NIOSH, or for which there 
+is no schedule for testing or 
+certification, the licensee shall submit 
+an application to the NRC for authorized 
+use of this equipment except as 
+provided in this part. The application 
+must include evidence that the material 
+and performance characteristics of the 
+equipment are capable of providing the 
+proposed degree of protection under 
+anticipated conditions of use. This must 
+be demonstrated either by licensee 
+testing or on the basis of reliable test 
+information. The use of equipment that 
+has not been tested or certified by 
+NIOSH, but has previously been 
+approved for use by the NRC, does not 
+require an application and its approval 
+as described in this paragraph, provided 
+that the licensee maintains an 
+evaluation to demonstrate that the bases 
+for the previous NRC approval—as 
+documented in the applicable safety 
+evaluation—are applicable to the 
+licensee’s facility. 
+* * * * * 
+§ 20.1704 [Amended] 
+■ 24. In § 20.1704(a), remove the text 
+‘‘ALARA’’ and add in its place, ‘‘within 
+the requirements of this part’’. 
+■ 25. In § 20.1705, add paragraph (c) to 
+read as follows: 
+§ 20.1705 Application for use of higher 
+assigned protection factors. 
+* * * * * 
+(c) The use of higher assigned 
+protection factors that have previously 
+been approved for use by the 
+Commission does not require an 
+application and its approval as 
+described in this section, provided that 
+the licensee maintains an evaluation to 
+demonstrate that the bases for the 
+previous Commission approval—as 
+documented in the applicable safety 
+evaluation—are applicable to the 
+licensee’s facility. 
+■ 26. In § 20.1905, revise paragraph (b) 
+to read as follows: 
+§ 20.1905 Exemptions to labeling 
+requirements. 
+* * * * * 
+(b) Containers holding licensed 
+material in concentrations less than 
+those specified in table 3 of appendix B 
+to part 20 or concentrations derived 
+using alternative dosimetry methods 
+pursuant to § 20.1010; or 
+* * * * * 
+VerDate Sep<11>2014 16:30 Jul 14, 2026 Jkt 268001 PO 00000 Frm 00042 Fmt 4701 Sfmt 4702 E:\FR\FM\15JYP2.SGM 15JYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 15 ---
+43497 Federal Register / Vol. 91, No. 134 / Wednesday, July 15, 2026 / Proposed Rules 
+§ 20.2002 [Amended] 
+■ 27. In § 20.2002(d), remove the text 
+‘‘ALARA and’’. 
+■ 28. In § 20.2003, revise paragraphs 
+(a)(2) and (a)(3)(i) to read as follows: 
+§ 20.2003 Disposal by release into sanitary 
+sewerage. 
+(a) * * * 
+(1) * * * 
+(2) The quantity of licensed or other 
+radioactive material that the licensee 
+releases into the sewer in 1 month 
+divided by the average monthly volume 
+of water released into the sewer by the 
+licensee does not exceed the 
+concentration listed in table 3 of 
+appendix B to part 20 or concentrations 
+derived using alternative dosimetry 
+methods pursuant to § 20.1010; and 
+(3) * * * 
+(i) The licensee shall determine the 
+fraction of the limiting concentration in 
+table 3 of appendix B to part 20, or the 
+limiting concentrations derived using 
+alternative dosimetry methods pursuant 
+to § 20.1010, represented by discharges 
+into sanitary sewerage by dividing the 
+actual monthly average concentration of 
+each radionuclide released by the 
+licensee into the sewer by the applicable 
+limiting concentration; and 
+* * * * * 
+§ 20.2004 [Amended] 
+■ 29. In § 20.2004, remove from the first 
+sentence in paragraph (b)(1) the text 
+‘‘the requirements of appendix I to part 
+50 of this chapter and’’. 
+§ 20.2101 [Amended] 
+■ 30. In § 20.2101, remove from 
+paragraph (c) the text ‘‘Not 
+withstanding’’ and replace with 
+‘‘Notwithstanding’’. 
+■ 31. In § 20.2104, revise paragraphs (b) 
+and (e)(2) to read as follows: 
+§ 20.2104 Determination of prior 
+occupational dose. 
+* * * * * 
+(b) Prior to permitting an individual 
+to participate in a planned occupational 
+dose limit extension or a planned 
+special exposure, the licensee shall 
+determine— 
+(1) For a planned occupational dose 
+limit extension— 
+(i) Prior occupational doses during the 
+current year and the preceding four 
+years that correspond to the applicable 
+limits in § 20.1205(d) for each 
+individual involved. 
+(2) For a planned special exposure— 
+(i) The internal and external doses 
+from all previous planned special 
+exposures; and 
+(ii) All doses in excess of the limits 
+(including doses received during 
+accidents and emergencies) received 
+during the lifetime of the individual. 
+* * * * * 
+(e) * * * 
+(2) That the individual is not available 
+for planned occupational dose limit 
+extensions, if records for the current 
+year and the preceding four years are 
+not complete, and planned special 
+exposures. 
+* * * * * 
+■ 32. In § 20.2105: 
+■ a. Revise the section heading and 
+paragraphs (a)(5) and (6); 
+■ b. Redesignate paragraph (b) as 
+paragraph (c); and 
+■ c. Add a new paragraph (b). 
+The revisions and addition read as 
+follows: 
+§ 20.2105 Records of planned 
+occupational dose limit extensions and 
+planned special exposures. 
+(a) * * * 
+(1) * * * 
+(5) How doses were managed; and 
+(6) The doses received by individuals 
+involved in the planned special 
+exposure. 
+(b) For each use of the provisions of 
+§ 20.1205 for planned occupational dose 
+limit extensions, the licensee shall 
+maintain records that describe the 
+circumstances requiring the extension of 
+occupational dose limits, how doses 
+were managed, and the doses received 
+by individuals involved in the planned 
+occupational dose limit extension. 
+■ 33. In § 20.2106, revise paragraph (a) 
+introductory text and paragraphs (a)(5) 
+through (7) to read as follows: 
+§ 20.2106 Records of individual monitoring 
+results. 
+(a) Recordkeeping requirement. Each 
+licensee shall maintain records of doses 
+received by individuals for whom 
+monitoring was required pursuant to 
+§ 20.1502 and records of doses received 
+during planned occupational dose limit 
+extensions, planned special exposures, 
+accidents, and emergency conditions. 
+These records [5] must include, when 
+applicable— 
+(1) * * * 
+(5) The total effective dose equivalent 
+when required by § 20.1202; 
+(6) The total of the deep-dose 
+equivalent and the committed dose to 
+the organ receiving the highest total 
+dose; and 
+(7) In cases where monitoring was 
+required pursuant to § 20.1502, but the 
+dose received did not exceed 10 percent 
+of the applicable monitoring criteria, the 
+licensee may, instead of recording the 
+numerical value of the dose received, 
+annotate that an occupational dose was 
+received but did not exceed the criteria 
+for recording. 
+* * * * * 
+[5] Assessments of dose equivalent and 
+records made using units in effect before the 
+licensee’s adoption of this part need not be 
+changed. 
+■ 34. In § 20.2107, add paragraphs (c) 
+and (d) to read as follows: 
+§ 20.2107 Records of dose to individual 
+members of the public. 
+* * * * * 
+(c) The licensee shall retain a record 
+of the justification for the dose received 
+by a caregiver as described in 
+§ 20.1301(c)(1)(ii). 
+(d) The licensee shall retain the 
+records required by paragraph (c) of this 
+section for 3 years after the final date of 
+the allowed exposure. 
+■ 35. In § 20.2202, revise paragraph (e) 
+to read as follows: 
+§ 20.2202 Notification of incidents. 
+* * * * * 
+(e) The provisions of this section do 
+not include doses that result from 
+planned occupational dose limit 
+extensions or from planned special 
+exposures that are within the limits for 
+planned special exposures, and that are 
+reported under § 20.2204. 
+■ 36. In § 20.2203: 
+■ a. revise and republish paragraph 
+(a)(2) and 
+■ b. remove the text ‘‘ALARA’’ from 
+paragraph (b)(iv). 
+The revision reads as follows: 
+§ 20.2203 Reports of exposures, radiation 
+levels, and concentrations of radioactive 
+material exceeding the constraints or limits. 
+(a) * * * 
+(1) * * * 
+(2) Doses in excess of any of the 
+following: 
+(i) The occupational dose limits for 
+adults in § 20.1201 unless they are 
+exceeded pursuant to § 20.1205 or 
+§ 20.1206; except that reporting of 
+unplanned exceedances of the limit in 
+20.1201(a)(1)(i) is required only if the 
+total effective dose equivalent for the 
+current year and the preceding four 
+years exceeds 25 rem; or 
+(ii) The occupational dose limits for a 
+minor in § 20.1207; or 
+(iii) The limits for an embryo/fetus of 
+a declared pregnant woman in 
+§ 20.1208; or 
+(iv) The limits for an individual 
+member of the public in § 20.1301, 
+except that reporting of exceedances of 
+the limit in § 20.1301(a) is required only 
+if the total dose to a single individual 
+for the current year and the preceding 
+four years exceeds 500 mrem; or 
+(v) Any applicable limit in the 
+license; or 
+VerDate Sep<11>2014 16:30 Jul 14, 2026 Jkt 268001 PO 00000 Frm 00043 Fmt 4701 Sfmt 4702 E:\FR\FM\15JYP2.SGM 15JYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 16 ---
+43498 Federal Register / Vol. 91, No. 134 / Wednesday, July 15, 2026 / Proposed Rules 
+(vi) The constraints for air emissions 
+established under § 20.1101(d); or 
+(vii) The applicable dose limit for a 
+planned occupational dose limit 
+extension in § 20.1205(c); or 
+(viii) The applicable dose limit for a 
+planned special exposure in 
+§ 20.1206(e); or 
+* * * * * 
+■ 37. In appendix G to 10 CFR part 20: 
+■ a. Revise and republish the 
+introductory paragraphs to Section I; 
+add a definition for ‘‘Carrier’’; remove 
+the definition for ‘‘Computer readable 
+medium’’; and revise the definitions for 
+‘‘EPA identification number’’, ‘‘High 
+integrity container’’, ‘‘NRC Forms 540, 
+540A, 541, 541A, 542, and 542A’’, 
+‘‘Shipping paper’’, and ‘‘Uniform Low- 
+Level Radioactive Waste Manifest or 
+uniform manifest’’; 
+■ b. Revise paragraph III.A.6, paragraph 
+III.B.4, paragraph III.C.7, and paragraph 
+III.D.2.; and 
+■ c. Amend paragraph III.E.1. to remove 
+the text ‘‘or receipt’’ and add, in its 
+place, ‘‘of receipt’’. 
+The revisions read as follows: 
+Appendix G to Part 20—Requirements 
+for Transfers of Low-Level Radioactive 
+Waste Intended for Disposal at 
+Licensed Land Disposal Facilities and 
+Manifests 
+I. Manifest 
+A waste generator, collector, or processor 
+who transports, or offers for transportation, 
+low-level radioactive waste intended for 
+ultimate disposal at a licensed low-level 
+radioactive waste land disposal facility must 
+prepare a Manifest (OMB Control Numbers 
+3150–0164,-0165, and-0166) reflecting 
+information requested on applicable NRC 
+Forms 540 (Uniform Low-Level Radioactive 
+Waste Manifest (Shipping Paper)) and 541 
+(Uniform Low-Level Radioactive Waste 
+Manifest (Container and Waste Description)) 
+and, if necessary, on an applicable NRC Form 
+542 (Uniform Low-Level Radioactive Waste 
+Manifest (Manifest Index and Regional 
+Compact Tabulation)). The Manifest does not 
+need to use these NRC Forms themselves as 
+long as the Manifest reflects the information 
+requested on the applicable NRC Forms. 
+References to NRC Forms 540, 540A, 541, 
+541A, 542, and 542A in this appendix refer 
+to either the NRC Form(s) or any other 
+document(s) reflecting the information 
+requested on the NRC Form(s) (e.g., licensee- 
+generated versions of the NRC Forms). 
+Upon agreement between shipper and 
+consignee, NRC Forms 540 and 540A, 541 
+and 541A, and 542 and 542A may be 
+completed, signed, transmitted, and stored in 
+electronic media with the capability for 
+producing legible, accurate, and complete 
+records on the respective forms. NRC Forms 
+540 and 540A must be transmitted to the 
+carrier in accordance with regulations of the 
+Department of Transportation (DOT). 
+Licensees are not required by NRC to 
+comply with the manifesting requirements of 
+this part when they ship: 
+(a) LLW for processing and expect its 
+return (i.e., for storage under their license) 
+prior to disposal at a licensed land disposal 
+facility; 
+(b) LLW that is being returned to the 
+licensee who is the ‘‘waste generator’’ or 
+‘‘generator,’’ as defined in this part; or 
+(c) Radioactively contaminated material to 
+a ‘‘waste processor’’ that becomes the 
+processor’s ‘‘residual waste.’’ 
+For guidance in completing these forms, 
+refer to the instructions that accompany the 
+forms. Copies of manifests required by this 
+appendix may be legible carbon copies, 
+photocopies, computer printouts, or 
+electronic copies that reproduce the data of 
+the uniform manifest. 
+NRC Forms 540, 540A, 541, 541A, 542 and 
+542A, and the accompanying instructions, in 
+hard copy, may be obtained by writing or 
+calling the Office of the Chief Information 
+Officer, U.S. Nuclear Regulatory 
+Commission, Washington, DC 20555–0001, 
+telephone (301) 415–5877, or by visiting the 
+NRC’s website at http://www.nrc.gov and 
+selecting forms from the index found on the 
+home page. 
+This appendix includes information 
+requirements of the DOT, as codified in 49 
+CFR parts 172, 174, 175, 176, and 177. 
+Information on hazardous, medical, or other 
+waste, required to meet Environmental 
+Protection Agency (EPA) regulations, as 
+codified in 40 CFR parts 259, 261, or 
+elsewhere, is not addressed in this section. 
+However, any forms required by the EPA 
+must accompany the Uniform Low-Level 
+Radioactive Waste Manifest required by this 
+chapter. 
+As used in this appendix, the following 
+definitions apply: 
+Carrier means a person who transports 
+passengers or property in commerce by rail 
+car, aircraft, motor vehicle, or vessel. 
+* * * * * 
+EPA identification number means the 
+number received by a carrier following 
+application to the Administrator of EPA as 
+required by 40 CFR part 263. 
+* * * * * 
+High integrity container (HIC) means a 
+container commonly designed to meet the 
+structural stability requirements of § 61.56 of 
+this chapter, and to meet DOT requirements 
+for a Type A package. 
+* * * * * 
+NRC Forms 540, 540A, 541, 541A, 542, and 
+542A mean either the NRC Form(s) or any 
+other document(s) reflecting the information 
+requested on the NRC Form(s) (e.g., licensee- 
+generated or Agreement State-generated 
+versions of the NRC Forms). 
+* * * * * 
+Shipping paper means NRC Form 540 and, 
+if required, NRC Form 540A which includes 
+the information required by DOT regulations. 
+* * * * * 
+Uniform Low-Level Radioactive Waste 
+Manifest or uniform manifest means the 
+combination of NRC Forms 540, 541, and, if 
+necessary, 542, and their respective 
+continuation sheets as needed. 
+* * * * * 
+III. Control and Tracking 
+A. * * * 
+6. If required by regulations of the DOT, 
+physically include NRC Form 540 (and NRC 
+Form 540A, if required) with the shipment 
+regardless of the option chosen in paragraph 
+A.5 of this section; 
+* * * * * 
+B. * * * 
+4. If required by regulations of the DOT, 
+physically include NRC Form 540 (and NRC 
+Form 540A, if required) with the shipment 
+regardless of the option chosen in paragraph 
+B.3 of this section; 
+* * * * * 
+C. * * * 
+7. If required by regulations of the DOT, 
+physically include NRC Form 540 (and NRC 
+Form 540A, if required) with the shipment 
+regardless of the option chosen in paragraph 
+C.6 of this section; 
+* * * * * 
+D. * * * 
+2. Maintain copies of or electronically store 
+all completed manifests and electronically 
+store the information required by 10 CFR 
+61.80(l) until the Commission terminates the 
+license; and 
+* * * * * 
+■ 38. Add new appendix H to part 20 to 
+read as follows: 
+Appendix H to Part 20—Alternative 
+Dosimetry Methods Acceptable for Use 
+To Demonstrate Compliance With 
+NRC’s Standards for Protection Against 
+Radiation 
+(a) Material incorporated by reference. The 
+material listed in this appendix for 
+developing alternative dosimetry methods is 
+incorporated by reference into § 20.1010 with 
+the approval of the Director of the Office of 
+the Federal Register under 5 U.S.C. 552(a) 1 
+CFR part 51. All approved material is 
+available for inspection at the Nuclear 
+Regulatory Commission (NRC) and at the 
+National Archives Records Administration 
+(NARA). Contact the NRC at NRC Technical 
+Library, Two White Flint North, 11545 
+Rockville Pike, Rockville, Maryland 20852; 
+telephone: 301–415–7000; email: 
+Library.Resource@nrc.gov. For information 
+on the availability of this material at NARA, 
+visit https://www.archives.gov/federal- 
+register/cfr/ibr-locations.html or email 
+fr.inspection@nara.gov. The material may 
+also be obtained from the following sources: 
+(1) American National Standards Institute/ 
+American Nuclear Society (ANSI/ANS), 
+ATTN Standards, 555 N Kensington Avenue, 
+La Grange Park, IL 60526; https://
+webstore.ansi.org/. 
+(i) ANSI/ANS–6.1.1–2020, ‘‘Photon and 
+Neutron Fluence-to-Dose Conversion 
+Coefficients.’’ IBR approved for § 20.1010(a). 
+(ii) Reserved 
+(2) International Commission on 
+Radiological Protection (ICRP), 350 Albert 
+Street Suite 410, Ottawa, Ontario, K1R 1A4, 
+Canada; https://www.icrp.org/index.asp. 
+VerDate Sep<11>2014 16:30 Jul 14, 2026 Jkt 268001 PO 00000 Frm 00044 Fmt 4701 Sfmt 4702 E:\FR\FM\15JYP2.SGM 15JYP2khammond on DSK9W7S144PROD with PROPOSALS2

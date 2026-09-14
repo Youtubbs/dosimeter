@@ -1,0 +1,3069 @@
+
+--- page 1 ---
+28924 Federal Register / Vol. 91, No. 95 / Monday, May 18, 2026 / Proposed Rules 
+Part 32 Expanding Distribution 
+Pathways for Microsources 
+The NRC regulates the distribution of 
+byproduct material for medical use 
+under 10 CFR part 32. Specifically, 
+§ 32.72 governs the commercial 
+distribution of radioactive drugs, while 
+§ 32.74 governs the distribution of 
+sources and devices containing 
+byproduct material. However, recent 
+developments in clinical practice have 
+highlighted the need to allow both 
+distribution pathways to be available to 
+microsources, which include 
+radioactive microspheres used for 
+intravascular brachytherapy. The 
+proposed amendments to 10 CFR part 
+32 in this rulemaking would allow 
+additional authorizations for the 
+preparation and distribution of 
+radioactive microspheres. 
+Microspheres are regulated by the 
+FDA as medical devices and they are 
+not considered radioactive drugs. As 
+such, manufacturing, preparation and 
+transfer of microsources is not 
+addressed under § 32.72 and must be 
+authorized under § 32.74, even though 
+the radiation safety considerations 
+between microsources and radioactive 
+drugs are similar. This requirement has 
+become a burden following the 
+implementation of United States 
+Pharmacopeia (USP) General Chapter 
+<825>, which included standards for 
+the preparation, compounding, 
+dispensing, and repackaging for 
+radioactive microspheres similar to 
+radiopharmaceuticals. 
+The USP sets quality, purity, strength, 
+and identity standards for medicines, 
+food ingredients, and dietary 
+supplements used in the United States. 
+USP standards are enforceable by the 
+FDA and State Boards of Pharmacy. As 
+such, USP standards are widely adopted 
+in healthcare and pharmaceutical 
+practice. USP <825> requires that sterile 
+radioactive microspheres be prepared in 
+International Organization of 
+Standardization (ISO) Class 5 
+environments if they are to be used 
+more than one hour after puncture. To 
+comply with these requirements and 
+accommodate patient-specific treatment 
+schedules, medical use licensees have 
+increasingly relied on commercial 
+radiopharmacies to prepare and 
+distribute patient-ready doses of 
+microspheres. As radiopharmacies 
+historically focused their activities on 
+radioactive drugs, they are licensed 
+under § 32.72. However, the current 
+regulatory framework does not authorize 
+commercial radiopharmacies for 
+preparing and distributing microspheres 
+under § 32.72. 
+The proposed rule would revise 
+§ 32.72 to include microsources within 
+its scope, which would allow 
+commercial radiopharmacies that are 
+licensed under this provision to prepare 
+and distribute microspheres. In 
+addition, the proposed rule would 
+expand those who can use the § 32.72 
+pathway to any applicant who is legally 
+authorized, under applicable Federal or 
+State law, to manufacture, compound, 
+prepare, or distribute radioactive drugs 
+or medical devices to allow flexibility 
+for future pathways allowed by states or 
+the FDA to distribute radioactive drugs 
+and medical devices safely. 
+The NRC is also proposing to revise 
+§ 32.74 to provide provisions specific to 
+microsources, including microspheres. 
+The revised language ensures clarity 
+that licensees can use either § 32.72 or 
+§ 32.74 to distribute microsources. The 
+amendments to § 32.74 also clarify that 
+the regulation allows distribution to any 
+licensee authorized to use the source or 
+device under 10 CFR part 35 and does 
+not limit distribution to specific types of 
+medical facilities listed under specific 
+subparts to avoid unnecessary 
+limitations. A conforming change to 
+§ 30.32 would be made based on the 
+changes in the structure of § 32.72. 
+These changes are intended to reduce 
+regulatory burden and improve clarity 
+for regulators and, radiopharmacy 
+licensees, medical device manufacturing 
+licensees, and medical licensees. By 
+allowing both §§ 32.72 and 32.74 to 
+serve as licensing pathways for the 
+distribution of microsources, the NRC is 
+allowing licensees to select the most 
+appropriate regulatory framework based 
+on their business model and operational 
+needs. This flexibility supports 
+compliance with USP <825>, enables 
+timely access to microspheres for 
+patient care, and maintains public 
+health and safety. 
+Part 34 Reducing Anti-Competitive 
+Barriers and Administrative 
+Requirements for Industrial 
+Radiography 
+The NRC’s regulations in 10 CFR part 
+34 establish the specific requirements 
+for industrial radiography. The 
+proposed changes to 10 CFR part 34 in 
+this rulemaking aim to provide greater 
+flexibly in the use of codes and 
+standards, clarify the two-person rule; 
+and update prescriptive administrative 
+requirements to allow for a more 
+performance-based approach, while 
+continuing to ensure the protection of 
+public health and safety. 
+Current NRC regulations in 
+§ 34.20(a)(1) require that radiographic 
+equipment meet the standards in ANSI 
+N432–1980, ‘‘Radiological Safety for the 
+Design and Construction of Apparatus 
+for Gamma Radiography.’’ ANSI N432 
+was incorporated into NRC regulations 
+on January 10, 1990 (55 FR 843) because 
+manufacturers of radiography 
+equipment were not all consistently 
+using ANSI N432, nor were they 
+uniformly or fully implementing the 
+performance criteria intended to 
+improve radiation safety for workers. 
+However, ANSI N432 has been 
+superseded by ANSI N43.9–1991, ‘‘For 
+Gamma Radiography—Specifications for 
+Design and Testing of Apparatus.’’ 
+Additionally, other applicable industry 
+standards have also been developed. 
+Pursuant to the SSDR program in 
+§ 32.210, radiographic exposure devices, 
+source assemblies, and sealed sources 
+are evaluated using accepted industry 
+standards to provide reasonable 
+assurance that the radiation safety 
+properties of the source or device are 
+adequate to protect health and minimize 
+danger to life and property. The NRC is 
+removing requirements that incorporate 
+specific standards to stay current with 
+the industry as these standards may 
+become obsolete or superseded. The 
+proposed rule would remove the 
+prescriptive and outdated reference to 
+ANSI N432–1980 and instead require 
+that radiography devices, source 
+assemblies, and sealed sources be 
+evaluated and registered in the SSDR. 
+Additionally, since § 34.20 also 
+discusses associated equipment that is 
+not evaluated under the SSDR, the 
+proposed rule would also require that 
+this equipment meets the 
+manufacturers’ specifications and 
+instructions. Manufacturer 
+specifications include design elements 
+and criteria necessary for the safe 
+function of the associated equipment. 
+This change will conform § 34.20 with 
+§ 32.210 while continuing to ensure that 
+radiography licensees use and maintain 
+the radiography device, sealed source, 
+and associated equipment in accordance 
+with the industry standards and 
+manufacturer requirements it was 
+designed to meet. The removal of the 
+incorporation by reference of an 
+industry standard will also prevent this 
+requirement from becoming superseded 
+and needing to be revised in the future. 
+Further § 34.20(a)(2) will remain to 
+provide a pathway for licensees to use 
+alternative standards on a case-by-case 
+basis. Finally, NRC is proposing a 
+conforming change to § 34.3 to define 
+SSDR for 10 CFR part 34. These changes 
+will ensure that radiation safety is 
+maintained while reducing anti- 
+competitive regulatory barriers and 
+allowing for innovation in the design of 
+radiography equipment. 
+VerDate Sep<11>2014 00:55 May 16, 2026 Jkt 268001 PO 00000 Frm 00010 Fmt 4701 Sfmt 4702 E:\FR\FM\18MYP2.SGM 18MYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 2 ---
+28925 Federal Register / Vol. 91, No. 95 / Monday, May 18, 2026 / Proposed Rules 
+On May 28, 1997, the NRC issued 
+§ 34.41(a) ‘‘Licenses for Industrial 
+Radiography and Radiation Safety 
+Requirements for Industrial 
+Radiographic Operations,’’ commonly 
+called ‘‘the two-person rule,’’ which 
+requires a second qualified individual 
+(radiographer or radiographer’s 
+assistant) to be present during industrial 
+radiography operations at temporary 
+jobsites (TJS) (62 FR 28948). The 
+purpose of the second individual is to 
+provide immediate assistance when 
+required and to prevent unauthorized 
+entry into the restricted area. 
+Prior to 2021, the NRC had 
+consistently interpreted § 34.41(a) to 
+require both the radiographer and the 
+second qualified individual to maintain 
+direct observation when radiographic 
+operations are being conducted at a TJS. 
+Through operating experience, this 
+interpretation was found to be 
+unnecessary to protect public health 
+and safety, and on June 1, 2021, the 
+NRC reinterpreted the requirement (86 
+FR 29173). 
+Since 2021, NRC has interpreted 
+§ 34.41(a) such that the requirements 
+contained in the sentence, ‘‘[t]he 
+additional qualified individual shall 
+observe the operation and be capable of 
+providing immediate assistance to 
+prevent unauthorized entry’’ are met if 
+the second qualified individual is in 
+sufficiently close proximity to the 
+operation and sufficiently aware of the 
+ongoing activities to be able to provide 
+assistance or take charge when 
+necessary and to prevent unauthorized 
+entry. The second individual may 
+perform other tasks nearby so long as 
+they are cognizant of the site-specific 
+circumstances when radiographic 
+operations are in progress. In 2021, the 
+NRC also determined that this 
+interpretation makes § 34.41(a) 
+consistent with the requirement in 
+§ 34.51 that at least one of the two 
+individuals present at a TJS must 
+‘‘maintain direct observation of the 
+operation,’’ the NRC discontinued 
+planned rulemaking after determining 
+that the reinterpretation resolved the 
+issues raised in PRM–34–6 which 
+requested that 10 CFR part 34 clarify 
+requirements related to the 
+responsibilities of the second individual 
+required to be present during 
+radiographic operations. 
+The proposed rule would combine the 
+requirements in § 34.51 into § 34.41(a) 
+to create a single, concise requirement 
+regarding the availability and 
+surveillance responsibilities of the 
+qualified individuals performing 
+industrial radiography at TJSs. This 
+change seeks to eliminate ambiguity, 
+allowing for technological innovation in 
+the implementation of the requirement, 
+all while maintaining the integrity of the 
+performance requirements. Combining 
+§ 34.41 and § 34.51 into a single 
+simplified requirement enhances 
+regulatory clarity by plainly aligning the 
+requirement with the reinterpretation 
+from 2021. 
+Part 34 of 10 CFR currently contains 
+obsolete and overly prescriptive 
+administrative requirements dating from 
+its last significant revision in 1997 (62 
+FR 28948). Many of these requirements 
+are not consistent with the NRC’s 
+modern and performance-based 
+approach to oversight. For example, the 
+operational history of § 34.101(c), which 
+requires notification when work 
+activities at a TJS exceed 180 days, is 
+unnecessary because the information is 
+collected during routine inspections and 
+does not provide value to the NRC’s 
+performance based oversight program. 
+The proposed rule would also reduce 
+administrative burden on licensees by 
+reducing the record keeping 
+requirements in § 34.89(b) to remove 
+duplicative records and by eliminating 
+the notification requirement in 
+§ 34.101(c) which required licensees to 
+notify the appropriate NRC Regional 
+Office prior to exceeding 180 days at a 
+TJS in a calendar year. The notification 
+requirement can be eliminated because 
+it can be reviewed through the routine 
+inspection program. 
+The proposed rule would align leak 
+testing requirements in § 34.27(c) with 
+the SSDR. The sealed source leak testing 
+frequency in the SSDR is based on the 
+specifications of the sealed source 
+specific to the design of the device for 
+which it is used. This proposed change 
+could reduce administrative burden on 
+radiography licensees while ensuring 
+that radiation safety is maintained and 
+the leak testing frequency used is 
+specific to the source model. 
+The proposed changes would further 
+streamline 10 CFR part 34 by removing 
+the obsolete legacy requirements related 
+to previous rules that are no longer 
+applicable and that were put in place to 
+allow legacy incorporation for certain 
+requirements in §§ 34.13(b)(2), 34.27(e), 
+34.41(d), 34.43(a)(2),(h), and (i). 
+The proposed revisions to 10 CFR part 
+34 would affect industrial radiographic 
+license holders. The changes would 
+reduce the administrative burden on 
+license holders and the changes to 
+streamline and clarify which would 
+enable greater comprehension of the 
+rule and increased compliance. 
+Additionally, the changes to § 34.20 
+would allow greater flexibility to 
+industrial radiography equipment 
+manufacturers by removing the overly 
+prescriptive performance design criteria 
+that the equipment must currently meet. 
+Part 39 Modernizing Well Logging 
+Regulations 
+The NRC is proposing to streamline 
+10 CFR part 39 to by amending 
+requirements related to instrument 
+calibration intervals (§ 39.33(c)(1)), 
+leakage testing for each sealed source 
+(§ 39.35(c)(1)) and certain notification 
+requirements. 
+Current NRC regulations in 
+§ 39.33(c)(1) require that the licensee 
+shall have each radiation survey 
+instrument calibrated at intervals not to 
+exceed 6 months and after instrument 
+servicing. The proposed rule would 
+extend this frequency from 6 months to 
+12 months to be consistent with other 
+regulations regarding the calibration of 
+survey instruments found in 10 CFR 
+parts 35 and 36. It is necessary that well 
+logging licensees use equipment that 
+has been calibrated to ensure accuracy 
+of radiation emitted and associated 
+radiation detection practices, however, 
+this should be consistent with other 
+regulations. This would ensure that 
+radiation safety is maintained while 
+decreasing administrative and financial 
+burden on the licensee. 
+The NRC regulations in § 39.35(c)(1) 
+require that each sealed source (except 
+an energy compensation source (ECS)) 
+must be tested for leakage at intervals 
+not to exceed six months. However, 
+other parts of this chapter allow for leak 
+tests to be conducted at frequency 
+outlined in the SSDR, which may list 
+periods longer than six months. The 
+proposed rule would align the leak 
+testing provisions in other parts of NRC 
+regulations and would be consistent 
+with the intervals approved by the NRC 
+or an Agreement State on the SSDR. It 
+is necessary that well logging licensees 
+ensure sealed sources are not leaking; 
+however, this should be consistent with 
+the source design specifications of the 
+SSDR. This would ensure that radiation 
+safety is maintained, and the leak 
+testing frequency used is specific to the 
+source model while reducing 
+administrative and financial burden on 
+the licensee. 
+Current NRC regulations in 
+§ 39.77(c)(1) require that the licensee 
+shall notify the appropriate NRC 
+Regional Office by telephone of the 
+circumstances that resulted in the 
+inability to retrieve the source and 
+obtain NRC approval to implement 
+abandonment procedures. These 
+procedures are reviewed and approved 
+by the NRC during the licensing 
+process. The proposed rule would 
+reduce administrative burden on 
+applicants and licensees by eliminating 
+VerDate Sep<11>2014 00:55 May 16, 2026 Jkt 268001 PO 00000 Frm 00011 Fmt 4701 Sfmt 4702 E:\FR\FM\18MYP2.SGM 18MYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 3 ---
+28926 Federal Register / Vol. 91, No. 95 / Monday, May 18, 2026 / Proposed Rules 
+the notification requirement in 
+§ 39.77(c)(1). The notification 
+requirement can be eliminated because 
+it is not needed for the licensee to 
+implement operating and emergency 
+procedures for abandonment that have 
+already been approved by the NRC 
+during the licensing process. The NRC’s 
+approval is for the licensee to 
+implement the procedures that were 
+approved during licensing, which is 
+unnecessary, because the NRC’s 
+approval at the time of notification does 
+not change the previously approved 
+procedures. The removal of § 39.77(c)(1) 
+would eliminate the notification and 
+duplicative approval process for 
+implementing abandonment procedures. 
+Part 150 Modernizing Requirements 
+for Agreement State Licensees in Part 
+150 
+The proposed changes 10 CFR part 
+150 concern (1) regulation of special 
+nuclear material of low strategic 
+significance (SNM–LSS), and (2) 
+reciprocity, which allows the NRC to 
+recognize Agreement State licenses in 
+certain circumstances, and vice versa. 
+First, consistent with Section 274 of 
+the AEA, Agreement States may assume 
+regulatory authority over SNM in 
+quantities not sufficient to form a 
+critical mass, including SNM–LSS. 
+SNM–LSS includes gram quantities of 
+plutonium or uranium-233 or uranium- 
+235, or certain combinations of the 
+three. These materials are used in 
+research or in the manufacture of certain 
+radiation detectors. Currently, there are 
+10 Agreement State licensees that 
+possess SNM of low strategic 
+significance (SNM–LSS). While 
+otherwise Agreement State licensees, 
+the NRC reserved regulation over SNM– 
+LSS under its common defense and 
+security authority. Thus, Agreement 
+State licensees possessing SNM–LSS 
+must follow § 73.67 pursuant to 
+§ 150.14. 
+Prior to 2023, the NRC had not 
+exercised any oversight over Agreement 
+State licensees for compliance with 
+§ 73.67. On March 6, 2023, a Temporary 
+Instruction (TI) 2800/044,‘‘Assessment 
+of Physical Protection Requirements 
+under § 150.14 For Agreement State 
+Licensee Processing, Using, or 
+Transporting Special Nuclear Material 
+of Low Strategic Significance,’’ was 
+issued to evaluate, through inspection, 
+whether Agreement State licensees had 
+adequate physical protection processes 
+and procedures in place for the 
+possession, use, and transport of SNM– 
+LSS consistent with the requirements of 
+§ 73.67. The NRC inspectors identified, 
+through TI 2800/044 inspections, that 
+Agreement State licensees in possession 
+of SNM–LSS store the material in secure 
+areas where other radioactive materials 
+are stored. Considering the low safety 
+and security significance of SNM–LSS 
+and the results of TI 2800/044 
+inspections, the NRC determined that 
+security requirements in § 20.1801 
+‘‘Security of stored material’’ and 
+§ 20.1802 ‘‘Control of material not in 
+storage’’ are adequate to secure SNM– 
+LSS. 
+The current regulatory approach for 
+SNM–LSS Agreement State licensees 
+means that these licensees are subject to 
+oversight by both the NRC and their 
+Agreement State regulator (NRC 
+currently oversees physical protection 
+of SNM–LSS and the Agreement State 
+oversees control of radiation hazards 
+associated with the SNM to ensure 
+adequate protection of public health and 
+safety). In addition, the NRC does not 
+have a pathway to recover inspection 
+costs from these Agreement State 
+licensees and the additional cost for 
+these inspections is shouldered by NRC 
+licensees. 
+The proposed rule would delete 
+§ 150.14, which requires Agreement 
+State licensees that possess SNM–LSS to 
+meet the physical protection 
+requirements in § 73.67. The deletion of 
+§ 150.14 would affect Agreement State 
+licensees possessing SNM–LSS by 
+removing the requirement to implement 
+the physical protection requirements in 
+§ 73.67. Under this change, the NRC 
+would no longer have oversight of 
+SNM–LSS in Agreement States and the 
+Agreement States would continue to 
+maintain oversight of the security of this 
+material under their current programs 
+based on security requirements found in 
+10 CFR part 20. There would also be a 
+minimal resource savings for the NRC 
+by no longer having regulatory oversight 
+of this requirement. 
+The proposed rule also addresses 
+reciprocity, which is the NRC’s 
+recognition of Agreement State licenses 
+for work performed in areas of NRC 
+jurisdiction, without the licensee having 
+to obtain a specific license from the 
+NRC. Under reciprocity, the NRC grants 
+a GL to Agreement State licensees for 
+work in NRC jurisdiction for periods not 
+exceeding 180 days in a calendar year 
+(except for activities performed in 
+offshore waters which does not have a 
+time period limit). The provisions in 
+§ 150.20 require a specific license from 
+an Agreement State as the basis for the 
+GL to be granted. Areas of NRC 
+jurisdiction include non-Agreement 
+States, areas of exclusive Federal 
+jurisdiction, and offshore waters. The 
+term reciprocity is also used in 
+Agreement States to identify Agreement 
+State recognition of an NRC license and 
+licenses from other Agreement States for 
+work performed in their jurisdiction. 
+Some types of activities conducted 
+under reciprocity include radiography, 
+portable gauge use, well logging, leak 
+testing, and calibration. 
+Activities conducted by Agreement 
+State licensees in an NRC jurisdiction 
+must meet the GL provisions of 
+§ 150.20, ‘‘Recognition of Agreement 
+State Licenses.’’ Pursuant to this 
+provision, prior to engaging in licensed 
+activities an agreement state licensee 
+must provide an NRC Form 241 ‘‘Report 
+of Proposed Activities in Non- 
+Agreement States,’’ a copy of its 
+Agreement State specific license, and 
+the appropriate fee as prescribed in 
+§ 170.31. Currently, Agreement State 
+licensees provide these materials at least 
+3 days before engaging in an activity for 
+the first time in a calendar year. 
+Additionally, Agreement State licensees 
+must file an amended NRC Form 241 to 
+request approval for changes in work 
+locations, radioactive materials, or work 
+activities different from the initial 
+request. Work performed under 
+reciprocity is limited to 180 days in any 
+calendar year, except for offshore 
+activities, which are authorized for an 
+unlimited period in the year. The NRC 
+has published guidance in NUREG– 
+1556, Volume 19, ‘‘Guidance for 
+Agreement State Licensees About NRC 
+Form 241 ‘‘Report of Proposed 
+Activities in Non-Agreement States, 
+Areas of Exclusive Federal Jurisdiction, 
+or Offshore Waters.’’ 
+Between 2020 and 2024, the NRC 
+annually processed on average 180 
+initial reciprocity filings and 1,386 
+amended reciprocity filings. Most initial 
+reciprocity requests create a significant 
+workload on NRC regional staff to 
+review and approve the requests within 
+the three-day time window. The 
+majority of, if not all, reciprocity initial 
+applications are approved. Additionally, 
+there is an administrative burden on the 
+licensee to ensure timely filing for 
+initial reciprocity and ensure that 
+amended forms are filed when required 
+(i.e., changes in work location, 
+radioactive material, or different work 
+activities). 
+The information collected on NRC 
+Form 241 provides the NRC an 
+opportunity for oversight including the 
+conduct of inspections. The NRC 
+conducts approximately 21 of these 
+inspections each year. Each year, NRC 
+staff processes hundreds of reciprocity 
+amendments related to offshore work, 
+mostly for changes in location. Due to 
+logistical challenges and expense 
+required to perform inspections 
+offshore, the NRC has not performed 
+VerDate Sep<11>2014 00:55 May 16, 2026 Jkt 268001 PO 00000 Frm 00012 Fmt 4701 Sfmt 4702 E:\FR\FM\18MYP2.SGM 18MYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 4 ---
+28927 Federal Register / Vol. 91, No. 95 / Monday, May 18, 2026 / Proposed Rules 
+any inspection of offshore work in 
+several years. 
+The NRC is proposing to revise 
+§ 150.20(b)(1) to reduce the notification 
+time for submitting an initial reciprocity 
+filling from three days before engaging 
+in an activity to the day of the activity. 
+The revision would also delete 
+§ 150.20(b)(1)(i)–(iii), which currently 
+allows for submittals with less than 
+three days for emergent reasons, as it 
+would be superfluous. The proposed 
+revisions to § 150.20(b)(1) would allow 
+licensees greater flexibility in 
+scheduling licensed activities that 
+require reciprocity with minimal impact 
+on public health and safety. This change 
+would affect Agreement State licensees 
+performing work in areas of exclusive 
+Federal jurisdiction by reducing the 
+administrative burden to file for 
+reciprocity prior to conducting work 
+activities. Specifically, for reciprocity 
+submitted less than three days prior to 
+engaging in the initial work activities, 
+Agreement State licensees would no 
+longer be required to provide additional 
+justification regarding the emergent 
+nature of the work. 
+For amended reciprocity filings 
+pursuant to § 150.20(b)(2), the proposed 
+revisions would remove the requirement 
+that Agreement State licensees engaging 
+in activities offshore amend the NRC 
+Form 241 for changes in work locations. 
+This proposed change would affect 
+Agreement State licensees working in 
+offshore waters by significantly 
+decreasing the number of amended NRC 
+Form 241s submitted. Correspondingly, 
+this change would also lessen the 
+administrative burden on NRC staff by 
+reducing the number of NRC Form 241s 
+that are required to be processed. 
+Finally, to allow SGLs from 
+Agreement States to be recognized by 
+the NRC for the purposes of reciprocity, 
+the proposed rule would revise 
+§§ 150.20(a)(1), 150.20(a)(2), 150.20(b), 
+150.20(b)(1), and 150.20(b)(5) to include 
+SGLs from Agreement States in addition 
+to specific licenses throughout the 
+requirement. These changes would 
+allow Agreement State licensees, that 
+have been granted an SGL, to work in 
+NRC jurisdiction for up to 180 days 
+without obtaining a specific license or 
+SGL from the NRC. This would ensure 
+that SGLs are not precluded from the 
+ability to use the provisions of § 150.20 
+which would ensure parity between 
+businesses conducting similar licensed 
+activities but operating under a standard 
+general licensees or specific license. 
+V. Specific Requests for Comments 
+The NRC is seeking feedback from the 
+public on the proposed rule. We are 
+particularly interested in comments and 
+supporting rationale from the public on 
+the following: 
+• The NRC is seeking comments on 
+how many persons that currently 
+possess a specific license for portable 
+gauge activities, fixed gauge activities, 
+limited medical uses, analytical 
+equipment uses, and in vitro testing 
+would transition to a SGL that is 
+described in the changes to 10 CFR part 
+31 subpart C. The NRC is also seeking 
+comments on the costs and the benefits 
+of the new SGL. Please provide a basis 
+for your response. 
+• The NRC is seeking comments on 
+possible impacts to small entities. The 
+regulations in § 2.810, ‘‘NRC size 
+standards,’’ provide specific size 
+standards to determine whether a 
+licensee qualifies as a small entity in its 
+regulatory programs. 
+• As part of the wholesale review of 
+regulations the NRC reviewed all 
+reporting and notification requirements 
+that reside within 10 CFR parts 30–39. 
+The NRC is proposing changes to some 
+of these requirements as part of this 
+rulemaking. During the review, the NRC 
+considered revising notification and 
+reporting requirements in § 30.50(b)(2) 
+to exclude the reporting for certain 
+circumstances that fixed gauge licensees 
+may encounter. This requirement 
+currently requires a 24-hour notification 
+and a 30-day written report for a variety 
+of incidents including when a fixed 
+gauge shutter is found to be inoperable 
+and stuck in the open position. During 
+the review, the NRC considered whether 
+the reporting of fixed gauges with stuck 
+shutters in the open position, when the 
+open position is the normal operating 
+mode, and the stuck position has been 
+found by the licensee to pose no 
+radiation hazard to workers, the public, 
+or the environment was necessary. The 
+NRC considered exploring whether it 
+could issue a generic communication to 
+exclude these events by reinterpreting 
+what is meant in § 30.50(b)(2)(ii) by ‘‘the 
+equipment is required to be available 
+and operable when it is disabled or fails 
+to function.’’ Alternatively, the NRC 
+considered revising § 30.50 to provide 
+the exclusion for these circumstances 
+related to fixed gauges. Ultimately, the 
+NRC determined that the impacts to the 
+wide range of circumstances that are 
+reported under § 30.50 warrants further 
+review to ensure all consequences are 
+understood. The NRC is seeking 
+comments on whether inoperable fixed 
+gauges that operate with open shutters 
+but have shutters stuck in the open 
+position, that pose no radiation hazard, 
+warrant reporting and notification to the 
+NRC. If reporting and notifications are 
+warranted, the NRC is seeking 
+comments on the appropriate timeline 
+and content of the reports and 
+notifications. Additionally, the NRC is 
+seeking comments on what criteria, 
+related to fixed gauges with stuck 
+shutters, should be included to 
+determine whether a hazard to the 
+workers, the public, or the environment 
+exists as a result of the stuck shutter. 
+Please provide a basis for your response. 
+Finally, the NRC is seeking comments 
+on all event reporting and notification 
+requirements in 10 CFR parts 30–34, 39, 
+40, and 150 related to the burden, 
+content, and required timeframe 
+associated with each report or 
+notification. Please provide a basis for 
+your response. 
+VI. Initial Regulatory Flexibility 
+Analysis 
+As required by the Regulatory 
+Flexibility Act of 1980, 5 U.S.C. 605(b), 
+the Commission certifies that this rule, 
+if adopted, would not have a significant 
+economic impact on a substantial 
+number of small entities. Therefore, in 
+accordance with section 605(b), the NRC 
+is not preparing a regulatory flexibility 
+certification analysis. This proposed 
+rule would affect a small number of 
+‘‘small entities’’ as defined by the 
+Regulatory Flexibility Act or the size 
+standards established by the NRC 
+(§ 2.810), but it would not be a 
+significant impact. 
+Any small entity subject to this 
+regulation that determines, because of 
+its size, it is likely to bear a 
+disproportionate adverse economic 
+impact should notify the Commission of 
+this opinion in a comment that 
+indicates— 
+(a) The licensee’s size and how the 
+proposed regulation would impose a 
+significant economic burden on the 
+licensee as compared to the economic 
+burden on a larger licensee; 
+(b) How the proposed regulations 
+could be modified to take into account 
+the licensee’s differing needs or 
+capabilities; 
+(c) The benefits that would accrue or 
+the detriments that would be avoided if 
+the proposed regulations were modified 
+as suggested by the licensee; 
+(d) How the proposed regulation, as 
+modified, would more closely equalize 
+the impact of NRC regulations or create 
+more equal access to the benefits of 
+Federal programs as opposed to 
+providing special advantages to any 
+individual or group; and 
+(e) How the proposed regulation, as 
+modified, would still adequately protect 
+public health and safety. 
+Comments should be submitted as 
+indicated under the ADDRESSES caption. 
+VerDate Sep<11>2014 00:55 May 16, 2026 Jkt 268001 PO 00000 Frm 00013 Fmt 4701 Sfmt 4702 E:\FR\FM\18MYP2.SGM 18MYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 5 ---
+28928 Federal Register / Vol. 91, No. 95 / Monday, May 18, 2026 / Proposed Rules 
+VII. Regulatory Analysis 
+A. Introduction 
+The NRC has prepared a draft 
+regulatory analysis on this proposed 
+rule. The analysis examines the costs 
+and benefits of the alternatives 
+considered by the NRC. The NRC has 
+preliminarily determined that the 
+proposed action in this rule is expected 
+to reduce regulatory burden and 
+generate cost savings for licensees, the 
+NRC and the Agreement States, when 
+compared to the no-action alternative. 
+The NRC requests public comment on 
+the draft regulatory analysis. Comments 
+on the draft regulatory analysis may be 
+submitted to the NRC as indicated 
+under the ADDRESSES caption of this 
+document. 
+B. Identification and Preliminary 
+Analysis of Alternative Approaches 
+The NRC identified two alternatives 
+for this action: (1) no action (i.e., 
+maintaining the status quo regulatory 
+baseline), and (2) the proposed 
+rulemaking to revise language for the 
+licensing of byproduct material. 
+The assessment of total costs and 
+benefits discussed previously leads the 
+NRC to the conclusion that the proposed 
+rule, if implemented, would result in 
+quantifiable net cost savings for 
+industry, the NRC and Agreement 
+States. In addition, the NRC concludes 
+that the rule provides nonquantified 
+benefits of regulatory clarity and 
+improved consistency in the regulatory 
+program. The proposed rule is also 
+responsive to stakeholder feedback and 
+aligns with E.O. 14300. 
+VIII. Backfitting and Issue Finality 
+The NRC has determined that this 
+proposed rule would not constitute 
+backfitting as that term is defined in the 
+NRC’s backfitting provisions in 
+§§ 50.109, 70.76, 72.62, and 76.76, all 
+titled ‘‘Backfitting,’’ or affect the issue 
+finality of an approval issued under 10 
+CFR part 52, ‘‘Licenses, Certifications, 
+and Approvals for Nuclear Power 
+Plants.’’ The proposed amendments 
+would not include any provisions that 
+would impose new or modified 
+requirements on existing licensees, 
+applicants, or certificate holders that are 
+within the scope of a backfitting or issue 
+finality provision. The proposed 
+changes would not inextricably affect 
+activities of licensees that are within the 
+scope of the backfitting or issue finality 
+provisions. Additionally, 10 CFR part 70 
+licensees within the scope of § 70.76 
+would not be impacted by this proposed 
+rule. Each of these licensees is already 
+required to submit a site-specific 
+financial assurance plan because their 
+authorized possession limits already 
+exceed the proposed table values. For 
+these reasons, the proposed rule would 
+not meet the definition of ‘‘backfitting’’ 
+under § 50.109, § 70.76, § 72.62, or 
+§ 76.76, or affect the issue finality of an 
+approval issued under 10 CFR part 52. 
+This proposed rule also includes the 
+draft guidance documents described in 
+section XIV, ‘‘Availability of Guidance,’’ 
+These documents if finalized, would not 
+constitute backfitting as defined in 
+§ 50.109, § 70.76, § 72.62, or § 76.76 or 
+affect the issue finality of any approval 
+issued under 10 CFR part 52 because the 
+guidance would not inextricably affect 
+activities of licensees that are within the 
+scope of the backfitting or issue finality 
+provisions. The guidance would not 
+impose new or modified requirements 
+on existing licensees, applicants, or 
+certificate holders that are within the 
+scope of a backfitting or issue finality 
+provision. 
+IX. Cumulative Effects of Regulation 
+The NRC seeks to minimize potential 
+negative consequences resulting from 
+the cumulative effects of regulation 
+(CER). The NRC believes that the de- 
+regulatory impacts of this rulemaking 
+activity are unlikely to cause 
+implementation challenges for 
+stakeholders. In addition, during the 
+pendency of this rulemaking, the NRC is 
+deprioritizing issuance of regulatory 
+actions that might influence the 
+implementation date for the new rule 
+requirements (e.g., orders, generic 
+communications, license amendment 
+requests, and inspection findings of a 
+generic nature). 
+To fully understand any potential 
+CER implications that could result from 
+this rulemaking, the NRC is asking the 
+following questions. Response to these 
+questions is voluntary and any input 
+will be considered during development 
+of the final rule. 
+1. The NRC is proposing an effective 
+date that will be 30 days after the date 
+of publication of a final rule. Does this 
+provide sufficient time to implement the 
+proposed requirements? Please provide 
+a rationale for your response. 
+2. Are there unintended consequences 
+related to this rulemaking and how 
+should they be addressed? Please 
+provide a rationale for your response. 
+3. Please comment on the NRC’s cost 
+and benefit estimates in the regulatory 
+analysis that supports this proposed 
+rule. 
+X. Plain Writing 
+The Plain Writing Act of 2010 (Pub. 
+L. 111–274) requires Federal agencies to 
+write documents in a clear, concise, and 
+well-organized manner. The NRC has 
+written this document to be consistent 
+with the Plain Writing Act as well as the 
+Presidential Memorandum, ‘‘Plain 
+Language in Government Writing,’’ 
+published June 10, 1998 (63 FR 31883). 
+The NRC requests comment on this 
+document with respect to the clarity and 
+effectiveness of the language used. 
+XI. Environmental Assessment 
+A. Introduction 
+The NRC has prepared this 
+environmental assessment (EA) of the 
+proposed rule amending regulations for 
+byproduct, source, and special nuclear 
+material use to determine the 
+significance of the environmental effects 
+of the proposed agency action in 
+accordance with the National 
+Environmental Policy Act of 1969, as 
+amended (NEPA) and the NRC’s NEPA 
+implementing regulations in 10 CFR 
+part 51, ‘‘Environmental Protection 
+Regulations for Domestic Licensing and 
+Related Regulatory Functions.’’ As 
+explained below, the NRC has 
+preliminarily determined that the 
+proposed agency action to modernize 
+the NRC regulations for byproduct, 
+source, and special nuclear material use 
+would have no significant effect on the 
+quality of the human environment. 
+B. Environmental Impacts of the 
+Proposed Action 
+The proposed action would amend 
+multiple NRC regulations in 10 CFR 
+parts 30, 31, 32, 34, 39, 40, 70, and 150 
+regarding licensed material use. 
+Conforming changes would also be 
+made to guidance consistent with the 
+changes to regulations. Table B–1 lists 
+the sections of the regulations that 
+would be updated and the affected 
+guidance documents. 
+VerDate Sep<11>2014 00:55 May 16, 2026 Jkt 268001 PO 00000 Frm 00014 Fmt 4701 Sfmt 4702 E:\FR\FM\18MYP2.SGM 18MYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 6 ---
+28929 Federal Register / Vol. 91, No. 95 / Monday, May 18, 2026 / Proposed Rules 
+TABLE B–1 REGULATION UNDER THE PROPOSED MODERNIZING NRC REGULATIONS FOR BYPRODUCT MATERIAL USE 
+Rulemaking Regulations Guidance 
+Modernizing NRC Regulations 
+for Byproduct Material Use.
+30.4, 30.6, 30.32, 30.34, 30.35, 30.41, Appendix B to Part 30, 31.5, 31.11, 31.13 (new), 
+31.14 (new), 31.15 (new), 31.16 (new), 31.17 (new), 31.18 (new), 32.12, 32.16, 32.20, 
+32.25, 32.29, 32.32, 32.72, 32.74, 34.3, 34.13, 34.20, 34.23, 34.27, 34.33, 34.41, 34.43, 
+34.51, 34.89, 34.101, 39.33, 39.35, 39.77, 40.53, 70.25, 150.14, 150.20 
+Interim Staff 
+Guidance. 
+Conforming changes are 
+administrative actions with no physical 
+environmental effect and provide for the 
+appropriate administrative and 
+regulatory framework for byproduct 
+material use under 10 CFR. An example 
+would be adding a reference to a newly 
+created subsection in an existing 
+regulation. Most of the amendments to 
+NRC regulations in the proposed rule 
+occur within the affected regulation. 
+The proposed rule includes conforming 
+changes to NRC regulations in 10 CFR 
+parts 30, 32, and 34. 
+B.1 Rule Amendments Addressed Under 
+Categorical Exclusion 
+The NRC has determined that some of 
+the changes to the regulations identified 
+in this proposed rule meet the criteria 
+for categorical exclusion under § 51.22, 
+‘‘Categorical Exclusions.’’ Categorical 
+exclusions provide a mechanism to 
+identify Federal actions that normally 
+do not have a significant environmental 
+effect on the human environment and 
+for which neither an EA nor 
+environmental impact statement is 
+normally required. This ensures that 
+resources are not expended on the 
+environmental analysis of proposed 
+actions that do not present the potential 
+for significant environmental effects. 
+Rule amendments with applicable 
+categorical exclusions are presented in 
+Table B–2 below and no further NEPA 
+analysis is required. 
+These proposed rule amendments 
+belong to categories of actions which the 
+Commission, by rule or regulation, has 
+declared to be a categorical exclusion, 
+after first finding that the category of 
+actions do not individually or 
+cumulatively have a significant effect on 
+the human environment. In reviewing 
+list of regulations in Table B–1, the NRC 
+staff have determined that several of the 
+rule amendments under consideration 
+are actions eligible for categorical 
+exclusion under § 51.22(a)(1) or 
+§ 51.22(a)(3). The following rulemaking 
+actions meet the criterion for categorical 
+exclusion under § 51.22(a)(1) or 
+§ 51.22(a)(3): 
+TABLE B–2 RULE AMENDMENTS COVERED BY CATEGORICAL EXCLUSION 
+Rule amendments Categorical 
+Exclusion Reason 
+30.4; 30.6; 30.32; 30.41 31.5; 31 subparts A, B, D 
+and E. 34.3, 34.13; 34.20; 34.23; 34.27; 34.33; 
+34.43; 34.89; 34.101; 39.33; 39.35; 39.77.
+§ 51.22(a)(1) Actions that are administrative, procedural, or solely financial in nature, in-
+cluding examples (iv) and (vi). Example (iv): issuance of or changes to 
+administrative procedures or requirements. Example (vi): the proposed 
+amendments are also corrective or of a minor or nonpolicy nature, and 
+do not substantially modify existing regulations. 
+30.34, 30.35; 32.12; 32.16; 32.20; 32.25; 32.29; 
+32.32; 40.53; 70.25.
+§ 51.22(a)(1) Actions that are administrative, procedural, or solely financial in nature, in-
+cluding Example (ii): issuance of or changes to recordkeeping or report-
+ing requirements. 
+These proposed rule amendments 
+clarify NRC regulations and would not 
+change radiation protection and 
+emergency preparedness requirements 
+while continuing to provide reasonable 
+assurance of adequate protection of 
+public health and safety. 
+B.2 Rule Amendments Requiring 
+Environmental Assessment 
+The NRC also evaluated rule 
+amendments that have the potential to 
+affect the human environment and 
+determined that the proposed agency 
+action (rulemaking) would not have a 
+significant environmental effect. These 
+rule amendments would clarify NRC 
+regulations, would not change existing 
+radiation protection and emergency 
+preparedness requirements or overall 
+risk, would continue to provide 
+reasonable assurance of adequate 
+protection of public health and safety, 
+and would result in no new or different 
+environmental effects. The following 
+table presents the basis for why these 
+proposed rule amendments would have 
+no significant environmental effects. 
+VerDate Sep<11>2014 00:55 May 16, 2026 Jkt 268001 PO 00000 Frm 00015 Fmt 4701 Sfmt 4702 E:\FR\FM\18MYP2.SGM 18MYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 7 ---
+28930 Federal Register / Vol. 91, No. 95 / Monday, May 18, 2026 / Proposed Rules 
+TABLE B–3 BASIS FOR NO SIGNIFICANT ENVIRONMENTAL EFFECTS DETERMINATION FOR RULE AMENDMENTS NOT 
+COVERED BY A CATEGORICAL EXCLUSION 
+Rule amendments Basis for no significant environmental effects 
+Part 30, Appendix B ..... These proposed amendments would replace the current values in appendix B with applicable values from the table in 
+appendix C, ‘‘Quantities of Licensed Material Requiring Labeling,’’ to 10 CFR part 20, ‘‘Standards for Protection 
+against Radiation.’’ They also add radionuclides not currently listed in appendix B to 10 CFR part 30, including 
+radionuclides associated with industrial technologies and current and emerging medical uses. The proposed 
+changes would also remove all radionuclides with a half-life of 120 days or less from the appendix, since these 
+radionuclides are not considered when developing decommissioning financial assurance, and amends the title of the 
+table to ‘‘Quantities of Licensed Material Used to Assess Financial Assurance for Decommissioning,’’ to more accu-
+rately reflect its current use for financial assurance during decommissioning. These changes will either reduce or 
+not affect the amount of DFA required for licensees, depending on the mixture of radionuclides the licensee pos-
+sesses and would have no different environmental effects. Thus, this regulatory change would have no significant 
+effect on the quality of the human environment. 
+31.11 ............................. Amendments would allow entities to handle vials for in vitro testing with higher activity under a general license. This 
+change would align limits for carbon-14, hydrogen-3, selenium-75, and cobalt-57 with the exempt quantity limits in 
+10 CFR part 30 and labelling requirements in appendix C to 10 CFR part 20. The limits in § 31.11 have not been 
+updated since their initial issuance in 1968 and the amendments would bring § 31.11 in step with current regulatory 
+limits in 10 CFR parts 20 and 30. Given that the amendments would align with other existing requirements in 10 
+CFR parts 20 and 30, the amendments would have no significantly different environmental effects than those evalu-
+ated for 10 CFR part 20, and, thus, would have no significant effect on the quality of the human environment. 
+Subpart C—Standard 
+General Licenses: 
+New regulations 
+31.13 through 31.18.
+The amendments to this subpart would establish a new regulatory program and grant standard general licenses in ac-
+cordance with specific conditions. Each technology would have its own standard general license requirements codi-
+fied in separate regulations, including: 
+• § 31.14: Certain Fixed Gauging; 
+• § 31.15: Portable Gauging; 
+• § 31.16: Certain Medical Uses; 
+• § 31.17: Certain Analytical Equipment Including Electron Capture Detectors, X-Ray Fluorescence Devices, and Ion 
+Generators; and 
+• § 31.18: Certain In Vitro Testing. 
+These amendments propose a new class of general licenses for some low risk standardized operations that are cur-
+rently specifically licensed, and all of the specifically licensed activities are currently categorically excluded. Because 
+the NRC previously concluded that these activities do not individually or cumulatively have a significant effect on the 
+human environment, no additional analysis is needed. Additionally, these amendments do not authorize any activi-
+ties not included in 10 CFR part 30. 
+32.72; 32.74 .................. The proposed amendments to § 32.72, commercial distribution of radioactive drugs for medical use u nder 10 CFR part 
+35, would be expanded to include microsources (e.g., microspheres) allowing radiopharmacies to prepare and dis-
+tribute these materials. Proposed amendments would also provide flexibility for future distribution authorized by the 
+U.S. Food and Drug Administration (FDA) or State regulatory bodies. In addition, proposed amendments to § 32.74 
+would clarify the distribution of sources and devices containing byproduct material. These two changes would en-
+sure that manufacturers and commercial radiopharmacies can be licensed to distribute microsources in a manner 
+consistent with NRC safety requirements and FDA classifications, while minimizing burden on radiopharmacy and 
+medical use licensees. These changes are administrative and procedural and would not authorize any site-specific 
+action on the part of the NRC or licensee. Licensees and applicants would need to request and receive separate 
+regulatory approval before preparing and distributing microsources. Consequently, this rulemaking provides the 
+basis for any procedure granting the license but does not, by its own operation, provide a license for preparation or 
+distribution activities, but rather applicants must comply with the relevant NRC or Agreement State regulations be-
+fore they can receive a license. Therefore, this rulemaking will not result in any physical impacts to the environment, 
+and the NRC has determined that the action would result in no significant environmental impacts. 
+34.41; 34.51 .................. These proposed amendments would combine the requirements in § 34.51 with requirements in § 34.41(a), commonly 
+called ‘‘the two-person rule,’’ ‘‘Licenses for Industrial Radiography and Radiation Safety Requirements for Industrial 
+Radiographic Operations’’ and eliminate § 34.51. The regulation requires a second qualified individual (radiographer 
+or radiographer’s assistant) to be present during industrial radiography operations at temporary jobsites. The revi-
+sion eliminates ambiguity, allowing for technological innovation in the implementation of the requirement, all while 
+maintaining the integrity of the performance requirements. This action does not alter any the substantive activities 
+under § 34.41(a), and would have no significantly different environmental impacts than those evaluated for 
+§ 34.41(a), and, thus, would have no significant effect on the quality of the human environment. 
+These proposed rule amendments 
+would modernize existing NRC 
+regulations while ensuring the 
+continued safe, effective, and efficient 
+use of byproduct material to provide 
+reasonable assurance of adequate 
+protection of public health and safety. 
+As noted in Table B–3, these 
+amendments either consist of 
+administrative and procedural changes, 
+or would have no significantly different 
+environmental effects than those in the 
+current regulatory framework. The table 
+also provides rationale supporting the 
+conclusion that these proposed rule 
+amendments would not result in any 
+significant environmental effects. 
+C. Summary of the Environmental 
+Impacts of the Proposed Action 
+Implementation of the proposed rule 
+would result in no physical changes to 
+the environment, and, therefore, the 
+NRC has determined that this proposed 
+agency action would not have a 
+significant effect on the quality of the 
+human environment. Proposed rule 
+amendments include changes that: (1) 
+are administrative in application and 
+matters of procedure, (2) clarify record 
+keeping and reporting requirements, 
+and (3) would provide an equivalent 
+level of safety and security as current 
+NRC regulations. 
+In addition, the proposed rule would 
+not affect any threatened or endangered 
+VerDate Sep<11>2014 00:55 May 16, 2026 Jkt 268001 PO 00000 Frm 00016 Fmt 4701 Sfmt 4702 E:\FR\FM\18MYP2.SGM 18MYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 8 ---
+28932 Federal Register / Vol. 91, No. 95 / Monday, May 18, 2026 / Proposed Rules 
+Advanced Nuclear for Clean Energy Act 
+of 2024 (ADVANCE Act), and recently 
+issued E.O. 14300, ‘‘Ordering the 
+Reform of the Nuclear Regulatory 
+Commission.’’ 
+The proposed rule covers a wide 
+range of topics, including the following 
+that would result in a reduction in 
+recordkeeping and reporting 
+requirements: 
+• Establishing a low burden class of 
+standard GLs. 
+• Revising the decommissioning 
+financial assurance tables. 
+• Addressing anti-competitive 
+barriers. 
+• Reducing reporting of distribution 
+to exempt persons. 
+• Removing or modifying redundant 
+and unnecessary regulations. 
+• Reducing the burden for filing 
+amended NRC Form 241’s for work 
+activities conducted in offshore waters. 
+This information collection includes 
+burden reduction associated with 
+revised information collection in 10 
+CFR parts 30, 31, 32, 34, 39, 40, and 
+Forms 241, 483, and 313. It also 
+includes burden associated with new 
+information collection in proposed 10 
+CFR part 31 and proposed NRC Form 
+1003 that would create a low burden 
+licensing option for licensees currently 
+licensed under 10 CFR part 30 who use 
+NRC Form 313. 
+The NRC is seeking public comment 
+on the potential impact of the 
+information collections contained in 
+this proposed rule and on the following 
+issues: 
+1. Is the proposed information 
+collection necessary for the proper 
+performance of the functions of the 
+NRC, including whether the information 
+will have practical utility? Please 
+explain your response. 
+2. Is the estimate of the burden of the 
+proposed information collection 
+accurate? Please explain your response. 
+3. Is there a way to enhance the 
+quality, utility, and clarity of the 
+information to be collected? Please 
+explain your response. 
+4. How can the burden of the 
+proposed information collection on 
+respondents be minimized, including 
+the use of automated collection 
+techniques or other forms of information 
+technology? 
+A copy of the Office of Management 
+and Budget (OMB) clearance package 
+and proposed rule are available in the 
+‘‘Availability of Documents’’ section of 
+this document or may be viewed free of 
+charge by contacting the NRC’s Public 
+Document Room reference staff at 1– 
+800–397–4209, at 301–415–4737, or by 
+email to PDR.Resource@nrc.gov. You 
+may obtain information and comment 
+on submissions related to the OMB 
+clearance package by searching on 
+https://www.regulations.gov under 
+Docket ID NRC–2025–1205. 
+You may submit comments on any 
+aspect of these proposed information 
+collection(s), including suggestions for 
+reducing the burden and on the above 
+issues, by the following method: 
+Federal rulemaking website: Go to 
+https://www.regulations.gov and search 
+for Docket ID NRC–2025–1205. 
+Submit comments by June 17, 2026. 
+Comments received after this date will 
+be considered if it is practical to do so, 
+but the NRC staff is able to ensure 
+consideration only for comments 
+received on or before this date. 
+Public Protection Notification 
+The NRC may not conduct or sponsor, 
+and a person is not required to respond 
+to, a collection of information unless the 
+document requesting or requiring the 
+collection displays a currently valid 
+OMB control number. 
+XIII. Coordination With NRC 
+Agreement States 
+On September 3, 2025, the NRC held 
+a Government-to-Government meeting 
+with the OAS to discuss this 
+rulemaking. The rulemaking working 
+group that prepared this proposed rule 
+also included representatives from OAS. 
+Comments from the Agreement States 
+were taken into consideration during 
+the development of this proposed rule. 
+XIV. Compatibility of Agreement State 
+Regulations 
+On the basis of the ‘‘Agreement State 
+Program Policy Statement’’ approved by 
+the Commission on October 2, 2017, and 
+published in the Federal Register (82 
+FR 48535; October 18, 2017), NRC 
+program elements can be placed into six 
+categories (A, B, C, D, NRC, or health 
+and safety (H&S)) to form the basis for 
+evaluating and classifying the program 
+elements. Under the Policy Statement, a 
+program element means any component 
+or function of a radiation control 
+regulatory program, including 
+regulations and other legally binding 
+requirements imposed on regulated 
+persons, which contributes to 
+implementation of that program. 
+Compatibility Category A are those 
+program elements that include basic 
+radiation protection standards and 
+scientific terms and definitions that are 
+necessary to understand radiation 
+protection concepts. Compatibility 
+Category A program elements adopted 
+by an Agreement State should be 
+essentially identical to those of the NRC 
+to provide uniformity in the regulation 
+of agreement material on a nationwide 
+basis. 
+Compatibility Category B pertains to a 
+limited number of program elements 
+that cross jurisdictional boundaries and 
+should be addressed to ensure 
+uniformity of regulation on a 
+nationwide basis. For Compatibility 
+Category B, the Agreement State 
+program element shall be essentially 
+identical to that of NRC. 
+Compatibility Category C are those 
+program elements that are important for 
+an Agreement State to have in order to 
+avoid conflict, duplication, gaps, or 
+other conditions that would jeopardize 
+an orderly pattern in the regulation of 
+agreement material on a national basis. 
+An Agreement State program shall 
+embody the essential objectives of the 
+Category C program elements. Under 
+Category C, Agreement State program 
+elements may be more restrictive than 
+NRC program elements; however, they 
+should not be so restrictive as to 
+prohibit a practice authorized by the 
+AEA, as amended, and in the national 
+interest without an adequate public 
+health and safety or environmental basis 
+related to radiation protection. 
+Compatibility Category D are those 
+program elements that do not meet any 
+of the criteria of Category A, B, or C, 
+above, and are not required to be 
+adopted by Agreement States for 
+purposes of compatibility. An 
+Agreement State has the flexibility to 
+adopt and implement program elements 
+within the State’s jurisdiction that are 
+not addressed by the NRC or that are not 
+required for compatibility (i.e., 
+Compatibility Category D). However, 
+such program elements of an Agreement 
+State relating to agreement material 
+shall (1) not create conflicts, 
+duplications, gaps, or other conditions 
+that would jeopardize an orderly pattern 
+in the regulation of agreement material 
+on a nationwide basis; (2) not preclude 
+a practice authorized by the AEA and in 
+the national interest; and (3) not 
+preclude the ability of the NRC to 
+evaluate the effectiveness of Agreement 
+State programs for agreement material 
+with respect to protection of public 
+health and safety. 
+Compatibility Category NRC are those 
+program elements that address areas of 
+regulation that cannot be relinquished 
+to the Agreement States under the AEA, 
+or provisions of 10 CFR. The NRC 
+maintains regulatory authority over 
+these program elements and the 
+Agreement States must not adopt these 
+NRC program elements. However, an 
+Agreement State may inform its 
+licensees of these NRC requirements 
+through a mechanism under the State’s 
+administrative procedure laws, as long 
+VerDate Sep<11>2014 00:55 May 16, 2026 Jkt 268001 PO 00000 Frm 00018 Fmt 4701 Sfmt 4702 E:\FR\FM\18MYP2.SGM 18MYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 9 ---
+28933 Federal Register / Vol. 91, No. 95 / Monday, May 18, 2026 / Proposed Rules 
+as the State adopts these provisions 
+solely for the purposes of notification, 
+and does not exercise any regulatory 
+authority as a result. 
+Category H&S program elements 
+embody the basic health and safety 
+aspects of the NRC’s program elements. 
+Although H&S program elements are not 
+required for purposes of compatibility, 
+they do have particular health and 
+safety significance. The Agreement State 
+must adopt the essential objectives of 
+such program elements to maintain an 
+adequate program. 
+This proposed rule is a matter of 
+compatibility between the NRC and the 
+Agreement States, thereby providing 
+consistency among Agreement State and 
+NRC requirements. In this proposed 
+rule, the NRC is not proposing to change 
+the compatibility categories for 
+requirements that are being amended. 
+Therefore, for any requirements that are 
+currently designated as Compatibility A 
+or B, States would have to amend their 
+rules to be essentially identical to the 
+amended rule language. 
+However, for requirements that are 
+designated as Compatibility C or 
+Category H&S, States may not 
+necessarily have to revise their rules so 
+long as their current rule meets the 
+essential objective for the amended 
+requirement. For instance, the essential 
+objective for § 150.20, is for Agreement 
+States to provide reciprocal recognition 
+of a specific license issued by the NRC 
+or another Agreement State. However, 
+proposed changes to § 150.20 include 
+permitting SGLs to be used for the basis 
+of reciprocal recognition. The NRC is 
+proposing that the Compatibility 
+Category of § 150.20 remain Category C, 
+but to continue to meet the essential 
+objective for the amended requirement, 
+all Agreement States would be required 
+to provide reciprocal recognition of a 
+specific license or SGL issued by the 
+NRC or another Agreement State. The 
+State would have flexibility in the 
+administration and requirements for 
+reciprocity and would not need to revise 
+their current program to remain 
+compatible with the proposed revision 
+to § 150.20. 
+The NRC is also proposing to remove 
+requirements in §§ 34.20(d) and (e), 
+34.41(d), 34.43(a)(2), 34.43(h) and (i), 
+34.51, 34.101(c), and 39.77(c)(1). Except 
+for 34.20(e), these requirements pertain 
+to grandfathering and duplicative 
+requirements and, as such, Agreement 
+States are not required to also remove 
+those regulations; Agreement States 
+keeping their equivalent to the listed 
+regulations (except for § 34.20(e)) would 
+not lead to a disorderly pattern of 
+regulation on a nationwide basis. 
+However, Agreement States should 
+remove their equivalent to § 34.20(e) to 
+remove superseded standards and 
+requirements. Failure to remove this 
+would result in gaps and conflicts 
+between programs in the National 
+Materials Program that would negatively 
+impact the uniformity of regulation on 
+a nationwide basis because only 
+radiographic equipment that meets the 
+appropriate standards and requirements 
+can used by licensees. 
+In developing the new SGL pathway, 
+the NRC recognizes that Agreement 
+States may not want to adopt the new 
+subpart C of 10 CFR part 31, and it 
+would therefore not be required for 
+purposes of compatibility. For States 
+that choose to adopt this pathway, some 
+of the requirements would be required 
+for either compatibility or H&S 
+purposes. To ensure that transferors of 
+devices and byproduct material are 
+permitted to transfer materials to an 
+SGL, the requirement in § 30.41(d)(1) is 
+being revised. 
+The NRC is proposing that the 
+Compatibility Category of § 30.41 
+remain Category C, but the NRC is 
+proposing to clarify that to meet the 
+essential objective for the amended 
+requirement, all Agreement States must 
+ensure that a validated SGL is an 
+acceptable method of verification for 
+§ 30.41(c). Since a validated SGL is a 
+verification method for transferring 
+byproduct material under § 30.41(d), the 
+requirement in § 31.13(a)(2), regarding 
+issuing the validated SGL, is proposed 
+to be designated as Compatibility 
+Category C for Agreement States that 
+adopt the SGL pathway. To meet the 
+essential objective for § 31.13(a)(2), an 
+Agreement State would need to issue a 
+document validating an SGL. The SGL 
+pathway codifies the minimum legally 
+binding requirements needed to ensure 
+health and safety that are required to 
+obtain a specific license into the 
+regulations, and it is therefore necessary 
+that the State meet the essential 
+objective for those requirements that 
+have been designated as Compatibility 
+Category C. 
+Provisions specifying the specific 
+sealed sources and devices that are 
+permitted under the SGL pathway are 
+based on the SSDR use codes and have 
+a proposed designation of Compatibility 
+Category B since there is need for 
+consistency across jurisdictions when 
+using SSDRs for licensing purposes. The 
+SGL for Certain Medical Uses includes 
+an exhaustive list of the radionuclides 
+authorized pursuant to 31.16(a)(2). 
+Because 31.16(a)(2) is proposed to be 
+designated Compatibility Category C, 
+Agreement States would have the 
+flexibility to permit other radionuclides 
+than those authorized under the SGL to 
+be used. However, authorizing 
+additional radionuclides such as PET or 
+generators other than Molybdenum-99/ 
+technetium-99m generators would not 
+meet the essential objective for this 
+requirement as these radionuclides or 
+uses require additional licensing 
+requirements to ensure an adequate 
+level of safety. Administrative 
+requirements, such as recordkeeping, 
+are not required for purposes of 
+compatibility and would be 
+Compatibility Category D. 
+The proposed compatibility (A, B, C, 
+D, and NRC) and adequacy (H&S) 
+categories are designated in the 
+following table. 
+ADEQUACY AND COMPATIBILITY TABLE 
+Section Change Subject 
+Compatibility 
+Existing New 
+Part 30 
+30.4 ............................... Amend .......... Definitions—Consortium ..................................... C ................ C. 
+30.4 ............................... Remove ........ Definitions—Physician ........................................ D.
+30.4 ............................... Amend .......... Definitions—Principal activities ........................... D ................ D . 
+30.6(b)(1) ...................... Amend .......... Communications ................................................. D ................ D. 
+30.32(j)(2) ...................... Amend .......... Application for specific licenses ......................... B ................ B. 
+VerDate Sep<11>2014 00:55 May 16, 2026 Jkt 268001 PO 00000 Frm 00019 Fmt 4701 Sfmt 4702 E:\FR\FM\18MYP2.SGM 18MYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 10 ---
+28934 Federal Register / Vol. 91, No. 95 / Monday, May 18, 2026 / Proposed Rules 
+ADEQUACY AND COMPATIBILITY TABLE—Continued 
+Section Change Subject 
+Compatibility 
+Existing New 
+30.34(h)(1) .................... Amend .......... Terms and conditions of licenses ....................... H&S ........... H&S. 
+Note—the reference to 10 CFR 31 
+subpart C should only be in-
+cluded by States that adopt 
+Standard General Licenses. 
+30.35(g) ......................... Amend .......... Financial assurance and recordkeeping for de-
+commissioning.
+H&S ........... H&S. 
+Note—the reference to 10 CFR 31 
+subpart C should only be in-
+cluded by States that adopt 
+Standard General Licenses. 
+30.41(d)(1) .................... Amend .......... Transfer of byproduct material ........................... C ................ C. 
+Appendix B .................... Amend .......... Appendix B—Quantities of Licensed Material 
+Used to Assess Financial Assurance for De-
+commissioning.
+B ................ B. 
+Part 31 
+31.5(c)(14) ..................... Amend .......... Certain detecting, measuring, gauging, or con-
+trolling devices and certain devices for pro-
+ducing light or an ionized atmosphere.
+C ................ C. 
+31.5(c)(15) ..................... Amend .......... Certain detecting, measuring, gauging, or con-
+trolling devices and certain devices for pro-
+ducing light or an ionized atmosphere.
+C ................ C. 
+31.11(a)(3), (4), (6), & 
+(8).
+Amend .......... General license for use of byproduct material 
+for certain in vitro clinical or laboratory testing.
+D ................ D. 
+31.13(a) & (b), except 
+(a)(2).
+New ............... Standard General License Requirements .......... .................... D. 
+31.13(a)(2) .................... New ............... Requirements ..................................................... ............. ....... C—for States that authorize Stand-
+ard General Licenses. 
+D—for States who don’t. 
+31.13(c) & (d) ................ New ............... Standard General License Requirements .......... .................... C—for States that authorize Stand-
+ard General Licenses. 
+D—for States who don’t. 
+31.13(e) ......................... New ............... Standard General License Requirements .......... .................... NRC. 
+31.13(f)–(h) ................... New ............... Standard General License Requirements .......... .................... H&S—for States that authorize 
+Standard General Licenses. 
+D—for States who don’t. 
+31.14 except (a)(2), 
+(c)(2)(ii), (c)(3)(ii), 
+(c)(6)(i), (c)(6)(iii), 
+(c)(7)(ii), (c)(8)(ii), 
+(c)(9)(i) & (c)(10)(ii).
+New ............... Standard General License for Certain Fixed 
+Gauging.
+.................... C—for States that authorize Stand-
+ard General Licenses. 
+D—for States who don’t. 
+Note—States should not incor-
+porate references to Federal 
+Government agencies. 
+31.14(a)(2) .................... New ............... Standard General License for Certain Fixed 
+Gauging.
+.................... B—for States that authorize Stand-
+ard General Licenses. 
+D—for States who don’t. 
+31.14(c)(2)(ii), (c)(3)(ii), 
+(c)(6)(iii), (c)(7)(ii), 
+(c)(8)(ii), (c)(9)(i) & 
+(c)(10)(ii).
+New ............... Standard General License for Certain Fixed 
+Gauging.
+.................... D. 
+31.14(c)(6)(i) ................. New ............... Standard General License for Certain Fixed 
+Gauging.
+.................... H&S 
+31.15 except (a)(2), 
+(a)(3)(iii), (c)(2)(ii), 
+(c)(3)(ii), (c)(5)(iii), 
+(c)(7)(ii), (c)(8)(i).
+New ............... Standard General License for Portable Gauging .................... C—for States that authorize Stand-
+ard General Licenses. 
+D—for States who don’t. 
+Note—States should not incor-
+porate references to Federal 
+Government. 
+Reference to NRC Form 1003 is 
+Compatibility D. 
+31.15(a)(2) .................... New ............... Standard General License for Portable Gauging .................... B—for States that authorize Stand-
+ard General Licenses. 
+D—for States who don’t. 
+31.15(a)(3)(iii), (c)(2)(ii), 
+(c)(3)(ii), (c)(5)(iii), 
+(c)(7)(ii), (c)(8)(i).
+New ............... Standard General License for Portable Gauging .................... D. 
+VerDate Sep<11>2014 00:55 May 16, 2026 Jkt 268001 PO 00000 Frm 00020 Fmt 4701 Sfmt 4702 E:\FR\FM\18MYP2.SGM 18MYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 11 ---
+28935 Federal Register / Vol. 91, No. 95 / Monday, May 18, 2026 / Proposed Rules 
+ADEQUACY AND COMPATIBILITY TABLE—Continued 
+Section Change Subject 
+Compatibility 
+Existing New 
+31.16 except (c)(1)(iii), 
+(c)(2)(iii), (c)(4)(iii), 
+(c)(5)(iii), (c)(6)(iv).
+New ............... Standard General License for Certain Medical 
+Uses.
+.................... C—for States that authorize Stand-
+ard General Licenses. 
+D—for States who don’t. 
+Note—States should not incor-
+porate references to Federal 
+Government. 
+31.16(c)(1)(iii), (c)(2)(iii), 
+(c)(4)(iii), (c)(5)(iii), 
+(c)(6)(iv).
+New ............... Standard General License for Certain Medical 
+Uses.
+.................... D. 
+31.17 except (a)(2), 
+(a)(3)(iii), (c)(2)(ii), 
+(c)(4)(ii), (c)(5)(i) & 
+(c)(6)(ii).
+New ............... Standard General License for Certain Analytical 
+Equipment Including Electron Capture Detec-
+tors, X-Ray Fluorescence Devices, and Ion 
+Generators.
+.................... C—for States that authorize Stand-
+ard General Licenses. 
+D—for States who don’t. 
+Note—States should not incor-
+porate references to Federal 
+Government. 
+Reference to NRC Form 1003 is 
+Compatibility D. 
+31.17(a)(2) .................... New ............... Standard General License for Certain Analytical 
+Equipment Including Electron Capture Detec-
+tors, X-Ray Fluorescence Devices, and Ion 
+Generators.
+.................... B—for States that authorize Stand-
+ard General Licenses. 
+D—for States who don’t. 
+31.17(a)(3)(iii), (c)(2)(ii), 
+(c)(4)(ii), (c)(5)(i) & 
+(c)(6)(ii).
+New ............... Standard General License for Certain Analytical 
+Equipment Including Electron Capture Detec-
+tors, X-Ray Fluorescence Devices, and Ion 
+Generators.
+.................... D. 
+31.18 except (c)(1)(ii), 
+(c)(2)(ii), (c)(4)(iii), 
+(c)(5)(iii), (c)(6)(ii)–(iii).
+New ............... Standard General License for Certain In Vitro 
+Testing.
+.................... C—for States that authorize Stand-
+ard General Licenses. 
+D—for States who don’t. 
+31.18 (c)(1)(ii), (c)(2)(ii), 
+(c)(4)(iii), (c)(5)(iii), 
+(c)(6)(ii)–(iii).
+New ............... Standard General License for Certain In Vitro 
+Testing.
+.................... D. 
+Part 32 
+32.12 ............................. Amend .......... Same: Records and material transfer reports .... NRC ........... NRC. 
+32.16 ............................. Amend .......... Certain items containing byproduct material: 
+Records and reports of transfer.
+NRC ........... NRC. 
+32.20 ............................. Amend .......... Same: Records and material transfer reports .... NRC ........... NRC. 
+32.25 ............................. Amend .......... Conditions of licenses issued under§ 32.22: 
+Quality control, labeling, and reports of trans-
+fer.
+NRC ........... NRC. 
+32.29 ............................. Amend .......... Conditions of licenses issued under§ 32.26: 
+Quality control, labeling, and reports of trans-
+fer.
+NRC ........... NRC. 
+32.32 ............................. Amend .......... Conditions of licenses issued under§ 32.30: 
+Quality control, labeling, and reports of trans-
+fer.
+NRC ........... NRC. 
+32.72 ............................. Amend .......... Manufacture, preparation, or transfer for com-
+mercial distribution of radioactive drugs con-
+taining byproduct material for medical use 
+under Part 35.
+B ................ B. 
+32.74 ............................. Amend .......... Manufacture and distribution of sources or de-
+vices containing byproduct material for med-
+ical use.
+B ................ B. 
+Part 34 
+34.3 ............................... New ............... Definitions—Sealed Source and Device Reg-
+istry.
+.................... [D]. 
+34.13 ............................. Amend .......... Specific license for industrial radiography .......... C ................ C. 
+34.20(a)(1) & (c) ........... Amend .......... Performance requirements for industrial radiog-
+raphy equipment.
+B ................ B. 
+34.20(a)(2) .................... Amend .......... Performance requirements for industrial radiog-
+raphy equipment.
+D ................ D. 
+34.20(d) & (e) ................ Remove ........ Performance requirements for industrial radiog-
+raphy equipment.
+B.
+34.23 ............................. Amend .......... Locking of radiographic exposure devices, stor-
+age containers and source changers.
+B ................ B. 
+34.27(c)(1) & (e) ........... Amend .......... Leak testing and replacement of sealed sources C ................ C. 
+34.33 ............................. Amend .......... Permanent radiographic installations ................. H&S ........... H&S. 
+VerDate Sep<11>2014 00:55 May 16, 2026 Jkt 268001 PO 00000 Frm 00021 Fmt 4701 Sfmt 4702 E:\FR\FM\18MYP2.SGM 18MYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 12 ---
+28936 Federal Register / Vol. 91, No. 95 / Monday, May 18, 2026 / Proposed Rules 
+ADEQUACY AND COMPATIBILITY TABLE—Continued 
+Section Change Subject 
+Compatibility 
+Existing New 
+34.41(a) ......................... Amend .......... Conducting industrial radiographic operations ... C ................ C. 
+34.41(d) ......................... Remove ........ Conducting industrial radiographic operations ... D.
+34.43(a)(1) .................... Amend .......... Training ............................................................... B ................ B. 
+34.43(a)(2) .................... Remove ........ Training ............................................................... D.
+34.43(h) & (i) ................. Remove ........ Training ............................................................... B.
+34.51 ............................. Remove ........ Surveillance ........................................................ C .......... ...... Note—requirement moved to 
+34.41(a). 
+34.89(b) ......................... Amend .......... Location of documents and records ................... C ................ C. 
+34.101(c) ....................... Remove ........ Notifications ........................................................ C.
+Part 39 
+39.33(c) ......................... Amend .......... Radiation detection instruments ......................... C ................ C. 
+39.35(c) ......................... Amend .......... Leak testing of sealed sources .......................... C ................ C. 
+39.77(c)(1) ..................... Remove ........ Notification of incidents: abandonment proce-
+dures for irretrievable sources.
+C.
+Part 40 
+40.53(c) ......................... Amend .......... Conditions for licenses issued for initial transfer 
+of certain items containing source material: 
+Quality control, labeling, and records.
+NRC ........... NRC. 
+Part 70 
+70.25(a)(2) .................... Amend .......... Financial Assurance and Recordkeeping for De-
+commissioning.
+NRC ........... NRC. 
+70.25(b) ......................... Amend .......... Financial Assurance and Recordkeeping for De-
+commissioning.
+H&S ........... H&S. 
+Part 150 
+150.14 ........................... Remove ........ Commission regulatory authority for physical 
+protection..
+NRC.
+150.20 ........................... Amend .......... Recognition of Agreement State licenses. ......... C ................ C. 
+Note—States should not incor-
+porate references to offshore 
+waters. 
+Please Note: The bracket ‘‘[ ]’’ around 
+a compatibility category designation 
+means that the section may have been 
+adopted elsewhere in a State’s rules and 
+it is not necessary to adopt it again. 
+XV. Coordination With the Advisory 
+Committee on the Medical Uses of 
+Isotopes 
+The ACMUI established a 
+subcommittee to review and comment 
+on the draft proposed rule. The 
+subcommittee will make its 
+recommendations to the full committee 
+on this proposed rule at a publicly held 
+teleconference during the public 
+comment period. 
+XVI. Voluntary Consensus Standards 
+The National Technology Transfer 
+and Advancement Act of 1995, Public 
+Law 104–113, requires that Federal 
+agencies use technical standards that are 
+developed or adopted by voluntary 
+consensus standards bodies unless the 
+use of such a standard is inconsistent 
+with applicable law or otherwise 
+impractical. The NRC’s goals in 
+amending these regulations are to 
+modernize the safe, effective, and 
+efficient use of byproduct material. This 
+action would reduce licensing burden 
+and the need for exemptions from 
+existing regulations and address other 
+deregulatory issues deemed relevant by 
+the NRC. This action does not constitute 
+the establishment of a standard that 
+contains generally applicable 
+requirements. 
+XVII. Availability of Guidance 
+The NRC expects to update NUREG– 
+1556 series ‘‘Consolidated Guidance 
+About Materials Licenses’’, NUREG 
+1757, Volume 1, ‘‘Consolidated 
+Decommissioning Guidance,’’ various 
+Inspection Procedures, and certain 
+Inspection Manual Chapters to make 
+changes to conform with this 
+rulemaking effort. To support an 
+accelerated development schedule for 
+this proposed rule, the updates will be 
+made in a future revision of the 
+guidance, rather than concurrently with 
+this rulemaking. However, for the new 
+SGL program that is proposed in 10 CFR 
+part 31 subpart C, the NRC has drafted 
+interim guidance to aid licensees and 
+the NRC in implementation of the new 
+licensing option. The NRC has also 
+drafted interim staff guidance to address 
+the revised reciprocity requirements in 
+§ 150.20, using a Frequently Asked 
+Questions format. The interim guidance 
+will be added to the NRC’s public 
+website. You may submit comments on 
+the draft interim guidance by the 
+methods outlined in the ADDRESSES 
+section of this document 
+XVIII. Executive Orders 
+The following are Executive orders 
+that are related to this proposed rule: 
+A. Executive Order 12866: Regulatory 
+Planning and Review (as Amended by 
+Executive Order 14215, Ensuring 
+Accountability for All Agencies) 
+The Office of Information and 
+Regulatory Affairs (OIRA) has 
+determined that this proposed rule is a 
+VerDate Sep<11>2014 00:55 May 16, 2026 Jkt 268001 PO 00000 Frm 00022 Fmt 4701 Sfmt 4702 E:\FR\FM\18MYP2.SGM 18MYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 13 ---
+28937 Federal Register / Vol. 91, No. 95 / Monday, May 18, 2026 / Proposed Rules 
+significant regulatory action. 
+Accordingly, the NRC submitted this 
+proposed rule to OIRA for review. The 
+NRC is required to conduct an economic 
+analysis in accordance with section 
+6(a)(3)(B) of E.O. 12866. More can be 
+found in Section VII, of this document, 
+‘‘Regulatory Analysis.’’ 
+B. Executive Order 14154: Unleashing 
+American Energy 
+NRC has examined this proposed rule 
+and has determined that it is consistent 
+with the policies and directives outlined 
+in E.O. 14154. 
+C. Executive Order 14192: Unleashing 
+Prosperity Through Deregulation 
+This action is tentatively determined 
+to be a deregulatory action as defined by 
+E.O. 14192. Details on the estimated 
+costs of this proposed rule can be found 
+in Section VII, of this document, 
+‘‘Regulatory Analysis.’’ 
+D. Executive Order 14267: Reducing 
+Anti-Competitive Regulatory Barriers 
+E.O. 14267 requires the NRC to 
+identify anti-competitive regulations for 
+recission or modification. It also serves 
+an important regulatory goal. The NRC 
+identified § 30.4 because this regulation 
+creates a barrier to market participation 
+by creating artificial barriers to facility 
+location related to consortiums and PET 
+radionuclide production. In addition, 
+NRC identified § 34.20(a)(1) because 
+this regulation creates a barrier to 
+market participation by limiting the 
+universe of acceptable radiography 
+designs. The NRC identified 10 CFR part 
+31 because this regulation creates a 
+barrier to market participation by 
+increasing the compliance requirements 
+on all market participants. The 
+proposed changes to 10 CFR part 31 
+support the objectives of E.O. 14267 by 
+adding standard general licensing 
+pathway and thereby expanding the 
+scope of general licenses for byproduct 
+material to include additional devices 
+and more activities. 
+E. Executive Order 14270: Zero-Based 
+Regulatory Budgeting To Unleash 
+American Energy 
+E.O. 14270, ‘‘Zero-Based Regulatory 
+Budgeting to Unleash American 
+Energy,’’ requires the NRC to insert a 
+conditional sunset date into all new or 
+amended NRC regulations provided the 
+regulations are (1) promulgated under 
+the Atomic Energy Act of 1954, as 
+amended (AEA), the Energy 
+Reorganization Act of 1974, as amended 
+(ERA), and the Nuclear Waste Policy 
+Act of 1982, as amended (NWPA); (2) 
+not statutorily required; and (3) not part 
+of the NRC’s permitting regime. The 
+NRC determined that the regulatory 
+changes proposed in this rule are 
+required because they would be 
+necessary for providing reasonable 
+assurance of adequate protection of 
+public health and safety and provide for 
+the common defense and security, and 
+would be part of the NRC’s permitting 
+regime authorized by the AEA. 
+Therefore, the NRC views this 
+rulemaking to be outside the scope of 
+E.O. 14270 and did not insert 
+conditional sunset dates for the 
+regulatory changes in this proposed 
+rule. 
+XIX. Availability of Documents 
+The documents identified in the 
+following table are available to 
+interested persons through one or more 
+of the following methods, as indicated. 
+Document 
+ADAMS accession No./web 
+link/Federal Register cita-
+tion 
+Interim Staff Guidance Reciprocity ............................................................................................. ................................... ML25316A025. 
+Office Of Nuclear Material Safety and Safeguards Interim Staff Guidance NMSS–ISG–04 Guidance for the Imple-
+mentation of 10CFRPart31 Subpart C Standard General Licenses.
+ML25316A026. 
+Final rule, ‘‘Requirements for Expanded Definition of Byproduct Material,’’ dated October 1, 2007 ........................... 72 FR 55864. 
+Final rule, ‘‘Exemptions From Licensing, General Licenses, and Distribution of Byproduct Material: Licensing and 
+Reporting Requirements,’’ dated October 16, 2007.
+72 FR 58473. 
+Final rule, ‘‘Standards for Protection Against Radiation; Removal of Expired Material,’’ dated December 22, 1993 .. 58 FR 67657. 
+Decommissioning Financial Assurance Requirements for Sealed and Unsealed Radioactive Materials—Regulatory 
+Basis.
+ML21235A480. 
+PRM–30–66 Petition for Rulemaking, Revision of 10 CFR 30 Appendix B, April 14, 2017 ......................................... ML1 7173A063. 
+SECY–23–0062, Enclosure 1—Proposed Rule Federal Register Notice for Decommissioning Financial Assurance 
+for Sealed and Unsealed Radioactive Materials, July 24, 2023.
+ML23010A171. 
+Final rule, ‘‘Distribution of Source Material to Exempt Persons and to General Licensees and Revision of General 
+License Exemptions,’’ dated May 29, 2013.
+78 FR 32310. 
+Final rule, ‘‘Safety Requirements for Industrial Radiographic Equipment,’’ dated January 10, 1990 .......................... 55 FR 843. 
+Final rule, ‘‘Licenses for Industrial Radiography and Radiation Safety Requirements for Industrial Radiographic 
+Operations,’’ dated May 28, 1997.
+62 FR 28948. 
+Notification of interpretation, ‘‘Industrial Radiographic Operations and Training,’’ dated June 1, 2021 ....................... 86 FR 29173. 
+Final rule, ‘‘Licenses and Radiation Safety Requirements for Well Logging,’’ dated April 17, 2000 ........................... 65 FR 20345. 
+Final rule, ‘‘Consumer Products Containing Small Quantities of Radioactive Material; Modified Reporting and Rec-
+ordkeeping Requirements,’’ dated March 24, 1983..
+48 FR 12331. 
+PRM–30–66, ‘‘Request of the Organization of Agreement States for the NRC to Amend Appendix B, ‘Quantities of 
+Licensed Material Requiring Labeling,’ ’’ dated April 14, 2017.
+ML17173A063. 
+PRM–34–6, ‘‘Petition for Rulemaking on behalf of the Organization of Agreement States (AOS), Barbara Hamrick 
+to amend 10 CFR part 34,’’ dated November 3, 2005.
+ML053190112. 
+NUREG–1556, ‘‘Consolidated Guidance About Materials Licenses’’ ........................................................................... https://www.nrc.gov/reading- 
+rm/doc-collections/nuregs/ 
+staff/sr1556/index. 
+NUREG–1717, ‘‘Systematic Radiological Assessment of Exemptions for Source and Byproduct Materials,’’ June 
+2001.
+ML011980433 (Package). 
+NUREG–1757, ‘‘Consolidated Decommissioning Guidance,’’ Volume 1, Revision 2, September 2006 ...................... ML063000243. 
+Regulatory Analysis for the Proposed Rule—Modernizing NRC Regulations for Byproduct Material Use .................. ML26125A393. 
+Redline Strikeout Document—Proposed Rule—Modernizing NRC Regulations for Byproduct Material Use .............. ML25323A157 (Packa ge). 
+Revision to policy statement, ‘‘Agreement State Program Policy Statement; Correction,’’ dated October 18, 2017 .. 82 FR 48535. 
+Regulatory basis; request for comment, ‘‘Decommissioning Financial Assurance for Sealed and Unsealed Radio-
+active Materials,’’ dated April 28, 2022.
+87 FR 25157. 
+Executive Order 12866, ‘‘Regulatory Planning and Review,’’ October 4, 1993 ........................................................... 58 FR 51735. 
+Executive Order 14154, ‘‘Unleashing American Energy,’’ January 29, 2025 ............................................................... 90 FR 8353. 
+VerDate Sep<11>2014 00:55 May 16, 2026 Jkt 268001 PO 00000 Frm 00023 Fmt 4701 Sfmt 4702 E:\FR\FM\18MYP2.SGM 18MYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 14 ---
+28938 Federal Register / Vol. 91, No. 95 / Monday, May 18, 2026 / Proposed Rules 
+Document 
+ADAMS accession No./web 
+link/Federal Register cita-
+tion 
+Executive Order 14192, ‘‘Unleashing Prosperity Through Deregulation,’’ February 6, 2025 ....................................... 90 FR 9065. 
+Executive Order 14270, ‘‘Zero-Based Regulatory Budgeting To Unleash American Energy,’’ April 15, 2025 ............ 90 FR 15643. 
+Burden Tables Modernizing Regulations for Byproduct Material use ............................................................... ............ ML25323A164. 
+Supporting Statement Modernizing Regulations for Byproduct Material Use ........................................................ ....... ML25322A158. 
+Presidential Memorandum, ‘‘Plain Language in Government Writing,’’ dated June 10, 1998 ..................................... 63 FR 31885. 
+The NRC may post materials related 
+to this document, including public 
+comments, on the Federal rulemaking 
+website at https://www.regulations.gov 
+under Docket ID NRC–2025–1205. In 
+addition, the Federal rulemaking 
+website allows members of the public to 
+receive alerts when changes or additions 
+occur in a docket folder. To subscribe: 
+(1) navigate to the docket folder (NRC– 
+2025–1205); (2) click the ‘‘Subscribe’’ 
+link; and (3) enter an email address and 
+click on the ‘‘Subscribe’’ link. 
+List of Subjects 
+10 CFR Part 30 
+Byproduct material, Criminal 
+penalties, Government contracts, 
+Intergovernmental relations, Isotopes, 
+Nuclear energy, Nuclear materials, 
+Penalties, Radiation protection, 
+Reporting and recordkeeping 
+requirements, Whistleblowing. 
+10 CFR Part 31 
+Byproduct material, Criminal 
+penalties, Labeling, Nuclear energy, 
+Nuclear materials, Packaging and 
+containers, Penalties, Radiation 
+protection, Reporting and recordkeeping 
+requirements, Scientific equipment. 
+10 CFR Part 32 
+Byproduct material, Criminal 
+penalties, Labeling, Nuclear energy, 
+Nuclear materials, Radiation protection, 
+Reporting and recordkeeping 
+requirements. 
+10 CFR Part 34 
+Criminal penalties, Manpower 
+training programs, Occupational safety 
+and health, Packaging and containers, 
+Penalties, Radiation protection, 
+Radiography, Reporting and 
+recordkeeping requirements, Scientific 
+equipment, Security measures, X-rays. 
+10 CFR Part 39 
+Byproduct material, Criminal 
+penalties, Labeling, Nuclear energy, 
+Nuclear material, Occupational safety 
+and health, Oil and gas exploration— 
+well logging, Penalties, Radiation 
+protection, Reporting and recordkeeping 
+requirements, Scientific equipment, 
+Security measures, Source material, 
+Special nuclear material. 
+10 CFR Part 40 
+Criminal penalties, Exports, 
+Government contracts, Hazardous 
+materials transportation, Hazardous 
+waste, Nuclear energy, Nuclear 
+materials, Penalties, Reporting and 
+recordkeeping requirements, Source 
+material, Uranium, Whistleblowing. 
+10 CFR Part 70 
+Classified information, Criminal 
+penalties, Emergency medical services, 
+Hazardous materials transportation, 
+Material control and accounting, 
+Nuclear energy, Nuclear materials, 
+Packaging and containers, Penalties, 
+Radiation protection, Reporting and 
+recordkeeping requirements, Scientific 
+equipment, Security measures, Special 
+nuclear material, Whistleblowing. 
+10 CFR Part 150 
+Criminal penalties, Hazardous 
+materials transportation, 
+Intergovernmental relations, Nuclear 
+energy, Nuclear materials, Penalties, 
+Reporting and recordkeeping 
+requirements, Security measures, 
+Source material, Special nuclear 
+material. 
+For the reasons set out in the 
+preamble and under the authority of the 
+Atomic Energy Act of 1954, as amended; 
+the Energy Reorganization Act of 1974, 
+as amended; and 5 U.S.C. 552 and 553, 
+the NRC is proposing to amend 10 CFR 
+parts 30, 31, 32, 34, 39, 40, 70 and 150: 
+PART 30—RULES OF GENERAL 
+APPLICABILITY TO DOMESTIC 
+LICENSING OF BYPRODUCT 
+MATERIAL 
+■ 1. The authority citation for part 30 
+continues to read as follows: 
+Authority: Atomic Energy Act secs. 81, 82, 
+161, 181, 182, 183, 186, 223, 234 (42 U.S.C. 
+2111, 2112, 2201, 2231, 2232, 2233, 2236, 
+2273, 2282); Energy Reorganization Act secs. 
+201, 202, 206 (42 U.S.C. 5841, 5842, 5846); 
+Government Paperwork Elimination Act sec. 
+1704 (44 U.S.C. 3504 note); Energy Policy Act 
+of 2005, Pub. L. 109–58, 119 Stat. 549 (2005). 
+Section 30.7 also issued under Energy 
+Reorganization Act sec. 211, Pub. L. 95–601, 
+sec. 10, as amended by Pub. L. 102–486, sec. 
+2902 (42 U.S.C. 5851). Section 30.34(b) also 
+issued under Atomic Energy Act sec. 184 (42 
+U.S.C. 2234). Section 30.61 also issued under 
+Atomic Energy Act sec. 187 (42 U.S.C. 2237). 
+■ 2. In § 30.4, remove the definition of 
+‘‘Physician’’ and revise the definitions 
+of ‘‘Consortium’’ and ‘‘Principle 
+activities’’ to read as follows: 
+§ 30.4 Definitions. 
+* * * * * 
+Consortium means an association of 
+medical use licensees and a PET 
+radionuclide production facility that 
+jointly own or share in the operation 
+and maintenance cost of the PET 
+radionuclide production facility that 
+produces PET radionuclides for use in 
+producing radioactive drugs within the 
+consortium for noncommercial 
+distributions among its associated 
+members for medical use. The PET 
+radionuclide production facility within 
+the consortium must be located at an 
+educational institution or a Federal 
+facility or a medical facility. 
+* * * * * 
+Principal activities, as used in this 
+part and part 31 of this chapter, means 
+activities authorized by the license 
+which are essential to achieving the 
+purpose(s) for which the license was 
+issued or amended. Storage during 
+which no licensed material is accessed 
+for use or disposal, and activities 
+incidental to decontamination or 
+decommissioning are not principal 
+activities. 
+* * * * * 
+■ 3. In § 30.6, revise paragraph (b)(1) to 
+read as follows: 
+§ 30.6 Communications. 
+* * * * * 
+(b) * * * 
+(1) The delegated licensing program 
+includes authority to issue, renew, 
+amend, cancel, modify, suspend, or 
+revoke licenses for nuclear materials 
+issued, and validate standard general 
+license registrations, pursuant to 10 CFR 
+parts 30 through 36, 39, 40, and 70 to 
+all persons for academic, medical, and 
+industrial uses, with the following 
+exceptions: 
+* * * * * 
+■ 4. In § 30.32, revise paragraph (j)(2) to 
+read as follows: 
+VerDate Sep<11>2014 00:55 May 16, 2026 Jkt 268001 PO 00000 Frm 00024 Fmt 4701 Sfmt 4702 E:\FR\FM\18MYP2.SGM 18MYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 15 ---
+28939 Federal Register / Vol. 91, No. 95 / Monday, May 18, 2026 / Proposed Rules 
+§ 30.32 Application for specific licenses. 
+* * * * * 
+(j) * * * 
+(2) Evidence that the applicant is 
+qualified to produce radioactive drugs 
+for medical use by meeting one of the 
+criteria in § 32.72(a) of this chapter. 
+* * * * * 
+■ 5. In § 30.34, revise paragraph (h)(1) to 
+read as follows: 
+§ 30.34 Terms and conditions of licenses. 
+* * * * * 
+(h) * * * 
+(1) Each general licensee that is 
+required to register by § 31.5(c)(13) or 
+part 31 subpart C in accordance with 
+§ 31.13 of this chapter, and each specific 
+licensee shall notify the appropriate 
+NRC Regional Administrator, in writing, 
+immediately following the filing of a 
+voluntary or involuntary petition for 
+bankruptcy under any chapter of title 11 
+(Bankruptcy) of the United States Code 
+by or against: 
+* * * * * 
+■ 6. In § 30.35, revise paragraph (g) 
+introductory text to read as follows: 
+§ 30.35 Financial assurance and 
+recordkeeping for decommissioning. 
+* * * * * 
+(g) Each person licensed under this 
+part, part 31 subpart C of this chapter, 
+or parts 32 through 36 and 39 of this 
+chapter shall keep records of 
+information important to the 
+decommissioning of a facility in an 
+identified location until the site is 
+released for unrestricted use. Before 
+licensed activities are transferred or 
+assigned in accordance with § 30.34(b), 
+licensees shall transfer all records 
+described in this paragraph to the new 
+licensee. In this case, the new licensee 
+will be responsible for maintaining 
+these records until the license is 
+terminated. If records important to the 
+decommissioning of a facility are kept 
+for other purposes, reference to these 
+records and their locations may be used. 
+Information the Commission considers 
+important to decommissioning consists 
+of— 
+* * * * * 
+■ 7. In § 30.41, revise paragraph (d)(1) to 
+read as follows: 
+§ 30.41 Transfer of byproduct material. 
+* * * * * 
+(d) * * * 
+(1) The transferor may have in his 
+possession, and read, a current copy of 
+the transferee’s specific license, 
+validated standard general license, or 
+registration certificate; 
+* * * * * 
+■ 8. Revise appendix B to 10 CFR part 
+30 to read as follows: 
+Appendix B—Quantities of Licensed 
+Material Used To Assess Financial 
+Assurance for Decommissioning 
+Material Micro-
+curies 
+Aluminum-26 ............................... 10 
+Americium-241 ............................ 0.01 
+Antimony-125 .............................. 100 
+Argon-39 ...................................... 1,000 
+Barium-133 .................................. 100 
+Berkelium-249 ............................. 0.1 
+Beryllium-10 ................................ 1 
+Bismuth-207 ................................ 10 
+Bismuth-210m ............................. 0.1 
+Cadmium-109 .............................. 10 
+Cadmium-113m ........................... 0.1 
+Cadmium-113 .............................. 100 
+Calcium-41 .................................. 100 
+Calcium-45 .................................. 100 
+Californium-248 ........................... 0.01 
+Carbon-14 ................................... 100 
+Cerium-139 .................................. 100 
+Cerium-144 .................................. 1 
+Cesium-134 ................................. 10 
+Cesium-135 ................................. 100 
+Cesium-137 ................................. 10 
+Chlorine-36 .................................. 10 
+Cobalt-57 ..................................... 100 
+Cobalt-60 ..................................... 1 
+Curium-242 .................................. 0.01 
+Dysprosium-159 .......................... 100 
+Europium-150 .............................. 1 
+Europium-152 .............................. 1 
+Europium-154 .............................. 1 
+Europium-155 .............................. 10 
+Gadolinium-151 ........................... 10 
+Gadolinium-152 ........................... 100 
+Gadolinium-153 ........................... 10 
+Germanium-68 ............................ 10 
+Gold-195 ...................................... 10 
+Hafnium-172 ................................ 1 
+Hafnium-178m ............................. 0.1 
+Hafnium-182 ................................ 0.1 
+Holmium-166m ............................ 1 
+Hydrogen-3 .................................. 1,000 
+Indium-115 .................................. 100 
+Iodine-129 ................................... 1 
+Iridium-194m ............................... 10 
+Iron-55 ......................................... 100 
+Iron-60 ......................................... 1 
+Krypton-81 ................................... 1,000 
+Krypton-85 ................................... 1,000 
+Lanthanum-137 ........................... 10 
+Lanthanum-138 ........................... 100 
+Lead-202 ..................................... 10 
+Lead-205 ..................................... 100 
+Lutetium-173 ............................... 10 
+Lutetium-174m ............................ 10 
+Lutetium-174 ............................... 10 
+Lutetium-176 ............................... 100 
+Lutetium-177m ............................ 10 
+Manganese-53 ............................ 1,000 
+Manganese-54 ............................ 100 
+Mercury-194 ................................ 1 
+Molybdenum-93 ........................... 10 
+Neptunium-235 ............................ 100 
+Nickel-59 ..................................... 100 
+Nickel-63 ..................................... 100 
+Niobium-93m ............................... 10 
+Niobium-94 .................................. 1 
+Osmium-194 ................................ 1 
+Palladium-107 ............................. 10 
+Platinum-193 ............................... 1,000 
+Plutonium-239 ............................. 0.01 
+Material Micro-
+curies 
+Polonium-210 .............................. 0.1 
+Potassium-40 .............................. 100 
+Promethium-143 .......................... 100 
+Promethium-144 .......................... 10 
+Promethium-145 .......................... 10 
+Promethium-146 .......................... 1 
+Promethium-147 .......................... 10 
+Radium-226 ................................. 0.1 
+Radium-228 ................................. 0.1 
+Rhenium-184m ............................ 10 
+Rhenium-186m ............................ 10 
+Rhenium-187 ............................... 1,000 
+Rhodium-101 ............................... 10 
+Rhodium-102m ............................ 10 
+Rhodium-102 ............................... 10 
+Rubidium-87 ................................ 100 
+Ruthenium-106 ............................ 1 
+Samarium-145 ............................. 100 
+Samarium-146 ............................. 1 
+Samarium-147 ............................. 100 
+Samarium-151 ............................. 10 
+Selenium-79 ................................ 100 
+Silicon-32 ..................................... 1 
+Silver-108m ................................. 1 
+Silver-100m ................................. 10 
+Sodium-22 ................................... 10 
+Strontium-90 ................................ 0.1 
+Tantalum-179 .............................. 100 
+Technetium-97 ............................ 1,000 
+Technetium-98 ............................ 10 
+Technetium-99 ............................ 100 
+Tellurium-121m ........................... 10 
+Tellurium-123 .............................. 100 
+Terbium-157 ................................ 10 
+Terbium-158 ................................ 1 
+Thallium-204 ................................ 100 
+Thorium-232 ................................ 100 
+Thorium-natural 1 ......................... 100 
+Thulium-170 ................................ 10 
+Thulium-171 ................................ 10 
+Tin-119m ..................................... 100 
+Tin-121m ..................................... 100 
+Tin-123 ........................................ 10 
+Tin-126 ........................................ 10 
+Titanium-44 ................................. 1 
+Tungsten-181 .............................. 1,000 
+Uranium-233 ................................ 0.01 
+Uranium-234 ................................ 0.01 
+Uranium-235 ................................ 0.01 
+Uranium-238 ................................ 100 
+Uranium-natural 2 ........................ 100 
+Vanadium-49 ............................... 1,000 
+Zinc-65 ........................................ 10 
+Zirconium-93 ............................... 10 
+Any alpha-emitting radionuclide 
+not listed above or mixtures of 
+alpha emitters of unknown 
+composition.
+0.01 
+Any radionuclide other than 
+alpha emitting radionuclides 
+not listed above, or mixtures of 
+beta emitters of unknown com-
+position.
+0.1 
+1 Based on alpha disintegration rate of Th- 
+232, Th-230, and their daughter products. 
+2 Based on alpha disintegration rate of U– 
+238, U–234, and U–235. 
+* * * * * 
+VerDate Sep<11>2014 00:55 May 16, 2026 Jkt 268001 PO 00000 Frm 00025 Fmt 4701 Sfmt 4702 E:\FR\FM\18MYP2.SGM 18MYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 16 ---
+28940 Federal Register / Vol. 91, No. 95 / Monday, May 18, 2026 / Proposed Rules 
+PART 31—GENERAL DOMESTIC 
+LICENSES FOR BYPRODUCT 
+MATERIAL 
+■ 9. The authority citation for part 31 
+continues to read as follows: 
+Authority: Atomic Energy Act secs. 81, 
+161, 183, 223, 234 (42 U.S.C. 2111, 2201, 
+2233, 2273, 2282); Energy Reorganization Act 
+secs. 201, 202 (42 U.S.C. 5841, 5842); 
+Government Paperwork Elimination Act sec. 
+1704 (44 U.S.C. 3504 note); Energy Policy Act 
+of 2005, sec. 651(e), Pub. L. 109–58, 119 Stat. 
+806–810 (42 U.S.C. 2014, 2021, 2021b, 2111). 
+■ 10. Add subpart A, before § 31.1 to 
+read as follows: 
+PART 31—GENERAL DOMESTIC 
+LICENSES FOR BYPRODUCT 
+MATERIAL 
+Subpart A—General Information 
+§ 31.1 Purpose and scope. 
+* * * * * 
+■ 11. In § 31.4, revise paragraph (b) and 
+add paragraph (c)(2) to read as follows: 
+§ 31.4 Information collection 
+requirements: OMB approval. 
+* * * * * 
+(b) The approved information 
+collection requirements contained in 
+this part appear in §§ 31.5, 31.8, 31.11, 
+31.12, 31.13, 31.14, 31.15, 31.16, 31.17, 
+and 31.18. 
+(c) * * * 
+(2) In § 31.13, NRC Form 1003 is 
+approved under control number 3150– 
+XXXX. 
+* * * * * 
+■ 12. Add subpart B, before § 31.5, and 
+revise paragraphs (c)(14) and (15) to 
+read as follows: 
+Subpart B—General Licenses 
+§ 31.5 Certain detecting, measuring, 
+gauging, or controlling devices and certain 
+devices for producing light or an ionized 
+atmosphere.[2] 
+* * * * * 
+c. * * * 
+(14) Shall report changes to the 
+mailing address for the location of use 
+(including change in name of general 
+licensee) within 30 days of the effective 
+date of the change by electronic 
+submission such as Electronic 
+Information Exchange, email to 
+GLTS.Resource@nrc.gov, or CD–ROM; 
+via mail to the Director, Office of 
+Nuclear Material Safety and Safeguards, 
+ATTN: GLTS, U.S. Nuclear Regulatory 
+Commission, Washington, DC 20555– 
+0001 for mail where a signature is not 
+required; or via mail to the Director, 
+Office of Nuclear Material Safety and 
+Safeguards, ATTN: GLTS, U.S. Nuclear 
+Regulatory Commission, 11555 
+Rockville Pike, Rockville, MD 20852– 
+2738 for signature required 
+correspondence. For a portable device, a 
+report of address change is only 
+required for a change in the device’s 
+primary place of storage. Electronic 
+submissions must be made in a manner 
+that enables the NRC to receive, read, 
+authenticate, distribute, and archive the 
+submission, and process and retrieve it 
+a single page at a time. Detailed 
+guidance on making electronic 
+submissions can be obtained by visiting 
+the NRC ’s website at https://
+www.nrc.gov/site-help/e- 
+submittals.html; by email to 
+MSHD.Resource@nrc.gov; or by writing 
+the Office of the Chief Information 
+Officer, U.S. Nuclear Regulatory 
+Commission, Washington, DC 20555– 
+0001. The guidance discusses, among 
+other topics, the formats the NRC can 
+accept, the use of electronic signatures, 
+and the treatment of nonpublic 
+information. 
+(15) May not hold devices that are not 
+in use for longer than 36 months. If 
+devices with shutters are not being 
+used, the shutter must be locked in the 
+closed position. The testing required by 
+paragraph (c)(2) of this section need not 
+be performed during the period of 
+storage only. However, when devices 
+are put back into service or transferred 
+to another person, and have not been 
+tested within the required test interval, 
+they must be tested for leakage before 
+use or transfer and the shutter tested 
+before use. Devices kept in standby for 
+future use are excluded from the 36 
+month time limit if the general licensee 
+performs semi-annually physical 
+inventories of these devices while they 
+are in standby. 
+■ 13. In § 31.11, revise paragraphs (a)(3), 
+(a)(4), (a)(6) and (a)(8) to read as follows: 
+§ 31.11 General license for use of 
+byproduct material for certain in vitro 
+clinical or laboratory testing. 
+(a) * * * 
+(1) * * * 
+(3) Carbon-14, in units not exceeding 
+100 microcuries each for use in in vitro 
+clinical or laboratory tests not involving 
+internal or external administration of 
+byproduct material, or the radiation 
+therefrom, to human beings or animals. 
+(4) Hydrogen-3 (tritium), in units not 
+exceeding 1000 microcuries each for use 
+in in vitro clinical or laboratory tests not 
+involving internal or external 
+administration of byproduct material, or 
+the radiation therefrom, to human 
+beings or animals. 
+(5) * * * 
+(6) Selenium-75, in units not 
+exceeding 100 microcuries each for use 
+in in vitro clinical or laboratory tests not 
+involving internal or external 
+administration of byproduct material, or 
+the radiation therefrom, to human 
+beings or animals. 
+(7) * * * 
+(8) Cobalt-57, in units not exceeding 
+100 microcuries each for use in in vitro 
+clinical or laboratory tests not involving 
+internal or external administration of 
+byproduct material, or the radiation 
+therefrom, to human beings or animals. 
+* * * * * 
+■ 14. Add subpart C, consisting of 
+§§ 31.13 through 31.18, to read as 
+follows: 
+Subpart C—Standard General Licenses 
+31.13 Standard General License 
+Requirements. 
+31.14 Standard General License for Certain 
+Fixed Gauging. 
+31.15 Standard General License for Portable 
+Gauging. 
+31.16 Standard General License for Certain 
+Medical Uses. 
+31.17 Standard General License for Certain 
+Analytical Equipment Including Electron 
+Capture Detectors, X-Ray Fluorescence 
+Devices, and Ion Generators. 
+31.18 Standard General License for Certain 
+In Vitro Testing. 
+Subpart C—Standard General Licenses 
+§ 31.13 Standard General License 
+Requirements. 
+(a) Any person, as defined in § 30.4 of 
+this chapter, engaging in standard 
+general license activities described in 
+§ 31.14–31.18 of this part, shall: 
+(1) At least 30 calendar days prior to 
+acquiring, receiving possessing, using, 
+or transferring byproduct material, file a 
+submittal containing an NRC Form 
+1003, with the Commission using a 
+communication method defined in 
+§ 30.6(a) of this chapter; 
+(2) Receive from the Commission, a 
+validated standard general license in the 
+form of a copy of NRC Form 1003 with 
+a registration number assigned; and 
+(3) Pay the appropriate fee as 
+prescribed in § 170.31 of this chapter. 
+No fee will be required to accompany an 
+amendment of a standard general 
+license, except as provided in § 170.31 
+of this chapter. 
+(b) A standard general licensee under 
+this subpart shall: 
+(1) Limit the number of locations of 
+use to no more than five locations of 
+use, excluding temporary job sites as 
+permitted by the standard general 
+licenses in § 31.15 and § 31.17 of this 
+part. 
+(2) File a submittal containing an NRC 
+Form 1003, with the Commission using 
+a communication method defined in 
+§ 30.6(a) of this chapter, at least 30 
+calendar days prior to the effective date 
+VerDate Sep<11>2014 00:55 May 16, 2026 Jkt 268001 PO 00000 Frm 00026 Fmt 4701 Sfmt 4702 E:\FR\FM\18MYP2.SGM 18MYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 17 ---
+28941 Federal Register / Vol. 91, No. 95 / Monday, May 18, 2026 / Proposed Rules 
+of any of the following changes to the 
+most recently validated NRC Form 1003: 
+the licensee’s direct ownership, 
+controlling ownership of the licensed 
+activities, name of the licensee, location 
+of use addresses, mailing address, 
+Radiation Safety Officer, or materials. 
+(i) If licensed activities are transferred 
+or assigned to a different ownership, 
+each licensee authorized to possess 
+radioactive material, with a half-life 
+greater than 120 days, in an unsealed 
+form, shall transfer the following 
+records to the new licensee and the new 
+licensee will be responsible for 
+maintaining these records until the 
+license is terminated: Records of 
+disposal of licensed material made 
+under §§ 20.2002 (including burials 
+authorized before January 28, 19811), 
+20.2003, 20.2004, 20.2005; and Records 
+required by § 20.2103(b)(4) of this 
+chapter. 
+(3) Pay an annual fee as prescribed in 
+§ 171.16 of this chapter. 
+(c) A person licensed under this 
+subpart shall restrict the possession of 
+licensed material: 
+(1) To a total quantity below unity for 
+the radionuclides listed in 10 CFR part 
+37 appendix A, calculated using the 
+Category 2 activity thresholds specified 
+in the table, according to 10 CFR part 37 
+appendix A; 
+(2) To quantities below the minimum 
+limits for unsealed and/or sealed 
+material as specified in § 30.35(d) of this 
+chapter for which decommissioning 
+financial assurance is required; and 
+(3) To quantities below the limits 
+specified in § 30.72 of this chapter, in 
+the form of unsealed material and foil or 
+plated sources, above which, 
+consideration of the need for an 
+emergency plan for responding to a 
+release of licensed material is required. 
+(d) A person licensed under this 
+subpart shall not abandon byproduct 
+material. 
+(e) A person licensed under this 
+subpart shall not export the byproduct 
+material except in accordance with part 
+110 of this chapter. 
+(f)(1) Within 60 days of the 
+occurrence of any of the following, each 
+licensee shall provide notification to the 
+Commission by filing a submittal 
+containing an NRC Form 1003 with the 
+Commission using a communication 
+method defined in § 30.6(a) of this 
+chapter any of the following and 
+indicate which approach under 
+paragraph (f)(2) of this section the 
+licensee intends to pursue: 
+(i) The licensee has decided to 
+permanently cease principal activities, 
+at the entire site or in any separate 
+building or outdoor area that contains 
+residual radioactivity such that the 
+building or outdoor area is unsuitable 
+for release in accordance with 
+Commission requirements, or 
+(ii) No principal activities under the 
+license have been conducted for a 
+period of 36 months, or 
+(iii) No principal activities have been 
+conducted for a period of 36 months in 
+any separate building or outdoor area 
+that contains residual radioactivity such 
+that the building or outdoor area is 
+unsuitable for release in accordance 
+with NRC requirements. 
+(2) When notification is made 
+pursuant to paragraph (f)(1) of this 
+section, the licensee must— 
+(i) Within 45 days, submit a request 
+to delay initiation of decommissioning 
+activities consistent with paragraph (g) 
+of this section, or 
+(ii) Immediately begin 
+decommissioning its site, or any 
+separate building or outdoor area that 
+contains residual radioactivity so that 
+the building or outdoor area is suitable 
+for release in accordance with NRC 
+requirements, or 
+(iii) Within 12 months, submit a 
+decommissioning plan, if required by 
+paragraph (f)(3) of this section, and 
+begin decommissioning upon approval 
+of that plan. 
+(3)(i) A decommissioning plan must 
+be submitted if the procedures and 
+activities necessary to carry out 
+decommissioning of the site or separate 
+building or outdoor area have not been 
+previously approved by the Commission 
+and these procedures could increase 
+potential health and safety impacts to 
+workers or to the public, such as in any 
+cases described in § 30.36(g)(1)(i)–(iv). 
+(ii) The Commission may approve an 
+alternate schedule for submittal of a 
+decommissioning plan required 
+pursuant to paragraph (f)(2) of this 
+section if the Commission determines 
+that the alternative schedule is 
+necessary to the effective conduct of 
+decommissioning operations and 
+presents no undue risk from radiation to 
+the public health and safety and is 
+otherwise in the public interest. 
+(iii) Procedures such as those listed in 
+paragraph (f)(3)(i) of this section with 
+potential health and safety impacts may 
+not be carried out prior to approval of 
+the decommissioning plan. 
+(iv) The proposed decommissioning 
+plan for the site or separate building or 
+outdoor area must include the 
+information listed in § 30.36 (g)(4)(i)– 
+(vi): 
+(v) The proposed decommissioning 
+plan will be approved by the 
+Commission if the information therein 
+demonstrates that the decommissioning 
+will be completed as soon as practicable 
+and that the health and safety of 
+workers and the public will be 
+adequately protected. 
+(4) Licensees shall complete 
+decommissioning of the site or separate 
+building or outdoor area as soon as 
+practicable but no later than 24 months 
+following the initiation of 
+decommissioning. 
+(5) When decommissioning involves 
+the entire site, the licensee shall request 
+license termination as soon as 
+practicable but no later than 24 months 
+following the initiation of 
+decommissioning. 
+(6) As the final step in 
+decommissioning, the licensee shall— 
+(i) Certify the disposition of all 
+licensed material, including 
+accumulated wastes, by filing a 
+submittal containing an NRC Form 
+1003, with the Commission using a 
+communication method defined in 
+§ 30.6(a) of this chapter; and 
+(ii) Conduct a radiation survey of the 
+premises where the licensed activities 
+were carried out and submit a report of 
+the results of this survey, unless the 
+licensee demonstrates in some other 
+manner that the premises are suitable 
+for release in accordance with the 
+criteria for decommissioning in 10 CFR 
+part 20, subpart E. The licensee shall, as 
+appropriate— 
+(A) Report levels of gamma radiation 
+in units of millisieverts (microroentgen) 
+per hour at one meter from surfaces, and 
+report levels of radioactivity, including 
+alpha and beta, in units of 
+megabecquerels (disintegrations per 
+minute or microcuries) per 100 square 
+centimeters—removable and fixed—for 
+surfaces, megabecquerels (microcuries) 
+per milliliter for water, and becquerels 
+(picocuries) per gram for solids such as 
+soils or concrete; and 
+(B) Specify the survey instrument(s) 
+used and certify that each instrument is 
+properly calibrated and tested. 
+(g) The Commission may grant a 
+request to extend the time periods 
+established in paragraph (f). The 
+schedule for decommissioning set forth 
+in paragraph (f) of this section may not 
+commence until the Commission has 
+made a determination on the request. 
+The request must include the following: 
+(1) Discussion of the business need for 
+continued possession or authorization 
+of licensed material or how the request 
+is otherwise in the public interest. 
+(2) Discussion of the health and safety 
+plan that will be in effect during the 
+extension period. 
+(3) Discussion of the current 
+decommissioning cost estimate and the 
+potential for increased 
+decommissioning costs if an extension 
+of the time period is approved. 
+VerDate Sep<11>2014 00:55 May 16, 2026 Jkt 268001 PO 00000 Frm 00027 Fmt 4701 Sfmt 4702 E:\FR\FM\18MYP2.SGM 18MYP2khammond on DSK9W7S144PROD with PROPOSALS2
+--- page 18 ---
+28942 Federal Register / Vol. 91, No. 95 / Monday, May 18, 2026 / Proposed Rules 
+(4) A timeframe for which principal 
+activities will resume, which shall not 
+exceed 36 months from the date that 
+principal activities ceased at the site, 
+separate building, or outdoor area, as 
+provided for in (f)(1)(ii) and (f)(1)(iii) of 
+this section. 
+(5) A commitment that, should 
+principal activities not resume within 
+the timeframe specified in paragraph 
+(g)(4), the licensee shall submit provide 
+notification to the NRC consistent with 
+paragraph (f) of this section. 
+(h) A licensee shall terminate a 
+standard general license with the 
+Commission by filing a submittal 
+containing an NRC Form 1003, with the 
+Commission using a communication 
+method defined in § 30.6(a) of this 
+chapter. The standard general license 
+will be terminated by written notice to 
+the licensee when the Commission 
+determines that: 
+(i) Byproduct material has been 
+properly disposed; 
+(ii) Reasonable effort has been made 
+to eliminate residual radioactive 
+contamination, if present; and 
+(iii)(A) A radiation survey has been 
+performed which demonstrates that the 
+premises are suitable for unrestricted 
+release in accordance with the criteria 
+for decommissioning in 10 CFR part 20, 
+subpart E; or 
+(B) Other information submitted by 
+the licensee is sufficient to demonstrate 
+that the premises are suitable for 
+unrestricted release in accordance with 
+the criteria for decommissioning in 10 
+CFR part 20, subpart E. 
+(iv) Records required by § 30.51 (d) 
+and (f) of this chapter have been 
+received. 
+§ 31.14 Standard General License for 
+Certain Fixed Gauging. 
+(a)(1) Provided that the provisions of 
+paragraph (b) of this section have been 
+met, a general license is hereby issued 
+to commercial and industrial firms and 
+research, educational and medical 
+institutions, individuals in the conduct 
+of their business, and Federal, State or 
+local government agencies to acquire, 
+receive, possess, use, or transfer 
+byproduct material contained in devices 
+designed and manufactured for the 
+purpose of detecting, measuring, 
+gauging or controlling thickness, 
+density, level, interface location, or 
+qualitative or quantitative chemical 
+composition in accordance with the 
+provisions of paragraph (c) of this 
+section. 
+(2)(i) The provisions of paragraph 
+(a)(1) of this section apply to byproduct 
+material contained in devices which are 
+registered in the Sealed Source and 
+Device Registry with the Commission 
+under § 32.210, as defined in § 32.2 of 
+this chapter, or with an Agreement 
+State, with the principle use codes D— 
+gamma gauges or E—beta gauges. 
+(ii) The provisions of paragraph (a)(1) 
+of this section apply to the use 
+specifically licensed devices that are 
+distributed in accordance with § 30.41 
+of this chapter. 
+(3) The provisions of paragraph (a)(1) 
+of this section apply for use of these 
+materials at fixed locations listed on the 
+most recent NRC Form 1003 provided to 
+the Commission in accordance with 
+§ 31.13 of this part. 
+(4) The provisions of paragraph (a)(1) 
+of this section do not authorize the 
+manufacture, initial transfer or 
+distribution, or import of devices 
+containing byproduct material. 
+(b)(1) The general licenses provided 
+in this section are subject to all the 
+provisions of the Act, now or hereafter 
+in effect, and to all applicable rules, 
+regulations, and orders of the 
+Commission including the provisions of 
+§§ 30.7, 30.8, 30.9, 30.10, 30.11, 30.31, 
+30.34, 30.35, 30.41, 30.50 through 30.64 
+of this chapter; §§ 31.1 through 31.4 of 
+this part; §§ 31.21 through 31.23 of this 
+part; and to the provisions of 10 CFR 
+parts 19, 20, 21, and 71. 
+(2) Any person engaging in activities 
+under the general licenses provided in 
+this section need not comply with 
+§ 30.34(b) of this chapter. 
+(3) In addition, any person engaging 
+in activities under the general licenses 
+provided in this section shall comply 
+with the requirements in § 31.13 of this 
+part. 
+(c) A licensee shall — 
+(1)(i) Limit the use of sealed sources 
+to those registered either with 
+Commission under § 32.210 of this 
+chapter or with an Agreement State. 
+(ii) Ensure sealed sources are 
+incorporated in compatible devices, by 
+manufacturer and model, and limited to 
+use as specified in the Sealed Source 
+and Device Registry for the devices 
+manufacturer and model. 
+(iii) Ensure the activity of byproduct 
+material in sealed sources is limited to 
+the activity listed in the Sealed Source 
+and Device Registry for the associated 
+devices manufacturer and model. 
+(2)(i) Appoint and designate, in 
+writing, a radiation safety officer 
+responsible for having knowledge of the 
+appropriate regulations and 
+requirements and the authority for 
+taking required actions to comply with 
+appropriate regulations and 
+requirements. The general licensee, 
+through this individual, shall ensure the 
+day-to-day compliance with appropriate 
+regulations and requirements. This 
+appointment does not relieve the 
+general licensee of any of its 
+responsibility in this regard. 
+(ii) Maintain a record of an 
+individual’s training and experience, 
+and appointment as the Radiation Safety 
+Officer for 5 years following their last 
+day in the role. 
+(3)(i) Designate, in writing, 
+individuals to work as authorized users, 
+who have sufficient training and 
+experience to use and supervise the use 
+of licensed materials. Additionally, 
+Licensee staff engaged in leak test 
+sample collection, on-off mechanism 
+testing, and routine maintenance shall 
+be trained on the licensee’s procedures 
+and the manufacturer’s written 
+recommendations and instructions for 
+the relevant activities. 
+(ii) Maintain the designation and 
+record of the individuals’ training and 
+experience for 5 years after the 
+individuals last works as an Authorized 
+User for the licensee. 
+(4) Ensure licensed materials 
+authorized by paragraph (a) of this 
+section are used by, or under the 
+supervision of, individuals who have 
+been designated as authorized users by 
+paragraph (c)(3) of this section. 
+(5)(i) Operate each device containing 
+byproduct material within the 
+manufacturer’s specified temperature 
+and environmental limits such that 
+shielding and shutter mechanisms of the 
+source holder are not comprised. 
+(ii) Ensure sealed sources containing 
+licensed material are not opened and 
+sources are not removed from source 
+holders. 
+(iii) Ensure only the gauge 
+manufacturer, distributor, or other 
+person authorized by the Commission or 
+an Agreement State will perform 
+nonroutine maintenance such as 
+installation, initial radiation survey, 
+repair and maintenance of radiological 
+safety components, relocation, 
+replacement, alignment, removal from 
+service, and disposal of sealed sources. 
+(6)(i) Prepare an evaluation 
+demonstrating that unmonitored 
+individuals are not likely to receive a 
+radiation dose in excess of the limits in 
+§ 20.1502 of this chapter; or 
+(ii) Develop, implement, and maintain 
+a program for individual monitoring of 
+external and internal occupational dose 
+in accordance with § 20.1502 of this 
+chapter. 
+(iii) maintain records of the 
+evaluation described in (6)(i) for 3 years 
+following the last use of licensed 
+material by unmonitored individuals. 
+(iv) maintain records of individual 
+monitoring results in accordance with 
+§ 20.2106 of this chapter. 
+(7)(i) Ensure any radiation detection 
+instruments used to perform on-off 
+VerDate Sep<11>2014 00:55 May 16, 2026 Jkt 268001 PO 00000 Frm 00028 Fmt 4701 Sfmt 4702 E:\FR\FM\18MYP2.SGM 18MYP2khammond on DSK9W7S144PROD with PROPOSALS2
