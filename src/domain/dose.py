@@ -1,42 +1,129 @@
-""" Defines strongly typed radiation measurements. 
-Instead of passing generic numbers through the system, TEDE, lens, shallow dose, and intake are different types that carry their value and unit. 
-This stops the rules engine from accidentally evaluating one dose quantity against another quantity's regulatory threshold."."""
+"""
+Typed radiation dose quantities used by the Dosimeter application.
+
+Dose values are represented as specific quantity types rather than bare
+floats so that TEDE, lens dose, and shallow dose cannot be treated as
+interchangeable measurements.
+"""
 
 from enum import Enum
 
 from pydantic import BaseModel, ConfigDict, Field
 
 
+# Enumerations
+
+
 class DoseUnit(str, Enum):
+    """Supported radiation dose units."""
+
     REM = "rem"
     RAD = "rad"
+    SIEVERT = "Sv"
+    GRAY = "Gy"
 
-"""TEDE, lens, and shallow dose are not interchangeable and have different annual and notification thresholds 
-    These are reped by three different Python types stored within four models 
-"""
+
+class ShallowDoseSite(str, Enum):
+    """Location associated with a shallow-dose measurement."""
+
+    SKIN = "skin"
+    EXTREMITY = "extremity"
+
+
+
+# Dose Quantities
+
 
 class TotalEffectiveDoseEquivalent(BaseModel):
-    model_config = ConfigDict(frozen=True)
+    """Total Effective Dose Equivalent (TEDE)."""
+
+    model_config = ConfigDict(
+        strict=True,
+        frozen=True,
+        extra="forbid",
+    )
 
     value: float = Field(ge=0)
     unit: DoseUnit
 
 
 class LensDoseEquivalent(BaseModel):
-    model_config = ConfigDict(frozen=True)
+    """Lens Dose Equivalent."""
+
+    model_config = ConfigDict(
+        strict=True,
+        frozen=True,
+        extra="forbid",
+    )
 
     value: float = Field(ge=0)
     unit: DoseUnit
 
 
 class ShallowDoseEquivalent(BaseModel):
-    model_config = ConfigDict(frozen=True)
+    """Shallow-Dose Equivalent for the skin or an extremity."""
+
+    model_config = ConfigDict(
+        strict=True,
+        frozen=True,
+        extra="forbid",
+    )
+
+    value: float = Field(ge=0)
+    unit: DoseUnit
+    site: ShallowDoseSite
+
+
+class IntakeMultipleOfALI(BaseModel):
+    """Intake expressed as a multiple of the Annual Limit on Intake (ALI)."""
+
+    model_config = ConfigDict(
+        strict=True,
+        frozen=True,
+        extra="forbid",
+    )
+
+    value: float = Field(ge=0)
+
+
+
+# Typed Thresholds
+
+
+class TEDEThreshold(BaseModel):
+    """Threshold that may only be used with TEDE measurements."""
+
+    model_config = ConfigDict(
+        strict=True,
+        frozen=True,
+        extra="forbid",
+    )
 
     value: float = Field(ge=0)
     unit: DoseUnit
 
 
-class IntakeMultipleOfALI(BaseModel):
-    model_config = ConfigDict(frozen=True)
+class LensThreshold(BaseModel):
+    """Threshold that may only be used with lens-dose measurements."""
+
+    model_config = ConfigDict(
+        strict=True,
+        frozen=True,
+        extra="forbid",
+    )
 
     value: float = Field(ge=0)
+    unit: DoseUnit
+
+
+class ShallowThreshold(BaseModel):
+    """Threshold that may only be used with shallow-dose measurements."""
+
+    model_config = ConfigDict(
+        strict=True,
+        frozen=True,
+        extra="forbid",
+    )
+
+    value: float = Field(ge=0)
+    unit: DoseUnit
