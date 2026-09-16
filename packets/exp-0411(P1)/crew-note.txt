@@ -1,1 +1,9 @@
+Exposure ID: exp-0411
+Worker ID: WKR-1047
+Date: 03/12/2026
 
+During routine radiography work, I noticed an unexpected reading on the survey meter while we were checking the work area. I stopped the operation and told the rest of the crew to remain outside the restricted area while we checked the equipment and surrounding area.
+
+The SENTINEL 880 Delta camera remained in its normal position throughout the incident. The source never left the device and was never loose or uncontrolled in the work area. We maintained the barrier around the work area and did not allow anyone to approach the equipment until the area had been checked.
+
+I did not observe any damage or malfunction involving the camera, guide tube, or control assembly. No radioactive material was reported missing or stolen. The equipment was taken out of service as a precaution so that it could be inspected before being used again. The incident and survey readings were reported to the Radiation Safety Officer.
