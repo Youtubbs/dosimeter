@@ -1,3 +1,8 @@
+"""
+    proves those protections work by testing valid quantities, invalid data, bare-number rejection, units, and cross-quantity behavior. 
+    These models then become the foundation for R1 through R5 and later agent tools and guardrails."
+"""
+
 import pytest
 from pydantic import ValidationError
 
