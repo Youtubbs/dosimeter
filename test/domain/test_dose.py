@@ -40,6 +40,16 @@ def test_create_p1_shallow_dose():
     assert shallow.unit == DoseUnit.REM
 
 
+def test_create_p2_shallow_extremity_dose():
+    shallow = ShallowDoseEquivalent(
+        value=310,
+        unit=DoseUnit.RAD,
+    )
+
+    assert shallow.value == 310
+    assert shallow.unit == DoseUnit.RAD
+
+
 def test_negative_dose_is_rejected():
     with pytest.raises(ValidationError):
         TotalEffectiveDoseEquivalent(
