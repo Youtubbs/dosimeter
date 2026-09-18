@@ -25,7 +25,18 @@ The image is used as representative industrial radiography equipment imagery for
 **File:** `exp-0413/photo-01.jpg`
 **Source:** GEOCOR S.R.L
 **Source Page:** Geocor SRL - SERVICIO DE ENSAYOS NO DESTRUCTIVOS
-**URL:** https://www.geocorsrl.com.ar/geocorsrl-servicios-ensayo-no-destructivo.html?utm_source=chatgpt.com
+**URL:** https://www.geocorsrl.com.ar/geocorsrl-servicios-ensayo-no-destructivo.html?
+**Accessed:** September 2026
+
+The image is used as representative industrial radiography equipment imagery for the synthetic P3 exposure packet.
+
+
+## P4 — exp-0414
+
+**File:** `exp-0414/photo-01.jpg`
+**Source:** GEOCOR S.R.L
+**Source Page:** Geocor SRL - SERVICIO DE ENSAYOS NO DESTRUCTIVOS
+**URL:** https://www.geocorsrl.com.ar/geocorsrl-servicios-ensayo-no-destructivo.html?
 **Accessed:** September 2026
 
 The image is used as representative industrial radiography equipment imagery for the synthetic P3 exposure packet.
