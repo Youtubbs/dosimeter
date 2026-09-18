@@ -1,12 +1,7 @@
-[build-system]
-requires = ["setuptools>=68", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "dosimeter"
 version = "0.1.0"
 description = "Multi-agent radiation exposure analysis using LangGraph, Amazon Bedrock, Textract, deterministic regulatory rules, and cited evidence."
-readme = "README.md"
 requires-python = ">=3.11"
 authors = [
     { name = "Abdulmuqsit Jimoh" },
@@ -14,157 +9,57 @@ authors = [
     { name = "Anthony Sherrell" },
 ]
 
-# exact pins (==) only. Copy every pin into the decisions table (DM-109).
 dependencies = [
-    "boto3>=1.34",
-    "botocore==1.43.96",
-    "pydantic>=2.0,<3.0",
+    # pre week 6 dependencies
+    "pydantic==2.13.4",
     "pydantic-settings==2.15.0",
-    "psycopg[binary]>=3.1,<4.0",
+    "flask==3.1.2",
+    "sqlalchemy==2.0.43",
+    "flask-sqlalchemy==3.1.1",
+    "flask-migrate==4.1.0",
+    "psycopg[binary]==3.2.10",
+    "python-dotenv==1.1.1",
+    "boto3==1.40.96",
+    "botocore==1.43.96",
+    "gunicorn==26.2.0",
+
+    # post week 6 dependencies
+    "langgraph==1.2.11",
+    "langgraph-checkpoint-postgres==3.1.2",
+    "langchain-aws==1.7.8",
+    "langchain-core==1.6.0",
+
     "pgvector==0.5.0",
     "alembic==1.20.0",
-    "flask>=3.0,<4.0",
+
+    # dependency for chunking the local runbooks for RAG - external Knowledge Base wouldn't need.
+    "langchain-text-splitters==1.0.0",
+    "langsmith>0.12",
+
+    # corpus dependencies
+    "reportlab==5.0.1",
+    "pypdf==6.18.0",
 ]
 
 [project.optional-dependencies]
 dev = [
     "pytest==9.1.1",
-    "pytest-asyncio==1.4.0",   
-    "ruff==0.16.8",            
-    "import-linter==2.15",     
-]
-# Production WSGI server for the Flask API container
-api = [
-    "gunicorn==26.2.0",
-]
-# corpus rebuild reproducibility check (versions fixed by the corpus README)
-corpus = [
-    "reportlab==5.0.1",
-    "pypdf==6.18.0",
+    "pytest-asyncio==1.4.0",
+
+    # styling imports
+    "ruff==0.16.8",
+    "import-linter==2.15",
 ]
 
-# --- Week 7 (Sprint Two) — DO NOT enable before end of Week 6 
-# agents = [
-#     "langgraph==1.2.11",
-#     "langgraph-checkpoint-postgres==3.1.2",   # DM-57
-#     "langchain-aws==1.7.8",                   # only if the Converse chat model is used
-# ]
-
-# --- Week 8 (Sprint Three) — DO NOT enable before end of Week 7 ---
-# agentcore = [
-#     "bedrock-agentcore==1.23.1",
-# ]
-
-# --- Stretch ---
-# stretch = [
-#     "hypothesis==6.168.0",   # DM-130 property-based tests
-#     "mypy==2.3.1",           # DM-131 strict type checking
-#     "pip-audit==2.10.1",     # DM-137 dependency vulnerability scan
-#     "rich==15.0.0",          # DM-132 richer CLI rendering
-# ]
-
-[project.scripts]
-# submit, assess, dossier, ask, sources, trace, queue, review
-dosimeter = "dosimeter.cli.main:main"
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+include = ["dosimeter*"]
 
-[tool.setuptools.package-data]
-dosimeter = ["py.typed"]
-
-# ---------------------------------------------------------------------------
-# Ruff 
-# ---------------------------------------------------------------------------
-[tool.ruff]
-target-version = "py311"
-line-length = 100
-src = ["src", "tests"]
-extend-exclude = ["cropus", "corpus"]
-
-[tool.ruff.lint]
-select = [
-    "E",    # pycodestyle errors (includes E722 bare except)
-    "W",    # pycodestyle warnings
-    "F",    # pyflakes
-    "I",    # isort
-    "B",    # flake8-bugbear (includes B006 mutable defaults)
-    "S",    # flake8-bandit (hardcoded secrets, SQL built from strings)
-    "UP",   # pyupgrade
-    "ANN",  # type hints present (definition of done)
-    "BLE",  # blind except
-    "T20",  # no print(). use structured logging (DM-14)
-]
-ignore = [
-    "ANN401",  # allow Any where genuinely needed
-]
-
-[tool.ruff.lint.per-file-ignores]
-"tests/**" = ["S101", "ANN", "S105", "S106"]
-"src/dosimeter/cli/**" = ["T20"]
-
-# ---------------------------------------------------------------------------
-# Pytest
-# ---------------------------------------------------------------------------
-[tool.pytest.ini_options]
-minversion = "9.0"
-testpaths = ["tests"]
-asyncio_mode = "auto"
-asyncio_default_fixture_loop_scope = "function"
-addopts = ["-ra", "--strict-markers", "--strict-config"]
-markers = [
-    "integration: needs local Postgres from docker compose (not run in CI by default)",
-    "eval: golden-set evaluation cases",
-]
-
-# ---------------------------------------------------------------------------
-# Import Linter: only the owning modules touch boto3 / the DB driver
-# ---------------------------------------------------------------------------
-[tool.importlinter]
-root_packages = ["dosimeter"]
-include_external_packages = true
-
-[[tool.importlinter.contracts]]
-name = "Only dosimeter.bedrock, ingestion and retrieval import boto3"
-type = "forbidden"
-source_modules = [
-    "dosimeter.cli",
-    "dosimeter.config",
-    "dosimeter.models",
-    "dosimeter.rules",
-    "dosimeter.repository",
-    "dosimeter.harness",
-    "dosimeter.tools",
-    "dosimeter.api",
-]
-forbidden_modules = ["boto3", "botocore"]
-
-[[tool.importlinter.contracts]]
-name = "Only dosimeter.repository imports the DB driver"
-type = "forbidden"
-source_modules = [
-    "dosimeter.cli",
-    "dosimeter.config",
-    "dosimeter.models",
-    "dosimeter.rules",
-    "dosimeter.ingestion",
-    "dosimeter.retrieval",
-    "dosimeter.harness",
-    "dosimeter.tools",
-    "dosimeter.api",
-]
-forbidden_modules = ["psycopg", "pgvector", "alembic"]
-
-[[tool.importlinter.contracts]]
-name = "Rules engine has no I/O layers"
-type = "forbidden"
-source_modules = ["dosimeter.rules"]
-forbidden_modules = [
-    "dosimeter.repository",
-    "dosimeter.retrieval",
-    "dosimeter.ingestion",
-    "dosimeter.tools",
-    "dosimeter.api",
-    "dosimeter.cli",
-    "flask",
-]
+# cli commands eventually will be implemented
+#  - submit, assess, dossier, ask, sources, trace, queue, review
+[project.scripts]
+dosimeter = "dosimeter.cli.main:main"
