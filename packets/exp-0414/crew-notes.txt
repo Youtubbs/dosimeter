@@ -1,1 +1,19 @@
+Exposure ID: exp-0414
+Worker ID: WKR-1047
+Date: 09/15/2026
 
+Before the scheduled entry, our supervisor reviewed the planned work with
+the crew. We discussed the purpose of the entry, the estimated radiation
+dose, and the measures we would use to keep exposure as low as reasonably
+achievable. Written authorization had been completed before the work began.
+
+I entered the shielded enclosure as planned while the supervisor remained
+present and the crew followed the established entry procedure. Monitoring
+was maintained throughout the activity, and the work remained within the
+scope discussed during the pre-entry briefing.
+
+I did not observe any equipment malfunction during the operation. The
+radiography equipment remained under control, and no licensed material was
+reported lost, stolen, or missing. After the planned work was completed, I
+exited the enclosure and the exposure information was documented for review
+by the Radiation Safety Officer.
