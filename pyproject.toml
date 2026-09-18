@@ -79,7 +79,7 @@ dosimeter = ["py.typed"]
 [tool.ruff]
 target-version = "py311"
 line-length = 100
-src = ["src", "tests"]
+src = ["src", "test"]
 extend-exclude = ["cropus", "corpus"]
 
 [tool.ruff.lint]
@@ -100,7 +100,7 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["S101", "ANN", "S105", "S106"]
+"test/**" = ["S101", "ANN", "S105", "S106"]
 "src/dosimeter/cli/**" = ["T20"]
 
 # ---------------------------------------------------------------------------
@@ -108,7 +108,7 @@ ignore = [
 # ---------------------------------------------------------------------------
 [tool.pytest.ini_options]
 minversion = "9.0"
-testpaths = ["tests"]
+testpaths = ["test"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 addopts = ["-ra", "--strict-markers", "--strict-config"]
