@@ -27,37 +27,4 @@ jobs:
         run: ruff check .
 
       - name: Test
-        # Exit code 5 = "no tests collected"; allowed until the first tests land.
-        run: pytest -m "not integration and not eval" || [ $? -eq 5 ]
-
-      # - name: Architecture boundaries (DM-16)
-      #   run: lint-imports
-
-  # secret-scan:            # DM-48
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         fetch-depth: 0
-  #     - uses: gitleaks/gitleaks-action@v2
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  # build-and-deploy:       # DM-95: build images -> push to ECR -> deploy ECS + AgentCore
-  #   needs: [test, secret-scan]
-  #   if: github.ref == 'refs/heads/main'
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: aws-actions/configure-aws-credentials@v4
-  #       with:
-  #         role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
-  #         aws-region: us-east-1
-
-  # eval:                   # DM-95: deterministic eval tier, fails the pipeline on regression
-  #   needs: build-and-deploy
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - run: pip install -e ".[dev]"
-  #     - run: pytest -m eval
+        run: pytest
