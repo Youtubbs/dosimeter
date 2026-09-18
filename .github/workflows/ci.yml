@@ -1,13 +1,14 @@
 name: CI
 
 on:
-  pull_request:
   push:
-    branches: [main]
+    # uncomment when branch naming conventions are in practice
+    # branches:
+    #   - "feature/**"
+  pull_request:
 
 permissions:
   contents: read
-  # id-token: write   # needed for GitHub OIDC -> AWS role
 
 jobs:
   test:
