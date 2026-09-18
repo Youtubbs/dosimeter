@@ -12,10 +12,20 @@ The image is used as representative industrial radiography equipment imagery for
 
 ## P2 — exp-0412
 
-**File:** `exp-0412/photo-02.jpg`
+**File:** `exp-0412/photo-01.jpg`
 **Source:** SOURCA
 **Source Page:** SENTINEL™ Omega 880 Gamma Radiography Equipment
 **URL:** https://www.sourca.com/produits/gammagraphes-sentineltm-omega-880
 **Accessed:** September 2026
 
 The image is used as representative industrial radiography equipment imagery for the synthetic P2 exposure packet.
+
+## P3 — exp-0413
+
+**File:** `exp-0413/photo-01.jpg`
+**Source:** GEOCOR S.R.L
+**Source Page:** Geocor SRL - SERVICIO DE ENSAYOS NO DESTRUCTIVOS
+**URL:** https://www.geocorsrl.com.ar/geocorsrl-servicios-ensayo-no-destructivo.html?utm_source=chatgpt.com
+**Accessed:** September 2026
+
+The image is used as representative industrial radiography equipment imagery for the synthetic P3 exposure packet.
