@@ -77,21 +77,3 @@ def normalize(blocks: list[dict], source_artifact: str) -> dict:
         "source_artifact": source_artifact,
         "fields": fields,
     }
-
-
-# for testing
-# if __name__ == "__main__":
-#     from .textract import extract_artifact
-
-#     blocks = extract_artifact("exp-0411/exposure-report.pdf")
-
-#     result = normalize(
-#         blocks=blocks,
-#         source_artifact="exp-0411/exposure-report.pdf",
-#     )
-
-#     print(f"Found {len(result['fields'])} fields")
-
-#     for line in result["fields"]:
-#         print()
-#         print(line)
