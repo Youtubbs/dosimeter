@@ -5,8 +5,6 @@ from ..aws.config import PACKET_BUCKET_NAME
 
 import time
 
-
-
 def start_document_analysis(s3_key: str) -> str:
     """ Start an asynchronous Textract analysis for an S3 document """
 
@@ -27,23 +25,32 @@ def start_document_analysis(s3_key: str) -> str:
 
     return response["JobId"]
 
-def wait_for_analysis(job_id: str, poll_interval: int = 2) -> None:
-    """ Wait until the Textract analysis finishes """
+def wait_for_analysis(job_id: str, poll_interval: int = 2, max_delay = 30, max_wait = 300) -> str:
+    """ Wait for a Textract job to finish. Uses exponential backoff while polling Textract """
 
     textract = get_client("textract")
 
-    while True:
+    delay = poll_interval
+    elapsed = 0
+
+    while elapsed < max_wait:
         response = textract.get_document_analysis(JobId=job_id,)
 
         status = response["JobStatus"]
 
         if status == "SUCCEEDED":
-            return
+            return status
 
-        if status in {"FAILED", "PARTIAL_SUCCESS"}:
-            raise RuntimeError(f"Textract job {job_id} finished with status: {status}")
+        if status == "PARTIAL_SUCCESS":
+            return status
 
-        time.sleep(poll_interval)
+        if status == "FAILED":
+            raise RuntimeError(f"Textract job {job_id} failed.")
+
+        time.sleep(delay)
+        elapsed += delay
+
+        delay = min(delay * 2, max_delay)
 
 def get_analysis_results(job_id: str) -> list[dict]:
     """ Retrieve all Textract analysis results, including paginated results """
@@ -77,9 +84,13 @@ def extract_artifact(s3_key: str) -> list[dict]:
     try:
         job_id = start_document_analysis(s3_key=s3_key)
 
-        wait_for_analysis(job_id)
+        status = wait_for_analysis(job_id)
 
-        return get_analysis_results(job_id)
+        blocks = get_analysis_results(job_id)
+
+        if status == "PARTIAL_SUCCESS":
+            print(f"Textract partially processed artifact: {s3_key}")
+        return blocks
 
     # change to custom error later
     except Exception as e:
