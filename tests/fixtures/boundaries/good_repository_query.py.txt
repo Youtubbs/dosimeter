@@ -1,0 +1,8 @@
+"""A parameterized repository query, which the scanner must accept."""
+
+LOAD_EXPOSURE = "SELECT id, status FROM exposures WHERE id = %(exposure_id)s"
+
+
+def load_exposure(cursor, exposure_id: str):
+    cursor.execute(LOAD_EXPOSURE, {"exposure_id": exposure_id})
+    return cursor.fetchone()

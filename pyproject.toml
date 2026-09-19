@@ -20,6 +20,7 @@ dependencies = [
     "psycopg[binary]==3.2.10",
     "python-dotenv==1.1.1",
     "boto3==1.43.97",
+    "botocore==1.43.97",
     "gunicorn==26.2.0",
 
     # post week 6 dependencies
@@ -62,3 +63,25 @@ include = ["dosimeter*"]
 #  - submit, assess, dossier, ask, sources, trace, queue, review
 [project.scripts]
 dosimeter = "dosimeter.cli.main:main"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+extend-exclude = ["corpus"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "W", "B", "S"]
+ignore = ["S101"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S105", "S106", "S107"]
+"test/**" = ["S105", "S106", "S107"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "test"]
+asyncio_mode = "auto"
+markers = [
+    "integration: touches a real service and is not run in CI",
+    "eval: runs the evaluation harness",
+]
