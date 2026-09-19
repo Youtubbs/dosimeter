@@ -5,10 +5,12 @@ from ..aws.config import PACKET_BUCKET_NAME
 
 import time
 
-textract = get_client("textract")
+
 
 def start_document_analysis(s3_key: str) -> str:
     """ Start an asynchronous Textract analysis for an S3 document """
+
+    textract = get_client("textract")
 
     response = textract.start_document_analysis(
         DocumentLocation={
@@ -28,6 +30,8 @@ def start_document_analysis(s3_key: str) -> str:
 def wait_for_analysis(job_id: str, poll_interval: int = 2) -> None:
     """ Wait until the Textract analysis finishes """
 
+    textract = get_client("textract")
+
     while True:
         response = textract.get_document_analysis(JobId=job_id,)
 
@@ -37,14 +41,14 @@ def wait_for_analysis(job_id: str, poll_interval: int = 2) -> None:
             return
 
         if status in {"FAILED", "PARTIAL_SUCCESS"}:
-            raise RuntimeError(
-                f"Textract job {job_id} finished with status: {status}"
-            )
+            raise RuntimeError(f"Textract job {job_id} finished with status: {status}")
 
         time.sleep(poll_interval)
 
 def get_analysis_results(job_id: str) -> list[dict]:
     """ Retrieve all Textract analysis results, including paginated results """
+
+    textract = get_client("textract")
 
     blocks: list[dict] = []
     next_token: str | None = None
@@ -77,16 +81,19 @@ def extract_artifact(s3_key: str) -> list[dict]:
 
         return get_analysis_results(job_id)
 
+    # change to custom error later
     except Exception as e:
         print(f"Skipping malformed or unprocessable artifact: " f"{s3_key}: {e}")
 
         return []
 
 
-if __name__ == "__main__":
-    results = extract_artifact("exp-0411/exposure-report.pdf")
+# testing purposes
 
-    print(f"Extracted {len(results)} blocks")
+# if __name__ == "__main__":
+#     results = extract_artifact("exp-0411/exposure-report.pdf")
 
-    for block in results[:10]:
-        print(block)
+#     print(f"Extracted {len(results)} blocks")
+
+#     for block in results[:10]:
+#         print(block)
