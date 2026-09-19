@@ -97,14 +97,3 @@ def extract_artifact(s3_key: str) -> list[dict]:
         print(f"Skipping malformed or unprocessable artifact: " f"{s3_key}: {e}")
 
         return []
-
-
-# testing purposes
-
-# if __name__ == "__main__":
-#     results = extract_artifact("exp-0411/exposure-report.pdf")
-
-#     print(f"Extracted {len(results)} blocks")
-
-#     for block in results[:10]:
-#         print(block)

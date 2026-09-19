@@ -44,7 +44,7 @@ def upload_artifact(content: bytes, packet_id: str, file_name: str,) -> str:
 
     return s3_key
 
-def process_artifact(file_path: Path, packet_id: str,) -> dict[str, str]:
+def process_artifact(file_path: Path, packet_id: str) -> dict:
     """ Read, hash, and upload one packet artifact """
 
     content = read_file_bytes(file_path)
@@ -60,7 +60,7 @@ def process_artifact(file_path: Path, packet_id: str,) -> dict[str, str]:
         "content_hash": content_hash,
     }
 
-def upload_packet(packet_dir: Path) -> list[dict[str, str]]:
+def upload_packet(packet_dir: Path) -> list[dict]:
     """ Process and upload every artifact in an exposure packet """
 
     packet_id = packet_dir.name
