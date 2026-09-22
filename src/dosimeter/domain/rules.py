@@ -1,4 +1,3 @@
-
 """
 Shared domain contracts for regulatory rules.
 
@@ -23,7 +22,7 @@ class RuleOutcome(str, Enum):
     VALID = "valid"
     INVALID = "invalid"
 
-    PASS = "pass"
+    PASS = "pass"  # noqa: S105
     FAIL = "fail"
 
     INSUFFICIENT_DATA = "insufficient_data"

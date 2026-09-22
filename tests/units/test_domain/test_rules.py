@@ -36,10 +36,7 @@ def make_result() -> RuleResult:
         threshold={
             "shallow_dose": "250 rad",
         },
-        explanation=(
-            "The shallow-dose value met the immediate "
-            "notification threshold."
-        ),
+        explanation=("The shallow-dose value met the immediate notification threshold."),
     )
 
 
