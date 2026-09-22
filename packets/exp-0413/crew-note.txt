@@ -1,0 +1,21 @@
+Exposure ID: exp-0413
+Worker ID: WKR-1047
+Date: 06/18/2026
+
+During routine radiography work, I noticed an unexpected personnel
+dosimetry reading after the scheduled exposure was completed. I stopped
+work and notified the supervisor so the exposure records and monitoring
+information could be reviewed.
+
+The SENTINEL 880 Series radiography camera remained secured during the
+review. I did not observe any obvious damage to the camera, guide tube,
+or control assembly. No radioactive material was observed outside the
+equipment, and I was not informed of any lost, stolen, or missing
+licensed material.
+
+The exposure paperwork and dosimetry information were provided to the
+Radiation Safety Officer for review. One of the handwritten dose entries
+on the exposure paperwork was difficult to read clearly, so I did not
+attempt to interpret or rewrite the recorded value. I left the original
+entry unchanged so that the Radiation Safety Officer could verify it
+against the available dosimetry records.
