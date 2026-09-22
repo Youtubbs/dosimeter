@@ -7,13 +7,9 @@ interchangeable measurements.
 """
 
 from enum import Enum
-
 from pydantic import BaseModel, ConfigDict, Field
 
-
 # Enumerations
-
-
 class DoseUnit(str, Enum):
     """Supported radiation dose units."""
 
@@ -31,8 +27,6 @@ class ShallowDoseSite(str, Enum):
 
 
 # Dose Quantities
-
-
 class TotalEffectiveDoseEquivalent(BaseModel):
     """Total Effective Dose Equivalent (TEDE)."""
 
@@ -86,8 +80,6 @@ class IntakeMultipleOfALI(BaseModel):
 
 
 # Typed Thresholds
-
-
 class TEDEThreshold(BaseModel):
     """Threshold that may only be used with TEDE measurements."""
 
