@@ -1,3 +1,4 @@
+
 """
 Tests for typed radiation dose quantities.
 
@@ -20,12 +21,9 @@ from dosimeter.domain.dose import (
     TotalEffectiveDoseEquivalent,
 )
 
-
 # ---------------------------------------------------------------------------
 # P1 packet values
 # ---------------------------------------------------------------------------
-
-
 def test_create_p1_tede() -> None:
     dose = TotalEffectiveDoseEquivalent(
         value=6.2,
@@ -61,8 +59,6 @@ def test_create_p1_shallow_dose() -> None:
 # ---------------------------------------------------------------------------
 # P2 packet values
 # ---------------------------------------------------------------------------
-
-
 def test_create_p2_tede() -> None:
     dose = TotalEffectiveDoseEquivalent(
         value=4.1,
@@ -98,8 +94,6 @@ def test_create_p2_shallow_extremity_dose() -> None:
 # ---------------------------------------------------------------------------
 # Intake
 # ---------------------------------------------------------------------------
-
-
 def test_create_intake_multiple_of_ali() -> None:
     intake = IntakeMultipleOfALI(value=1.5)
 
@@ -109,8 +103,6 @@ def test_create_intake_multiple_of_ali() -> None:
 # ---------------------------------------------------------------------------
 # Supported units
 # ---------------------------------------------------------------------------
-
-
 @pytest.mark.parametrize(
     "unit",
     [
@@ -132,8 +124,6 @@ def test_supported_dose_units(unit: DoseUnit) -> None:
 # ---------------------------------------------------------------------------
 # Validation
 # ---------------------------------------------------------------------------
-
-
 def test_negative_tede_rejected() -> None:
     with pytest.raises(ValidationError):
         TotalEffectiveDoseEquivalent(
@@ -199,8 +189,6 @@ def test_invalid_shallow_site_rejected() -> None:
 # ---------------------------------------------------------------------------
 # Frozen / immutable models
 # ---------------------------------------------------------------------------
-
-
 def test_tede_is_frozen() -> None:
     dose = TotalEffectiveDoseEquivalent(
         value=6.2,
@@ -225,8 +213,6 @@ def test_shallow_dose_is_frozen() -> None:
 # ---------------------------------------------------------------------------
 # Typed thresholds
 # ---------------------------------------------------------------------------
-
-
 def test_create_tede_threshold() -> None:
     threshold = TEDEThreshold(
         value=25.0,
@@ -260,8 +246,6 @@ def test_create_shallow_threshold() -> None:
 # ---------------------------------------------------------------------------
 # Bare-number protection
 # ---------------------------------------------------------------------------
-
-
 def requires_tede(dose: TotalEffectiveDoseEquivalent) -> float:
     """
     Example runtime boundary showing that callers must provide
@@ -269,7 +253,9 @@ def requires_tede(dose: TotalEffectiveDoseEquivalent) -> float:
     """
 
     if not isinstance(dose, TotalEffectiveDoseEquivalent):
-        raise TypeError("Expected TotalEffectiveDoseEquivalent.")
+        raise TypeError(
+            "Expected TotalEffectiveDoseEquivalent."
+        )
 
     return dose.value
 
