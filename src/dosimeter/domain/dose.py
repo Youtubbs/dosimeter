@@ -30,7 +30,6 @@ class ShallowDoseSite(str, Enum):
     EXTREMITY = "extremity"
 
 
-
 # Dose Quantities
 
 
@@ -84,7 +83,6 @@ class IntakeMultipleOfALI(BaseModel):
     )
 
     value: float = Field(ge=0)
-
 
 
 # Typed Thresholds
