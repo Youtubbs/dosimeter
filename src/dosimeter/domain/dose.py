@@ -26,7 +26,6 @@ class ShallowDoseSite(str, Enum):
     EXTREMITY = "extremity"
 
 
-
 # Dose Quantities
 class TotalEffectiveDoseEquivalent(BaseModel):
     """Total Effective Dose Equivalent (TEDE)."""
@@ -78,7 +77,6 @@ class IntakeMultipleOfALI(BaseModel):
     )
 
     value: float = Field(ge=0)
-
 
 
 # Typed Thresholds
