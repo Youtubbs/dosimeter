@@ -1,0 +1,7 @@
+"""A repository query that builds its SQL with percent formatting."""
+
+
+def load_exposure(cursor, exposure_id: str):
+    statement = "SELECT id, status FROM exposures WHERE id = '%s'" % exposure_id
+    cursor.execute(statement)
+    return cursor.fetchone()
