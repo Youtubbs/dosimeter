@@ -1,0 +1,12 @@
+cations where personnel are not normally stationed
+during routine operations, such as hot-cells or process enclosures).
+(c) The licensee shall prepare any report filed with the Commission pursuant to this section so that names of
+individuals who have received exposure to radiation or radioactive material are stated in a separate and
+detachable part of the report.
+(d) Reports made by licensees in response to the requirements of this section must be made as follows:
+(1) Licensees having an installed Emergency Notification System shall make the reports required by paragraphs
+(a) and (b) of this section to the NRC Operations Center in accordance with 50.72 or § 53.1630 of this chapter;
+and
+(2) All other licensees shall make the reports required by paragraphs (a) and (b) of this section by telephone to the
+NRC Headquarters Operations Center at the numbers specified in appendix A to part 73 of this chapter.
+(e) The provisions of this section do not include doses that result from planned spec

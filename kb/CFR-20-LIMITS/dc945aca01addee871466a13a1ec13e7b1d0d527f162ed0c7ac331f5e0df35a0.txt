@@ -1,0 +1,12 @@
+workplace level of respiratory protection that would be
+provided by a properly functioning respirator or a class of respirators to properly fitted and trained users.
+Operationally, the inhaled concentration can be estimated by dividing the ambient airborne concentration by the
+APF.
+Atmosphere-supplying respirator means a respirator that supplies the respirator user with breathing air from a
+source independent of the ambient atmosphere, and includes supplied-air respirators (SARs) and self-contained
+breathing apparatus (SCBA) units.
+Background radiation means radiation from cosmic sources; naturally occurring radioactive material, including
+radon (except as a decay product of source or special nuclear material); and global fallout as it exists in the
+environment from the testing of nuclear explosive devices or from past nuclear accidents such as Chernobyl that
+contribute to background radiation and are not under the control of the licensee. "Background radiation" does not
+include radia

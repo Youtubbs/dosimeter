@@ -1,0 +1,13 @@
+§ 20.1201 Occupational dose limits for adults.
+(a) The licensee shall control the occupational dose to individual adults, except for planned special exposures
+under § 20.1206, to the following dose limits.
+(1) An annual limit, which is the more limiting of-
+(i) The total effective dose equivalent being equal to 5 rems (0.05 Sv); or
+(ii) The sum of the deep-dose equivalent and the committed dose equivalent to any individual organ or tissue
+other than the lens of the eye being equal to 50 rems (0.5 Sv).
+(2) The annual limits to the lens of the eye, to the skin of the whole body, and to the skin of the extremities, which
+are:
+(i) A lens dose equivalent of 15 rems (0.15 Sv), and
+(ii) A shallow-dose equivalent of 50 rem (0.5 Sv) to the skin of the whole body or to the skin of any extremity.
+(b) Doses received in excess of the annual limits, including doses received during accidents, emergencies, and
+planned special exposures, must be subtracted from the limits for planned special exposures

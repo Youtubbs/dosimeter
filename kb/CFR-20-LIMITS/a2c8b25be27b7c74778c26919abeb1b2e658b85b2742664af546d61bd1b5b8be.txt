@@ -1,0 +1,11 @@
+ur randomly and for which the probability of the effect occurring,
+rather than its severity, is assumed to be a linear function of dose without threshold. Hereditary effects and cancer
+incidence are examples of stochastic effects.
+Supplied-air respirator (SAR) or airline respirator means an atmosphere-supplying respirator for which the source
+of breathing air is not designed to be carried by the user.
+Survey means an evaluation of the radiological conditions and potential hazards incident to the production, use,
+transfer, release, disposal, or presence of radioactive material or other sources of radiation. When appropriate,
+such an evaluation includes a physical survey of the location of radioactive material and measurements or
+calculations of levels of radiation, or concentrations or quantities of radioactive material present.
+Tight-fitting facepiece means a respiratory inlet covering that forms a complete seal with the face.
+Total Effective Dose Equivalent (TEDE) means the sum of the

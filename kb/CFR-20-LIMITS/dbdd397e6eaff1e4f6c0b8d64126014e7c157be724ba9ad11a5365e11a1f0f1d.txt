@@ -1,0 +1,14 @@
+§ 20.1003 Definitions.
+As used in this part:
+Absorbed dose means the energy imparted by ionizing radiation per unit mass of irradiated material. The units of
+absorbed dose are the rad and the gray (Gy).
+Accelerator-produced radioactive material means any material made radioactive by a particle accelerator.
+Act means the Atomic Energy Act of 1954 (42 U.S.C. 2011 et seq.), as amended.
+Activity is the rate of disintegration (transformation) or decay of radioactive material. The units of activity are the
+curie (Ci) and the becquerel (Bq).
+Adult means an individual 18 or more years of age.
+Airborne radioactive material means radioactive material dispersed in the air in the form of dusts, fumes,
+particulates, mists, vapors, or gases.
+Airborne radioactivity area means a room, enclosure, or area in which airborne radioactive materials, composed
+wholly or partly of licensed material, exist in concentrations-
+(1) In excess of the derived air concentrations (DACs) specified in appendix B, to §§ 2
