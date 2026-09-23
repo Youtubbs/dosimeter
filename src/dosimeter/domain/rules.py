@@ -18,15 +18,13 @@ class RuleOutcome(str, Enum):
 
     REQUIRED = "required"
     NOT_REQUIRED = "not_required"
-
     VALID = "valid"
     INVALID = "invalid"
-
+    INSUFFICIENT_DATA = "insufficient_data"
+    HUMAN_DETERMINATION = "human_determination"
     PASS = "pass"  # noqa: S105
     FAIL = "fail"
-
-    INSUFFICIENT_DATA = "insufficient_data"
-
+    
 
 class RuleSource(BaseModel):
     """Regulatory source supporting a rule evaluation."""
