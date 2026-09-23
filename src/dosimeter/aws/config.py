@@ -1,4 +1,4 @@
-""" Dedicated space to load in the ENV file """
+"""Dedicated space to load in the ENV file"""
 
 import os
 from dotenv import load_dotenv

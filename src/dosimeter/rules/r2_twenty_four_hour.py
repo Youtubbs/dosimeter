@@ -56,20 +56,14 @@ def evaluate_r2(
         "intake": intake,
     }
 
-    missing_fields = tuple(
-        name for name, value in values.items() if value is None
-    )
+    missing_fields = tuple(name for name, value in values.items() if value is None)
 
     if missing_fields:
         return RuleResult(
             rule_id="R2",
             outcome=RuleOutcome.INSUFFICIENT_DATA,
             sources=(R2_SOURCE,),
-            inputs_used={
-                name: value
-                for name, value in values.items()
-                if value is not None
-            },
+            inputs_used={name: value for name, value in values.items() if value is not None},
             threshold=None,
             explanation=(
                 "The 24-hour notification determination cannot be "
@@ -114,9 +108,7 @@ def evaluate_r2(
                 "completed because one or more dose quantities use "
                 "incompatible units."
             ),
-            missing_fields=tuple(
-                f"{field}_compatible_unit" for field in invalid_units
-            ),
+            missing_fields=tuple(f"{field}_compatible_unit" for field in invalid_units),
         )
 
     # R2 requires loss of control in addition to a threshold exceedance.

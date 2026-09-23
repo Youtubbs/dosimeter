@@ -17,6 +17,7 @@ MODEL_ROLES = {
     "judge": "judge-model-id",
 }
 
+
 def valid_config(**overrides: Any) -> dict[str, Any]:
     """A working set of settings that a test can change one piece of."""
 

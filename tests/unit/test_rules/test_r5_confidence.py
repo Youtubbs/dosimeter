@@ -81,9 +81,7 @@ def test_r5_just_below_confidence_floor_requires_human() -> None:
 
     assert result.outcome == RuleOutcome.HUMAN_DETERMINATION
 
-    assert result.failing_conditions == (
-        "annual_tede",
-    )
+    assert result.failing_conditions == ("annual_tede",)
 
 
 def test_r5_just_above_confidence_floor_passes() -> None:
@@ -172,9 +170,7 @@ def test_r5_one_low_confidence_field_requires_human() -> None:
 
     assert result.outcome == RuleOutcome.HUMAN_DETERMINATION
 
-    assert result.failing_conditions == (
-        "annual_shallow",
-    )
+    assert result.failing_conditions == ("annual_shallow",)
 
 
 # ---------------------------------------------------------------------------
@@ -186,9 +182,7 @@ def test_r5_uses_default_confidence_floor() -> None:
 
 def test_r5_accepts_configured_confidence_floor() -> None:
     inputs = R5Inputs(
-        fields=(
-            make_field("annual_tede", 0.74),
-        ),
+        fields=(make_field("annual_tede", 0.74),),
     )
 
     result = evaluate_r5(
@@ -202,9 +196,7 @@ def test_r5_accepts_configured_confidence_floor() -> None:
 
 def test_r5_exactly_at_custom_floor_passes() -> None:
     inputs = R5Inputs(
-        fields=(
-            make_field("annual_tede", 0.75),
-        ),
+        fields=(make_field("annual_tede", 0.75),),
     )
 
     result = evaluate_r5(
@@ -231,9 +223,7 @@ def test_r5_appendix_c_path_returns_insufficient_data() -> None:
 
     assert result.outcome == RuleOutcome.INSUFFICIENT_DATA
 
-    assert result.missing_fields == (
-        "Appendix C to Part 20",
-    )
+    assert result.missing_fields == ("Appendix C to Part 20",)
 
 
 def test_r5_appendix_c_source_is_20_2201() -> None:
@@ -244,10 +234,7 @@ def test_r5_appendix_c_source_is_20_2201() -> None:
 
     result = evaluate_r5(inputs)
 
-    citations = {
-        source.citation
-        for source in result.sources
-    }
+    citations = {source.citation for source in result.sources}
 
     assert "10 CFR 20.2201" in citations
 
@@ -256,9 +243,7 @@ def test_r5_appendix_c_takes_precedence_over_confidence() -> None:
     """Missing regulatory data cannot be fixed by extraction confidence."""
 
     inputs = R5Inputs(
-        fields=(
-            make_field("radionuclide", 0.20),
-        ),
+        fields=(make_field("radionuclide", 0.20),),
         requires_appendix_c=True,
     )
 
@@ -266,9 +251,7 @@ def test_r5_appendix_c_takes_precedence_over_confidence() -> None:
 
     assert result.outcome == RuleOutcome.INSUFFICIENT_DATA
 
-    assert result.missing_fields == (
-        "Appendix C to Part 20",
-    )
+    assert result.missing_fields == ("Appendix C to Part 20",)
 
 
 # ---------------------------------------------------------------------------
@@ -298,9 +281,7 @@ def test_r5_rejects_invalid_confidence(
 # ---------------------------------------------------------------------------
 def test_r5_result_records_confidence_floor() -> None:
     inputs = R5Inputs(
-        fields=(
-            make_field("annual_tede", 0.90),
-        ),
+        fields=(make_field("annual_tede", 0.90),),
     )
 
     result = evaluate_r5(inputs)
@@ -310,9 +291,7 @@ def test_r5_result_records_confidence_floor() -> None:
 
 def test_r5_records_inputs_used() -> None:
     inputs = R5Inputs(
-        fields=(
-            make_field("annual_tede", 0.90),
-        ),
+        fields=(make_field("annual_tede", 0.90),),
     )
 
     result = evaluate_r5(inputs)

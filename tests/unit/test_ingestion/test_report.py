@@ -1,6 +1,7 @@
-""" Test suite for report.py """
+"""Test suite for report.py"""
 
 from dosimeter.ingestion.report import create_report
+
 
 def test_report_detects_low_confidence_field():
     data = {
@@ -33,6 +34,7 @@ def test_report_detects_low_confidence_field():
     assert low_confidence["field"] == "Total Effective Dose Equivalent"
     assert low_confidence["confidence"] == 0.59
     assert low_confidence["page"] == 1
+
 
 def test_report_accepts_confidence_at_threshold():
     data = {

@@ -1,4 +1,4 @@
-""" test suite for s3.py"""
+"""test suite for s3.py"""
 
 from unittest.mock import patch
 
@@ -18,7 +18,6 @@ def test_upload_packet(tmp_path):
     photo_file.write_bytes(b"fake photo contents")
 
     with patch("dosimeter.ingestion.s3.get_client") as mock_get_client:
-
         mock_get_client.return_value.put_object.return_value = {}
 
         results = upload_packet(packet_dir)

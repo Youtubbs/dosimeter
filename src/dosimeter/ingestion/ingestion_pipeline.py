@@ -1,5 +1,5 @@
-""" complete pipeline for ingestion
-        uploads to s3 -> runs textract -> normalizes -> redacts -> report
+"""complete pipeline for ingestion
+uploads to s3 -> runs textract -> normalizes -> redacts -> report
 """
 
 from .redact import redact_fields
@@ -7,6 +7,7 @@ from .normalize import normalize
 from .report import create_report
 from .s3 import upload_packet
 from .textract import extract_artifact
+
 
 def ingest_packet(packet_dir):
     artifacts = upload_packet(packet_dir)

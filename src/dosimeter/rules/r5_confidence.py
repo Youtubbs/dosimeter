@@ -3,11 +3,13 @@
 from pydantic import BaseModel, ConfigDict, Field
 
 from dosimeter.domain.rules import RuleOutcome, RuleResult, RuleSource
+
 # ---------------------------------------------------------------------------
 # Pipeline configuration
 # ---------------------------------------------------------------------------
 # This is a pipeline parameter, NOT a regulatory threshold.
 DEFAULT_CONFIDENCE_FLOOR = 0.60
+
 
 # ---------------------------------------------------------------------------
 # Input models
@@ -99,9 +101,7 @@ def evaluate_r5(
     # Only values strictly BELOW the floor require human determination.
     # ------------------------------------------------------------------
     low_confidence_fields = tuple(
-        field.field_name
-        for field in inputs.fields
-        if field.confidence < confidence_floor
+        field.field_name for field in inputs.fields if field.confidence < confidence_floor
     )
 
     if low_confidence_fields:
@@ -131,8 +131,5 @@ def evaluate_r5(
         threshold={
             "confidence_floor": confidence_floor,
         },
-        explanation=(
-            "All extracted fields meet or exceed the configured "
-            "confidence floor."
-        ),
+        explanation=("All extracted fields meet or exceed the configured confidence floor."),
     )
