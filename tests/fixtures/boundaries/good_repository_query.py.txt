@@ -1,8 +1,11 @@
-"""A parameterized repository query, which the scanner must accept."""
+"""A repository query through SQLAlchemy, which the scanner must accept."""
 
-LOAD_EXPOSURE = "SELECT id, status FROM exposures WHERE id = %(exposure_id)s"
+from sqlalchemy import select
+
+from dosimeter.repository import orm
 
 
-def load_exposure(cursor, exposure_id: str):
-    cursor.execute(LOAD_EXPOSURE, {"exposure_id": exposure_id})
-    return cursor.fetchone()
+def load_exposure(session, exposure_id: str):
+    return session.scalars(
+        select(orm.ExposureRow).where(orm.ExposureRow.id == exposure_id)
+    ).first()

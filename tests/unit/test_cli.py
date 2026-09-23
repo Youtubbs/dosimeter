@@ -23,13 +23,13 @@ EXPECTED_COMMANDS = (
 def configured(monkeypatch: pytest.MonkeyPatch) -> None:
     """A full set of settings, so a command only fails for being unfinished."""
 
-    monkeypatch.setenv("DOSIMETER_AWS_REGION", "us-east-1")
+    monkeypatch.setenv("AWS_REGION", "us-east-1")
     for role in ("reasoning", "fast", "embedding", "multimodal", "judge"):
         monkeypatch.setenv(f"DOSIMETER_MODELS__{role.upper()}", f"{role}-model-id")
     monkeypatch.setenv("DOSIMETER_KNOWLEDGE_BASE_ID", "kb-000000")
     monkeypatch.setenv("DOSIMETER_GUARDRAIL_ID", "gr-000000")
-    monkeypatch.setenv("DOSIMETER_CORPUS_BUCKET", "dosimeter-corpus")
-    monkeypatch.setenv("DOSIMETER_PACKET_BUCKET", "dosimeter-packets")
+    monkeypatch.setenv("AWS_CORPUS_BUCKET_NAME", "dosimeter-corpus")
+    monkeypatch.setenv("AWS_PACKET_BUCKET_NAME", "dosimeter-packets")
     monkeypatch.setenv("DOSIMETER_DB_HOST", "dosimeter.example.us-east-1.rds.amazonaws.com")
     monkeypatch.setenv("DOSIMETER_DB_NAME", "dosimeter")
     monkeypatch.setenv("DOSIMETER_DB_USER", "dosimeter_app")
