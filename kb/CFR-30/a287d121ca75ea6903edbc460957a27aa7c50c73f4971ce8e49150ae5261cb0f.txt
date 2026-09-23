@@ -1,0 +1,81 @@
+2 (Fe 52)
+10
+Iron 55 (Fe 55)
+100
+Iron 59 (Fe 59)
+10
+Krypton 85 (Kr 85)
+100
+Krypton 87 (Kr 87)
+10
+Lanthanum 140 (La 140)
+10
+Lutetium 177 (Lu 177)
+100
+Manganese 52 (Mn 52)
+10
+Manganese 54 (Mn 54)
+10
+Manganese 56 (Mn 56)
+10
+Mercury 197m (Hg 197m)
+100
+Mercury 197 (Hg 197)
+100
+Mercury 203 (Hg 203)
+10
+Molybdenum 99 (Mo 99)
+100
+Neodymium 147 (Nd 147)
+100
+Neodymium 149 (Nd 149)
+100
+Nickel 59 (Ni 59)
+100
+Nickel 63 (Ni 63)
+10
+Nickel 65 (Ni 65)
+100
+Niobium 93m (Nb 93m)
+10
+Niobium 95 (Nb 95)
+10
+Niobium 97 (Nb 97)
+10
+Osmium 185 (Os 185)
+10
+Osmium 191m (Os 191m)
+100
+Osmium 191 (Os 191)
+100
+Osmium 193 (Os 193)
+100
+Palladium 103 (Pd 103)
+100
+Palladium 109 (Pd 109)
+100
+Phosphorus 32 (P 32)
+10
+Platinum 191 (Pt 191)
+100
+Platinum 193m (Pt 193m)
+100
+Platinum 193 (Pt 193)
+100
+Platinum 197m (Pt 197m)
+100
+Platinum 197 (Pt 197)
+100
+Polonium 210 (Po 210)
+0.1
+Potassium 42 (K 42)
+10
+Potassium 43 (K 43)
+10
+Praseodymium 142 (Pr 142)
+100
+Praseodymium 143 (Pr 143)
+100
+Promethium 147 (Pm 147)
+10
+Promethium 149 (Pm 149

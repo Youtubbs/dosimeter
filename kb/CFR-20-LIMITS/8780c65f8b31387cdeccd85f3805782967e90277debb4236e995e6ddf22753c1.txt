@@ -1,0 +1,29 @@
+pecial nuclear, or byproduct material that are
+acceptable for disposal in a land disposal facility. For the purposes of this definition, low-level radioactive waste
+means radioactive waste not classified as high-level radioactive waste, transuranic waste, spent nuclear fuel, or
+byproduct material as defined in paragraphs (2), (3), and (4) of the definition of Byproduct material set forth in this
+section.
+Week means 7 consecutive days starting on Sunday.
+Weighting factor wT, for an organ or tissue (T) is the proportion of the risk of stochastic effects resulting from
+irradiation of that organ or tissue to the total risk of stochastic effects when the whole body is irradiated uniformly.
+For calculating the effective dose equivalent, the values of wT are:
+Organ Dose Weighting Factors
+Organ or tissue
+WT
+Gonads
+0.25
+Breast
+0.15
+Red bone marrow
+0.12
+Lung
+0.12
+Thyroid
+0.03
+Bone surfaces
+0.03
+Remainder
+1 0.30
+Whole Body
+2 1.00
+1 0.30 results from 0.06 for each of 5 "remainder" organs (excludin

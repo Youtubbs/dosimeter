@@ -1,0 +1,13 @@
+or
+to radioactive materials. This includes entry or exit portals of sufficient size to permit human entry, irrespective of
+their intended use.
+Exposure means being exposed to ionizing radiation or to radioactive material.
+External dose means that portion of the dose equivalent received from radiation sources outside the body.
+Extremity means hand, elbow, arm below the elbow, foot, knee, or leg below the knee.
+Filtering facepiece (dust mask) means a negative pressure particulate respirator with a filter as an integral part of
+the facepiece or with the entire facepiece composed of the filtering medium, not equipped with elastomeric sealing
+surfaces and adjustable straps.
+Fit factor means a quantitative estimate of the fit of a particular respirator to a specific individual, and typically
+estimates the ratio of the concentration of a substance in ambient air to its concentration inside the respirator
+when worn.
+Fit test means the use of a protocol to qualitatively or quantitatively evalua

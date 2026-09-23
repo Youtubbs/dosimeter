@@ -1,0 +1,87 @@
+d
+Definition-Airborne radioactivity area
+A
+A.
+20.1003
+Delete
+Definition-ALARA
+A.
+20.1003
+Amend
+Definition-Annual limit on intake
+A
+A.
+20.1003
+Amend
+Definition-Committed Dose Equivalent
+A
+A.
+20.1003
+New
+Definition-Committed equivalent dose
+A.
+20.1003
+Amend
+Definition-Committed effective dose
+A
+A.
+equivalent.
+20.1003
+New
+Definition-Committed effective dose
+A.
+20.1003
+Amend
+Definition-Derived air concentration
+A
+A.
+20.1003
+Amend
+Definition-Dose or radiation dose
+D
+D.
+20.1003
+Amend
+Definition-Dose equivalent
+A
+A.
+20.1003
+New
+Definition-Dosimetry method (or sys-
+A.
+tem).
+20.1003
+New
+Definition-Effective dose
+A.
+20.1003
+Amend
+Definition-Effective dose equivalent
+A
+A.
+20.1003
+New
+Definition-Equivalent Dose
+A.
+20.1003
+New
+Definition-Graded approach to dose
+A.
+management.
+20.1003
+Amend
+Definition-License
+D
+D.
+20.1003
+Amend
+Definition-Nonstochastic effect
+A
+A.
+20.1003
+Amend
+Definition-Planned special exposure
+D
+D.
+43484
+Federal Register Vol. 91, No. 134 / Wednesday, July 15, 2026 / Proposed Rule

@@ -1,0 +1,17 @@
+ns. Each technology would have its own standard general license requirements codi-
+New regulations
+fied in separate regulations, including:
+31.13 through 31.18.
+31.14: Certain Fixed Gauging;
+$31.15: Portable Gauging;
+$31.16: Certain Medical Uses;
+31.17: Certain Analytical Equipment Including Electron Capture Detectors, X-Ray Fluorescence Devices, and Ion
+Generators; and
+$31.18: Certain In Vitro Testing.
+These amendments propose a new class of general licenses for some low risk standardized operations that are cur-
+rently specifically licensed, and all of the specifically licensed activities are currently categorically excluded. Because
+the NRC previously concluded that these activities do not individually or cumulatively have a significant effect on the
+human environment, no additional analysis is needed. Additionally, these amendments do not authorize any activi-
+ties not included in 10 CFR part 30.
+32.72; 32.74
+The proposed amendments to § 32.72, commercial distribution of radioactiv

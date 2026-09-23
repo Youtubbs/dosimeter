@@ -1,0 +1,12 @@
+determination of the
+time-weighted air concentrations to which an individual has been exposed, i.e., DAC-hours; or
+(3) The assessment of dose equivalent by the use of survey data.
+Individual monitoring devices (individual monitoring equipment) means devices designed to be worn by a single
+individual for the assessment of dose equivalent such as film badges, thermoluminescence dosimeters (TLDs),
+pocket ionization chambers, and personal ("lapel") air sampling devices.
+Internal dose means that portion of the dose equivalent received from radioactive material taken into the body.
+Lens dose equivalent (LDE) applies to the external exposure of the lens of the eye and is taken as the dose
+equivalent at a tissue depth of 0.3 centimeter (300 mg/cm 2).
+License means a license issued under the regulations in parts 30 through 36 or part 39, 40, 50, 53, 60, 61, 63, 70,
+or 72 of this chapter.
+Licensed material means source material, special nuclear material, or byproduct material received, possesse
