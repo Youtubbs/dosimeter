@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: dosimeter-postgres
+    environment:
+      POSTGRES_DB: dosimeter
+      POSTGRES_USER: dosimeter
+      POSTGRES_PASSWORD: dosimeter_local_dev
+    ports:
+      - "55432:5432"
+    volumes:
+      - dosimeter-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dosimeter -d dosimeter"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  dosimeter-pgdata:
