@@ -1,6 +1,6 @@
 """R4 — Planned Special Exposure validation under 10 CFR 20.1206."""
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 
 from dosimeter.domain.rules import RuleOutcome, RuleResult, RuleSource
 
@@ -66,9 +66,7 @@ def evaluate_r4(conditions: PSEConditions) -> RuleResult:
     # ---------------------------------------------------------------
     # Missing evidence
     # ---------------------------------------------------------------
-    missing_fields = tuple(
-        name for name, value in values.items() if value is None
-    )
+    missing_fields = tuple(name for name, value in values.items() if value is None)
 
     if missing_fields:
         return RuleResult(
@@ -159,9 +157,7 @@ def evaluate_r4(conditions: PSEConditions) -> RuleResult:
     }
 
     failing_conditions = tuple(
-        condition
-        for condition, passed in condition_results.items()
-        if not passed
+        condition for condition, passed in condition_results.items() if not passed
     )
 
     # ---------------------------------------------------------------

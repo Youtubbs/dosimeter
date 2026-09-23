@@ -351,9 +351,7 @@ def evaluate_r3(inputs: R3Inputs) -> RuleResult:
     # ------------------------------------------------------------------
 
     if inputs.unrestricted_area_dose is not None:
-        unrestricted_limit = (
-            PUBLIC_ANNUAL_LIMIT_REM * UNRESTRICTED_AREA_MULTIPLIER
-        )
+        unrestricted_limit = PUBLIC_ANNUAL_LIMIT_REM * UNRESTRICTED_AREA_MULTIPLIER
 
         thresholds["unrestricted_area_rem"] = unrestricted_limit
 

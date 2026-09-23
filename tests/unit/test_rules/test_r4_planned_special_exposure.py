@@ -14,28 +14,22 @@ def make_valid_pse(**overrides: bool | None) -> PSEConditions:
         # §20.1206(a)
         "exceptional_situation": True,
         "alternatives_unavailable_or_impractical": True,
-
         # §20.1206(b)
         "licensee_written_authorization": True,
         "employer_written_authorization": True,
         "authorization_before_exposure": True,
-
         # §20.1206(c)
         "worker_informed_of_purpose": True,
         "worker_informed_of_estimated_dose_and_risks": True,
         "worker_instructed_in_alara_measures": True,
-
         # §20.1206(d)
         "prior_lifetime_doses_ascertained": True,
-
         # §20.1206(e)
         "annual_pse_limit_satisfied": True,
         "lifetime_pse_limit_satisfied": True,
-
         # §20.1206(f)
         "required_records_maintained": True,
         "report_under_20_2204_submitted": True,
-
         # §20.1206(g)
         "best_dose_estimate_recorded": True,
         "worker_informed_of_dose_in_writing": True,

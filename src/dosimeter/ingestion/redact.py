@@ -1,4 +1,4 @@
-""" Manual redaction of sensitive fields from normalized exposure data """
+"""Manual redaction of sensitive fields from normalized exposure data"""
 
 # subject to change have to look at packet data
 # remove dedect pii permission on IAM

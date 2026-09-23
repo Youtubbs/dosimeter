@@ -1,4 +1,4 @@
-""" Test suite for redact.py """
+"""Test suite for redact.py"""
 
 from dosimeter.ingestion.redact import redact_fields
 
@@ -35,10 +35,7 @@ def test_redact_moves_sensitive_fields_to_detachable_identity():
 
     assert result["detachable_identity"][0]["field"] == "Worker Name"
 
-    remaining_fields = {
-        field["field"]
-        for field in result["fields"]
-    }
+    remaining_fields = {field["field"] for field in result["fields"]}
 
     assert "Worker ID" in remaining_fields
     assert "District" in remaining_fields

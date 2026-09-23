@@ -13,7 +13,6 @@ from dosimeter.domain.dose import (
 from dosimeter.domain.rules import RuleOutcome, RuleResult, RuleSource
 
 
-
 # Regulatory thresholds
 
 
@@ -35,7 +34,6 @@ R1_SHALLOW_THRESHOLD = ShallowThreshold(
 R1_INTAKE_THRESHOLD = 5.0
 
 
-
 # Regulatory source
 # ---------------------------------------------------------------------------
 
@@ -44,7 +42,6 @@ R1_SOURCE = RuleSource(
     section="Immediate notification",
     status="in_force",
 )
-
 
 
 # R1
@@ -67,24 +64,17 @@ def evaluate_r1(
         "intake": intake,
     }
 
-    
     # Missing-data check
     # ------------------------------------------------------------------
 
-    missing_fields = tuple(
-        name for name, value in values.items() if value is None
-    )
+    missing_fields = tuple(name for name, value in values.items() if value is None)
 
     if missing_fields:
         return RuleResult(
             rule_id="R1",
             outcome=RuleOutcome.INSUFFICIENT_DATA,
             sources=(R1_SOURCE,),
-            inputs_used={
-                name: value
-                for name, value in values.items()
-                if value is not None
-            },
+            inputs_used={name: value for name, value in values.items() if value is not None},
             threshold=None,
             explanation=(
                 "Immediate-notification determination cannot be completed "
@@ -99,7 +89,6 @@ def evaluate_r1(
     assert shallow is not None
     assert intake is not None
 
-    
     # Unit validation
     # ------------------------------------------------------------------
 
@@ -131,12 +120,9 @@ def evaluate_r1(
                 "because one or more dose quantities use units that cannot "
                 "be compared directly with the regulatory thresholds."
             ),
-            missing_fields=tuple(
-                f"{field}_compatible_unit" for field in invalid_units
-            ),
+            missing_fields=tuple(f"{field}_compatible_unit" for field in invalid_units),
         )
 
-    
     # Threshold comparisons
     #
     # R1 uses inclusive comparisons because the regulation uses
@@ -182,7 +168,6 @@ def evaluate_r1(
             failing_conditions=tuple(triggered_conditions),
         )
 
-    
     # Immediate notification not required
     # ------------------------------------------------------------------
 

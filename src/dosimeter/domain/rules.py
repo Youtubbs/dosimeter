@@ -24,7 +24,7 @@ class RuleOutcome(str, Enum):
     HUMAN_DETERMINATION = "human_determination"
     PASS = "pass"  # noqa: S105
     FAIL = "fail"
-    
+
 
 class RuleSource(BaseModel):
     """Regulatory source supporting a rule evaluation."""

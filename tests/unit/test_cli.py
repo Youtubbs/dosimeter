@@ -19,6 +19,7 @@ EXPECTED_COMMANDS = (
     "review",
 )
 
+
 @pytest.fixture
 def configured(monkeypatch: pytest.MonkeyPatch) -> None:
     """A full set of settings, so a command only fails for being unfinished."""

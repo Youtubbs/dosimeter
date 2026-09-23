@@ -9,6 +9,7 @@ interchangeable measurements.
 from enum import Enum
 from pydantic import BaseModel, ConfigDict, Field
 
+
 # Enumerations
 class DoseUnit(str, Enum):
     """Supported radiation dose units."""
