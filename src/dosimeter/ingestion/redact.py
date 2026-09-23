@@ -3,16 +3,9 @@
 # subject to change have to look at packet data
 # remove dedect pii permission on IAM
 
-SENSITIVE_FIELDS = {
-    "worker name",
-    "employee name",
-    "name",
-    "address",
-    "phone",
-    "phone number",
-    "email",
-    "email address",
-}
+from dosimeter.redaction import PII_FIELD_NAMES, is_redacted_field
+
+SENSITIVE_FIELDS = PII_FIELD_NAMES
 
 
 def redact_fields(data: dict) -> dict:
@@ -25,9 +18,9 @@ def redact_fields(data: dict) -> dict:
     detachable_identity = []
 
     for field in data.get("fields", []):
-        field_name = field.get("field", "").strip().lower().rstrip(":")
+        field_name = field.get("field", "").rstrip(":")
 
-        if field_name in SENSITIVE_FIELDS:
+        if is_redacted_field(field_name):
             detachable_identity.append(field.copy())
         else:
             report_fields.append(field.copy())
