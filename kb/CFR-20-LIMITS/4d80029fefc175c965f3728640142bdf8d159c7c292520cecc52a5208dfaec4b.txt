@@ -1,0 +1,11 @@
+§ 20.1301 Dose limits for individual members of the public.
+(a) Each licensee shall conduct operations so that-
+(1) The total effective dose equivalent to individual members of the public from the licensed operation does not
+exceed 0.1 rem (1 mSv) in a year, exclusive of the dose contributions from background radiation, from any
+medical administration the individual has received, from exposure to individuals administered radioactive material
+and released under § 35.75, from voluntary participation in medical research programs, and from the licensee's
+disposal of radioactive material into sanitary sewerage in accordance with § 20.2003, and
+(2) The dose in any unrestricted area from external sources, exclusive of the dose contributions from patients
+administered radioactive material and released in accordance with § 35.75, does not exceed 0.002 rem (0.02
+millisievert) in any one hour.
+(b) If the licensee permits members of the public to have access to controlled areas, the limits for mem

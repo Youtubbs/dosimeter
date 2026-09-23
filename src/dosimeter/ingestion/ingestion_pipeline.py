@@ -8,6 +8,10 @@ from .report import create_report
 from .s3 import upload_packet
 from .textract import extract_artifact
 
+from .chunking import chunk_sections
+from .sectioning import build_sections
+from .corpus import process_corpus
+
 def ingest_packet(packet_dir):
     artifacts = upload_packet(packet_dir)
 
@@ -26,5 +30,58 @@ def ingest_packet(packet_dir):
         report = create_report(redacted)
 
         results.append(report)
+
+    return results
+
+def ingest_corpus():
+    """Ingest the regulatory corpus and produce Knowledge Base chunks."""
+
+    corpus_results = process_corpus()
+
+    results = []
+
+    for corpus_result in corpus_results:
+        blocks = corpus_result.get("blocks", [])
+
+        if not blocks:
+            results.append(
+                {
+                    "document": corpus_result["document"],
+                    "chunks": [],
+                    "error": corpus_result.get(
+                        "error",
+                        "No Textract blocks returned.",
+                    ),
+                }
+            )
+            continue
+
+        document = corpus_result["document"]
+        doc_id = document.removesuffix(".pdf")
+
+        if doc_id.startswith("CFR"):
+            doc_type = "regulation"
+            status = "in_force"
+        else:
+            doc_type = "preamble"
+            status = "proposed"
+
+        sections = build_sections(
+            blocks,
+            doc_id=doc_id,
+            title=doc_id,
+            doc_type=doc_type,
+            status=status, # may change
+        )
+
+        chunks = chunk_sections(sections)
+
+        results.append(
+            {
+                "document": document,
+                "sections": sections,
+                "chunks": chunks,
+            }
+        )
 
     return results

@@ -1,0 +1,11 @@
+posable respirator means a respirator for which maintenance is not intended and that is designed to be
+discarded after excessive breathing resistance, sorbent exhaustion, physical damage, or end-of-service-life
+renders it unsuitable for use. Examples of this type of respirator are a disposable half-mask respirator or a
+disposable escape-only self-contained breathing apparatus (SCBA).
+Distinguishable from background means that the detectable concentration of a radionuclide is statistically different
+from the background concentration of that radionuclide in the vicinity of the site or, in the case of structures, in
+similar materials using adequate measurement technology, survey, and statistical techniques.
+Dose or radiation dose is a generic term that means absorbed dose, dose equivalent, effective dose equivalent,
+committed dose equivalent, committed effective dose equivalent, or total effective dose equivalent, as defined in
+other paragraphs of this section.
+Dose equivalent (HT) means

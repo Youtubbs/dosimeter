@@ -1,0 +1,73 @@
+of the public.
+20.2202(e)
+Amend
+Notification of incidents
+D
+D.
+Federal Register / Vol. 91, No. 134 / Wednesday, July 15, 2026 / Proposed Rules
+43485
+ADEQUACY AND COMPATIBILITY TABLE FOR 10 CFR PART 20-Continued
+Compatibility
+Section
+Change
+Subject
+Existing
+New
+20.2203(a), (b)
+Amend
+Reports of exposures, radiation levels,
+C
+C.
+and concentrations of radioactive ma-
+terial exceeding the constraints or
+limits.
+Appendix G
+Amend
+Requirements for Low-level radioactive
+B
+B.
+waste intended for disposal at land
+disposal facilities and manifests.
+App. G I
+Amend
+Manifest
+B
+B.
+App. G I
+New
+Definition-Carrier
+B.
+App. G I
+Delete
+Definition-Computer readable medium
+B.
+App. G I
+Amend
+Definition-EPA identification number
+B
+B.
+App. G I
+Amend
+Definition-High integrity container
+B
+B.
+App. G I
+Amend
+Definition-NRC Forms 540, 540A, 541,
+B
+B.
+541A, 542, and 542A.
+App. G I
+Amend
+Definition-Shipping paper
+B
+B.
+App. G I
+Amend
+Definition-Uniform Low-Level Radio-
+B
+B.
+active Waste Manifest.
+App. G III.A
+Amend
+Cont

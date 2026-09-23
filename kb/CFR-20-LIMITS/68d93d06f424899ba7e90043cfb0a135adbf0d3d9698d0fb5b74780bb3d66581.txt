@@ -1,0 +1,12 @@
+es, and
+planned special exposures, must be subtracted from the limits for planned special exposures that the individual
+may receive during the current year (see § 20.1206(e)(1)) and during the individual's lifetime (see §
+20.1206(e)(2)).
+(c) When the external exposure is determined by measurement with an external personal monitoring device, the
+deep-dose equivalent must be used in place of the effective dose equivalent, unless the effective dose equivalent
+is determined by a dosimetry method approved by the NRC. The assigned deep-dose equivalent must be for the
+part of the body receiving the highest exposure. The assigned shallow-dose equivalent must be the dose
+averaged over the contiguous 10 square centimeters of skin receiving the highest exposure. The deep-dose
+equivalent, lens-dose equivalent, and shallow-dose equivalent may be assessed from surveys or other radiation
+measurements for the purpose of demonstrating compliance with the occupational dose limits, if the individual
+moni
