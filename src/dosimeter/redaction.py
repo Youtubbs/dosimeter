@@ -1,5 +1,5 @@
 """
-The one redactor. It works from a list of field names, not from pattern matching, 
+The one redactor. It works from a list of field names, not from pattern matching,
 and everything that leaves the process for a model, a log line or
 the index goes through it first.
 
