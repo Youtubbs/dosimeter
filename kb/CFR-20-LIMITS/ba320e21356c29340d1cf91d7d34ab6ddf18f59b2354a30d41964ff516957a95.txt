@@ -1,0 +1,12 @@
+received from background radiation, from any medical administration
+the individual has received, from exposure to individuals administered radioactive material and released under §
+35.75, or from voluntary participation in medical research programs.
+Qualitative fit test (QLFT) means a pass/fail fit test to assess the adequacy of respirator fit that relies on the
+individual's response to the test agent.
+Quality Factor (Q) means the modifying factor (listed in tables 1004(b).1 and 1004(b).2 of § 20.1004) that is used
+to derive dose equivalent from absorbed dose.
+Quantitative fit test (QNFT) means an assessment of the adequacy of respirator fit by numerically measuring the
+amount of leakage into the respirator.
+Quarter means a period of time equal to one-fourth of the year observed by the licensee (approximately 13
+consective weeks), providing that the beginning of the first quarter in a year coincides with the starting date of the
+year and that no day is omitted or duplicated in consecut

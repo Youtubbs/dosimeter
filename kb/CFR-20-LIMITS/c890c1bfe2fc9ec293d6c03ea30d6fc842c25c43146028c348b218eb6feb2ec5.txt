@@ -1,0 +1,10 @@
+an area, access to which is limited by the licensee for the purpose of protecting individuals
+against undue risks from exposure to radiation and radioactive materials. Restricted area does not include areas
+used as residential quarters, but separate rooms in a residential building may be set apart as a restricted area.
+Sanitary sewerage means a system of public sewers for carrying off waste water and refuse, but excluding
+sewage treatment facilities, septic tanks, and leach fields owned or operated by the licensee.
+Self-contained breathing apparatus (SCBA) means an atmosphere-supplying respirator for which the breathing air
+source is designed to be carried by the user.
+Shallow-dose equivalent (Hs), which applies to the external exposure of the skin of the whole body or the skin of
+an extremity, is taken as the dose equivalent at a tissue depth of 0.007 centimeter (7 mg/cm 2).
+Site boundary means that line beyond which the land or property is not owned, leased, or otherwise controlled

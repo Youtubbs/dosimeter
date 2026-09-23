@@ -1,0 +1,13 @@
+diation.
+Commission means the Nuclear Regulatory Commission or its duly authorized representatives.
+Committed dose equivalent (HT,50) means the dose equivalent to organs or tissues of reference (T) that will be
+received from an intake of radioactive material by an individual during the 50-year period following the intake.
+Committed effective dose equivalent (HE,50) is the sum of the products of the weighting factors applicable to each
+of the body organs or tissues that are irradiated and the committed dose equivalent to these organs or tissues
+(HE,50 = Σ wT HT,50).
+Constraint (dose constraint) means a value above which specified licensee actions are required.
+Controlled area means an area, outside of a restricted area but inside the site boundary, access to which can be
+limited by the licensee for any reason.
+Critical Group means the group of individuals reasonably expected to receive the greatest exposure to residual
+radioactivity for any applicable set of circumstances.
+Declared preg
