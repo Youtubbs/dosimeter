@@ -1,4 +1,3 @@
-
 """
 Tests for typed radiation dose quantities.
 
@@ -20,6 +19,7 @@ from dosimeter.domain.dose import (
     TEDEThreshold,
     TotalEffectiveDoseEquivalent,
 )
+
 
 # ---------------------------------------------------------------------------
 # P1 packet values
@@ -253,9 +253,7 @@ def requires_tede(dose: TotalEffectiveDoseEquivalent) -> float:
     """
 
     if not isinstance(dose, TotalEffectiveDoseEquivalent):
-        raise TypeError(
-            "Expected TotalEffectiveDoseEquivalent."
-        )
+        raise TypeError("Expected TotalEffectiveDoseEquivalent.")
 
     return dose.value
 
