@@ -1,0 +1,46 @@
+{
+  "metadataAttributes": {
+    "doc_id": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "FR-DOSE"
+      }
+    },
+    "title": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "FR-DOSE"
+      }
+    },
+    "doc_type": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "preamble"
+      }
+    },
+    "section_path": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "root"
+      }
+    },
+    "page": {
+      "value": {
+        "type": "NUMBER",
+        "numberValue": 1
+      }
+    },
+    "chunk_id": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "177775b123688c9c089ff4c9c9e8a8b96be7b2587e9af47d4bfe4e057e3b507c"
+      }
+    },
+    "status": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "proposed"
+      }
+    }
+  }
+}

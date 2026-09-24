@@ -1,0 +1,46 @@
+{
+  "metadataAttributes": {
+    "doc_id": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "CFR-30"
+      }
+    },
+    "title": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "CFR-30"
+      }
+    },
+    "doc_type": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "regulation"
+      }
+    },
+    "section_path": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "\u00a7 30.71"
+      }
+    },
+    "page": {
+      "value": {
+        "type": "NUMBER",
+        "numberValue": 5
+      }
+    },
+    "chunk_id": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "a287d121ca75ea6903edbc460957a27aa7c50c73f4971ce8e49150ae5261cb0f"
+      }
+    },
+    "status": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "in_force"
+      }
+    }
+  }
+}

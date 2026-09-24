@@ -2,11 +2,17 @@
 
 from __future__ import annotations
 
+import os
 from typing import Any
 
 import pytest
 
-from dosimeter.config.settings import Settings, load_settings
+from dosimeter.config.settings import (
+    DatabaseSettings,
+    Settings,
+    load_database_settings,
+    load_settings,
+)
 from dosimeter.errors import ConfigurationError, DosimeterError
 
 MODEL_ROLES = {
@@ -27,9 +33,6 @@ def valid_config(**overrides: Any) -> dict[str, Any]:
         "guardrail_id": "gr-000000",
         "corpus_bucket": "dosimeter-corpus",
         "packet_bucket": "dosimeter-packets",
-        "db_host": "dosimeter.example.us-east-1.rds.amazonaws.com",
-        "db_name": "dosimeter",
-        "db_user": "dosimeter_app",
     }
     payload.update(overrides)
     return payload
@@ -91,33 +94,78 @@ def test_region_outside_us_east_is_rejected() -> None:
     assert "aws_region" in str(caught.value)
 
 
-def test_no_secret_has_a_default_in_code() -> None:
-    settings = load_settings(**valid_config())
+@pytest.fixture
+def clean_db_env(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Ignore whatever the developer has in their own .env."""
 
-    assert settings.db_use_iam_auth is True
-    assert settings.db_password is None
+    for name in list(os.environ):
+        if name.startswith("DOSIMETER_DB_"):
+            monkeypatch.delenv(name, raising=False)
 
 
-def test_password_is_required_when_iam_auth_is_switched_off() -> None:
+def valid_database(**overrides: Any) -> dict[str, Any]:
+    """Database settings that a test can change one piece of."""
+
+    payload: dict[str, Any] = {
+        "_env_file": None,
+        "host": "dosimeter.example.us-east-1.rds.amazonaws.com",
+        "name": "dosimeter",
+        "user": "dosimeter_app",
+    }
+    payload.update(overrides)
+    return payload
+
+
+def test_database_settings_load_on_their_own(clean_db_env: None) -> None:
+    settings = load_database_settings(**valid_database())
+
+    assert isinstance(settings, DatabaseSettings)
+    assert settings.port == 5432
+    assert settings.sslmode == "require"
+
+
+def test_missing_database_field_names_the_field(clean_db_env: None) -> None:
+    payload = valid_database()
+    del payload["host"]
+
     with pytest.raises(ConfigurationError) as caught:
-        load_settings(**valid_config(db_use_iam_auth=False))
+        load_database_settings(**payload)
 
-    assert "db_password" in str(caught.value)
-
-
-def test_dsn_carries_no_password() -> None:
-    settings = load_settings(**valid_config(db_use_iam_auth=False, db_password="not-a-real-secret"))
-
-    dsn = settings.dsn()
-
-    assert "not-a-real-secret" not in dsn
-    assert "dbname=dosimeter" in dsn
-    assert "sslmode=require" in dsn
+    assert "host" in str(caught.value)
 
 
-def test_password_is_not_readable_from_the_string_form() -> None:
-    settings = load_settings(**valid_config(db_use_iam_auth=False, db_password="not-a-real-secret"))
+def test_no_secret_has_a_default_in_code(clean_db_env: None) -> None:
+    settings = load_database_settings(**valid_database())
+
+    assert settings.use_iam_auth is True
+    assert settings.password is None
+
+
+def test_password_is_required_when_iam_auth_is_switched_off(clean_db_env: None) -> None:
+    with pytest.raises(ConfigurationError) as caught:
+        load_database_settings(**valid_database(use_iam_auth=False))
+
+    assert "password" in str(caught.value)
+
+
+def test_password_is_not_readable_from_the_string_form(clean_db_env: None) -> None:
+    settings = load_database_settings(
+        **valid_database(use_iam_auth=False, password="not-a-real-secret")
+    )
 
     assert "not-a-real-secret" not in str(settings)
-    assert settings.db_password is not None
-    assert settings.db_password.get_secret_value() == "not-a-real-secret"
+    assert settings.password is not None
+    assert settings.password.get_secret_value() == "not-a-real-secret"
+
+
+def test_database_settings_read_their_own_environment(
+    clean_db_env: None,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("DOSIMETER_DB_HOST", "localhost")
+    monkeypatch.setenv("DOSIMETER_DB_PORT", "55432")
+
+    settings = load_database_settings(_env_file=None, name="dosimeter", user="dosimeter")
+
+    assert settings.host == "localhost"
+    assert settings.port == 55432

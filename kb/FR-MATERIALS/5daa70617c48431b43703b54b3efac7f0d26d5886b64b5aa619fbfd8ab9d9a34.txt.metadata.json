@@ -1,0 +1,46 @@
+{
+  "metadataAttributes": {
+    "doc_id": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "FR-MATERIALS"
+      }
+    },
+    "title": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "FR-MATERIALS"
+      }
+    },
+    "doc_type": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "preamble"
+      }
+    },
+    "section_path": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "\u00a7 50.109"
+      }
+    },
+    "page": {
+      "value": {
+        "type": "NUMBER",
+        "numberValue": 5
+      }
+    },
+    "chunk_id": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "5daa70617c48431b43703b54b3efac7f0d26d5886b64b5aa619fbfd8ab9d9a34"
+      }
+    },
+    "status": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "proposed"
+      }
+    }
+  }
+}

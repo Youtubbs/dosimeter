@@ -1,0 +1,109 @@
+§ 30.70 Schedule A-Exempt concentrations.
+[See footnotes at end of this table]
+Element (atomic number)
+Isotop Col. I
+Col. II
+e
+Gas concentration µCi/ml 1
+Liquid
+and
+solid
+concen
+tratio
+n
+µCi/ml
+2
+Antimony (51)
+Sb 122
+3 X 10-4
+Sb 124
+2 X 10-4
+Sb 125
+1 X 10-3
+Argon (18)
+A 37
+1 X 10-3
+A 41
+4 X 10-7
+Arsenic (33)
+As 73
+5 X 10-3
+As 74
+5 X 10-4
+As 76
+2 X 10-4
+As 77
+8 X 10-4
+Barium (56)
+Ba 131
+2 X 10-3
+Ba 140
+3 x 10-4
+Beryllium (4)
+Be 7
+2 X 10-2
+Bismuth (83)
+Bi 206
+4 X 10-4
+Bromine (35)
+Br 82
+4 x 10-7
+3 x 10-3
+Cadmium (48)
+Cd 109
+2 X 10-3
+Cd
+3 X 10-4
+115m
+Cd 115
+3 X 10-4
+Calcium (20)
+Ca 45
+9 X 10-5
+Ca 47
+5 X 10-4
+Carbon (6)
+C 14
+1 X 10-6
+8 X 10-3
+Cerium (58)
+Ce 141
+9 X 10-4
+Ce 143
+4 X 10-4
+Ce 144
+1 X 10-4
+Cesium (55)
+Cs 131
+2 X 10-2
+Cs
+6 X 10-2
+134m
+Cs 134
+9 X 10-5
+Chlorine (17)
+Cl 38
+9 x 10-7
+4 X 10-3
+Chromium (24)
+Cr 51
+2 X 10-2
+Cobalt (27)
+Co 57
+5 X 10-3
+Co 58
+1 X 10-3
+Co 60
+5 X 10-4
+Copper (29)
+Cu 64
+3 X 10-3
+Dysprosium (66)
+Dy 165
+4 X 10-3
+Dy 166
+4 X 10-4
+Erbium (68)
+Er 169
+9 X 10-4
+Er 17

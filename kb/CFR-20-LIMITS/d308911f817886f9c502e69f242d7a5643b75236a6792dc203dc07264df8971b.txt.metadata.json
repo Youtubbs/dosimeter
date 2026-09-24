@@ -1,0 +1,46 @@
+{
+  "metadataAttributes": {
+    "doc_id": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "CFR-20-LIMITS"
+      }
+    },
+    "title": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "CFR-20-LIMITS"
+      }
+    },
+    "doc_type": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "regulation"
+      }
+    },
+    "section_path": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "\u00a7 20.1003"
+      }
+    },
+    "page": {
+      "value": {
+        "type": "NUMBER",
+        "numberValue": 1
+      }
+    },
+    "chunk_id": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "d308911f817886f9c502e69f242d7a5643b75236a6792dc203dc07264df8971b"
+      }
+    },
+    "status": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "in_force"
+      }
+    }
+  }
+}

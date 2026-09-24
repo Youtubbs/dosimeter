@@ -1,0 +1,46 @@
+{
+  "metadataAttributes": {
+    "doc_id": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "CFR-20-REPORTS"
+      }
+    },
+    "title": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "CFR-20-REPORTS"
+      }
+    },
+    "doc_type": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "regulation"
+      }
+    },
+    "section_path": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "\u00a7 20.2203"
+      }
+    },
+    "page": {
+      "value": {
+        "type": "NUMBER",
+        "numberValue": 3
+      }
+    },
+    "chunk_id": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "93b03cc89f2a788be6bbf9ce2b65439445b4b0b9ca1ac4822d2aa9ee466c8c9c"
+      }
+    },
+    "status": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "in_force"
+      }
+    }
+  }
+}

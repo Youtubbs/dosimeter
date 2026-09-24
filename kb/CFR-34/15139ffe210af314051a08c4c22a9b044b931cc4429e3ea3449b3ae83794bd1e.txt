@@ -1,0 +1,14 @@
+authority and
+responsibility.
+(g) The applicant identifies and lists the qualifications of the individual(s) designated as the RSO (§ 34.42) and
+potential designees responsible for ensuring that the licensee's radiation safety program is implemented in
+accordance with approved procedures.
+(h) If an applicant intends to perform leak testing of sealed sources or exposure devices containing depleted
+uranium (DU) shielding, the applicant must describe the procedures for performing and the qualifications of the
+person(s) authorized to do the leak testing. If the applicant intends to analyze its own wipe samples, the
+application must include a description of the procedures to be followed. The description must include the-
+(1) Instruments to be used;
+(2) Methods of performing the analysis; and
+(3) Pertinent experience of the person who will analyze the wipe samples.
+(i) If the applicant intends to perform "in-house" calibrations of survey instruments the applicant must describe
+methods to be

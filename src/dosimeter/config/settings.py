@@ -29,6 +29,36 @@ class ModelRoles(BaseModel):
     judge: str = Field(min_length=1)
 
 
+class DatabaseSettings(BaseSettings):
+    """
+    The database on its own, loaded separately from the rest, so a migration or
+    a seed run does not need the model ids and buckets it will never touch.
+    """
+
+    model_config = SettingsConfigDict(
+        env_prefix="DOSIMETER_DB_",
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+        frozen=True,
+    )
+
+    host: str = Field(min_length=1)
+    port: int = Field(default=5432, gt=0, lt=65536)
+    name: str = Field(min_length=1)
+    user: str = Field(min_length=1)
+    use_iam_auth: bool = True
+    password: SecretStr | None = None
+    sslmode: str = Field(default="require", min_length=1)
+    connect_timeout_seconds: int = Field(default=10, gt=0)
+
+    @model_validator(mode="after")
+    def _password_required_without_iam_auth(self) -> DatabaseSettings:
+        if not self.use_iam_auth and self.password is None:
+            raise ValueError("password is required when use_iam_auth is false")
+        return self
+
+
 class NearBoundaryMargins(BaseModel):
     """
     How close to a limit still counts as close. Each one is written in the same
@@ -98,6 +128,7 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         extra="ignore",
         frozen=True,
+        populate_by_name=True,
         protected_namespaces=(),
     )
 
@@ -110,18 +141,9 @@ class Settings(BaseSettings):
     guardrail_id: str = Field(min_length=1)
     guardrail_version: str = Field(default="DRAFT", min_length=1)
 
-    corpus_bucket: str = Field(min_length=1)
-    packet_bucket: str = Field(min_length=1)
+    corpus_bucket: str = Field(min_length=1, validation_alias="AWS_CORPUS_BUCKET_NAME")
+    packet_bucket: str = Field(min_length=1, validation_alias="AWS_PACKET_BUCKET_NAME")
     textract_output_prefix: str = Field(default="textract/")
-
-    db_host: str = Field(min_length=1)
-    db_port: int = Field(default=5432, gt=0, lt=65536)
-    db_name: str = Field(min_length=1)
-    db_user: str = Field(min_length=1)
-    db_use_iam_auth: bool = True
-    db_password: SecretStr | None = None
-    db_sslmode: str = Field(default="require", min_length=1)
-    db_connect_timeout_seconds: int = Field(default=10, gt=0)
 
     confidence_floor: float = Field(default=0.60, ge=0, le=1)
     similarity_threshold: float = Field(default=0.50, ge=0, le=1)
@@ -130,21 +152,6 @@ class Settings(BaseSettings):
     bounds: Bounds = Field(default_factory=Bounds)
 
     log_level: str = Field(default="INFO", min_length=1)
-
-    @model_validator(mode="after")
-    def _password_required_without_iam_auth(self) -> Settings:
-        if not self.db_use_iam_auth and self.db_password is None:
-            raise ValueError("db_password is required when db_use_iam_auth is false")
-        return self
-
-    def dsn(self) -> str:
-        """Database connection string. The password is never part of it."""
-
-        return (
-            f"host={self.db_host} port={self.db_port} dbname={self.db_name} "
-            f"user={self.db_user} sslmode={self.db_sslmode} "
-            f"connect_timeout={self.db_connect_timeout_seconds}"
-        )
 
 
 def _describe(error: ValidationError) -> str:
@@ -170,6 +177,25 @@ def load_settings(**overrides: Any) -> Settings:
         ) from error
 
 
+def load_database_settings(**overrides: Any) -> DatabaseSettings:
+    """Read the database settings on their own, or fail naming the field."""
+
+    try:
+        return DatabaseSettings(**overrides)
+    except ValidationError as error:
+        raise ConfigurationError(
+            f"Invalid database configuration: {_describe(error)}",
+            fields=sorted({".".join(str(part) for part in item["loc"]) for item in error.errors()}),
+        ) from error
+
+
+@lru_cache(maxsize=1)
+def get_database_settings() -> DatabaseSettings:
+    """Read the database settings once and reuse them."""
+
+    return load_database_settings()
+
+
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:
     """Read the settings once and reuse them."""
@@ -179,9 +205,12 @@ def get_settings() -> Settings:
 
 __all__ = [
     "Bounds",
+    "DatabaseSettings",
     "ModelRoles",
     "NearBoundaryMargins",
     "Settings",
+    "get_database_settings",
     "get_settings",
+    "load_database_settings",
     "load_settings",
 ]

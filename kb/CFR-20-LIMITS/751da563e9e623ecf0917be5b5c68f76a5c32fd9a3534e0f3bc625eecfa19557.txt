@@ -1,0 +1,8 @@
+mit in paragraph (a) of
+this section;
+(2) The licensee's program to assess and control dose within the 0.5 rem (5 mSv) annual limit; and
+(3) The procedures to be followed to maintain the dose as low as is reasonably achievable.
+(e) In addition to the requirements of this part, a licensee subject to the provisions of EPA's generally applicable
+environmental radiation standards in 40 CFR part 190 shall comply with those standards.
+(f) The Commission may impose additional restrictions on radiation levels in unrestricted areas and on the total
+quantity of radionuclides that a licensee may release in effluents in order to restrict the collective dose.
