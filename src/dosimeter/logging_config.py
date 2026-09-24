@@ -12,6 +12,8 @@ from collections.abc import Iterator
 from contextvars import ContextVar
 from typing import Any
 
+from dosimeter.redaction import redact_for_log
+
 CORRELATION_ID: ContextVar[str] = ContextVar("correlation_id", default="-")
 
 _HANDLER_NAME = "dosimeter-json"
@@ -103,7 +105,7 @@ class JsonFormatter(logging.Formatter):
         if record.exc_info:
             payload["exception"] = self.formatException(record.exc_info)
 
-        return json.dumps(payload, default=str, sort_keys=True)
+        return json.dumps(redact_for_log(payload), default=str, sort_keys=True)
 
 
 def configure_logging(level: int | str = logging.INFO) -> None:

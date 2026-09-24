@@ -1,0 +1,12 @@
+d material means source material, special nuclear material, or byproduct material received, possessed,
+used, transferred or disposed of under a general or specific license issued by the Commission.
+Licensee means the holder of a license.
+Limits (dose limits) means the permissible upper bounds of radiation doses.
+Loose-fitting facepiece means a respiratory inlet covering that is designed to form a partial seal with the face.
+Lost or missing licensed material means licensed material whose location is unknown. It includes material that has
+been shipped but has not reached its destination and whose location cannot be readily traced in the transportation
+system.
+Member of the public means any individual except when that individual is receiving an occupational dose.
+Minor means an individual less than 18 years of age.
+Monitoring (radiation monitoring, radiation protection monitoring) means the measurement of radiation levels,
+concentrations, surface area concentrations or quantities of radio

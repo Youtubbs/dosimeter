@@ -26,7 +26,7 @@ def find_artifacts(packet_dir: Path) -> list[Path]:
     if not packet_dir.is_dir():
         raise ValueError(f"Packet directory does not exist: {packet_dir}")
 
-    return [file_path for file_path in packet_dir.rglob("*") if file_path.is_file()]
+    return sorted(file_path for file_path in packet_dir.rglob("*") if file_path.is_file())
 
 
 def upload_artifact(

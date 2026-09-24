@@ -1,0 +1,12 @@
+acteristics may be used by researchers and public health workers to
+standardize results of experiments and to relate biological insult to a common base.
+Rem (See § 20.1004).
+Residual radioactivity means radioactivity in structures, materials, soils, groundwater, and other media at a site
+resulting from activities under the licensee's control. This includes radioactivity from all licensed and unlicensed
+sources used by the licensee, but excludes background radiation. It also includes radioactive materials remaining
+at the site as a result of routine or accidental releases of radioactive material at the site and previous burials at the
+site, even if those burials were made in accordance with the provisions of 10 CFR part 20.
+Respiratory protective device means an apparatus, such as a respirator, used to reduce the individual's intake of
+airborne radioactive materials.
+Restricted area means an area, access to which is limited by the licensee for the purpose of protecting individuals
+again
