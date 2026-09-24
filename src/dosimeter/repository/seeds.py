@@ -33,21 +33,21 @@ UNGRANTED_OFFICER = "OFF-104"
 
 EXPOSURES: tuple[Exposure, ...] = (
     Exposure(
-        id="exp-0411",
+        id="EXP-2026-0411",
         worker_id="WKR-1047",
         district="District 1",
         occurred_on=date(2026, 3, 12),
         status="seeded",
     ),
     Exposure(
-        id="exp-0412",
+        id="EXP-2026-0412",
         worker_id="WKR-1047",
         district="District 2",
         occurred_on=date(2026, 6, 18),
         status="seeded",
     ),
     Exposure(
-        id="exp-0413",
+        id="EXP-2026-0413",
         worker_id="WKR-1048",
         district="District 3",
         occurred_on=date(2026, 7, 9),
@@ -55,7 +55,7 @@ EXPOSURES: tuple[Exposure, ...] = (
     ),
     # Only OFF-103 holds District 4, so this one is readable by its owning officer alone.
     Exposure(
-        id="exp-0414",
+        id="EXP-2026-0414",
         worker_id=P4_WORKER_ID,
         district="District 4",
         occurred_on=date(2026, 8, 21),

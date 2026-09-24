@@ -17,16 +17,10 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from dosimeter.errors import ConfigurationError
 
 
-class ModelRoles(BaseModel):
-    """Which model we use for each job."""
-
-    model_config = ConfigDict(extra="forbid", frozen=True, protected_namespaces=())
-
-    reasoning: str = Field(min_length=1)
-    fast: str = Field(min_length=1)
-    embedding: str = Field(min_length=1)
-    multimodal: str = Field(min_length=1)
-    judge: str = Field(min_length=1)
+TEXT_ROLES = ("reasoning", "fast", "judge")
+EMBEDDING_ROLE = "embedding"
+MULTIMODAL_ROLE = "multimodal"
+MODEL_ROLES = (*TEXT_ROLES, EMBEDDING_ROLE, MULTIMODAL_ROLE)
 
 
 class DatabaseSettings(BaseSettings):
@@ -111,6 +105,10 @@ class Bounds(BaseModel):
     max_retrieved_tokens: int = Field(default=8000, gt=0)
     per_turn_wall_clock_seconds: float = Field(default=180.0, gt=0)
     per_call_http_timeout_seconds: float = Field(default=30.0, gt=0)
+    max_session_tokens: int = Field(default=120_000, gt=0)
+    reviewer_iteration_cap: int = Field(default=3, gt=0)
+    max_artifacts_per_packet: int = Field(default=12, gt=0)
+    max_artifact_bytes: int = Field(default=25 * 1024 * 1024, gt=0)
 
     def tokens_for(self, agent: str) -> int:
         """Token limit for one agent, or the default if it has none of its own."""
@@ -134,7 +132,12 @@ class Settings(BaseSettings):
 
     aws_region: str = Field(default="us-east-1", pattern=r"^us-east-\d$")
 
-    models: ModelRoles
+    bedrock_model_id: str = Field(min_length=1, validation_alias="BEDROCK_MODEL_ID")
+    bedrock_embed_model_id: str = Field(min_length=1, validation_alias="BEDROCK_EMBED_MODEL_ID")
+    bedrock_multimodal_model_id: str | None = Field(
+        default=None,
+        validation_alias="BEDROCK_MULTIMODAL_MODEL_ID",
+    )
 
     knowledge_base_id: str = Field(min_length=1)
     knowledge_base_data_source_id: str | None = None
@@ -151,7 +154,27 @@ class Settings(BaseSettings):
     near_boundary_margins: NearBoundaryMargins = Field(default_factory=NearBoundaryMargins)
     bounds: Bounds = Field(default_factory=Bounds)
 
+    tool_api_base_url: str = Field(default="http://127.0.0.1:8080", min_length=1)
+    tool_api_dev_identity: bool = False
+    tool_api_identity_header: str = Field(default="X-Dosimeter-Officer", min_length=1)
+
     log_level: str = Field(default="INFO", min_length=1)
+
+    def model_for(self, role: str) -> str:
+        """
+        The model id for one role. Reasoning, fast and judge share one model
+        with different prompts and tools; the run record still says which role
+        the call was made in.
+        """
+
+        if role in TEXT_ROLES:
+            return self.bedrock_model_id
+        if role == EMBEDDING_ROLE:
+            return self.bedrock_embed_model_id
+        if role == MULTIMODAL_ROLE:
+            return self.bedrock_multimodal_model_id or self.bedrock_model_id
+
+        raise ConfigurationError(f"unknown model role: {role}", field="role")
 
 
 def _describe(error: ValidationError) -> str:
@@ -206,7 +229,7 @@ def get_settings() -> Settings:
 __all__ = [
     "Bounds",
     "DatabaseSettings",
-    "ModelRoles",
+    "MODEL_ROLES",
     "NearBoundaryMargins",
     "Settings",
     "get_database_settings",

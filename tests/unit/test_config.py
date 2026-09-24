@@ -15,20 +15,17 @@ from dosimeter.config.settings import (
 )
 from dosimeter.errors import ConfigurationError, DosimeterError
 
-MODEL_ROLES = {
-    "reasoning": "reasoning-model-id",
-    "fast": "fast-model-id",
-    "embedding": "embedding-model-id",
-    "multimodal": "multimodal-model-id",
-    "judge": "judge-model-id",
-}
+TEXT_MODEL = "text-model-id"
+EMBED_MODEL = "embedding-model-id"
 
 
 def valid_config(**overrides: Any) -> dict[str, Any]:
     """A working set of settings that a test can change one piece of."""
 
     payload: dict[str, Any] = {
-        "models": dict(MODEL_ROLES),
+        "_env_file": None,
+        "bedrock_model_id": TEXT_MODEL,
+        "bedrock_embed_model_id": EMBED_MODEL,
         "knowledge_base_id": "kb-000000",
         "guardrail_id": "gr-000000",
         "corpus_bucket": "dosimeter-corpus",
@@ -43,7 +40,7 @@ def test_valid_configuration_loads() -> None:
 
     assert isinstance(settings, Settings)
     assert settings.aws_region == "us-east-1"
-    assert settings.models.judge == "judge-model-id"
+    assert settings.bedrock_model_id == TEXT_MODEL
 
 
 def test_defaults_cover_floors_margins_and_bounds() -> None:
@@ -92,6 +89,18 @@ def test_region_outside_us_east_is_rejected() -> None:
         load_settings(**valid_config(aws_region="eu-west-1"))
 
     assert "aws_region" in str(caught.value)
+
+
+@pytest.fixture(autouse=True)
+def clean_settings_env(monkeypatch: pytest.MonkeyPatch) -> None:
+    """
+    Importing dosimeter.aws.config loads the developer's .env into the real
+    environment, so clear it before asserting what is missing.
+    """
+
+    for name in list(os.environ):
+        if name.startswith("DOSIMETER_"):
+            monkeypatch.delenv(name, raising=False)
 
 
 @pytest.fixture

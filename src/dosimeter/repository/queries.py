@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from uuid import UUID
 
-from sqlalchemy import func, select
+from sqlalchemy import func, literal, select
 from sqlalchemy.orm import Session
 
 from dosimeter.repository import orm
@@ -32,6 +32,12 @@ from dosimeter.repository.models import (
 
 _SENTENCE = re.compile(r"[^.!?]+[.!?]?")
 _WORD = re.compile(r"[a-z0-9]+")
+
+
+def ping(session: Session) -> bool:
+    """One trivial round trip, for the readiness endpoint."""
+
+    return session.scalar(select(literal(1))) == 1
 
 
 def upsert_officer(session: Session, officer_code: str) -> Officer:
@@ -143,6 +149,17 @@ def list_artifacts(session: Session, exposure_id: str) -> list[Artifact]:
         )
         for row in rows
     ]
+
+
+def artifact_hashes_by_id(session: Session, exposure_id: str) -> dict[int, str]:
+    """Artifact row id to content hash, so a field can name the artifact it came from."""
+
+    rows = session.execute(
+        select(orm.ArtifactRow.id, orm.ArtifactRow.content_sha256).where(
+            orm.ArtifactRow.exposure_id == exposure_id
+        )
+    ).all()
+    return {row[0]: row[1] for row in rows}
 
 
 def insert_extracted_fields(session: Session, fields: list[ExtractedField]) -> int:
@@ -423,6 +440,46 @@ def add_escalation_trigger(session: Session, trigger: EscalationTrigger) -> None
 
 def add_guardrail_event(session: Session, event: GuardrailEvent) -> None:
     session.add(orm.GuardrailEventRow(**event.model_dump()))
+    session.flush()
+
+
+def save_ingestion_report(
+    session: Session,
+    exposure_id: str,
+    artifacts_processed: int,
+    artifacts_skipped: int,
+    fields_extracted: int,
+    low_confidence_fields: list[dict],
+    failures: list[dict],
+) -> int:
+    row = orm.IngestionReportRow(
+        exposure_id=exposure_id,
+        artifacts_processed=artifacts_processed,
+        artifacts_skipped=artifacts_skipped,
+        fields_extracted=fields_extracted,
+        low_confidence_fields=low_confidence_fields,
+        failures=failures,
+    )
+    session.add(row)
+    session.flush()
+    return row.id
+
+
+def latest_ingestion_report(session: Session, exposure_id: str) -> orm.IngestionReportRow | None:
+    return session.scalars(
+        select(orm.IngestionReportRow)
+        .where(orm.IngestionReportRow.exposure_id == exposure_id)
+        .order_by(orm.IngestionReportRow.created_at.desc(), orm.IngestionReportRow.id.desc())
+    ).first()
+
+
+def delete_extracted_fields(session: Session, exposure_id: str) -> None:
+    """Clear the fields for one exposure so a re-run does not double them."""
+
+    for row in session.scalars(
+        select(orm.ExtractedFieldRow).where(orm.ExtractedFieldRow.exposure_id == exposure_id)
+    ).all():
+        session.delete(row)
     session.flush()
 
 
