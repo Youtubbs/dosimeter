@@ -71,7 +71,7 @@ def ingest_corpus():
             doc_id=doc_id,
             title=doc_id,
             doc_type=doc_type,
-            status=status, # may change
+            status=status,
         )
 
         chunks = chunk_sections(sections)
