@@ -79,13 +79,8 @@ def fake_normalizer(blocks: list[dict], source_artifact: str) -> dict:
 def run_submit(session: Session, packet: Path, store: FakeObjectStore, vault=None):
     settings = Settings(
         _env_file=None,
-        models={
-            "reasoning": "r",
-            "fast": "f",
-            "embedding": "e",
-            "multimodal": "m",
-            "judge": "j",
-        },
+        bedrock_model_id="text-model-id",
+        bedrock_embed_model_id="embedding-model-id",
         knowledge_base_id="kb",
         guardrail_id="gr",
         corpus_bucket="corpus",

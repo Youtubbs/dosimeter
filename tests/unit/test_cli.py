@@ -33,8 +33,8 @@ def configured(monkeypatch: pytest.MonkeyPatch) -> None:
     """A full set of settings, so a command only fails for being unfinished."""
 
     monkeypatch.setenv("AWS_REGION", "us-east-1")
-    for role in ("reasoning", "fast", "embedding", "multimodal", "judge"):
-        monkeypatch.setenv(f"DOSIMETER_MODELS__{role.upper()}", f"{role}-model-id")
+    monkeypatch.setenv("BEDROCK_MODEL_ID", "text-model-id")
+    monkeypatch.setenv("BEDROCK_EMBED_MODEL_ID", "embedding-model-id")
     monkeypatch.setenv("DOSIMETER_KNOWLEDGE_BASE_ID", "kb-000000")
     monkeypatch.setenv("DOSIMETER_GUARDRAIL_ID", "gr-000000")
     monkeypatch.setenv("AWS_CORPUS_BUCKET_NAME", "dosimeter-corpus")

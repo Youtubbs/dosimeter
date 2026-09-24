@@ -17,16 +17,10 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from dosimeter.errors import ConfigurationError
 
 
-class ModelRoles(BaseModel):
-    """Which model we use for each job."""
-
-    model_config = ConfigDict(extra="forbid", frozen=True, protected_namespaces=())
-
-    reasoning: str = Field(min_length=1)
-    fast: str = Field(min_length=1)
-    embedding: str = Field(min_length=1)
-    multimodal: str = Field(min_length=1)
-    judge: str = Field(min_length=1)
+TEXT_ROLES = ("reasoning", "fast", "judge")
+EMBEDDING_ROLE = "embedding"
+MULTIMODAL_ROLE = "multimodal"
+MODEL_ROLES = (*TEXT_ROLES, EMBEDDING_ROLE, MULTIMODAL_ROLE)
 
 
 class DatabaseSettings(BaseSettings):
@@ -138,7 +132,12 @@ class Settings(BaseSettings):
 
     aws_region: str = Field(default="us-east-1", pattern=r"^us-east-\d$")
 
-    models: ModelRoles
+    bedrock_model_id: str = Field(min_length=1, validation_alias="BEDROCK_MODEL_ID")
+    bedrock_embed_model_id: str = Field(min_length=1, validation_alias="BEDROCK_EMBED_MODEL_ID")
+    bedrock_multimodal_model_id: str | None = Field(
+        default=None,
+        validation_alias="BEDROCK_MULTIMODAL_MODEL_ID",
+    )
 
     knowledge_base_id: str = Field(min_length=1)
     knowledge_base_data_source_id: str | None = None
@@ -160,6 +159,22 @@ class Settings(BaseSettings):
     tool_api_identity_header: str = Field(default="X-Dosimeter-Officer", min_length=1)
 
     log_level: str = Field(default="INFO", min_length=1)
+
+    def model_for(self, role: str) -> str:
+        """
+        The model id for one role. Reasoning, fast and judge share one model
+        with different prompts and tools; the run record still says which role
+        the call was made in.
+        """
+
+        if role in TEXT_ROLES:
+            return self.bedrock_model_id
+        if role == EMBEDDING_ROLE:
+            return self.bedrock_embed_model_id
+        if role == MULTIMODAL_ROLE:
+            return self.bedrock_multimodal_model_id or self.bedrock_model_id
+
+        raise ConfigurationError(f"unknown model role: {role}", field="role")
 
 
 def _describe(error: ValidationError) -> str:
@@ -214,7 +229,7 @@ def get_settings() -> Settings:
 __all__ = [
     "Bounds",
     "DatabaseSettings",
-    "ModelRoles",
+    "MODEL_ROLES",
     "NearBoundaryMargins",
     "Settings",
     "get_database_settings",

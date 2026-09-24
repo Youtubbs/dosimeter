@@ -28,7 +28,8 @@ DIMENSIONS = orm.EMBEDDING_DIMENSIONS
 def settings_for_tests(dev_identity: bool = False) -> Settings:
     return Settings(
         _env_file=None,
-        models={"reasoning": "r", "fast": "f", "embedding": "e", "multimodal": "m", "judge": "j"},
+        bedrock_model_id="text-model-id",
+        bedrock_embed_model_id="embedding-model-id",
         knowledge_base_id="kb",
         guardrail_id="gr",
         corpus_bucket="corpus",

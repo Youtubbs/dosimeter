@@ -1,8 +1,8 @@
 """Settings for the project."""
 
 from dosimeter.config.settings import (
+    MODEL_ROLES,
     Bounds,
-    ModelRoles,
     NearBoundaryMargins,
     Settings,
     get_settings,
@@ -10,8 +10,8 @@ from dosimeter.config.settings import (
 )
 
 __all__ = [
+    "MODEL_ROLES",
     "Bounds",
-    "ModelRoles",
     "NearBoundaryMargins",
     "Settings",
     "get_settings",
