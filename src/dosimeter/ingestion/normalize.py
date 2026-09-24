@@ -1,7 +1,8 @@
-""" Normalize Amazon Textract results into structured exposure data """
+"""Normalize Amazon Textract results into structured exposure data"""
+
 
 def get_text_from_relationships(block: dict, blocks_by_id: dict) -> str:
-    """ Get the text connected to a Textract block """
+    """Get the text connected to a Textract block"""
 
     text_parts = []
 
@@ -21,13 +22,9 @@ def get_text_from_relationships(block: dict, blocks_by_id: dict) -> str:
 
 
 def extract_form_fields(blocks: list[dict]) -> list[dict]:
-    """ Extract key/value fields from Textract FORMS output """
+    """Extract key/value fields from Textract FORMS output"""
 
-    blocks_by_id = {
-        block["Id"]: block
-        for block in blocks
-        if "Id" in block
-    }
+    blocks_by_id = {block["Id"]: block for block in blocks if "Id" in block}
 
     fields = []
 
@@ -69,7 +66,7 @@ def extract_form_fields(blocks: list[dict]) -> list[dict]:
 
 
 def normalize(blocks: list[dict], source_artifact: str) -> dict:
-    """ Normalize Textract blocks into a structured record """
+    """Normalize Textract blocks into a structured record"""
 
     fields = extract_form_fields(blocks)
 

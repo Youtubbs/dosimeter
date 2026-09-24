@@ -1,5 +1,5 @@
-""" complete pipeline for ingestion
-        uploads to s3 -> runs textract -> normalizes -> redacts -> report
+"""complete pipeline for ingestion
+uploads to s3 -> runs textract -> normalizes -> redacts -> report
 """
 
 from .redact import redact_fields

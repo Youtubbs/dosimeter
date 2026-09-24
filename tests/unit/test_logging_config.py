@@ -80,9 +80,7 @@ def test_configure_logging_installs_exactly_one_json_handler() -> None:
     configure_logging(logging.DEBUG)
 
     json_handlers = [
-        item
-        for item in logging.getLogger().handlers
-        if isinstance(item.formatter, JsonFormatter)
+        item for item in logging.getLogger().handlers if isinstance(item.formatter, JsonFormatter)
     ]
     assert len(json_handlers) == 1
 

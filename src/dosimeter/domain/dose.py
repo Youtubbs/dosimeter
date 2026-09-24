@@ -9,6 +9,7 @@ interchangeable measurements.
 from enum import Enum
 from pydantic import BaseModel, ConfigDict, Field
 
+
 # Enumerations
 class DoseUnit(str, Enum):
     """Supported radiation dose units."""
@@ -108,6 +109,32 @@ class LensThreshold(BaseModel):
 
 class ShallowThreshold(BaseModel):
     """Threshold that may only be used with shallow-dose measurements."""
+
+    model_config = ConfigDict(
+        strict=True,
+        frozen=True,
+        extra="forbid",
+    )
+
+    value: float = Field(ge=0)
+    unit: DoseUnit
+
+
+class EmbryoFetusDoseEquivalent(BaseModel):
+    """Dose equivalent to the embryo/fetus."""
+
+    model_config = ConfigDict(
+        strict=True,
+        frozen=True,
+        extra="forbid",
+    )
+
+    value: float = Field(ge=0)
+    unit: DoseUnit
+
+
+class UnrestrictedAreaDose(BaseModel):
+    """Dose measured or calculated for an unrestricted area."""
 
     model_config = ConfigDict(
         strict=True,
