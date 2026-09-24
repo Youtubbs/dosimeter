@@ -1,6 +1,7 @@
-""" Test suite for normalize.py"""
+"""Test suite for normalize.py"""
 
 from dosimeter.ingestion.normalize import normalize
+
 
 def test_normalize_extracts_form_fields():
     blocks = [
