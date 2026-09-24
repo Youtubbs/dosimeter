@@ -68,6 +68,33 @@ def build_engine(
     )
 
 
+def conn_string(
+    settings: DatabaseSettings | None = None,
+    token_provider: TokenProvider | None = None,
+) -> str:
+    """A psycopg connection string, for libraries that take one (the checkpointer)."""
+
+    resolved = settings or get_database_settings()
+    password = _password(resolved, token_provider)
+    return database_url(resolved, password).render_as_string(hide_password=False).replace(
+        "postgresql+psycopg://", "postgresql://", 1
+    )
+
+
+def _password(settings: DatabaseSettings, token_provider: TokenProvider | None) -> str:
+    if settings.use_iam_auth:
+        if token_provider is None:
+            raise ConfigurationError(
+                "IAM database authentication is on, so a token provider is required",
+                field="DOSIMETER_DB_USE_IAM_AUTH",
+            )
+        return token_provider()
+
+    if settings.password is None:
+        raise ConfigurationError("a database password is required", field="DOSIMETER_DB_PASSWORD")
+    return settings.password.get_secret_value()
+
+
 @contextmanager
 def session_scope(
     settings: DatabaseSettings | None = None,
