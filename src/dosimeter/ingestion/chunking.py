@@ -1,16 +1,15 @@
 """ Structure-aware chunking for regulatory corpus documents """
 
-from __future__ import annotations
-
+from pydantic import BaseModel, ConfigDict
 import hashlib
-from dataclasses import dataclass
 
 DEFAULT_CHUNK_SIZE = 1000
 DEFAULT_CHUNK_OVERLAP = 100
 
-@dataclass(frozen=True)
-class CorpusSection:
+class CorpusSection(BaseModel):
     """A section of a regulatory document extracted from Textract."""
+
+    model_config = ConfigDict(frozen=True)
 
     doc_id: str
     title: str
@@ -20,10 +19,10 @@ class CorpusSection:
     page: int
     text: str
 
-
-@dataclass(frozen=True)
-class CorpusChunk:
+class CorpusChunk(BaseModel):
     """A chunk ready to be indexed in the Knowledge Base."""
+
+    model_config = ConfigDict(frozen=True)
 
     text: str
     doc_id: str

@@ -1,5 +1,5 @@
-""" complete pipeline for ingestion
-        uploads to s3 -> runs textract -> normalizes -> redacts -> report
+"""complete pipeline for ingestion
+uploads to s3 -> runs textract -> normalizes -> redacts -> report
 """
 
 from .redact import redact_fields
@@ -71,7 +71,7 @@ def ingest_corpus():
             doc_id=doc_id,
             title=doc_id,
             doc_type=doc_type,
-            status=status, # may change
+            status=status,
         )
 
         chunks = chunk_sections(sections)

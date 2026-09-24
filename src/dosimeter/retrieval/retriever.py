@@ -13,6 +13,8 @@ from langchain_core.vectorstores import InMemoryVectorStore
 
 from dosimeter.aws.config import EMBED_MODEL_ID, AWS_REGION, BEDROCK_KB_ID
 
+# this will change based on golden set rules
+THRESHOLD = 0.4
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 KB_DIR = PROJECT_ROOT / "kb"
@@ -26,7 +28,7 @@ def load_corpus_chunks() -> list[Document]:
     chunks: list[Document] = []
 
     for path in sorted(KB_DIR.glob("**/*.txt")):
-        # Skip anything that might accidentally match a metadata file.
+        # Skip anything that might accidentally match a metadata file
         if path.name.endswith(".metadata.json"):
             continue
 
@@ -67,36 +69,38 @@ class ScoreThresholdRetriever(BaseRetriever):
 
     store: InMemoryVectorStore
     k: int = 4
-    threshold: float = 0.4
+    threshold: float = THRESHOLD
+    status : Status | None = None
 
-    model_config = {
-        "arbitrary_types_allowed": True,
-    }
+    model_config = {"arbitrary_types_allowed": True}
 
-    def _get_relevant_documents(
-        self,
-        query: str,
-        *,
-        run_manager: CallbackManagerForRetrieverRun,
-    ) -> list[Document]:
-        """Retrieve chunks above the configured similarity threshold."""
+    def _get_relevant_documents(self, query: str, *, run_manager: CallbackManagerForRetrieverRun) -> list[Document]:
 
         hits = self.store.similarity_search_with_score(
             query,
             k=self.k,
         )
 
-        return [
+        documents = [
             document
             for document, score in hits
             if score >= self.threshold
         ]
 
+        if self.status is not None:
+            documents = [
+                document
+                for document in documents
+                if document.metadata.get("status") == self.status
+            ]
+
+        return documents
 
 @lru_cache(maxsize=None)
 def build_local_retriever(
     k: int = 4,
-    threshold: float = 0.4,
+    threshold: float = THRESHOLD,
+    status : Status | None = None
 ) -> BaseRetriever:
     """Build the local in-memory retriever for development."""
 
@@ -116,12 +120,13 @@ def build_local_retriever(
         store=store,
         k=k,
         threshold=threshold,
+        status=status
     )
 
 
 def build_kb_retriever(
     k: int = 4,
-    threshold: float = 0.4,
+    threshold: float = THRESHOLD,
     status: Status | None = None,
 ) -> BaseRetriever:
     """Build the production Amazon Bedrock Knowledge Base retriever."""
@@ -150,7 +155,7 @@ def build_kb_retriever(
 
 def get_retriever(
     k: int = 4,
-    threshold: float = 0.4,
+    threshold: float = THRESHOLD,
     status: Status | None = None,
 ) -> BaseRetriever:
     """Return the configured Dosimeter retriever."""
@@ -165,21 +170,5 @@ def get_retriever(
     return build_local_retriever(
         k=k,
         threshold=threshold,
+        status=status
     )
-
-
-# used to test retrieved chunks
-
-# if __name__ == "__main__":
-#     retriever = build_local_retriever()
-
-#     query = "What is the annual dose limit for an adult radiation worker?"
-
-#     documents = retriever.invoke(query)
-
-#     print(f"Retrieved {len(documents)} documents")
-
-#     for document in documents:
-#         print("\n---")
-#         print(document.metadata)
-#         print(document.page_content[:500])

@@ -1,4 +1,4 @@
-""" fake env variables loading """
+"""fake env variables loading"""
 
 from pathlib import Path
 
