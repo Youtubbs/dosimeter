@@ -111,6 +111,10 @@ class Bounds(BaseModel):
     max_retrieved_tokens: int = Field(default=8000, gt=0)
     per_turn_wall_clock_seconds: float = Field(default=180.0, gt=0)
     per_call_http_timeout_seconds: float = Field(default=30.0, gt=0)
+    max_session_tokens: int = Field(default=120_000, gt=0)
+    reviewer_iteration_cap: int = Field(default=3, gt=0)
+    max_artifacts_per_packet: int = Field(default=12, gt=0)
+    max_artifact_bytes: int = Field(default=25 * 1024 * 1024, gt=0)
 
     def tokens_for(self, agent: str) -> int:
         """Token limit for one agent, or the default if it has none of its own."""
@@ -150,6 +154,10 @@ class Settings(BaseSettings):
 
     near_boundary_margins: NearBoundaryMargins = Field(default_factory=NearBoundaryMargins)
     bounds: Bounds = Field(default_factory=Bounds)
+
+    tool_api_base_url: str = Field(default="http://127.0.0.1:8080", min_length=1)
+    tool_api_dev_identity: bool = False
+    tool_api_identity_header: str = Field(default="X-Dosimeter-Officer", min_length=1)
 
     log_level: str = Field(default="INFO", min_length=1)
 

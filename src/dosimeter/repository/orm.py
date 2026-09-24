@@ -250,6 +250,19 @@ class GuardrailEventRow(Base):
     occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
+class IngestionReportRow(Base):
+    __tablename__ = "ingestion_reports"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    exposure_id: Mapped[str] = mapped_column(ForeignKey("exposures.id", ondelete="CASCADE"))
+    artifacts_processed: Mapped[int] = mapped_column(Integer, default=0)
+    artifacts_skipped: Mapped[int] = mapped_column(Integer, default=0)
+    fields_extracted: Mapped[int] = mapped_column(Integer, default=0)
+    low_confidence_fields: Mapped[list[Any]] = mapped_column(JSONB, default=list)
+    failures: Mapped[list[Any]] = mapped_column(JSONB, default=list)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
 class IdempotencyKeyRow(Base):
     __tablename__ = "idempotency_keys"
 

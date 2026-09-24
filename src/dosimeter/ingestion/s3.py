@@ -69,7 +69,7 @@ def upload_packet(packet_dir: Path) -> list[dict]:
 
     results = []
 
-    for file_path in artifacts:
+    for file_path in sorted(artifacts, key=lambda path: path.name):
         result = process_artifact(
             file_path=file_path,
             packet_id=packet_id,
