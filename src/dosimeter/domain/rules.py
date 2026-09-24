@@ -8,9 +8,11 @@ workers, reviewers, guardrails, evaluation, and dossier gen.
 """
 
 from enum import Enum
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
+
+RuleInvocationPath = Literal["harness", "tool"]
 
 
 class RuleOutcome(str, Enum):
@@ -18,15 +20,12 @@ class RuleOutcome(str, Enum):
 
     REQUIRED = "required"
     NOT_REQUIRED = "not_required"
-
     VALID = "valid"
     INVALID = "invalid"
-
+    INSUFFICIENT_DATA = "insufficient_data"
+    HUMAN_DETERMINATION = "human_determination"
     PASS = "pass"  # noqa: S105
     FAIL = "fail"
-
-    INSUFFICIENT_DATA = "insufficient_data"
-
 
 class RuleSource(BaseModel):
     """Regulatory source supporting a rule evaluation."""
@@ -93,3 +92,5 @@ class RuleInvocation(BaseModel):
     inputs: dict[str, Any]
 
     result: RuleResult
+
+    path: RuleInvocationPath    

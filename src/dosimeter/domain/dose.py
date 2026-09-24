@@ -117,3 +117,29 @@ class ShallowThreshold(BaseModel):
 
     value: float = Field(ge=0)
     unit: DoseUnit
+
+
+class EmbryoFetusDoseEquivalent(BaseModel):
+    """Dose equivalent to the embryo/fetus."""
+
+    model_config = ConfigDict(
+        strict=True,
+        frozen=True,
+        extra="forbid",
+    )
+
+    value: float = Field(ge=0)
+    unit: DoseUnit
+
+
+class UnrestrictedAreaDose(BaseModel):
+    """Dose measured or calculated for an unrestricted area."""
+
+    model_config = ConfigDict(
+        strict=True,
+        frozen=True,
+        extra="forbid",
+    )
+
+    value: float = Field(ge=0)
+    unit: DoseUnit

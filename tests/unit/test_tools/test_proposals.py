@@ -2,12 +2,21 @@
 
 import pytest
 from pydantic import ValidationError
+from dosimeter.tools.base import Tool
+
 
 from dosimeter.domain.dose import (
     DoseUnit,
     TotalEffectiveDoseEquivalent,
 )
 from dosimeter.tools.proposals import (
+    PROPOSE_NOTIFICATION,
+    PROPOSE_NOTIFICATION_TOOL,
+    PROPOSE_WRITTEN_REPORT,
+    PROPOSE_WRITTEN_REPORT_TOOL,
+    ProposeNotificationInput,
+    ProposeWrittenReportInput,
+    proposal_tools,
     propose_notification,
     propose_written_report,
 )
@@ -147,3 +156,36 @@ def test_propose_written_report_rejects_unknown_field() -> None:
 
     with pytest.raises(ValidationError):
         propose_written_report(proposal)
+
+
+def test_notification_tool_has_expected_contract() -> None:
+    tool = PROPOSE_NOTIFICATION_TOOL
+
+    assert isinstance(tool, Tool)
+    assert tool.name == PROPOSE_NOTIFICATION
+    assert tool.input_model is ProposeNotificationInput
+    assert tool.output_model is NotificationProposal
+
+
+def test_written_report_tool_has_expected_contract() -> None:
+    tool = PROPOSE_WRITTEN_REPORT_TOOL
+
+    assert isinstance(tool, Tool)
+    assert tool.name == PROPOSE_WRITTEN_REPORT
+    assert tool.input_model is ProposeWrittenReportInput
+    assert tool.output_model is WrittenReportProposal
+
+
+def test_proposal_tools_returns_both_tools() -> None:
+    tools = proposal_tools()
+
+    assert len(tools) == 2
+    assert {tool.name for tool in tools} == {
+        PROPOSE_NOTIFICATION,
+        PROPOSE_WRITTEN_REPORT,
+    }
+
+
+def test_proposal_tool_schemas_do_not_expose_subject() -> None:
+    for tool in proposal_tools():
+        assert tool.subject_arguments() == []
