@@ -27,6 +27,7 @@ def valid_config(**overrides: Any) -> dict[str, Any]:
     """A working set of settings that a test can change one piece of."""
 
     payload: dict[str, Any] = {
+        "_env_file": None,
         "models": dict(MODEL_ROLES),
         "knowledge_base_id": "kb-000000",
         "guardrail_id": "gr-000000",
@@ -91,6 +92,18 @@ def test_region_outside_us_east_is_rejected() -> None:
         load_settings(**valid_config(aws_region="eu-west-1"))
 
     assert "aws_region" in str(caught.value)
+
+
+@pytest.fixture(autouse=True)
+def clean_settings_env(monkeypatch: pytest.MonkeyPatch) -> None:
+    """
+    Importing dosimeter.aws.config loads the developer's .env into the real
+    environment, so clear it before asserting what is missing.
+    """
+
+    for name in list(os.environ):
+        if name.startswith("DOSIMETER_"):
+            monkeypatch.delenv(name, raising=False)
 
 
 @pytest.fixture

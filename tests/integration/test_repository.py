@@ -143,12 +143,12 @@ def test_a_run_record_is_finished_with_its_outcome(db: Session) -> None:
 def test_artifacts_and_extracted_fields_round_trip(db: Session) -> None:
     queries.insert_exposure(
         db,
-        Exposure(id="exp-0411", worker_id="WKR-1047", district="District 1"),
+        Exposure(id="EXP-2026-0411", worker_id="WKR-1047", district="District 1"),
     )
     artifact_id = queries.insert_artifact(
         db,
         Artifact(
-            exposure_id="exp-0411",
+            exposure_id="EXP-2026-0411",
             kind="exposure-report",
             content_sha256=sha256("pdf"),
             s3_bucket="dosimeter-packets",
@@ -160,7 +160,7 @@ def test_artifacts_and_extracted_fields_round_trip(db: Session) -> None:
         db,
         [
             ExtractedField(
-                exposure_id="exp-0411",
+                exposure_id="EXP-2026-0411",
                 artifact_id=artifact_id,
                 field_key="total_effective_dose_equivalent",
                 value="6.2",
@@ -172,10 +172,10 @@ def test_artifacts_and_extracted_fields_round_trip(db: Session) -> None:
     )
     db.commit()
 
-    fields = queries.list_extracted_fields(db, "exp-0411")
+    fields = queries.list_extracted_fields(db, "EXP-2026-0411")
     assert [item.field_key for item in fields] == ["total_effective_dose_equivalent"]
     assert fields[0].confidence == pytest.approx(0.99)
-    assert queries.list_artifacts(db, "exp-0411")[0].status == "cracked"
+    assert queries.list_artifacts(db, "EXP-2026-0411")[0].status == "cracked"
 
 
 def test_idempotency_key_is_claimed_once(db: Session) -> None:
@@ -187,7 +187,7 @@ def test_idempotency_key_is_claimed_once(db: Session) -> None:
 def test_review_queue_flow(db: Session) -> None:
     seeds.apply_seeds(db)
     officer = queries.officer_by_code(db, "OFF-101")
-    queue_id = queries.enqueue_review(db, "exp-0411", "District 1", "confidence_floor")
+    queue_id = queries.enqueue_review(db, "EXP-2026-0411", "District 1", "confidence_floor")
     db.commit()
 
     assert queries.claim_review(db, queue_id, officer.id) is True
@@ -286,8 +286,8 @@ def test_an_unknown_officer_gets_a_denial(db: Session) -> None:
 def test_one_exposure_is_readable_only_by_its_owning_officer(db: Session) -> None:
     seeds.apply_seeds(db)
 
-    owner = entitlements.exposure_for_officer(db, "OFF-103", "exp-0414")
-    outsider = entitlements.exposure_for_officer(db, "OFF-101", "exp-0414")
+    owner = entitlements.exposure_for_officer(db, "OFF-103", "EXP-2026-0414")
+    outsider = entitlements.exposure_for_officer(db, "OFF-101", "EXP-2026-0414")
 
     assert isinstance(owner, Exposure)
     assert owner.district == "District 4"
@@ -301,7 +301,7 @@ def test_officer_sees_only_their_own_districts(db: Session) -> None:
 
     visible = entitlements.exposures_for_officer(db, "OFF-101")
 
-    assert {item.id for item in visible} == {"exp-0411", "exp-0412"}
+    assert {item.id for item in visible} == {"EXP-2026-0411", "EXP-2026-0412"}
 
 
 def test_similar_exposure_search_scores_and_quotes_the_narrative(db: Session) -> None:

@@ -4,15 +4,18 @@ then quits with 'not implemented' until someone fills it in."""
 from __future__ import annotations
 
 import argparse
+import sys
 from collections.abc import Sequence
+from pathlib import Path
 
 from dosimeter import __version__
 from dosimeter.config.settings import Settings, load_settings
-from dosimeter.errors import ConfigurationError
+from dosimeter.errors import ConfigurationError, DosimeterError
 from dosimeter.logging_config import configure_logging, correlation_scope, get_logger
 
 EXIT_CONFIG_ERROR = 2
 EXIT_NOT_IMPLEMENTED = 3
+EXIT_FAILED = 1
 
 COMMANDS: dict[str, str] = {
     "submit": "Submit an exposure packet and produce a normalized record",
@@ -40,7 +43,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     subparsers = parser.add_subparsers(dest="command", metavar="command", required=True)
     for name, help_text in COMMANDS.items():
-        subparsers.add_parser(name, help=help_text, description=help_text)
+        command = subparsers.add_parser(name, help=help_text, description=help_text)
+        if name == "submit":
+            command.add_argument("packet_dir", type=Path, help="the packet directory to submit")
 
     return parser
 
@@ -68,11 +73,38 @@ def main(argv: Sequence[str] | None = None) -> int:
             return EXIT_CONFIG_ERROR
 
         configure_logging(settings.log_level)
+
+        if args.command == "submit":
+            return _submit(args.packet_dir, settings)
+
         _LOGGER.error(
             "command.not_implemented",
             extra={"command": args.command, "detail": "not implemented"},
         )
         return EXIT_NOT_IMPLEMENTED
+
+
+def _submit(packet_dir: Path, settings: Settings) -> int:
+    """Run the submit pipeline and print its report."""
+
+    from dosimeter.ingestion.artifact_store import S3ObjectStore
+    from dosimeter.ingestion.submit import submit_packet
+    from dosimeter.repository.connection import session_scope
+
+    try:
+        with session_scope() as session:
+            report = submit_packet(
+                session=session,
+                packet_dir=packet_dir,
+                settings=settings,
+                store=S3ObjectStore(),
+            )
+    except DosimeterError as error:
+        _LOGGER.error("submit.failed", extra={"detail": str(error)})
+        return EXIT_FAILED
+
+    sys.stdout.write(report.render() + "\n")
+    return 0
 
 
 if __name__ == "__main__":  # pragma: no cover
