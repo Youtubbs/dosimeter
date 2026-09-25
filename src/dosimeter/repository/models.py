@@ -146,7 +146,10 @@ class RunRecord(BaseModel):
     turn_kind: str = Field(min_length=1)
     exposure_id: str | None = None
     officer_id: int | None = None
+    session_id: UUID | None = None
     outcome: str | None = None
+    corrects_run_id: UUID | None = None
+    token_totals: dict[str, int] = Field(default_factory=dict)
     finished_at: datetime | None = None
 
 
@@ -157,6 +160,9 @@ class ToolInvocation(BaseModel):
     tool_name: str
     argument_sha256: str = Field(min_length=64, max_length=64)
     outcome: str
+    arguments: dict = Field(default_factory=dict)
+    result: dict | None = None
+    worker: str | None = None
     duration_ms: float | None = None
 
 
@@ -168,6 +174,9 @@ class RuleInvocation(BaseModel):
     outcome: str
     threshold_named: str | None = None
     inputs: dict = Field(default_factory=dict)
+    result: dict = Field(default_factory=dict)
+    dose_quantity: str | None = None
+    path: str | None = None
 
 
 class Retrieval(BaseModel):
@@ -177,7 +186,9 @@ class Retrieval(BaseModel):
     query_sha256: str = Field(min_length=64, max_length=64)
     chunk_ids: list[str] = Field(default_factory=list)
     scores: list[float] = Field(default_factory=list)
+    statuses: list[str] = Field(default_factory=list)
     status_filter: str | None = None
+    query_text: str | None = None
 
 
 class ModelCall(BaseModel):
@@ -186,9 +197,40 @@ class ModelCall(BaseModel):
     run_id: UUID
     model_id: str
     role: str
+    agent: str | None = None
     input_tokens: int = Field(default=0, ge=0)
     output_tokens: int = Field(default=0, ge=0)
     duration_ms: float | None = None
+
+
+class WorkerDispatch(BaseModel):
+    model_config = STRICT
+
+    run_id: UUID
+    worker: str
+    reason: str
+    iteration: int = 1
+    redispatch_trigger: str | None = None
+
+
+class ReviewerVerdictRecord(BaseModel):
+    model_config = STRICT
+
+    run_id: UUID
+    iteration: int
+    worker: str
+    verdict: str
+    objections: list[dict] = Field(default_factory=list)
+
+
+class ApprovedRecord(BaseModel):
+    model_config = STRICT
+
+    exposure_id: str
+    decision_id: int
+    idempotency_key: str = Field(min_length=1)
+    payload: dict
+    approver_officer_id: int
 
 
 class EscalationTrigger(BaseModel):

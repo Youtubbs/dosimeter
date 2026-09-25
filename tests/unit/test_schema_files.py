@@ -37,9 +37,15 @@ PERSON_NAME_COLUMN = re.compile(
 
 
 def create_table_blocks() -> dict[str, str]:
+    """Columns per table: what CREATE TABLE made, plus what ALTER TABLE added."""
+
     blocks = {}
     for match in re.finditer(r"CREATE TABLE (\w+) \((.*?)\n\);", SQL, re.DOTALL):
         blocks[match.group(1)] = match.group(2)
+
+    for match in re.finditer(r"ALTER TABLE (\w+) ADD COLUMN ([^;]+);", SQL):
+        blocks[match.group(1)] = blocks.get(match.group(1), "") + f"\n    {match.group(2)}"
+
     return blocks
 
 

@@ -22,7 +22,18 @@ EXPECTED_COMMANDS = (
 
 # submit is built, and has its own tests. Take a command out of this list as it
 # lands.
-IMPLEMENTED_COMMANDS = ("submit",)
+IMPLEMENTED_COMMANDS = ("submit", "assess", "trace", "queue", "review")
+
+# What each command needs on the command line, beyond its own name.
+ARGUMENTS: dict[str, list[str]] = {
+    "submit": ["./packets/exp-0412"],
+    "assess": ["EXP-2026-0412", "--officer", "OFF-101"],
+    "dossier": ["EXP-2026-0412"],
+    "sources": ["EXP-2026-0412"],
+    "trace": ["EXP-2026-0412"],
+    "queue": ["--officer", "OFF-101"],
+    "review": ["EXP-2026-0412", "--officer", "OFF-102"],
+}
 UNFINISHED_COMMANDS = tuple(
     command for command in EXPECTED_COMMANDS if command not in IMPLEMENTED_COMMANDS
 )
@@ -50,8 +61,7 @@ def test_the_eight_subcommands_are_the_whole_surface() -> None:
 
 @pytest.mark.parametrize("command", EXPECTED_COMMANDS)
 def test_subcommand_parses(command: str) -> None:
-    argv = [command, "./packets/exp-0412"] if command == "submit" else [command]
-    args = build_parser().parse_args(argv)
+    args = build_parser().parse_args([command, *ARGUMENTS.get(command, [])])
 
     assert args.command == command
 
@@ -63,7 +73,7 @@ def test_subcommand_exits_non_zero_with_not_implemented(
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     with caplog.at_level("ERROR"):
-        exit_code = main([command])
+        exit_code = main([command, *ARGUMENTS.get(command, [])])
 
     assert exit_code == EXIT_NOT_IMPLEMENTED
     assert exit_code != 0
@@ -84,7 +94,7 @@ def test_command_loads_configuration_before_anything_else(
             monkeypatch.delenv(name, raising=False)
 
     with caplog.at_level("ERROR"):
-        exit_code = main(["assess"])
+        exit_code = main(["ask"])
 
     assert exit_code == EXIT_CONFIG_ERROR
     assert caplog.records[-1].message == "config.invalid"

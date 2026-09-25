@@ -46,6 +46,21 @@ def build_parser() -> argparse.ArgumentParser:
         command = subparsers.add_parser(name, help=help_text, description=help_text)
         if name == "submit":
             command.add_argument("packet_dir", type=Path, help="the packet directory to submit")
+        if name in ("assess", "trace", "dossier", "sources", "review"):
+            command.add_argument("exposure_id", help="the exposure, for example EXP-2026-0412")
+        if name in ("assess", "queue", "review"):
+            command.add_argument(
+                "--officer",
+                required=True,
+                help="the officer code this command runs as",
+            )
+        if name == "review":
+            command.add_argument(
+                "--decision",
+                choices=("approve", "edit-then-approve", "reject"),
+                help="record a decision instead of showing the card",
+            )
+            command.add_argument("--note", help="a note to add when editing then approving")
 
     return parser
 
@@ -77,6 +92,18 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.command == "submit":
             return _submit(args.packet_dir, settings)
 
+        if args.command == "assess":
+            return _assess(args.exposure_id, args.officer, settings)
+
+        if args.command == "trace":
+            return _trace(args.exposure_id)
+
+        if args.command == "queue":
+            return _queue(args.officer)
+
+        if args.command == "review":
+            return _review(args.exposure_id, args.officer, args.decision, args.note)
+
         _LOGGER.error(
             "command.not_implemented",
             extra={"command": args.command, "detail": "not implemented"},
@@ -104,6 +131,110 @@ def _submit(packet_dir: Path, settings: Settings) -> int:
         return EXIT_FAILED
 
     sys.stdout.write(report.render() + "\n")
+    return 0
+
+
+def _assess(exposure_id: str, officer_code: str, settings: Settings) -> int:
+    """Run the workflow on a submitted exposure and persist what it produced."""
+
+    from dosimeter.graph.nodes import build_nodes, escalation_evaluator
+    from dosimeter.harness.assess import run_assess
+    from dosimeter.repository.connection import session_scope
+
+    try:
+        with session_scope() as session:
+            result = run_assess(
+                session=session,
+                exposure_id=exposure_id,
+                officer_code=officer_code,
+                settings=settings,
+                nodes=build_nodes(settings),
+                evaluate=escalation_evaluator(),
+            )
+    except DosimeterError as error:
+        _LOGGER.error("assess.failed", extra={"detail": str(error)})
+        return EXIT_FAILED
+
+    lines = [
+        result.exposure_id,
+        f"outcome:   {result.outcome}",
+        f"run id:    {result.run_id}",
+        f"duration:  {result.duration_seconds:.2f} s",
+    ]
+    if result.eligibility is not None:
+        lines.append(f"triggers:  {result.eligibility.outcome.reason()}")
+        if result.escalated:
+            lines.append(f"queued as: {result.eligibility.queue_id}")
+
+    sys.stdout.write("\n".join(lines) + "\n")
+    return 0
+
+
+def _trace(exposure_id: str) -> int:
+    """Render the stored run record."""
+
+    from dosimeter.harness.trace import render_trace
+    from dosimeter.repository.connection import session_scope
+
+    try:
+        with session_scope() as session:
+            rendered = render_trace(session, exposure_id)
+    except DosimeterError as error:
+        _LOGGER.error("trace.failed", extra={"detail": str(error)})
+        return EXIT_FAILED
+
+    sys.stdout.write(rendered + "\n")
+    return 0
+
+
+def _queue(officer_code: str) -> int:
+    """List the escalated dossiers this officer may see."""
+
+    from dosimeter.harness.review import queue_entries
+    from dosimeter.repository.connection import session_scope
+
+    try:
+        with session_scope() as session:
+            entries = queue_entries(session, officer_code)
+    except DosimeterError as error:
+        _LOGGER.error("queue.failed", extra={"detail": str(error)})
+        return EXIT_FAILED
+
+    if not isinstance(entries, list):
+        sys.stdout.write(f"{entries.reason_code}: {entries.message}\n")
+        return EXIT_FAILED
+
+    if not entries:
+        sys.stdout.write("nothing waiting for review\n")
+        return 0
+
+    lines = []
+    for entry in entries:
+        lines.append(f"{entry.queue_id}  {entry.exposure_id}  {entry.district}")
+        for trigger in entry.triggers:
+            lines.append(f"      {trigger}")
+
+    sys.stdout.write("\n".join(lines) + "\n")
+    return 0
+
+
+def _review(exposure_id: str, officer_code: str, decision: str | None, note: str | None) -> int:
+    """Show the decision card, or record a decision."""
+
+    from dosimeter.harness.review_cli import record_from_cli, render_decision_card
+    from dosimeter.repository.connection import session_scope
+
+    try:
+        with session_scope() as session:
+            if decision is None:
+                rendered = render_decision_card(session, exposure_id, officer_code)
+            else:
+                rendered = record_from_cli(session, exposure_id, officer_code, decision, note)
+    except DosimeterError as error:
+        _LOGGER.error("review.failed", extra={"detail": str(error)})
+        return EXIT_FAILED
+
+    sys.stdout.write(rendered + "\n")
     return 0
 
 

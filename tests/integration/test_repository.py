@@ -214,7 +214,7 @@ def test_seeds_give_three_officers_across_three_districts(db: Session) -> None:
 
     assert counts["officers"] >= 3
     assert len(entitlements.granted_districts(db, "OFF-101")) == 2
-    assert entitlements.granted_districts(db, "OFF-102") == ["District 3"]
+    assert entitlements.granted_districts(db, "OFF-102") == ["District 2", "District 3"]
     assert entitlements.granted_districts(db, "OFF-103") == ["District 4"]
 
 
@@ -223,7 +223,7 @@ def test_seeds_are_idempotent(db: Session) -> None:
     seeds.apply_seeds(db)
 
     assert db.scalar(select(func.count()).select_from(orm.OfficerRow)) == 4
-    assert db.scalar(select(func.count()).select_from(orm.GrantRow)) == 4
+    assert db.scalar(select(func.count()).select_from(orm.GrantRow)) == 5
 
 
 def test_seeds_carry_the_prior_lifetime_planned_exposure_dose(db: Session) -> None:

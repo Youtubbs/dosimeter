@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 
 from dosimeter.repository import orm
 from dosimeter.repository.models import (
+    ApprovedRecord,
     Artifact,
     DistrictGrant,
     EscalationTrigger,
@@ -24,9 +25,11 @@ from dosimeter.repository.models import (
     ReviewDecision,
     ReviewQueueItem,
     RuleInvocation,
+    ReviewerVerdictRecord,
     RunRecord,
     SimilarExposure,
     ToolInvocation,
+    WorkerDispatch,
     WorkerDoseRecord,
 )
 
@@ -400,9 +403,19 @@ def get_run_record(session: Session, run_id: UUID) -> RunRecord | None:
         turn_kind=row.turn_kind,
         exposure_id=row.exposure_id,
         officer_id=row.officer_id,
+        session_id=row.session_id,
         outcome=row.outcome,
+        corrects_run_id=row.corrects_run_id,
+        token_totals=row.token_totals or {},
         finished_at=row.finished_at,
     )
+
+
+def set_token_totals(session: Session, run_id: UUID, totals: dict[str, int]) -> None:
+    row = session.get(orm.RunRecordRow, run_id)
+    if row is not None:
+        row.token_totals = dict(totals)
+        session.flush()
 
 
 def finish_run_record(session: Session, run_id: UUID, outcome: str) -> None:
@@ -411,6 +424,98 @@ def finish_run_record(session: Session, run_id: UUID, outcome: str) -> None:
         row.outcome = outcome
         row.finished_at = _now(session)
         session.flush()
+
+
+def add_worker_dispatch(session: Session, dispatch: WorkerDispatch) -> None:
+    session.add(orm.WorkerDispatchRow(**dispatch.model_dump()))
+    session.flush()
+
+
+def add_reviewer_verdict(session: Session, verdict: ReviewerVerdictRecord) -> None:
+    session.add(orm.ReviewerVerdictRow(**verdict.model_dump()))
+    session.flush()
+
+
+def correct_run_record(session: Session, record: RunRecord, corrects: UUID) -> None:
+    """A correction is a new row pointing at the original, never an edit."""
+
+    insert_run_record(session, record.model_copy(update={"corrects_run_id": corrects}))
+
+
+def run_record_detail(session: Session, run_id: UUID) -> dict[str, list]:
+    """Everything recorded under one run, for trace and the evaluators."""
+
+    def rows(model, order):
+        return list(session.scalars(select(model).where(model.run_id == run_id).order_by(order)).all())
+
+    return {
+        "dispatches": rows(orm.WorkerDispatchRow, orm.WorkerDispatchRow.id),
+        "tool_invocations": rows(orm.ToolInvocationRow, orm.ToolInvocationRow.id),
+        "rule_invocations": rows(orm.RuleInvocationRow, orm.RuleInvocationRow.id),
+        "retrievals": rows(orm.RetrievalRow, orm.RetrievalRow.id),
+        "model_calls": rows(orm.ModelCallRow, orm.ModelCallRow.id),
+        "reviewer_verdicts": rows(orm.ReviewerVerdictRow, orm.ReviewerVerdictRow.iteration),
+        "escalation_triggers": rows(orm.EscalationTriggerRow, orm.EscalationTriggerRow.id),
+        "guardrail_events": rows(orm.GuardrailEventRow, orm.GuardrailEventRow.id),
+    }
+
+
+def latest_run_record(session: Session, exposure_id: str, command: str | None = None):
+    statement = select(orm.RunRecordRow).where(orm.RunRecordRow.exposure_id == exposure_id)
+    if command is not None:
+        statement = statement.where(orm.RunRecordRow.command == command)
+    return session.scalars(statement.order_by(orm.RunRecordRow.started_at.desc())).first()
+
+
+def save_dossier(session: Session, exposure_id: str, run_id: UUID, payload: dict) -> int:
+    row = orm.DossierRow(exposure_id=exposure_id, run_id=run_id, payload=payload)
+    session.add(row)
+    session.flush()
+    return row.id
+
+
+def latest_dossier(session: Session, exposure_id: str):
+    return session.scalars(
+        select(orm.DossierRow)
+        .where(orm.DossierRow.exposure_id == exposure_id)
+        .order_by(orm.DossierRow.created_at.desc(), orm.DossierRow.id.desc())
+    ).first()
+
+
+def write_approved_record(session: Session, record: ApprovedRecord) -> int | None:
+    """
+    The harness-only write. Returns the row id, or None when this key has
+    already been written, so a retry with the same key writes once.
+    """
+
+    existing = session.scalars(
+        select(orm.ApprovedRecordRow).where(
+            orm.ApprovedRecordRow.idempotency_key == record.idempotency_key
+        )
+    ).first()
+    if existing is not None:
+        return None
+
+    row = orm.ApprovedRecordRow(**record.model_dump())
+    session.add(row)
+    session.flush()
+    return row.id
+
+
+def approved_record_for(session: Session, exposure_id: str):
+    return session.scalars(
+        select(orm.ApprovedRecordRow)
+        .where(orm.ApprovedRecordRow.exposure_id == exposure_id)
+        .order_by(orm.ApprovedRecordRow.written_at.desc())
+    ).first()
+
+
+def review_queue_item(session: Session, queue_id: int):
+    return session.get(orm.ReviewQueueRow, queue_id)
+
+
+def review_decision(session: Session, decision_id: int):
+    return session.get(orm.ReviewDecisionRow, decision_id)
 
 
 def add_tool_invocation(session: Session, invocation: ToolInvocation) -> None:
