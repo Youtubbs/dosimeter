@@ -68,6 +68,15 @@ def migrate_up(session: Session) -> list[str]:
     return applied
 
 
+def _setup_checkpointer() -> None:
+    """The graph checkpointer owns its own tables, so it creates them here."""
+
+    from dosimeter.graph.checkpointer import setup_checkpointer
+
+    setup_checkpointer()
+    _LOGGER.info("migrate.checkpointer_ready", extra={"tables": "checkpoints"})
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="dosimeter-migrate")
     parser.add_argument("command", choices=("up", "status"))
@@ -79,6 +88,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             if args.command == "up":
                 applied = migrate_up(session)
                 _LOGGER.info("migrate.up", extra={"applied": applied or "nothing pending"})
+                _setup_checkpointer()
             else:
                 waiting = [path.stem for path in pending(session)]
                 _LOGGER.info("migrate.status", extra={"pending": waiting or "none"})

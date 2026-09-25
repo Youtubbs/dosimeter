@@ -24,7 +24,9 @@ P4_WORKER_ID = "WKR-1047"
 
 OFFICER_DISTRICTS: dict[str, tuple[str, ...]] = {
     "OFF-101": ("District 1", "District 2"),
-    "OFF-102": ("District 3",),
+    # Two officers over District 2, so an approval can come from someone other
+    # than the officer who ran the assessment.
+    "OFF-102": ("District 2", "District 3"),
     "OFF-103": ("District 4",),
 }
 

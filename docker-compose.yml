@@ -16,5 +16,35 @@ services:
       timeout: 5s
       retries: 20
 
+  # The same image that runs on ECS, as the local stand-in for the tool API.
+  api:
+    build:
+      context: .
+    container_name: dosimeter-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DOSIMETER_DB_HOST: postgres
+      DOSIMETER_DB_PORT: "5432"
+      DOSIMETER_DB_NAME: dosimeter
+      DOSIMETER_DB_USER: dosimeter
+      DOSIMETER_DB_USE_IAM_AUTH: "false"
+      DOSIMETER_DB_PASSWORD: dosimeter_local_dev
+      DOSIMETER_DB_SSLMODE: prefer
+      BEDROCK_MODEL_ID: ${BEDROCK_MODEL_ID:-local-placeholder}
+      BEDROCK_EMBED_MODEL_ID: ${BEDROCK_EMBED_MODEL_ID:-local-placeholder}
+      DOSIMETER_KNOWLEDGE_BASE_ID: ${DOSIMETER_KNOWLEDGE_BASE_ID:-in-memory}
+      DOSIMETER_GUARDRAIL_ID: ${DOSIMETER_GUARDRAIL_ID:-not-created-yet}
+      AWS_CORPUS_BUCKET_NAME: ${AWS_CORPUS_BUCKET_NAME:-dosimeter-corpus}
+      AWS_PACKET_BUCKET_NAME: ${AWS_PACKET_BUCKET_NAME:-dosimeter-packets}
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8080/health/ready')\""]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
 volumes:
   dosimeter-pgdata:
