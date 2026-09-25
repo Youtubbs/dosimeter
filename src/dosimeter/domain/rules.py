@@ -27,6 +27,7 @@ class RuleOutcome(str, Enum):
     PASS = "pass"  # noqa: S105
     FAIL = "fail"
 
+
 class RuleSource(BaseModel):
     """Regulatory source supporting a rule evaluation."""
 
@@ -93,4 +94,4 @@ class RuleInvocation(BaseModel):
 
     result: RuleResult
 
-    path: RuleInvocationPath    
+    path: RuleInvocationPath

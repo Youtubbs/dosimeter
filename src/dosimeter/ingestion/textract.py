@@ -1,32 +1,26 @@
-""" Handles document extraction using Amazon Textract """
+"""Handles document extraction using Amazon Textract"""
 
 from ..aws.aws import get_client
 from ..aws.config import PACKET_BUCKET_NAME
 
 import time
 
-def start_document_analysis(s3_key: str, bucket_name : str = PACKET_BUCKET_NAME) -> str:
-    """ Start an asynchronous Textract analysis for an S3 document """
+
+def start_document_analysis(s3_key: str, bucket_name: str = PACKET_BUCKET_NAME) -> str:
+    """Start an asynchronous Textract analysis for an S3 document"""
 
     textract = get_client("textract")
 
     response = textract.start_document_analysis(
-        DocumentLocation={
-            "S3Object": {
-                "Bucket": bucket_name,
-                "Name": s3_key
-            }
-        },
-        FeatureTypes=[
-            "FORMS",
-            "TABLES"
-        ],
+        DocumentLocation={"S3Object": {"Bucket": bucket_name, "Name": s3_key}},
+        FeatureTypes=["FORMS", "TABLES"],
     )
 
     return response["JobId"]
 
-def wait_for_analysis(job_id: str, poll_interval: int = 2, max_delay = 30, max_wait = 300) -> str:
-    """ Wait for a Textract job to finish. Uses exponential backoff while polling Textract """
+
+def wait_for_analysis(job_id: str, poll_interval: int = 2, max_delay=30, max_wait=300) -> str:
+    """Wait for a Textract job to finish. Uses exponential backoff while polling Textract"""
 
     textract = get_client("textract")
 
@@ -34,7 +28,9 @@ def wait_for_analysis(job_id: str, poll_interval: int = 2, max_delay = 30, max_w
     elapsed = 0
 
     while elapsed < max_wait:
-        response = textract.get_document_analysis(JobId=job_id,)
+        response = textract.get_document_analysis(
+            JobId=job_id,
+        )
 
         status = response["JobStatus"]
 
@@ -52,12 +48,11 @@ def wait_for_analysis(job_id: str, poll_interval: int = 2, max_delay = 30, max_w
 
         delay = min(delay * 2, max_delay)
 
-    raise TimeoutError(
-        f"Textract job {job_id} did not finish within {max_wait} seconds."
-    )
+    raise TimeoutError(f"Textract job {job_id} did not finish within {max_wait} seconds.")
+
 
 def get_analysis_results(job_id: str) -> list[dict]:
-    """ Retrieve all Textract analysis results, including paginated results """
+    """Retrieve all Textract analysis results, including paginated results"""
 
     textract = get_client("textract")
 
@@ -66,10 +61,7 @@ def get_analysis_results(job_id: str) -> list[dict]:
 
     while True:
         if next_token:
-            response = textract.get_document_analysis(
-                JobId=job_id,
-                NextToken=next_token
-            )
+            response = textract.get_document_analysis(JobId=job_id, NextToken=next_token)
         else:
             response = textract.get_document_analysis(JobId=job_id)
 
@@ -82,7 +74,8 @@ def get_analysis_results(job_id: str) -> list[dict]:
 
     return blocks
 
-def extract_artifact(s3_key: str, bucket_name : str = PACKET_BUCKET_NAME) -> list[dict]:
+
+def extract_artifact(s3_key: str, bucket_name: str = PACKET_BUCKET_NAME) -> list[dict]:
     """Run Textract on one S3 artifact and return its extracted blocks."""
 
     try:
@@ -98,6 +91,6 @@ def extract_artifact(s3_key: str, bucket_name : str = PACKET_BUCKET_NAME) -> lis
 
     # change to custom error later
     except Exception as e:
-        print(f"Skipping malformed or unprocessable artifact: " f"{s3_key}: {e}")
+        print(f"Skipping malformed or unprocessable artifact: {s3_key}: {e}")
 
         return []

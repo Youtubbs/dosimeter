@@ -76,8 +76,10 @@ def conn_string(
 
     resolved = settings or get_database_settings()
     password = _password(resolved, token_provider)
-    return database_url(resolved, password).render_as_string(hide_password=False).replace(
-        "postgresql+psycopg://", "postgresql://", 1
+    return (
+        database_url(resolved, password)
+        .render_as_string(hide_password=False)
+        .replace("postgresql+psycopg://", "postgresql://", 1)
     )
 
 

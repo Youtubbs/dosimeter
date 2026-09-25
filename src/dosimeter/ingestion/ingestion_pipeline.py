@@ -1,5 +1,5 @@
-""" complete pipeline for ingestion
-        uploads to s3 -> runs textract -> normalizes -> redacts -> report
+"""complete pipeline for ingestion
+uploads to s3 -> runs textract -> normalizes -> redacts -> report
 """
 
 from .redact import redact_fields
@@ -11,6 +11,7 @@ from .textract import extract_artifact
 from .chunking import chunk_sections
 from .sectioning import build_sections
 from .corpus import process_corpus
+
 
 def ingest_packet(packet_dir):
     artifacts = upload_packet(packet_dir)
@@ -32,6 +33,7 @@ def ingest_packet(packet_dir):
         results.append(report)
 
     return results
+
 
 def ingest_corpus():
     """Ingest the regulatory corpus and produce Knowledge Base chunks."""
@@ -71,7 +73,7 @@ def ingest_corpus():
             doc_id=doc_id,
             title=doc_id,
             doc_type=doc_type,
-            status=status, # may change
+            status=status,
         )
 
         chunks = chunk_sections(sections)

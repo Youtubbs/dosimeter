@@ -1,4 +1,5 @@
 """Convert Textract output into structure-aware corpus sections."""
+
 import re
 from typing import Any
 
@@ -74,9 +75,7 @@ def build_sections(
     """
 
     if status not in {"in_force", "proposed"}:
-        raise ValueError(
-            "status must be 'in_force' or 'proposed'."
-        )
+        raise ValueError("status must be 'in_force' or 'proposed'.")
 
     lines = get_text_lines(blocks)
 
@@ -87,7 +86,6 @@ def build_sections(
     current_lines: list[str] = []
 
     for page, text in lines:
-
         if is_section_heading(text):
             if current_lines:
                 sections.append(

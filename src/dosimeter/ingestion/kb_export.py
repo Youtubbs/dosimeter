@@ -1,8 +1,10 @@
 """Export regulatory corpus chunks for Amazon Bedrock Knowledge Bases."""
+
 import json
 from pathlib import Path
 
 from .chunking import CorpusChunk
+
 
 def metadata_for_chunk(chunk: CorpusChunk) -> dict:
     """Build Bedrock Knowledge Base metadata for one chunk."""
@@ -72,6 +74,7 @@ def write_chunk(chunk: CorpusChunk, output_dir: Path) -> tuple[Path, Path]:
     )
 
     return text_path, metadata_path
+
 
 def export_chunks(
     corpus_results: list[dict],

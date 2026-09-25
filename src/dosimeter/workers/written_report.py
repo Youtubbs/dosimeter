@@ -31,19 +31,11 @@ def build_written_report_proposal(
     rule_results = (r3_result, r4_result)
 
     citations = tuple(
-        dict.fromkeys(
-            source.citation
-            for result in rule_results
-            for source in result.sources
-        )
+        dict.fromkeys(source.citation for result in rule_results for source in result.sources)
     )
 
     missing_fields = tuple(
-        dict.fromkeys(
-            field
-            for result in rule_results
-            for field in result.missing_fields
-        )
+        dict.fromkeys(field for result in rule_results for field in result.missing_fields)
     )
 
     # A valid planned special exposure follows the alternate
@@ -73,8 +65,7 @@ def build_written_report_proposal(
                 rule_results=rule_results,
                 citations=citations,
                 explanation=(
-                    "R3 determined that the section 20.2203 written-report "
-                    "criteria were satisfied."
+                    "R3 determined that the section 20.2203 written-report criteria were satisfied."
                 ),
                 missing_fields=missing_fields,
             )
@@ -107,8 +98,7 @@ def build_written_report_proposal(
             rule_results=rule_results,
             citations=citations,
             explanation=(
-                "Neither the section 20.2203 nor section 20.2204 "
-                "reporting path was triggered."
+                "Neither the section 20.2203 nor section 20.2204 reporting path was triggered."
             ),
             missing_fields=missing_fields,
         )

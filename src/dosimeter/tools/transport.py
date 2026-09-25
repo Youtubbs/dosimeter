@@ -51,7 +51,9 @@ class HttpTransport:
 
     def _send(self, request: urllib.request.Request) -> TransportResponse:
         if request.type not in ("http", "https"):
-            raise ExternalServiceError("the tool API url must be http or https", url=request.full_url)
+            raise ExternalServiceError(
+                "the tool API url must be http or https", url=request.full_url
+            )
 
         request.add_header(VERIFIED_HEADER, self.officer_code)
         request.add_header("Accept", "application/json")

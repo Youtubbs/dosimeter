@@ -115,7 +115,7 @@ def retry(
         raise ValueError("attempts must be at least 1")
 
     def decorate(func: F) -> F:
-        random_source = rng or random.Random() # noqa: S311
+        random_source = rng or random.Random()  # noqa: S311
 
         if inspect.iscoroutinefunction(func):
 
