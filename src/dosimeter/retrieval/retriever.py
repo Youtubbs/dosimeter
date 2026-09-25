@@ -81,18 +81,27 @@ class ScoreThresholdRetriever(BaseRetriever):
             k=self.k,
         )
 
-        documents = [
-            document
-            for document, score in hits
-            if score >= self.threshold
-        ]
+        documents: list[Document] = []
 
-        if self.status is not None:
-            documents = [
-                document
-                for document in documents
-                if document.metadata.get("status") == self.status
-            ]
+        for document, score in hits:
+            if score < self.threshold:
+                continue
+
+            if (
+                self.status is not None
+                and document.metadata.get("status") != self.status
+            ):
+                continue
+
+            documents.append(
+                Document(
+                    page_content=document.page_content,
+                    metadata={
+                        **document.metadata,
+                        "score": float(score),
+                    },
+                )
+            )
 
         return documents
 
