@@ -3,22 +3,15 @@ The models the tool API speaks and the tools call it with. One definition, so
 the OpenAPI document and the tool schemas cannot drift apart.
 """
 
-from __future__ import annotations
-
 from pydantic import BaseModel, ConfigDict, Field
 
 STRICT = ConfigDict(extra="forbid", frozen=True)
 
 
 class GetExposureExtractionInput(BaseModel):
-    """Arguments a model may choose. The exposure comes from the session."""
+    """Takes no arguments. The exposure comes from the session, never from the model."""
 
     model_config = STRICT
-
-    include_low_confidence: bool = Field(
-        default=True,
-        description="Include fields that cracked below the confidence floor.",
-    )
 
 
 class ExtractionField(BaseModel):

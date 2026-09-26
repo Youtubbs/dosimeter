@@ -4,8 +4,6 @@ participant, and a command that starts cold picks up where the last one left
 off.
 """
 
-from __future__ import annotations
-
 import os
 
 import pytest
@@ -14,15 +12,10 @@ from sqlalchemy.orm import Session
 
 from dosimeter.config.settings import Bounds, DatabaseSettings
 from dosimeter.graph.checkpointer import open_checkpointer, setup_checkpointer
-from dosimeter.graph.state import (
-    DispatchPlan,
-    ReviewerVerdict,
-    Subject,
-    WorkerProposal,
-    initial_state,
-)
+from dosimeter.graph.graph import build_graph
+from dosimeter.graph.schemas import Subject, WorkerProposal
+from dosimeter.graph.state import initial_state
 from dosimeter.graph.threads import Participant, thread_config, thread_id
-from dosimeter.graph.workflow import Nodes, compile_graph
 
 OFFICER_ID = 7
 EXPOSURE = "EXP-2026-0412"
@@ -67,31 +60,22 @@ def checkpointed(db: Session):
     yield settings
 
 
-def graph_for(participant: Participant):
-    """A one-node graph that records which participant wrote the state."""
+def graph_for(monkeypatch: pytest.MonkeyPatch, participant: Participant, saver):
+    """
+    The real graph, with an eligibility node that marks which participant wrote
+    the state. The Coordinator plans nothing, so every turn goes straight there.
+    """
 
     def node(state):
         return {
             "proposals": {
                 participant.value: WorkerProposal(worker=participant.value, kind=participant.value)
             },
-            "escalation_signals": [f"{participant.value}-ran"],
+            "outcome": f"{participant.value}-ran",
         }
 
-    def reviewer(state):
-        return {
-            "reviewer_verdicts": [
-                ReviewerVerdict(iteration=1, worker="written_report", verdict="approved")
-            ],
-            "reviewer_iterations": state.get("reviewer_iterations", 0) + 1,
-        }
-
-    nodes = Nodes(
-        coordinator=lambda state: {"dispatch_plan": DispatchPlan(workers=[])},
-        reviewer=reviewer,
-        eligibility_check=node,
-    )
-    return nodes
+    monkeypatch.setattr("dosimeter.graph.graph.eligibility_node", node)
+    return build_graph(Bounds(), checkpointer=saver)
 
 
 def test_the_checkpoint_tables_live_in_the_application_database(
@@ -113,12 +97,11 @@ def test_the_checkpoint_tables_live_in_the_application_database(
 
 def test_the_reviewer_state_never_merges_with_a_worker(
     checkpointed: DatabaseSettings,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     with open_checkpointer(checkpointed) as saver:
-        reviewer_app = compile_graph(graph_for(Participant.REVIEWER), Bounds(), checkpointer=saver)
-        worker_app = compile_graph(
-            graph_for(Participant.WRITTEN_REPORT), Bounds(), checkpointer=saver
-        )
+        reviewer_app = graph_for(monkeypatch, Participant.REVIEWER, saver)
+        worker_app = graph_for(monkeypatch, Participant.WRITTEN_REPORT, saver)
 
         reviewer_config = thread_config(OFFICER_ID, EXPOSURE, Participant.REVIEWER, 12)
         worker_config = thread_config(OFFICER_ID, EXPOSURE, Participant.WRITTEN_REPORT, 12)
@@ -129,15 +112,18 @@ def test_the_reviewer_state_never_merges_with_a_worker(
         reviewer_state = reviewer_app.get_state(reviewer_config).values
         worker_state = worker_app.get_state(worker_config).values
 
-    assert reviewer_state["escalation_signals"] == ["reviewer-ran"]
-    assert worker_state["escalation_signals"] == ["written_report-ran"]
+    assert reviewer_state["outcome"] == "reviewer-ran"
+    assert worker_state["outcome"] == "written_report-ran"
     assert sorted(reviewer_state["proposals"]) == ["reviewer"]
     assert sorted(worker_state["proposals"]) == ["written_report"]
 
 
-def test_every_participant_writes_to_its_own_thread(checkpointed: DatabaseSettings) -> None:
+def test_every_participant_writes_to_its_own_thread(
+    checkpointed: DatabaseSettings,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     with open_checkpointer(checkpointed) as saver:
-        app = compile_graph(graph_for(Participant.COORDINATOR), Bounds(), checkpointer=saver)
+        app = graph_for(monkeypatch, Participant.COORDINATOR, saver)
 
         for participant in Participant:
             app.invoke(
@@ -155,24 +141,28 @@ def test_every_participant_writes_to_its_own_thread(checkpointed: DatabaseSettin
 
 def test_a_second_command_starts_cold_and_resumes_from_postgres(
     checkpointed: DatabaseSettings,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     config = thread_config(OFFICER_ID, EXPOSURE, Participant.COORDINATOR, 12)
 
     with open_checkpointer(checkpointed) as saver:
-        first = compile_graph(graph_for(Participant.COORDINATOR), Bounds(), checkpointer=saver)
+        first = graph_for(monkeypatch, Participant.COORDINATOR, saver)
         first.invoke(initial_state(SUBJECT), config)
 
     with open_checkpointer(checkpointed) as saver:
-        second = compile_graph(graph_for(Participant.COORDINATOR), Bounds(), checkpointer=saver)
+        second = graph_for(monkeypatch, Participant.COORDINATOR, saver)
         resumed = second.get_state(config)
 
-    assert resumed.values["escalation_signals"] == ["coordinator-ran"]
+    assert resumed.values["outcome"] == "coordinator-ran"
     assert resumed.values["subject"].exposure_id == EXPOSURE
 
 
-def test_a_different_exposure_is_a_different_thread(checkpointed: DatabaseSettings) -> None:
+def test_a_different_exposure_is_a_different_thread(
+    checkpointed: DatabaseSettings,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     with open_checkpointer(checkpointed) as saver:
-        app = compile_graph(graph_for(Participant.COORDINATOR), Bounds(), checkpointer=saver)
+        app = graph_for(monkeypatch, Participant.COORDINATOR, saver)
 
         app.invoke(initial_state(SUBJECT), thread_config(OFFICER_ID, EXPOSURE, "coordinator", 12))
         other = app.get_state(thread_config(OFFICER_ID, "EXP-2026-0411", "coordinator", 12))

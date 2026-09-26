@@ -6,8 +6,6 @@ every command, so an escalated dossier is a row that any later command can pick
 up rather than a process that has to stay alive.
 """
 
-from __future__ import annotations
-
 from enum import StrEnum
 from typing import Any
 
@@ -24,9 +22,6 @@ class Participant(StrEnum):
     REVIEWER = "reviewer"
 
 
-WORKERS = (Participant.NOTIFICATION, Participant.WRITTEN_REPORT, Participant.EQUIPMENT)
-
-
 def thread_id(officer_id: int, exposure_id: str, participant: Participant | str) -> str:
     """The one string every command derives for this participant."""
 
@@ -39,12 +34,6 @@ def thread_id(officer_id: int, exposure_id: str, participant: Participant | str)
         exposure_id=exposure_id,
         participant=name,
     )
-
-
-def thread_ids(officer_id: int, exposure_id: str) -> dict[str, str]:
-    """Every thread for one officer and one exposure, keyed by participant."""
-
-    return {item.value: thread_id(officer_id, exposure_id, item) for item in Participant}
 
 
 def thread_config(

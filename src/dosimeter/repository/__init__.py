@@ -1,5 +1,6 @@
-"""repository package."""
+"""The repository: the one place in the project that talks to the database."""
 
-from sqlalchemy.orm import Session  # noqa: E402 - re-exported so callers never import the driver
+# re-exported so code outside the repository never imports the database driver
+from sqlalchemy.orm import Session
 
 __all__ = ["Session"]

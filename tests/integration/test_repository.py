@@ -1,7 +1,5 @@
 """The repository against a real Postgres with pgvector."""
 
-from __future__ import annotations
-
 import hashlib
 from datetime import date
 from uuid import uuid4
@@ -267,7 +265,7 @@ def test_no_table_in_the_database_has_a_person_name_column(db: Session) -> None:
 def test_an_officer_without_a_grant_gets_a_denial_not_an_empty_list(db: Session) -> None:
     seeds.apply_seeds(db)
 
-    result = entitlements.exposures_for_officer(db, seeds.UNGRANTED_OFFICER)
+    result = entitlements.exposure_for_officer(db, seeds.UNGRANTED_OFFICER, "EXP-2026-0412")
 
     assert isinstance(result, EntitlementDenial)
     assert result.reason_code == entitlements.NO_GRANTS
@@ -277,7 +275,7 @@ def test_an_officer_without_a_grant_gets_a_denial_not_an_empty_list(db: Session)
 def test_an_unknown_officer_gets_a_denial(db: Session) -> None:
     seeds.apply_seeds(db)
 
-    result = entitlements.exposures_for_officer(db, "OFF-999")
+    result = entitlements.exposure_for_officer(db, "OFF-999", "EXP-2026-0412")
 
     assert isinstance(result, EntitlementDenial)
     assert result.reason_code == entitlements.UNKNOWN_OFFICER
@@ -299,9 +297,13 @@ def test_one_exposure_is_readable_only_by_its_owning_officer(db: Session) -> Non
 def test_officer_sees_only_their_own_districts(db: Session) -> None:
     seeds.apply_seeds(db)
 
-    visible = entitlements.exposures_for_officer(db, "OFF-101")
+    visible = {
+        exposure.id
+        for exposure in seeds.EXPOSURES
+        if isinstance(entitlements.exposure_for_officer(db, "OFF-101", exposure.id), Exposure)
+    }
 
-    assert {item.id for item in visible} == {"EXP-2026-0411", "EXP-2026-0412"}
+    assert visible == {"EXP-2026-0411", "EXP-2026-0412"}
 
 
 def test_similar_exposure_search_scores_and_quotes_the_narrative(db: Session) -> None:

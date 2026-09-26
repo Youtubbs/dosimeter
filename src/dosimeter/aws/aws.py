@@ -1,9 +1,10 @@
 """creating the boto3 client that will connect to aws w our credentials an return running sessions"""
 
-import boto3
 from functools import lru_cache
 
-from .config import AWS_PROFILE, AWS_REGION
+import boto3
+
+from dosimeter.config.settings import get_settings
 
 
 @lru_cache(maxsize=1)
@@ -12,7 +13,8 @@ def get_session() -> boto3.Session:
     ONE SHARED AWS session for the entire app
     """
 
-    return boto3.Session(profile_name=AWS_PROFILE, region_name=AWS_REGION)
+    settings = get_settings()
+    return boto3.Session(profile_name=settings.aws_profile, region_name=settings.aws_region)
 
 
 @lru_cache(maxsize=None)

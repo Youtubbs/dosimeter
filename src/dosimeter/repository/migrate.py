@@ -6,9 +6,8 @@ recorded, so running it twice only applies what is new.
     python -m dosimeter.repository.migrate status
 """
 
-from __future__ import annotations
-
 import argparse
+import logging
 from collections.abc import Sequence
 from pathlib import Path
 
@@ -16,7 +15,7 @@ from sqlalchemy import select, text
 from sqlalchemy.orm import Session
 
 from dosimeter.errors import DosimeterError
-from dosimeter.logging_config import configure_logging, get_logger
+from dosimeter.logging_config import configure_logging
 from dosimeter.repository.connection import session_scope
 from dosimeter.repository.orm import SchemaMigrationRow
 
@@ -31,7 +30,7 @@ CREATE_VERSION_TABLE = text(
     """
 )
 
-_LOGGER = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def migration_files() -> list[Path]:
@@ -64,7 +63,7 @@ def migrate_up(session: Session) -> list[str]:
         session.add(SchemaMigrationRow(version=path.stem))
         session.commit()
         applied.append(path.stem)
-        _LOGGER.info("migration.applied", extra={"version": path.stem})
+        logger.info("migration.applied", extra={"version": path.stem})
     return applied
 
 
@@ -74,7 +73,7 @@ def _setup_checkpointer() -> None:
     from dosimeter.graph.checkpointer import setup_checkpointer
 
     setup_checkpointer()
-    _LOGGER.info("migrate.checkpointer_ready", extra={"tables": "checkpoints"})
+    logger.info("migrate.checkpointer_ready", extra={"tables": "checkpoints"})
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -87,13 +86,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         with session_scope() as session:
             if args.command == "up":
                 applied = migrate_up(session)
-                _LOGGER.info("migrate.up", extra={"applied": applied or "nothing pending"})
+                logger.info("migrate.up", extra={"applied": applied or "nothing pending"})
                 _setup_checkpointer()
             else:
                 waiting = [path.stem for path in pending(session)]
-                _LOGGER.info("migrate.status", extra={"pending": waiting or "none"})
+                logger.info("migrate.status", extra={"pending": waiting or "none"})
     except DosimeterError as error:
-        _LOGGER.error("migrate.failed", extra={"detail": str(error)})
+        logger.error("migrate.failed", extra={"detail": str(error)})
         return 1
     return 0
 

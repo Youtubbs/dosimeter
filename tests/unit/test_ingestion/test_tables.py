@@ -1,5 +1,7 @@
 import pytest
 
+from dosimeter.errors import ExtractionError
+
 from dosimeter.ingestion.tables import (
     extract_tables,
     get_blocks_by_id,
@@ -194,5 +196,5 @@ def test_validate_schedule_c_keeps_release_fraction_separate():
 def test_validate_schedule_c_rejects_invalid_rows(
     row: list[str],
 ):
-    with pytest.raises(ValueError):
+    with pytest.raises(ExtractionError):
         validate_schedule_c_rows([row])

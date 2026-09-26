@@ -1,10 +1,9 @@
 """
-The two read tools that go through the tool API.
+The two read tools that go through the tool API: get_exposure_extraction and
+find_similar_exposures.
 """
 
-from __future__ import annotations
-
-from dataclasses import dataclass, field
+import logging
 
 from pydantic import BaseModel
 
@@ -15,30 +14,30 @@ from dosimeter.api.schemas import (
     SimilarExposures,
 )
 from dosimeter.errors import ExternalServiceError
-from dosimeter.graph.state import Subject
-from dosimeter.logging_config import get_logger
-from dosimeter.tools.base import Tool, ToolError, ToolErrorCode
-from dosimeter.tools.transport import Transport
+from dosimeter.graph.schemas import Subject
+from dosimeter.tools.dispatcher import Tool, ToolError, ToolErrorCode
+from dosimeter.tools.transport import HttpTransport
 
 GET_EXPOSURE_EXTRACTION = "get_exposure_extraction"
 FIND_SIMILAR_EXPOSURES = "find_similar_exposures"
 
-_LOGGER = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 
-@dataclass
 class ApiToolset:
     """Both API-backed tools, and whether they are still available this turn."""
 
-    transport: Transport
-    disabled: set[str] = field(default_factory=set)
+    def __init__(self, transport: HttpTransport) -> None:
+        self.transport = transport
+        self.disabled: set[str] = set()
 
     def capabilities_lost(self) -> list[str]:
         return sorted(self.disabled)
 
     def _unavailable(self, tool_name: str, detail: str) -> ToolError:
+        # one unreachable API takes both tools with it; the rest of the turn carries on
         self.disabled.update({GET_EXPOSURE_EXTRACTION, FIND_SIMILAR_EXPOSURES})
-        _LOGGER.warning(
+        logger.warning(
             "tool.api_unreachable",
             extra={"tool": tool_name, "disabled": self.capabilities_lost(), "detail": detail},
         )
@@ -53,11 +52,8 @@ class ApiToolset:
         subject: Subject,
         arguments: GetExposureExtractionInput,
     ) -> BaseModel:
-        path = f"/v1/exposures/{subject.exposure_id}/extraction"
-        params = {"include_low_confidence": str(arguments.include_low_confidence).lower()}
-
         try:
-            response = self.transport.get(path, params)
+            response = self.transport.get(f"/v1/exposures/{subject.exposure_id}/extraction")
         except ExternalServiceError as error:
             return self._unavailable(GET_EXPOSURE_EXTRACTION, str(error))
 
@@ -92,7 +88,6 @@ class ApiToolset:
                     "session, with the Textract confidence for each field."
                 ),
                 input_model=GetExposureExtractionInput,
-                output_model=ExposureExtraction,
                 handler=self.get_exposure_extraction,
             ),
             Tool(
@@ -103,7 +98,6 @@ class ApiToolset:
                     "decided it. Candidates are evidence, never a conclusion."
                 ),
                 input_model=FindSimilarExposuresInput,
-                output_model=SimilarExposures,
                 handler=self.find_similar_exposures,
             ),
         ]

@@ -6,8 +6,7 @@ its own entitlement check, because a tool that reaches this service must not be
 able to read a district its officer holds no grant over.
 """
 
-from __future__ import annotations
-
+import logging
 from collections.abc import Callable, Iterator
 from contextlib import AbstractContextManager, contextmanager
 from typing import Any
@@ -20,13 +19,12 @@ from dosimeter.api.schemas import (
     ExposureExtraction,
     ExtractionField,
     FindSimilarExposuresInput,
-    GetExposureExtractionInput,
     HealthStatus,
     SimilarExposureCandidate,
     SimilarExposures,
 )
 from dosimeter.config.settings import Settings, get_settings
-from dosimeter.logging_config import correlation_scope, get_logger
+from dosimeter.logging_config import correlation_scope
 from dosimeter.repository import Session, entitlements, queries
 from dosimeter.repository.models import EntitlementDenial
 
@@ -37,7 +35,7 @@ NO_IDENTITY = "no_verified_identity"
 NOT_FOUND = "exposure_not_found"
 EMBEDDING_UNAVAILABLE = "embedding_unavailable"
 
-_LOGGER = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def _default_session_factory() -> AbstractContextManager[Session]:
@@ -77,7 +75,7 @@ def create_app(
             with session() as active:
                 queries.ping(active)
         except Exception as error:  # readiness reports, it never raises
-            _LOGGER.error("api.readiness_failed", extra={"detail": str(error)})
+            logger.error("api.readiness_failed", extra={"detail": str(error)})
             payload = HealthStatus(status="not_ready", checks={"database": "unreachable"})
             return jsonify(payload.model_dump()), 503
 
@@ -89,10 +87,6 @@ def create_app(
         identity = caller()
         if identity is None:
             return _denied(NO_IDENTITY, "this call carries no verified identity", "unknown")
-
-        arguments = GetExposureExtractionInput.model_validate(
-            {"include_low_confidence": request.args.get("include_low_confidence", "true") != "false"}
-        )
 
         with correlation_scope(), session() as active:
             found = entitlements.exposure_for_officer(active, identity.officer_code, exposure_id)
@@ -116,9 +110,6 @@ def create_app(
                     artifact_sha256=artifact_by_id.get(row.artifact_id),
                 )
                 for row in rows
-                if arguments.include_low_confidence
-                or row.confidence is None
-                or row.confidence >= floor
             ]
 
             payload = ExposureExtraction(
@@ -215,7 +206,6 @@ def openapi_document() -> dict[str, Any]:
     schemas = {
         name: model.model_json_schema(ref_template="#/components/schemas/{model}")
         for name, model in (
-            ("GetExposureExtractionInput", GetExposureExtractionInput),
             ("ExposureExtraction", ExposureExtraction),
             ("FindSimilarExposuresInput", FindSimilarExposuresInput),
             ("SimilarExposures", SimilarExposures),
@@ -224,65 +214,41 @@ def openapi_document() -> dict[str, Any]:
         )
     }
 
-    json_response = {
-        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Denial"}}}
-    }
-
-    def ok(model_name: str) -> dict[str, Any]:
+    def body(model_name: str, description: str = "ok") -> dict[str, Any]:
         return {
-            "description": "ok",
+            "description": description,
             "content": {
                 "application/json": {"schema": {"$ref": f"#/components/schemas/{model_name}"}}
             },
         }
 
+    exposure_id = {"name": "exposure_id", "in": "path", "required": True, "schema": {"type": "string"}}
+
     return {
         "openapi": "3.1.0",
         "info": {"title": "Dosimeter tool API", "version": "1.0.0"},
         "paths": {
-            "/health/live": {"get": {"responses": {"200": ok("HealthStatus")}}},
+            "/health/live": {"get": {"responses": {"200": body("HealthStatus")}}},
             "/health/ready": {
-                "get": {"responses": {"200": ok("HealthStatus"), "503": ok("HealthStatus")}}
+                "get": {"responses": {"200": body("HealthStatus"), "503": body("HealthStatus")}}
             },
             "/v1/exposures/{exposure_id}/extraction": {
                 "get": {
-                    "parameters": [
-                        {
-                            "name": "exposure_id",
-                            "in": "path",
-                            "required": True,
-                            "schema": {"type": "string"},
-                        }
-                    ],
+                    "parameters": [exposure_id],
                     "responses": {
-                        "200": ok("ExposureExtraction"),
-                        "403": {"description": "not entitled", **json_response},
-                        "404": {"description": "not found", **json_response},
+                        "200": body("ExposureExtraction"),
+                        "403": body("Denial", "not entitled"),
+                        "404": body("Denial", "not found"),
                     },
                 }
             },
             "/v1/exposures/{exposure_id}/similar": {
                 "post": {
-                    "parameters": [
-                        {
-                            "name": "exposure_id",
-                            "in": "path",
-                            "required": True,
-                            "schema": {"type": "string"},
-                        }
-                    ],
-                    "requestBody": {
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/FindSimilarExposuresInput"
-                                }
-                            }
-                        }
-                    },
+                    "parameters": [exposure_id],
+                    "requestBody": body("FindSimilarExposuresInput", "what to look for"),
                     "responses": {
-                        "200": ok("SimilarExposures"),
-                        "403": {"description": "not entitled", **json_response},
+                        "200": body("SimilarExposures"),
+                        "403": body("Denial", "not entitled"),
                     },
                 }
             },

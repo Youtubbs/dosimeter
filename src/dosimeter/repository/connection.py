@@ -1,8 +1,6 @@
 """Builds the SQLAlchemy engine and hands out sessions. Nothing outside this
 package talks to Postgres."""
 
-from __future__ import annotations
-
 from collections.abc import Callable, Iterator
 from contextlib import contextmanager
 

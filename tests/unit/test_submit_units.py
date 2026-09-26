@@ -1,7 +1,5 @@
 """The parts of submit that need no database: ids, validation, the report."""
 
-from __future__ import annotations
-
 from pathlib import Path
 
 import pytest
@@ -44,7 +42,7 @@ def test_the_exposure_id_comes_from_the_directory_and_the_packet_date(tmp_path: 
 def test_a_directory_with_no_number_is_refused(tmp_path: Path) -> None:
     (tmp_path / "packet").mkdir()
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ExtractionError):
         exposure_id_for(tmp_path / "packet")
 
 

@@ -4,23 +4,23 @@ Settings for the whole project, checked when the app starts.
 Environment variables start with DOSIMETER_. To reach a value inside a group,
 join the names with two underscores:
 DOSIMETER_BOUNDS__MAX_TOOL_INVOCATIONS_PER_TURN=6.
+
+The AWS and Bedrock values keep the names the .env already uses
+(AWS_REGION, BEDROCK_MODEL_ID, ...).
 """
 
-from __future__ import annotations
-
 from functools import lru_cache
-from typing import Any
+from typing import Any, Self
 
 from pydantic import BaseModel, ConfigDict, Field, SecretStr, ValidationError, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from dosimeter.errors import ConfigurationError
 
-
+# one text model serves the reasoning, fast and judge roles
 TEXT_ROLES = ("reasoning", "fast", "judge")
 EMBEDDING_ROLE = "embedding"
 MULTIMODAL_ROLE = "multimodal"
-MODEL_ROLES = (*TEXT_ROLES, EMBEDDING_ROLE, MULTIMODAL_ROLE)
 
 
 class DatabaseSettings(BaseSettings):
@@ -41,13 +41,15 @@ class DatabaseSettings(BaseSettings):
     port: int = Field(default=5432, gt=0, lt=65536)
     name: str = Field(min_length=1)
     user: str = Field(min_length=1)
+
+    # deployed: a fresh IAM token per connection. local: the password below
     use_iam_auth: bool = True
     password: SecretStr | None = None
     sslmode: str = Field(default="require", min_length=1)
     connect_timeout_seconds: int = Field(default=10, gt=0)
 
     @model_validator(mode="after")
-    def _password_required_without_iam_auth(self) -> DatabaseSettings:
+    def _password_required_without_iam_auth(self) -> Self:
         if not self.use_iam_auth and self.password is None:
             raise ValueError("password is required when use_iam_auth is false")
         return self
@@ -61,26 +63,25 @@ class NearBoundaryMargins(BaseModel):
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
-    # R1
-    annual_limit_tede_rem: float = Field(default=0.25, ge=0)
-    annual_limit_lens_rem: float = Field(default=0.75, ge=0)
-    annual_limit_shallow_rem: float = Field(default=2.5, ge=0)
+    # R1 immediate notification, 20.2202(a): 25 rem TEDE, 75 rem lens, 250 rad shallow, 5x ALI
+    r1_tede_rem: float = Field(default=1.0, ge=0)
+    r1_lens_rem: float = Field(default=3.0, ge=0)
+    r1_shallow_rad: float = Field(default=10.0, ge=0)
+    r1_intake_ali: float = Field(default=0.05, ge=0)
 
-    # R2
-    immediate_notification_tede_rem: float = Field(default=1.0, ge=0)
-    immediate_notification_lens_rem: float = Field(default=3.0, ge=0)
-    immediate_notification_shallow_rad: float = Field(default=10.0, ge=0)
+    # R2 24-hour notification, 20.2202(b): 5 rem TEDE, 15 rem lens, 50 rem shallow, 1x ALI
+    r2_tede_rem: float = Field(default=0.25, ge=0)
+    r2_lens_rem: float = Field(default=0.75, ge=0)
+    r2_shallow_rem: float = Field(default=2.5, ge=0)
+    r2_intake_ali: float = Field(default=0.05, ge=0)
 
-    # R3
-    twenty_four_hour_tede_rem: float = Field(default=0.25, ge=0)
-    twenty_four_hour_lens_rem: float = Field(default=0.75, ge=0)
-    twenty_four_hour_shallow_rem: float = Field(default=2.5, ge=0)
+    # R3 written report, the 20.1201 annual limits: 5 rem TEDE, 15 rem lens, 50 rem shallow
+    r3_tede_rem: float = Field(default=0.25, ge=0)
+    r3_lens_rem: float = Field(default=0.75, ge=0)
+    r3_shallow_rem: float = Field(default=2.5, ge=0)
 
-    # R4
-    intake_ali_multiple: float = Field(default=0.05, ge=0)
-
-    # R5
-    report_window_days: int = Field(default=2, ge=0)
+    # R5 the 0.60 confidence floor
+    r5_confidence: float = Field(default=0.05, ge=0)
 
 
 class Bounds(BaseModel):
@@ -98,7 +99,8 @@ class Bounds(BaseModel):
             "judge": 2048,
         }
     )
-    default_max_tokens_per_call: int = Field(default=2048, gt=0)
+    # any model call that is not one of the agents above
+    default_max_tokens_per_call: int = Field(default=600, gt=0)
     max_tool_invocations_per_turn: int = Field(default=8, gt=0)
     max_recursion_depth: int = Field(default=12, gt=0)
     max_retrieved_chunks: int = Field(default=12, gt=0)
@@ -127,10 +129,14 @@ class Settings(BaseSettings):
         extra="ignore",
         frozen=True,
         populate_by_name=True,
-        protected_namespaces=(),
     )
 
-    aws_region: str = Field(default="us-east-1", pattern=r"^us-east-\d$")
+    # the profile's assumed role locally, the execution role when deployed
+    aws_profile: str | None = Field(default=None, validation_alias="AWS_PROFILE")
+    # the class cloud policy puts every resource in US East
+    aws_region: str = Field(default="us-east-1", pattern=r"^us-east-\d$", validation_alias="AWS_REGION")
+    corpus_bucket: str = Field(min_length=1, validation_alias="AWS_CORPUS_BUCKET_NAME")
+    packet_bucket: str = Field(min_length=1, validation_alias="AWS_PACKET_BUCKET_NAME")
 
     bedrock_model_id: str = Field(min_length=1, validation_alias="BEDROCK_MODEL_ID")
     bedrock_embed_model_id: str = Field(min_length=1, validation_alias="BEDROCK_EMBED_MODEL_ID")
@@ -138,23 +144,18 @@ class Settings(BaseSettings):
         default=None,
         validation_alias="BEDROCK_MULTIMODAL_MODEL_ID",
     )
-
-    knowledge_base_id: str = Field(min_length=1)
-    knowledge_base_data_source_id: str | None = None
+    knowledge_base_id: str = Field(min_length=1, validation_alias="BEDROCK_KB_ID")
     guardrail_id: str = Field(min_length=1)
     guardrail_version: str = Field(default="DRAFT", min_length=1)
 
-    corpus_bucket: str = Field(min_length=1, validation_alias="AWS_CORPUS_BUCKET_NAME")
-    packet_bucket: str = Field(min_length=1, validation_alias="AWS_PACKET_BUCKET_NAME")
-    textract_output_prefix: str = Field(default="textract/")
-
     confidence_floor: float = Field(default=0.60, ge=0, le=1)
-    similarity_threshold: float = Field(default=0.50, ge=0, le=1)
+    # this will change once the golden set shows where right and wrong answers separate
+    similarity_threshold: float = Field(default=0.4, ge=0, le=1)
 
     near_boundary_margins: NearBoundaryMargins = Field(default_factory=NearBoundaryMargins)
     bounds: Bounds = Field(default_factory=Bounds)
 
-    tool_api_base_url: str = Field(default="http://127.0.0.1:8080", min_length=1)
+    # the stub identity header is for docker compose only; deployed calls carry a verified one
     tool_api_dev_identity: bool = False
     tool_api_identity_header: str = Field(default="X-Dosimeter-Officer", min_length=1)
 
@@ -177,6 +178,10 @@ class Settings(BaseSettings):
         raise ConfigurationError(f"unknown model role: {role}", field="role")
 
 
+def _field_names(error: ValidationError) -> list[str]:
+    return sorted({".".join(str(part) for part in item["loc"]) or "<model>" for item in error.errors()})
+
+
 def _describe(error: ValidationError) -> str:
     lines = []
     for item in error.errors():
@@ -191,12 +196,9 @@ def load_settings(**overrides: Any) -> Settings:
     try:
         return Settings(**overrides)
     except ValidationError as error:
-        fields = sorted(
-            {".".join(str(part) for part in item["loc"]) or "<model>" for item in error.errors()}
-        )
         raise ConfigurationError(
             f"Invalid configuration: {_describe(error)}",
-            fields=fields,
+            fields=_field_names(error),
         ) from error
 
 
@@ -208,7 +210,7 @@ def load_database_settings(**overrides: Any) -> DatabaseSettings:
     except ValidationError as error:
         raise ConfigurationError(
             f"Invalid database configuration: {_describe(error)}",
-            fields=sorted({".".join(str(part) for part in item["loc"]) for item in error.errors()}),
+            fields=_field_names(error),
         ) from error
 
 
@@ -224,16 +226,3 @@ def get_settings() -> Settings:
     """Read the settings once and reuse them."""
 
     return load_settings()
-
-
-__all__ = [
-    "Bounds",
-    "DatabaseSettings",
-    "MODEL_ROLES",
-    "NearBoundaryMargins",
-    "Settings",
-    "get_database_settings",
-    "get_settings",
-    "load_database_settings",
-    "load_settings",
-]

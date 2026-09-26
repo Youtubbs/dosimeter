@@ -3,8 +3,6 @@ The tables, mapped for SQLAlchemy. The committed migrations create them; these
 classes are how the rest of the repository reads and writes them.
 """
 
-from __future__ import annotations
-
 from datetime import date, datetime
 from typing import Any
 from uuid import UUID

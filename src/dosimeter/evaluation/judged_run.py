@@ -1,69 +1,55 @@
 """
 A judged run: the judge over every cited claim in a dossier, plus the two
-record checks, written to a dated folder with the commit it ran against.
+record checks, written to evals/runs/<label>/results.json. Commit the file;
+the next judged run is compared against it.
 
-    python -m dosimeter.evaluation.judged_run judged-1 --officer OFF-101 EXP-2026-0412
+    python -m dosimeter.evaluation.judged_run judged-1 EXP-2026-0412
 """
 
-from __future__ import annotations
-
 import argparse
-import shutil
-import subprocess
+import logging
 from collections.abc import Sequence
 from datetime import date
 from pathlib import Path
 from uuid import UUID
 
+from langchain_core.language_models import BaseChatModel
 from pydantic import BaseModel, ConfigDict, Field
 
 from dosimeter.config.settings import Settings, get_settings
 from dosimeter.errors import DosimeterError
-from dosimeter.evaluation.judge import GroundednessJudge, JudgedClaim
+from dosimeter.evaluation.judge import JUDGE_ROLE, JudgedClaim, judge_claim
 from dosimeter.evaluation.record_checks import CheckResult, run_checks
-from dosimeter.logging_config import configure_logging, get_logger
+from dosimeter.logging_config import configure_logging
 from dosimeter.repository import Session, queries
 
 EVALS_ROOT = Path("evals/runs")
 
-_LOGGER = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class JudgedRun(BaseModel):
+    """Everything one judged run found."""
+
     model_config = ConfigDict(extra="forbid")
 
     label: str
     run_on: date
-    git_sha: str
     judge_model_id: str
     claims: list[JudgedClaim] = Field(default_factory=list)
     checks: list[CheckResult] = Field(default_factory=list)
 
     def summary(self) -> dict[str, int]:
+        """How many claims got each verdict."""
+
         counts: dict[str, int] = {}
         for claim in self.claims:
             counts[claim.verdict.value] = counts.get(claim.verdict.value, 0) + 1
         return counts
 
 
-def git_sha() -> str:
-    git = shutil.which("git")
-    if git is None:
-        return "unknown"
-
-    try:
-        return subprocess.run(  # noqa: S603 - a fixed command on a resolved path
-            [git, "rev-parse", "HEAD"],
-            capture_output=True,
-            text=True,
-            check=True,
-        ).stdout.strip()
-    except (subprocess.CalledProcessError, OSError):
-        return "unknown"
-
-
 def claims_from_dossier(payload: dict) -> list[tuple[str, str, str]]:
-    """Claim text, chunk id and chunk text, for everything the dossier cites."""
+    """Claim text, cited id and cited text, for everything the dossier cites."""
 
     found: list[tuple[str, str, str]] = []
     for source in payload.get("sources", []) or []:
@@ -78,14 +64,15 @@ def claims_from_dossier(payload: dict) -> list[tuple[str, str, str]]:
 def judge_exposure(
     session: Session,
     exposure_id: str,
-    judge: GroundednessJudge,
+    settings: Settings,
+    model: BaseChatModel | None = None,
 ) -> tuple[list[JudgedClaim], list[CheckResult]]:
     dossier = queries.latest_dossier(session, exposure_id)
     if dossier is None:
         raise DosimeterError("no dossier to judge", exposure_id=exposure_id)
 
     claims = [
-        judge.judge(claim, chunk_id, chunk_text)
+        judge_claim(claim, chunk_id, chunk_text, settings, model=model)
         for claim, chunk_id, chunk_text in claims_from_dossier(dossier.payload)
     ]
 
@@ -104,25 +91,6 @@ def write_results(results: JudgedRun, root: Path = EVALS_ROOT) -> Path:
 
     path = folder / "results.json"
     path.write_text(results.model_dump_json(indent=2), encoding="utf-8")
-
-    summary = folder / "summary.md"
-    lines = [
-        f"# Judged run: {results.label}",
-        "",
-        f"- date: {results.run_on.isoformat()}",
-        f"- commit: {results.git_sha}",
-        f"- judge model: {results.judge_model_id}",
-        "",
-        "## Verdicts",
-        *[f"- {name}: {count}" for name, count in sorted(results.summary().items())],
-        "",
-        "## Record checks",
-        *[
-            f"- {check.name}: {'pass' if check.passed else 'fail'} - {check.detail}"
-            for check in results.checks
-        ],
-    ]
-    summary.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return path
 
 
@@ -131,26 +99,24 @@ def run_judged(
     label: str,
     exposure_ids: Sequence[str],
     settings: Settings | None = None,
-    judge: GroundednessJudge | None = None,
+    model: BaseChatModel | None = None,
     root: Path = EVALS_ROOT,
 ) -> JudgedRun:
     resolved = settings or get_settings()
-    evaluator = judge or GroundednessJudge(settings=resolved)
 
     results = JudgedRun(
         label=label,
         run_on=date.today(),
-        git_sha=git_sha(),
-        judge_model_id=resolved.model_for("judge"),
+        judge_model_id=resolved.model_for(JUDGE_ROLE),
     )
 
     for exposure_id in exposure_ids:
-        claims, checks = judge_exposure(session, exposure_id, evaluator)
+        claims, checks = judge_exposure(session, exposure_id, resolved, model=model)
         results.claims.extend(claims)
         results.checks.extend(checks)
 
     write_results(results, root)
-    _LOGGER.info("judged_run.written", extra={"label": label, "summary": results.summary()})
+    logger.info("judged_run.written", extra={"label": label, "summary": results.summary()})
     return results
 
 
@@ -168,10 +134,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         with session_scope() as session:
             results = run_judged(session, args.label, args.exposure_ids)
     except DosimeterError as error:
-        _LOGGER.error("judged_run.failed", extra={"detail": str(error)})
+        logger.error("judged_run.failed", extra={"detail": str(error)})
         return 1
 
-    _LOGGER.info("judged_run.done", extra={"claims": len(results.claims)})
+    logger.info("judged_run.done", extra={"claims": len(results.claims)})
     return 0
 
 

@@ -1,7 +1,7 @@
 """Test suite for textract.py"""
 
 from unittest.mock import patch
-from dosimeter.aws.config import PACKET_BUCKET_NAME
+from dosimeter.config.settings import get_settings
 from dosimeter.ingestion.textract import start_document_analysis
 
 
@@ -17,7 +17,7 @@ def test_start_document_analysis():
         mock_get_client.return_value.start_document_analysis.assert_called_once_with(
             DocumentLocation={
                 "S3Object": {
-                    "Bucket": PACKET_BUCKET_NAME,
+                    "Bucket": get_settings().packet_bucket,
                     "Name": "exp-0411/exposure-report.pdf",
                 }
             },

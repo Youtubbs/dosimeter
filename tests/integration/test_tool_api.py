@@ -1,9 +1,8 @@
 """The tool API and the two clients that call it, against a real database."""
 
-from __future__ import annotations
-
 from contextlib import contextmanager
 from datetime import date
+from typing import Any
 
 import pytest
 from sqlalchemy.orm import Session
@@ -12,13 +11,13 @@ from dosimeter.api.app import create_app, openapi_document
 from dosimeter.api.identity import VERIFIED_HEADER
 from dosimeter.api.schemas import ExposureExtraction, FindSimilarExposuresInput
 from dosimeter.config.settings import Bounds, Settings
-from dosimeter.graph.state import Subject
+from dosimeter.graph.schemas import Subject
 from dosimeter.harness.budgets import SessionLedger
 from dosimeter.repository import orm, queries, seeds
 from dosimeter.repository.models import Artifact, ExtractedField, HistoricalExposure
-from dosimeter.tools.api_clients import ApiToolset
-from dosimeter.tools.base import ToolDispatcher, ToolErrorCode, ToolRegistry
-from dosimeter.tools.transport import FlaskClientTransport
+from dosimeter.tools.dispatcher import ToolDispatcher, ToolErrorCode, build_registry
+from dosimeter.tools.tools import ApiToolset
+from dosimeter.tools.transport import TransportResponse
 
 EXPOSURE = "EXP-2026-0412"
 OWNED_ONLY_BY_OFF_103 = "EXP-2026-0414"
@@ -36,6 +35,22 @@ def settings_for_tests(dev_identity: bool = False) -> Settings:
         packet_bucket="packets",
         tool_api_dev_identity=dev_identity,
     )
+
+
+class FlaskClientTransport:
+    """The HttpTransport interface over a Flask test client, so the tools call the real app."""
+
+    def __init__(self, client: Any, officer_code: str) -> None:
+        self.client = client
+        self.officer_code = officer_code
+
+    def get(self, path: str) -> TransportResponse:
+        response = self.client.get(path, headers={VERIFIED_HEADER: self.officer_code})
+        return TransportResponse(status=response.status_code, payload=response.get_json() or {})
+
+    def post(self, path: str, body: dict[str, Any] | None = None) -> TransportResponse:
+        response = self.client.post(path, json=body or {}, headers={VERIFIED_HEADER: self.officer_code})
+        return TransportResponse(status=response.status_code, payload=response.get_json() or {})
 
 
 def embedding(seed: float) -> list[float]:
@@ -159,18 +174,6 @@ def test_an_entitled_officer_reads_the_extraction(client) -> None:
     assert payload.fields[0].artifact_sha256 == "a" * 64
 
 
-def test_low_confidence_fields_can_be_left_out(client) -> None:
-    response = client.get(
-        f"/v1/exposures/{EXPOSURE}/extraction",
-        query_string={"include_low_confidence": "false"},
-        headers=headers("OFF-101"),
-    )
-
-    payload = ExposureExtraction.model_validate(response.get_json())
-
-    assert [field.field_key for field in payload.fields] == ["Total Effective Dose Equivalent"]
-
-
 def test_an_officer_without_the_district_gets_a_denial_not_an_empty_list(client) -> None:
     response = client.get(
         f"/v1/exposures/{OWNED_ONLY_BY_OFF_103}/extraction",
@@ -261,7 +264,7 @@ def test_the_openapi_document_is_built_from_the_tool_models(client) -> None:
 def dispatcher_for(client, officer_code: str) -> tuple[ToolDispatcher, ApiToolset]:
     toolset = ApiToolset(transport=FlaskClientTransport(client=client, officer_code=officer_code))
     dispatcher = ToolDispatcher(
-        registry=ToolRegistry(toolset.tools()),
+        registry=build_registry(toolset.tools()),
         ledger=SessionLedger(bounds=Bounds()),
         subject=Subject(
             session_id="session-1",
@@ -280,7 +283,6 @@ def test_the_extraction_tool_reads_through_the_api(client) -> None:
 
     assert response.ok
     assert response.value["exposure_id"] == EXPOSURE
-    assert dispatcher.invocations[-1].outcome == "ok"
 
 
 def test_the_similarity_tool_returns_candidates_only(client) -> None:

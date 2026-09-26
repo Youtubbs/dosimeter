@@ -1,7 +1,5 @@
 """Each kind of failure has its own error class, so you can catch just one."""
 
-from __future__ import annotations
-
 import pytest
 
 from dosimeter.errors import (

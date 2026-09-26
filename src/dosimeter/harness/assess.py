@@ -1,51 +1,47 @@
 """
 One assess turn: build the graph, run it on its own thread, record what it did,
-check eligibility, and store the dossier.
-
-The node bodies come from whoever owns them. This module owns the turn: the
-record, the bounds, the eligibility check and what is persisted.
+record the eligibility check, and store the dossier.
 """
 
-from __future__ import annotations
-
+import logging
 import time
-from dataclasses import dataclass
 from uuid import UUID, uuid4
 
+from pydantic import BaseModel
+
 from dosimeter.config.settings import Settings
-from dosimeter.errors import ExtractionError
+from dosimeter.errors import EntitlementError, GateError
 from dosimeter.graph.checkpointer import open_checkpointer
-from dosimeter.graph.state import Subject, initial_state
+from dosimeter.graph.graph import build_graph
+from dosimeter.graph.schemas import Subject
+from dosimeter.graph.state import initial_state
 from dosimeter.graph.threads import Participant, thread_config
-from dosimeter.graph.workflow import Nodes, compile_graph
-from dosimeter.harness.budgets import SessionLedger
-from dosimeter.harness.eligibility import EligibilityResult, check_eligibility
-from dosimeter.harness.escalation import Evaluator, TriggerSignals
+from dosimeter.harness.eligibility import EligibilityResult, record_eligibility
+from dosimeter.harness.escalation import EscalationOutcome
 from dosimeter.harness.run_record import RunRecorder
-from dosimeter.logging_config import get_logger
 from dosimeter.repository import Session, queries
 
-_LOGGER = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 
-@dataclass(frozen=True)
-class AssessResult:
+class AssessResult(BaseModel):
     exposure_id: str
     run_id: UUID
     outcome: str
     dossier_id: int
     duration_seconds: float
-    eligibility: EligibilityResult | None
+    eligibility: EligibilityResult
 
     @property
     def escalated(self) -> bool:
-        return self.eligibility is not None and self.eligibility.escalated
+        return self.eligibility.escalated
 
 
 def dossier_payload(state: dict, exposure_id: str) -> dict:
     """What is stored for the renderer to read back cold."""
 
     proposals = state.get("proposals") or {}
+    escalation = state.get("escalation")
     return {
         "exposure_id": exposure_id,
         "outcome": state.get("outcome"),
@@ -53,21 +49,11 @@ def dossier_payload(state: dict, exposure_id: str) -> dict:
         "proposals": {name: item.model_dump(mode="json") for name, item in proposals.items()},
         "rule_invocations": state.get("rule_invocations") or [],
         "sources": state.get("retrieval_log") or [],
-        "escalation_signals": state.get("escalation_signals") or [],
+        "escalation_signals": escalation.names() if escalation else [],
         "reviewer_verdicts": [
             item.model_dump(mode="json") for item in state.get("reviewer_verdicts") or []
         ],
     }
-
-
-def signals_from_state(state: dict) -> TriggerSignals:
-    """Read the turn's own record out of graph state. No model opinion here."""
-
-    verdicts = state.get("reviewer_verdicts") or []
-    return TriggerSignals(
-        reviewer_iterations=state.get("reviewer_iterations", 0),
-        reviewer_approved=bool(verdicts) and verdicts[-1].verdict == "approved",
-    )
 
 
 def run_assess(
@@ -75,20 +61,17 @@ def run_assess(
     exposure_id: str,
     officer_code: str,
     settings: Settings,
-    nodes: Nodes,
-    evaluate: Evaluator | None = None,
-    signals: TriggerSignals | None = None,
     session_id: UUID | None = None,
 ) -> AssessResult:
     """Run one assess turn end to end and persist everything it produced."""
 
     exposure = queries.get_exposure(session, exposure_id)
     if exposure is None:
-        raise ExtractionError("no such exposure", exposure_id=exposure_id)
+        raise GateError("no such exposure", exposure_id=exposure_id)
 
     officer = queries.officer_by_code(session, officer_code)
     if officer is None:
-        raise ExtractionError("no such officer", officer_code=officer_code)
+        raise EntitlementError("no such officer", officer_code=officer_code)
 
     turn_session_id = session_id or uuid4()
     queries.start_session(
@@ -110,9 +93,6 @@ def run_assess(
     )
     recorder.start()
 
-    ledger = SessionLedger(bounds=settings.bounds)
-    ledger.start_turn()
-
     subject = Subject(
         session_id=str(turn_session_id),
         officer_id=officer.id,
@@ -123,7 +103,7 @@ def run_assess(
 
     started = time.perf_counter()
     with open_checkpointer() as checkpointer:
-        app = compile_graph(nodes, settings.bounds, checkpointer=checkpointer)
+        app = build_graph(settings.bounds, checkpointer=checkpointer)
         state = app.invoke(
             initial_state(subject),
             thread_config(
@@ -148,18 +128,16 @@ def run_assess(
             [{"reason": verdict.reason}] if verdict.reason else [],
         )
 
-    eligibility = None
-    if evaluate is not None:
-        eligibility = check_eligibility(
-            session=session,
-            exposure_id=exposure_id,
-            district=exposure.district,
-            signals=signals or signals_from_state(state),
-            evaluate=evaluate,
-            recorder=recorder,
-        )
+    # the graph decided which triggers fired; the harness records them and queues the dossier
+    eligibility = record_eligibility(
+        session=session,
+        exposure_id=exposure_id,
+        district=exposure.district,
+        outcome=state.get("escalation") or EscalationOutcome(),
+        recorder=recorder,
+    )
 
-    outcome = state.get("outcome") or ("escalated" if eligibility and eligibility.escalated else "complete")
+    outcome = state.get("outcome") or "complete"
     dossier_id = queries.save_dossier(
         session,
         exposure_id,
@@ -170,7 +148,7 @@ def run_assess(
     queries.end_session(session, turn_session_id)
     session.commit()
 
-    _LOGGER.info(
+    logger.info(
         "assess.completed",
         extra={
             "exposure_id": exposure_id,

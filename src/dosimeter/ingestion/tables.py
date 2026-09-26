@@ -2,6 +2,8 @@
 
 from typing import Any
 
+from ..errors import ExtractionError
+
 
 def get_blocks_by_id(blocks: list[dict]) -> dict:
     """ Index Textract blocks by their ID """
@@ -152,7 +154,7 @@ def validate_schedule_c_rows(rows: list[list[str]]) -> None:
     """
     for row_number, row in enumerate(rows, start=1):
         if len(row) != 3:
-            raise ValueError(
+            raise ExtractionError(
                 f"Schedule C row {row_number} has "
                 f"{len(row)} columns; expected 3."
             )
@@ -160,19 +162,19 @@ def validate_schedule_c_rows(rows: list[list[str]]) -> None:
         material, release_fraction, quantity = row
 
         if not material:
-            raise ValueError(
+            raise ExtractionError(
                 f"Schedule C row {row_number} is missing "
                 "radioactive material."
             )
 
         if not release_fraction:
-            raise ValueError(
+            raise ExtractionError(
                 f"Schedule C row {row_number} is missing "
                 "release fraction."
             )
 
         if not quantity:
-            raise ValueError(
+            raise ExtractionError(
                 f"Schedule C row {row_number} is missing "
                 "quantity."
             )
@@ -188,7 +190,7 @@ def verify_schedule_c(blocks: list[dict]) -> list[list]:
     tables = extract_tables(blocks)
 
     if not tables:
-        raise ValueError("No Textract tables were found.")
+        raise ExtractionError("No Textract tables were found.")
 
     for table in tables:
         rows = reconstruct_wrapped_rows(table)
@@ -202,6 +204,6 @@ def verify_schedule_c(blocks: list[dict]) -> list[list]:
             validate_schedule_c_rows(rows)
             return rows
 
-    raise ValueError(
+    raise ExtractionError(
         "Could not find a three-column table suitable for Schedule C."
     )

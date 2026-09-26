@@ -34,7 +34,7 @@ services:
       DOSIMETER_DB_SSLMODE: prefer
       BEDROCK_MODEL_ID: ${BEDROCK_MODEL_ID:-local-placeholder}
       BEDROCK_EMBED_MODEL_ID: ${BEDROCK_EMBED_MODEL_ID:-local-placeholder}
-      DOSIMETER_KNOWLEDGE_BASE_ID: ${DOSIMETER_KNOWLEDGE_BASE_ID:-in-memory}
+      BEDROCK_KB_ID: ${BEDROCK_KB_ID:-in-memory}
       DOSIMETER_GUARDRAIL_ID: ${DOSIMETER_GUARDRAIL_ID:-not-created-yet}
       AWS_CORPUS_BUCKET_NAME: ${AWS_CORPUS_BUCKET_NAME:-dosimeter-corpus}
       AWS_PACKET_BUCKET_NAME: ${AWS_PACKET_BUCKET_NAME:-dosimeter-packets}

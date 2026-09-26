@@ -1,1 +1,1 @@
-"""The LangGraph workflow: state, routing and thread ids."""
+"""The LangGraph workflow: state, schemas, nodes, the graph and its thread ids."""

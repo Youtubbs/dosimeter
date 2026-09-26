@@ -1,14 +1,11 @@
 """
-The signals escalation is decided from, and the shape of an evaluator.
+The signals escalation is decided from, and the evaluator that decides it.
 
 The signal model has no field for a model's self-reported confidence, on
 purpose: eligibility is computed from what the turn recorded, and a model
 saying it feels sure is not evidence.
 """
 
-from __future__ import annotations
-
-from collections.abc import Callable
 from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -77,4 +74,10 @@ class EscalationOutcome(BaseModel):
         return ", ".join(self.names()) if self.fired else "no trigger fired"
 
 
-Evaluator = Callable[[TriggerSignals], EscalationOutcome]
+def evaluate(signals: TriggerSignals) -> EscalationOutcome:
+    """
+    Stands in until the trigger logic is written. It fires nothing, which is
+    visible in the run record as a turn where no trigger was evaluated.
+    """
+
+    return EscalationOutcome()

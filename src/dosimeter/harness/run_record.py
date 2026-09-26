@@ -6,16 +6,14 @@ Everything written here goes through the redactor first. No worker name and no
 dose history reaches a run record.
 """
 
-from __future__ import annotations
-
 import hashlib
 import json
-from dataclasses import dataclass, field
+import logging
 from typing import Any
 from uuid import UUID, uuid4
 
-from dosimeter.logging_config import get_correlation_id, get_logger
-from dosimeter.redaction import redact_value
+from dosimeter.logging_config import get_correlation_id
+from dosimeter.redaction import redact
 from dosimeter.repository import Session, queries
 from dosimeter.repository.models import (
     EscalationTrigger,
@@ -29,7 +27,7 @@ from dosimeter.repository.models import (
     WorkerDispatch,
 )
 
-_LOGGER = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def sha256_of(value: Any) -> str:
@@ -38,26 +36,29 @@ def sha256_of(value: Any) -> str:
     ).hexdigest()
 
 
-def _clean(payload: Any) -> Any:
-    return redact_value(payload).value
-
-
-@dataclass
 class RunRecorder:
     """
     Collects what a turn did and writes it. Nothing is buffered in a way that
     survives the process: a turn that dies mid-way still leaves its header row.
     """
 
-    session: Session
-    exposure_id: str | None = None
-    officer_id: int | None = None
-    session_id: UUID | None = None
-    command: str = "assess"
-    turn_kind: str = "assess"
-    run_id: UUID = field(default_factory=uuid4)
-    token_totals: dict[str, int] = field(default_factory=dict)
-    _started: bool = False
+    def __init__(
+        self,
+        session: Session,
+        exposure_id: str | None = None,
+        officer_id: int | None = None,
+        session_id: UUID | None = None,
+        command: str = "assess",
+        turn_kind: str = "assess",
+    ) -> None:
+        self.session = session
+        self.exposure_id = exposure_id
+        self.officer_id = officer_id
+        self.session_id = session_id
+        self.command = command
+        self.turn_kind = turn_kind
+        self.run_id = uuid4()
+        self.token_totals: dict[str, int] = {}
 
     def start(self) -> UUID:
         """Write the header row so children have something to hang from."""
@@ -75,7 +76,6 @@ class RunRecorder:
             ),
         )
         self.session.commit()
-        self._started = True
         return self.run_id
 
     def dispatched(
@@ -90,7 +90,7 @@ class RunRecorder:
             WorkerDispatch(
                 run_id=self.run_id,
                 worker=worker,
-                reason=_clean(reason),
+                reason=redact(reason),
                 iteration=iteration,
                 redispatch_trigger=redispatch_trigger,
             ),
@@ -112,8 +112,8 @@ class RunRecorder:
                 run_id=self.run_id,
                 tool_name=tool_name,
                 argument_sha256=argument_sha256 or sha256_of(arguments),
-                arguments=_clean(arguments),
-                result=_clean(result) if result is not None else None,
+                arguments=redact(arguments),
+                result=redact(result) if result is not None else None,
                 outcome=outcome,
                 worker=worker,
                 duration_ms=duration_ms,
@@ -136,8 +136,8 @@ class RunRecorder:
                 run_id=self.run_id,
                 rule_id=rule_id,
                 outcome=outcome,
-                inputs=_clean(inputs),
-                result=_clean(result or {}),
+                inputs=redact(inputs),
+                result=redact(result or {}),
                 threshold_named=threshold_named,
                 dose_quantity=dose_quantity,
                 path=path,
@@ -157,7 +157,7 @@ class RunRecorder:
             Retrieval(
                 run_id=self.run_id,
                 query_sha256=sha256_of(query_text),
-                query_text=_clean(query_text),
+                query_text=redact(query_text),
                 chunk_ids=chunk_ids,
                 scores=scores,
                 statuses=statuses,
@@ -204,7 +204,7 @@ class RunRecorder:
                 iteration=iteration,
                 worker=worker,
                 verdict=verdict,
-                objections=_clean(objections or []),
+                objections=redact(objections or []),
             ),
         )
 
@@ -216,7 +216,7 @@ class RunRecorder:
                 trigger_name=name,
                 evaluated=True,
                 fired=fired,
-                detail=_clean(detail) if detail else None,
+                detail=redact(detail) if detail else None,
             ),
         )
 
@@ -234,10 +234,10 @@ class RunRecorder:
                 stage=stage,
                 action=action,
                 guardrail_id=guardrail_id,
-                detail=_clean(detail or {}),
+                detail=redact(detail or {}),
             ),
         )
-        _LOGGER.info("guardrail.event", extra={"stage": stage, "action": action})
+        logger.info("guardrail.event", extra={"stage": stage, "action": action})
 
     def finish(self, outcome: str) -> None:
         """Close the turn and store the per-agent token totals."""

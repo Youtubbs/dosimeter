@@ -1,7 +1,5 @@
 """Edit-then-approve changes wording, never a determination."""
 
-from __future__ import annotations
-
 from dosimeter.harness.review import (
     idempotency_key_for,
     validate_edit,

@@ -16,3 +16,10 @@ Rules:
 - Base your answer on the retrieved regulatory text.
 - Do not make the final regulatory determination from your own assumptions.
 """
+
+# the groundedness judge, a separate call from the agents that wrote the claim
+JUDGE_PROMPT = """
+You check whether a claim is supported by the text it cites.
+
+You are not deciding whether the claim is true, only whether this text supports it.
+"""

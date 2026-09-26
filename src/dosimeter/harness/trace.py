@@ -3,8 +3,6 @@ Renders a stored run record. Everything printed here was read back from
 Postgres, so a trace works in a process that did not run the turn.
 """
 
-from __future__ import annotations
-
 from uuid import UUID
 
 from dosimeter.repository import Session, queries
