@@ -30,7 +30,7 @@ def retry(
     if attempts < 1:
         raise ValueError("attempts must be at least 1")
 
-    random_source = rng or random.Random()  # noqa: S311 
+    random_source = rng or random.Random()  # noqa: S311
 
     def decorator(func):
         # functools.wraps keeps the wrapped function's name and docstring
