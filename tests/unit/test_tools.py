@@ -1,6 +1,7 @@
 """The tool contract: no subject in a schema, stable keys, structured errors."""
 
 from __future__ import annotations
+from enum import Enum
 
 import pytest
 from pydantic import BaseModel, ConfigDict, Field
@@ -44,6 +45,48 @@ class EchoOutput(BaseModel):
     exposure_id: str
 
 
+class StrictJsonChoice(str, Enum):
+    NONE = "none"
+    REQUIRED = "required"
+
+
+class StrictJsonInput(BaseModel):
+    model_config = ConfigDict(
+        strict=True,
+        extra="forbid",
+    )
+
+    choice: StrictJsonChoice
+    citations: tuple[str, ...]
+
+
+class StrictJsonOutput(BaseModel):
+    model_config = ConfigDict(
+        strict=True,
+        extra="forbid",
+    )
+
+    accepted: bool
+
+
+def strict_json_handler(
+    subject: Subject,
+    arguments: BaseModel,
+) -> BaseModel:
+    del subject
+
+    assert isinstance(arguments, StrictJsonInput)
+    assert arguments.choice == StrictJsonChoice.NONE
+    assert arguments.citations == (
+        "source-a",
+        "source-b",
+    )
+
+    return StrictJsonOutput(
+        accepted=True,
+    )
+
+
 def echo(subject: Subject, arguments: EchoInput) -> EchoOutput:
     return EchoOutput(answer=arguments.question.upper(), exposure_id=subject.exposure_id)
 
@@ -68,6 +111,53 @@ def dispatcher(*tools: Tool, bounds: Bounds | None = None) -> ToolDispatcher:
         ledger=SessionLedger(bounds=bounds or Bounds()),
         subject=SUBJECT,
     )
+
+
+def test_dispatcher_accepts_json_for_strict_input_model() -> None:
+    tool = Tool(
+        name="strict_json_tool",
+        description="Test the strict JSON tool boundary.",
+        input_model=StrictJsonInput,
+        output_model=StrictJsonOutput,
+        handler=strict_json_handler,
+    )
+
+    registry = ToolRegistry([tool])
+
+    subject = Subject(
+        session_id="session-json-test",
+        officer_id=1,
+        officer_code="OFFICER-1",
+        exposure_id="exposure-json-test",
+        worker_id="test",
+    )
+
+    existing_dispatcher = dispatcher()
+
+    strict_dispatcher = ToolDispatcher(
+        registry=registry,
+        ledger=existing_dispatcher.ledger,
+        subject=subject,
+    )
+
+    response = strict_dispatcher.invoke(
+        "strict_json_tool",
+        {
+            "choice": "none",
+            "citations": [
+                "source-a",
+                "source-b",
+            ],
+        },
+    )
+
+    assert response.ok is True
+    assert response.error is None
+    assert response.value is not None
+    assert response.value["accepted"] is True
+
+    assert len(strict_dispatcher.invocations) == 1
+    assert strict_dispatcher.invocations[0].outcome == "ok"
 
 
 def test_no_tool_schema_takes_the_subject() -> None:

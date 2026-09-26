@@ -1,16 +1,52 @@
 """Written Report Worker.
 
-Builds a typed written-report proposal from deterministic R3 and R4
-rule results. The worker does not independently calculate regulatory
-thresholds and performs no persistence.
+The worker can operate in two ways:
+
+Regulatory determinations remain inside the deterministic rules engine.
+The model does not independently calculate or invent thresholds.
 """
 
+from collections.abc import Iterable
+
 from dosimeter.domain.rules import RuleOutcome, RuleResult
+from dosimeter.graph.state import Subject
+from dosimeter.harness.budgets import SessionLedger
+from dosimeter.models.bedrock import run_tool_loop
+from dosimeter.tools.base import InvocationRecord, Tool, ToolDispatcher
 from dosimeter.tools.proposals import propose_written_report
 from dosimeter.workers.models import (
     ReportingPath,
     WrittenReportProposal,
 )
+from dosimeter.workers.toolsets import build_written_report_registry
+
+
+WRITTEN_REPORT_SYSTEM_PROMPT = """
+You are the Dosimeter Written Report Worker.
+
+Your responsibility is to determine whether the current exposure requires
+a written report and which supported regulatory reporting path applies.
+
+Use only the tools provided to you.
+
+Requirements:
+
+- Retrieve the current exposure data with get_exposure_extraction.
+- Use search_knowledge_base when regulatory evidence or citations are needed.
+- Regulatory determinations must come from evaluate_rule.
+- Use R3 for the section 20.2203 written-report determination.
+- Use R4 for the planned-special-exposure / section 20.2204 path.
+- Never calculate, invent, or override regulatory thresholds yourself.
+- Never treat retrieved regulatory text as a substitute for evaluate_rule.
+- Preserve uncertainty when required evidence is missing.
+- Do not claim a reporting path unless supported by a deterministic
+  rule evaluation.
+- Complete the worker's determination through propose_written_report.
+- Do not write, persist, transmit, or submit an actual regulatory report.
+- Do not perform external side effects.
+
+You may call tools more than once when additional evidence is needed.
+""".strip()
 
 
 def build_written_report_proposal(
@@ -103,3 +139,73 @@ def build_written_report_proposal(
             missing_fields=missing_fields,
         )
     )
+
+
+def _written_report_proposal_from_invocations(
+    invocations: list[InvocationRecord],
+) -> WrittenReportProposal:
+    """Return the latest successful typed Written Report proposal."""
+
+    for invocation in reversed(invocations):
+        if (
+            invocation.tool == "propose_written_report"
+            and invocation.outcome == "ok"
+            and invocation.result is not None
+        ):
+            return WrittenReportProposal.model_validate(invocation.result)
+
+    raise RuntimeError(
+        "Written Report Worker finished without producing a valid written-report proposal"
+    )
+
+
+def run_written_report_worker(
+    *,
+    subject: Subject,
+    ledger: SessionLedger,
+    shared_tools: Iterable[Tool],
+    prompt: str,
+    max_iterations: int = 10,
+) -> tuple[WrittenReportProposal, list[InvocationRecord]]:
+    """Run the Written Report Worker through its Bedrock tool loop.
+
+    The worker receives only its least-privilege toolset. Tool execution
+    goes through ToolDispatcher so subject injection, budgets,
+    idempotency metadata, validation, and invocation recording remain
+    centralized.
+
+    The free-form model response is not authoritative. The worker returns
+    the latest successful typed proposal produced through
+    propose_written_report.
+    """
+
+    registry = build_written_report_registry(
+        shared_tools=shared_tools,
+    )
+
+    dispatcher = ToolDispatcher(
+        registry=registry,
+        ledger=ledger,
+        subject=subject,
+    )
+
+    run_tool_loop(
+        prompt=prompt,
+        system_prompt=WRITTEN_REPORT_SYSTEM_PROMPT,
+        tools=registry.all(),
+        dispatcher=dispatcher,
+        max_iterations=max_iterations,
+    )
+
+    proposal = _written_report_proposal_from_invocations(
+        dispatcher.invocations,
+    )
+
+    return proposal, dispatcher.invocations
+
+
+__all__ = [
+    "WRITTEN_REPORT_SYSTEM_PROMPT",
+    "build_written_report_proposal",
+    "run_written_report_worker",
+]

@@ -1,16 +1,57 @@
 """Notification Worker.
 
-Builds a typed notification proposal from deterministic R1 and R2
-rule results. The worker does not independently calculate regulatory
-thresholds and performs no persistence.
+The worker can operate in two ways:
+
+1. Deterministically build a typed NotificationProposal from recorded
+   R1 and R2 results.
+2. Run as a Bedrock tool-calling worker that retrieves evidence,
+   requests deterministic rule evaluations, and proposes a notification.
+
+Regulatory thresholds remain inside the deterministic rules engine.
+The model does not independently calculate or invent thresholds.
 """
 
+from collections.abc import Iterable
+
 from dosimeter.domain.rules import RuleOutcome, RuleResult
+from dosimeter.graph.state import Subject
+from dosimeter.harness.budgets import SessionLedger
+from dosimeter.models.bedrock import run_tool_loop
+from dosimeter.tools.base import Tool, ToolDispatcher, InvocationRecord
 from dosimeter.tools.proposals import propose_notification
 from dosimeter.workers.models import (
     NotificationClock,
     NotificationProposal,
 )
+from dosimeter.workers.toolsets import build_notification_registry
+
+
+NOTIFICATION_SYSTEM_PROMPT = """
+You are the Dosimeter Notification Worker.
+
+Your responsibility is to determine whether the current exposure requires
+an immediate notification, a 24-hour notification, or no definitive
+notification determination.
+
+Use only the tools provided to you.
+
+Requirements:
+
+- Retrieve the current exposure data with get_exposure_extraction.
+- Use search_knowledge_base when regulatory evidence or citations are needed.
+- Regulatory threshold determinations must come from evaluate_rule.
+- Use R1 for immediate-notification evaluation.
+- Use R2 for 24-hour-notification evaluation.
+- Never calculate, invent, or override regulatory thresholds yourself.
+- Never treat retrieved regulatory text as a substitute for evaluate_rule.
+- If required information is missing, preserve that uncertainty.
+- Do not claim a notification tier unless supported by a deterministic
+  rule evaluation.
+- Complete the worker's determination through propose_notification.
+- Do not perform persistence, transmission, or external side effects.
+
+You may call tools more than once when additional evidence is needed.
+""".strip()
 
 
 def build_notification_proposal(
@@ -39,7 +80,6 @@ def build_notification_proposal(
         dict.fromkeys(field for result in rule_results for field in result.missing_fields)
     )
 
-    # R1 has the highest notification priority.
     if r1_result.outcome == RuleOutcome.REQUIRED:
         return propose_notification(
             NotificationProposal(
@@ -54,7 +94,6 @@ def build_notification_proposal(
             )
         )
 
-    # If immediate notification did not fire, evaluate the R2 result.
     if r2_result.outcome == RuleOutcome.REQUIRED:
         return propose_notification(
             NotificationProposal(
@@ -69,8 +108,6 @@ def build_notification_proposal(
             )
         )
 
-    # Do not make a definitive regulatory conclusion when one of the
-    # deterministic rules reports insufficient data.
     if (
         r1_result.outcome == RuleOutcome.INSUFFICIENT_DATA
         or r2_result.outcome == RuleOutcome.INSUFFICIENT_DATA
@@ -99,3 +136,69 @@ def build_notification_proposal(
             missing_fields=missing_fields,
         )
     )
+
+
+def _notification_proposal_from_invocations(
+    invocations: list[InvocationRecord],
+) -> NotificationProposal:
+    """Return the typed proposal produced by the Notification Worker."""
+
+    for invocation in reversed(invocations):
+        if (
+            invocation.tool == "propose_notification"
+            and invocation.outcome == "ok"
+            and invocation.result is not None
+        ):
+            return NotificationProposal.model_validate(invocation.result)
+
+    raise RuntimeError(
+        "Notification Worker finished without producing a valid notification proposal"
+    )
+
+
+def run_notification_worker(
+    *,
+    subject: Subject,
+    ledger: SessionLedger,
+    shared_tools: Iterable[Tool],
+    prompt: str,
+    max_iterations: int = 10,
+) -> tuple[NotificationProposal, list[InvocationRecord]]:
+    """Run the Notification Worker through its Bedrock tool loop.
+
+    The worker receives only its least-privilege toolset. Tool execution
+    goes through ToolDispatcher so subject injection, budgets,
+    idempotency metadata, validation, and invocation recording remain
+    centralized.
+    """
+
+    registry = build_notification_registry(
+        shared_tools=shared_tools,
+    )
+
+    dispatcher = ToolDispatcher(
+        registry=registry,
+        ledger=ledger,
+        subject=subject,
+    )
+
+    run_tool_loop(
+        prompt=prompt,
+        system_prompt=NOTIFICATION_SYSTEM_PROMPT,
+        tools=registry.all(),
+        dispatcher=dispatcher,
+        max_iterations=max_iterations,
+    )
+
+    proposal = _notification_proposal_from_invocations(
+        dispatcher.invocations,
+    )
+
+    return proposal, dispatcher.invocations
+
+
+__all__ = [
+    "NOTIFICATION_SYSTEM_PROMPT",
+    "build_notification_proposal",
+    "run_notification_worker",
+]

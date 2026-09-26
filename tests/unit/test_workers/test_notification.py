@@ -1,12 +1,21 @@
 """Tests for the Notification Worker."""
 
-from dosimeter.domain.rules import (
-    RuleOutcome,
-    RuleResult,
-    RuleSource,
+from unittest.mock import Mock, patch
+
+import pytest
+from pydantic import BaseModel, ConfigDict
+
+from dosimeter.domain.rules import RuleOutcome, RuleResult, RuleSource
+from dosimeter.graph.state import Subject
+from dosimeter.tools.base import InvocationRecord, Tool
+from dosimeter.workers.models import (
+    NotificationClock,
+    NotificationProposal,
 )
-from dosimeter.workers.models import NotificationClock
-from dosimeter.workers.notification import build_notification_proposal
+from dosimeter.workers.notification import (
+    build_notification_proposal,
+    run_notification_worker,
+)
 
 
 SOURCE_R1 = RuleSource(
@@ -20,6 +29,35 @@ SOURCE_R2 = RuleSource(
     section="Twenty-four hour notification",
     status="in_force",
 )
+
+
+class WorkerTestInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+
+class WorkerTestOutput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    ok: bool = True
+
+
+def _worker_test_handler(
+    subject: Subject,
+    arguments: BaseModel,
+) -> BaseModel:
+    del subject
+    del arguments
+    return WorkerTestOutput()
+
+
+def _shared_tool(name: str) -> Tool:
+    return Tool(
+        name=name,
+        description=f"Test tool: {name}",
+        input_model=WorkerTestInput,
+        output_model=WorkerTestOutput,
+        handler=_worker_test_handler,
+    )
 
 
 def make_result(
@@ -195,3 +233,127 @@ def test_notification_proposal_preserves_citations() -> None:
 
     assert "10 CFR 20.2202(a)" in result.citations
     assert "10 CFR 20.2202(b)" in result.citations
+
+
+def test_run_notification_worker_uses_notification_toolset() -> None:
+    subject = Subject(
+        session_id="session-1",
+        officer_id=1,
+        officer_code="OFFICER-1",
+        exposure_id="exposure-1",
+        worker_id="notification",
+    )
+
+    ledger = Mock()
+
+    shared_tools = [
+        _shared_tool("get_exposure_extraction"),
+        _shared_tool("search_knowledge_base"),
+    ]
+
+    r1 = make_result(
+        "R1",
+        RuleOutcome.NOT_REQUIRED,
+        SOURCE_R1,
+    )
+
+    r2 = make_result(
+        "R2",
+        RuleOutcome.NOT_REQUIRED,
+        SOURCE_R2,
+    )
+
+    expected_proposal = NotificationProposal(
+        notification_required=False,
+        clock=NotificationClock.NONE,
+        rule_results=(r1, r2),
+        citations=(
+            "10 CFR 20.2202(a)",
+            "10 CFR 20.2202(b)",
+        ),
+        explanation="No notification criteria were satisfied.",
+        missing_fields=(),
+    )
+
+    proposal_data = expected_proposal.model_dump()
+
+    def fake_tool_loop(**kwargs):
+        dispatcher = kwargs["dispatcher"]
+
+        dispatcher.invocations.append(
+            InvocationRecord(
+                tool="propose_notification",
+                arguments_sha256="test-hash",
+                arguments=proposal_data,
+                result=proposal_data,
+                outcome="ok",
+                duration_ms=1.0,
+            )
+        )
+
+        return "Notification evaluation complete."
+
+    with patch(
+        "dosimeter.workers.notification.run_tool_loop",
+        side_effect=fake_tool_loop,
+    ) as tool_loop:
+        proposal, invocations = run_notification_worker(
+            subject=subject,
+            ledger=ledger,
+            shared_tools=shared_tools,
+            prompt="Evaluate the current exposure.",
+        )
+
+    assert proposal == expected_proposal
+
+    assert len(invocations) == 1
+    assert invocations[0].tool == "propose_notification"
+
+    tool_loop.assert_called_once()
+
+    call = tool_loop.call_args.kwargs
+
+    assert call["prompt"] == "Evaluate the current exposure."
+    assert call["dispatcher"].subject == subject
+    assert call["dispatcher"].ledger is ledger
+
+    assert sorted(tool.name for tool in call["tools"]) == [
+        "evaluate_rule",
+        "get_exposure_extraction",
+        "propose_notification",
+        "search_knowledge_base",
+    ]
+
+
+def test_run_notification_worker_rejects_missing_proposal() -> None:
+    subject = Subject(
+        session_id="session-1",
+        officer_id=1,
+        officer_code="OFFICER-1",
+        exposure_id="exposure-1",
+        worker_id="notification",
+    )
+
+    ledger = Mock()
+
+    shared_tools = [
+        _shared_tool("get_exposure_extraction"),
+        _shared_tool("search_knowledge_base"),
+    ]
+
+    with (
+        patch(
+            "dosimeter.workers.notification.run_tool_loop",
+            return_value="I finished without proposing anything.",
+        ),
+        pytest.raises(
+            RuntimeError,
+            match="finished without producing",
+        ),
+    ):
+        run_notification_worker(
+            subject=subject,
+            ledger=ledger,
+            shared_tools=shared_tools,
+            prompt="Evaluate the current exposure.",
+        )

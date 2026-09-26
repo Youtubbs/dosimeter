@@ -1,7 +1,6 @@
 """Worker-specific tool registry construction.
 
 Each worker receives only the tools required for its responsibility.
-Shared retrieval tools may be injected when they are available.
 """
 
 from collections.abc import Iterable
@@ -33,49 +32,37 @@ def _find_tool(
 def build_notification_registry(
     *,
     shared_tools: Iterable[Tool],
-    include_retrieval: bool = False,
 ) -> ToolRegistry:
-    """Build the tool registry for the Notification Worker."""
+    """Build the least-privilege tool registry for the Notification Worker."""
 
     available = list(shared_tools)
 
-    tools = [
-        _find_tool(available, GET_EXPOSURE_EXTRACTION),
-        EVALUATE_RULE_TOOL,
-        PROPOSE_NOTIFICATION_TOOL,
-    ]
-
-    if include_retrieval:
-        tools.insert(
-            0,
+    return ToolRegistry(
+        [
             _find_tool(available, SEARCH_KNOWLEDGE_BASE),
-        )
-
-    return ToolRegistry(tools)
+            _find_tool(available, GET_EXPOSURE_EXTRACTION),
+            EVALUATE_RULE_TOOL,
+            PROPOSE_NOTIFICATION_TOOL,
+        ]
+    )
 
 
 def build_written_report_registry(
     *,
     shared_tools: Iterable[Tool],
-    include_retrieval: bool = False,
 ) -> ToolRegistry:
-    """Build the tool registry for the Written Report Worker."""
+    """Build the least-privilege tool registry for the Written Report Worker."""
 
     available = list(shared_tools)
 
-    tools = [
-        _find_tool(available, GET_EXPOSURE_EXTRACTION),
-        EVALUATE_RULE_TOOL,
-        PROPOSE_WRITTEN_REPORT_TOOL,
-    ]
-
-    if include_retrieval:
-        tools.insert(
-            0,
+    return ToolRegistry(
+        [
             _find_tool(available, SEARCH_KNOWLEDGE_BASE),
-        )
-
-    return ToolRegistry(tools)
+            _find_tool(available, GET_EXPOSURE_EXTRACTION),
+            EVALUATE_RULE_TOOL,
+            PROPOSE_WRITTEN_REPORT_TOOL,
+        ]
+    )
 
 
 __all__ = [
