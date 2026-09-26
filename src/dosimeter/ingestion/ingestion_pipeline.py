@@ -2,7 +2,7 @@
 uploads to s3 -> runs textract -> normalizes -> redacts -> report
 """
 
-from .redact import redact_fields
+from ..redaction import redact_fields
 from .normalize import normalize
 from .report import create_report
 from .s3 import upload_packet

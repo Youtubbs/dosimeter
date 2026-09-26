@@ -4,24 +4,21 @@ is hashed and written to a key derived from that hash, so submitting the same
 packet twice writes nothing new and creates no second row.
 """
 
-from __future__ import annotations
-
 import hashlib
+import logging
 from enum import StrEnum
 from pathlib import Path
-from typing import Protocol
 
 from pydantic import BaseModel, ConfigDict, Field
 
 from dosimeter.config.settings import Bounds
 from dosimeter.errors import ExtractionError
-from dosimeter.logging_config import get_logger
 from dosimeter.repository import Session, queries
 from dosimeter.repository.models import Artifact
 
 ALLOWED_SUFFIXES = (".pdf", ".jpg", ".jpeg", ".png", ".txt")
 
-_LOGGER = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class SkipReason(StrEnum):
@@ -36,16 +33,11 @@ class SkipReason(StrEnum):
     NO_FIELDS_FOUND = "no_fields_found"
 
 
-class ObjectStore(Protocol):
-    """The two things the store needs from object storage."""
-
-    def exists(self, bucket: str, key: str) -> bool: ...
-
-    def put(self, bucket: str, key: str, content: bytes) -> None: ...
-
-
 class S3ObjectStore:
-    """The real one. The AWS client module is the only place a client is built."""
+    """
+    The two things the store needs from object storage. Tests pass a fake with
+    the same two methods. The AWS client module is the only place a client is built.
+    """
 
     def exists(self, bucket: str, key: str) -> bool:
         from dosimeter.aws.aws import get_client
@@ -177,7 +169,7 @@ def store_artifact(
     session: Session,
     request: SubmissionRequest,
     path: Path,
-    store: ObjectStore,
+    store: S3ObjectStore,
 ) -> StoredArtifact:
     """Hash, upload if the key is new, and record the row."""
 
@@ -202,7 +194,7 @@ def store_artifact(
         ),
     )
 
-    _LOGGER.info(
+    logger.info(
         "artifact.stored",
         extra={
             "exposure_id": request.exposure_id,
@@ -226,7 +218,7 @@ def store_artifact(
 def store_packet(
     session: Session,
     request: SubmissionRequest,
-    store: ObjectStore,
+    store: S3ObjectStore,
     bounds: Bounds,
 ) -> tuple[list[StoredArtifact], list[SkippedArtifact]]:
     """Validate the packet, then store every artifact that passed."""

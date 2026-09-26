@@ -6,8 +6,7 @@ still produces a record; the file appears in the report as a failure with a
 reason code.
 """
 
-from __future__ import annotations
-
+import logging
 import re
 from collections.abc import Callable
 from datetime import date, datetime
@@ -17,14 +16,14 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from dosimeter.config.settings import Settings
 from dosimeter.ingestion.artifact_store import (
-    ObjectStore,
+    S3ObjectStore,
     SkippedArtifact,
     SkipReason,
     StoredArtifact,
     SubmissionRequest,
     store_packet,
 )
-from dosimeter.logging_config import get_logger
+from dosimeter.errors import ExtractionError
 from dosimeter.redaction import IdentityVault, redact_value
 from dosimeter.repository import Session, queries
 from dosimeter.repository.models import ExtractedField, Exposure
@@ -32,7 +31,7 @@ from dosimeter.repository.models import ExtractedField, Exposure
 Cracker = Callable[[str, str], list[dict]]
 Normalizer = Callable[[list[dict], str], dict]
 
-_LOGGER = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 _PACKET_ID = re.compile(r"(\d{3,})\s*$")
 _DATE = re.compile(r"Date[^:]*:\s*(\d{2})/(\d{2})/(\d{4})")
@@ -95,7 +94,7 @@ def exposure_id_for(packet_dir: Path, today: date | None = None) -> str:
 
     match = _PACKET_ID.search(packet_dir.name)
     if match is None:
-        raise ValueError(f"packet directory name has no number: {packet_dir.name}")
+        raise ExtractionError("packet directory name has no number", packet_dir=packet_dir.name)
 
     year = _packet_year(packet_dir) or (today or date.today()).year
     return f"EXP-{year}-{match.group(1)}"
@@ -160,7 +159,7 @@ def submit_packet(
     session: Session,
     packet_dir: Path,
     settings: Settings,
-    store: ObjectStore,
+    store: S3ObjectStore,
     cracker: Cracker | None = None,
     normalizer: Normalizer | None = None,
     vault: IdentityVault | None = None,
@@ -273,7 +272,7 @@ def submit_packet(
     )
     session.commit()
 
-    _LOGGER.info(
+    logger.info(
         "submit.completed",
         extra={
             "exposure_id": exposure_id,

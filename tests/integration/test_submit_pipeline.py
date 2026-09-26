@@ -1,7 +1,5 @@
 """Submit against a real database: idempotent, skip-and-log, report stored."""
 
-from __future__ import annotations
-
 import hashlib
 from pathlib import Path
 

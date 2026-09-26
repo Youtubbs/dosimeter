@@ -4,10 +4,9 @@ and the usage is added after it finishes, so a leg never begins on a budget
 that is already spent.
 """
 
-from __future__ import annotations
-
 import time
-from dataclasses import dataclass, field
+
+from pydantic import BaseModel, Field
 
 from dosimeter.config.settings import Bounds
 from dosimeter.errors import BudgetError
@@ -22,8 +21,7 @@ SESSION_TOKENS = "max_session_tokens"
 REVIEWER_ITERATIONS = "reviewer_iteration_cap"
 
 
-@dataclass
-class TurnUsage:
+class TurnUsage(BaseModel):
     """What one turn has spent so far."""
 
     tool_invocations: int = 0
@@ -33,7 +31,7 @@ class TurnUsage:
     retrieved_chunks: int = 0
     retrieved_tokens: int = 0
     reviewer_iterations: int = 0
-    started_at: float = field(default_factory=time.monotonic)
+    started_at: float = Field(default_factory=time.monotonic)
 
     @property
     def tokens(self) -> int:
@@ -44,13 +42,12 @@ class TurnUsage:
         return time.monotonic() - self.started_at
 
 
-@dataclass
-class BudgetBreach:
+class BudgetBreach(BaseModel):
     """A limit that has been reached, named so the caller can say which."""
 
     ceiling: str
-    limit: float
-    used: float
+    limit: int | float
+    used: int | float
 
     @property
     def message(self) -> str:
@@ -63,12 +60,11 @@ class SessionLedger:
     which is what makes the session ceiling accumulate across assess and ask.
     """
 
-    def __init__(self, bounds: Bounds, clock: object | None = None) -> None:
+    def __init__(self, bounds: Bounds) -> None:
         self.bounds = bounds
         self.session_input_tokens = 0
         self.session_output_tokens = 0
         self.turn = TurnUsage()
-        self._clock = clock
 
     @property
     def session_tokens(self) -> int:
@@ -83,39 +79,46 @@ class SessionLedger:
     def check(self, *, agent: str | None = None) -> BudgetBreach | None:
         """The first ceiling that is spent, or None when the leg may start."""
 
-        if self.session_tokens >= self.bounds.max_session_tokens:
-            return BudgetBreach(SESSION_TOKENS, self.bounds.max_session_tokens, self.session_tokens)
+        bounds = self.bounds
+        turn = self.turn
 
-        if self.turn.tool_invocations >= self.bounds.max_tool_invocations_per_turn:
+        if self.session_tokens >= bounds.max_session_tokens:
             return BudgetBreach(
-                TOOL_INVOCATIONS,
-                self.bounds.max_tool_invocations_per_turn,
-                self.turn.tool_invocations,
+                ceiling=SESSION_TOKENS, limit=bounds.max_session_tokens, used=self.session_tokens
             )
 
-        if self.turn.retrieved_chunks > self.bounds.max_retrieved_chunks:
+        if turn.tool_invocations >= bounds.max_tool_invocations_per_turn:
             return BudgetBreach(
-                RETRIEVED_CHUNKS, self.bounds.max_retrieved_chunks, self.turn.retrieved_chunks
+                ceiling=TOOL_INVOCATIONS,
+                limit=bounds.max_tool_invocations_per_turn,
+                used=turn.tool_invocations,
             )
 
-        if self.turn.retrieved_tokens > self.bounds.max_retrieved_tokens:
+        if turn.retrieved_chunks > bounds.max_retrieved_chunks:
             return BudgetBreach(
-                RETRIEVED_TOKENS, self.bounds.max_retrieved_tokens, self.turn.retrieved_tokens
+                ceiling=RETRIEVED_CHUNKS, limit=bounds.max_retrieved_chunks, used=turn.retrieved_chunks
             )
 
-        if self.turn.reviewer_iterations >= self.bounds.reviewer_iteration_cap:
+        if turn.retrieved_tokens > bounds.max_retrieved_tokens:
             return BudgetBreach(
-                REVIEWER_ITERATIONS,
-                self.bounds.reviewer_iteration_cap,
-                self.turn.reviewer_iterations,
+                ceiling=RETRIEVED_TOKENS, limit=bounds.max_retrieved_tokens, used=turn.retrieved_tokens
             )
 
-        elapsed = self.turn.elapsed_seconds
-        if elapsed >= self.bounds.per_turn_wall_clock_seconds:
-            return BudgetBreach(WALL_CLOCK, self.bounds.per_turn_wall_clock_seconds, elapsed)
+        if turn.reviewer_iterations >= bounds.reviewer_iteration_cap:
+            return BudgetBreach(
+                ceiling=REVIEWER_ITERATIONS,
+                limit=bounds.reviewer_iteration_cap,
+                used=turn.reviewer_iterations,
+            )
+
+        elapsed = turn.elapsed_seconds
+        if elapsed >= bounds.per_turn_wall_clock_seconds:
+            return BudgetBreach(
+                ceiling=WALL_CLOCK, limit=bounds.per_turn_wall_clock_seconds, used=elapsed
+            )
 
         if agent is not None and self.tokens_left_for(agent) <= 0:
-            return BudgetBreach(TOKENS_PER_CALL, self.bounds.tokens_for(agent), self.turn.tokens)
+            return BudgetBreach(ceiling=TOKENS_PER_CALL, limit=bounds.tokens_for(agent), used=turn.tokens)
 
         return None
 

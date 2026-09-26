@@ -1,11 +1,12 @@
 """Handles document extraction using Amazon Textract"""
 
 from ..aws.aws import get_client
-from ..aws.config import PACKET_BUCKET_NAME
+from ..config.settings import get_settings
+from ..errors import ExtractionError
 
 import time
 
-def start_document_analysis(s3_key: str, bucket_name : str = PACKET_BUCKET_NAME) -> str:
+def start_document_analysis(s3_key: str, bucket_name : str | None = None) -> str:
     """ Start an asynchronous Textract analysis for an S3 document """
 
     textract = get_client("textract")
@@ -13,7 +14,7 @@ def start_document_analysis(s3_key: str, bucket_name : str = PACKET_BUCKET_NAME)
     response = textract.start_document_analysis(
         DocumentLocation={
             "S3Object": {
-                "Bucket": bucket_name,
+                "Bucket": bucket_name or get_settings().packet_bucket,
                 "Name": s3_key
             }
         },
@@ -48,14 +49,14 @@ def wait_for_analysis(job_id: str, poll_interval: int = 2, max_delay=30, max_wai
             return status
 
         if status == "FAILED":
-            raise RuntimeError(f"Textract job {job_id} failed.")
+            raise ExtractionError(f"Textract job {job_id} failed.")
 
         time.sleep(delay)
         elapsed += delay
 
         delay = min(delay * 2, max_delay)
 
-    raise TimeoutError(
+    raise ExtractionError(
         f"Textract job {job_id} did not finish within {max_wait} seconds."
     )
 
@@ -82,7 +83,7 @@ def get_analysis_results(job_id: str) -> list[dict]:
 
     return blocks
 
-def extract_artifact(s3_key: str, bucket_name : str = PACKET_BUCKET_NAME) -> list[dict]:
+def extract_artifact(s3_key: str, bucket_name : str | None = None) -> list[dict]:
     """Run Textract on one S3 artifact and return its extracted blocks."""
 
     try:

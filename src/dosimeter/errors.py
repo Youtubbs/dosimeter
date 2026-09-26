@@ -1,13 +1,14 @@
-"""All the errors this project raises. They all inherit from DosimeterError,
-so callers can catch one kind without catching the rest."""
-
-from __future__ import annotations
+""" All the errors this project raises, so each kind of failure can be caught on its own """
 
 from typing import Any
 
 
 class DosimeterError(Exception):
-    """Parent of every error we raise."""
+    """ Parent of every error we raise.
+
+        Extra keyword arguments are kept as context and printed with the message,
+        so a log line says which field or file the error was about.
+    """
 
     def __init__(self, message: str, **context: Any) -> None:
         super().__init__(message)
@@ -25,8 +26,10 @@ class ConfigurationError(DosimeterError):
     """A setting is missing, wrong, or conflicts with another one."""
 
 
+# the requirements ask that extraction, retrieval, rules and gate failures
+# can be told apart by type
 class ExtractionError(DosimeterError):
-    """We could not read a packet."""
+    """We could not read a packet or a corpus document."""
 
 
 class RetrievalError(DosimeterError):
@@ -51,16 +54,3 @@ class BudgetError(DosimeterError):
 
 class ExternalServiceError(DosimeterError):
     """An outside service failed and the retries are used up."""
-
-
-__all__ = [
-    "BudgetError",
-    "ConfigurationError",
-    "DosimeterError",
-    "EntitlementError",
-    "ExternalServiceError",
-    "ExtractionError",
-    "GateError",
-    "RetrievalError",
-    "RulesError",
-]

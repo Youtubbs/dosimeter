@@ -5,22 +5,20 @@ An edit changes the narrative, never the determination. The write that follows
 an approval is harness only, needs a recorded approval, and transmits nothing.
 """
 
-from __future__ import annotations
-
 import hashlib
 import json
-from dataclasses import dataclass
+import logging
 from enum import StrEnum
 from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from dosimeter.decorators import retry
 from dosimeter.errors import EntitlementError, ExternalServiceError, GateError
-from dosimeter.logging_config import get_logger
-from dosimeter.repository import Session, queries
-from dosimeter.repository.models import ApprovedRecord, ReviewDecision
+from dosimeter.repository import Session, entitlements, queries
+from dosimeter.repository.models import ApprovedRecord, EntitlementDenial, ReviewDecision
 
-_LOGGER = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 # Nothing under these keys may change in an edit.
 DETERMINATION_KEYS = (
@@ -33,7 +31,8 @@ DETERMINATION_KEYS = (
     "thresholds",
 )
 
-EDITABLE_KEYS = ("narrative", "note", "summary", "citation_refs")
+# The only keys an edit may add: the wording and a note.
+EDITABLE_KEYS = ("narrative", "note")
 
 
 class Decision(StrEnum):
@@ -50,15 +49,6 @@ class EditRejection(BaseModel):
     reason_code: str
     message: str
     field_path: str
-
-
-class CitationRepoint(BaseModel):
-    model_config = ConfigDict(extra="forbid", frozen=True)
-
-    ref: int
-    from_chunk_id: str
-    to_chunk_id: str
-    doc_id: str
 
 
 def _source_index(payload: dict[str, Any]) -> dict[str, str]:
@@ -135,9 +125,10 @@ def idempotency_key_for(exposure_id: str, decision_id: int, payload: dict[str, A
     return hashlib.sha256(material.encode("utf-8")).hexdigest()
 
 
-@dataclass(frozen=True)
-class ApprovalWrite:
+class ApprovalWrite(BaseModel):
     """The result of the write that follows an approval."""
+
+    model_config = ConfigDict(frozen=True)
 
     decision_id: int
     idempotency_key: str
@@ -194,7 +185,7 @@ def record_decision(
     )
     session.commit()
 
-    _LOGGER.info(
+    logger.info(
         "review.decided",
         extra={"queue_id": queue_id, "decision": decision.value, "decision_id": decision_id},
     )
@@ -224,9 +215,10 @@ def write_approved_record(
         )
 
     key = idempotency_key_for(exposure_id, decision_id, payload)
-    last_error: Exception | None = None
 
-    for attempt in range(attempts):
+    # every try uses the same key, so a retry after a failed commit still writes once
+    @retry(attempts=attempts)
+    def write_once() -> int | None:
         try:
             record_id = queries.write_approved_record(
                 session,
@@ -239,27 +231,26 @@ def write_approved_record(
                 ),
             )
             session.commit()
-        except Exception as error:  # the retry uses the same key, so it writes once
+        except Exception:
             session.rollback()
-            last_error = error
-            _LOGGER.warning(
-                "approved_record.retry",
-                extra={"attempt": attempt + 1, "exposure_id": exposure_id},
-            )
-            continue
+            raise
+        return record_id
 
-        return ApprovalWrite(
-            decision_id=decision_id,
-            idempotency_key=key,
-            record_id=record_id,
-            already_written=record_id is None,
-        )
+    try:
+        record_id = write_once()
+    except Exception as error:
+        raise ExternalServiceError(
+            "the approved record could not be written",
+            exposure_id=exposure_id,
+            attempts=attempts,
+            detail=str(error),
+        ) from error
 
-    raise ExternalServiceError(
-        "the approved record could not be written",
-        exposure_id=exposure_id,
-        attempts=attempts,
-        detail=str(last_error),
+    return ApprovalWrite(
+        decision_id=decision_id,
+        idempotency_key=key,
+        record_id=record_id,
+        already_written=record_id is None,
     )
 
 
@@ -275,10 +266,8 @@ class QueueEntry(BaseModel):
     state: str
 
 
-def queue_entries(session: Session, officer_code: str) -> list[QueueEntry] | Any:
+def queue_entries(session: Session, officer_code: str) -> list[QueueEntry] | EntitlementDenial:
     """The waiting dossiers this officer may see, with every trigger named."""
-
-    from dosimeter.repository import entitlements
 
     items = entitlements.review_queue_for_officer(session, officer_code)
     if not isinstance(items, list):

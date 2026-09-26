@@ -1,7 +1,5 @@
 """Budgets stop the next leg, and the session ceiling outlives a turn."""
 
-from __future__ import annotations
-
 import time
 
 import pytest

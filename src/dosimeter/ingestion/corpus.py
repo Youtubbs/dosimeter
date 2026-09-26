@@ -4,7 +4,8 @@ import json
 from pathlib import Path
 
 from ..aws.aws import get_client
-from ..aws.config import CORPUS_BUCKET_NAME
+from ..config.settings import get_settings
+from ..errors import ExtractionError
 from .textract import extract_artifact
 from .s3 import calculate_content_hash, read_file_bytes
 
@@ -23,7 +24,7 @@ def get_cached_results(cache_key: str) -> list[dict] | None:
 
     try:
         response = s3.get_object(
-            Bucket=CORPUS_BUCKET_NAME,
+            Bucket=get_settings().corpus_bucket,
             Key=cache_key,
         )
     except s3.exceptions.NoSuchKey:
@@ -46,7 +47,7 @@ def save_cached_results(cache_key: str, blocks: list[dict]) -> None:
     s3 = get_client("s3")
 
     s3.put_object(
-        Bucket=CORPUS_BUCKET_NAME,
+        Bucket=get_settings().corpus_bucket,
         Key=cache_key,
         Body=json.dumps(blocks).encode("utf-8"),
         ContentType="application/json",
@@ -62,7 +63,7 @@ def upload_corpus_document(file_path: Path) -> str:
 
     s3.upload_file(
         str(file_path),
-        CORPUS_BUCKET_NAME,
+        get_settings().corpus_bucket,
         key,
     )
 
@@ -97,10 +98,10 @@ def process_corpus_document(file_path: Path) -> dict:
 
     s3_key = upload_corpus_document(file_path)
 
-    blocks = extract_artifact(s3_key, CORPUS_BUCKET_NAME)
+    blocks = extract_artifact(s3_key, get_settings().corpus_bucket)
 
     if not blocks:
-        raise RuntimeError(
+        raise ExtractionError(
             f"Textract returned no blocks for {file_path.name}"
         )
 
@@ -126,12 +127,12 @@ def process_corpus(corpus_dir: Path = CORPUS_DIR) -> list[dict]:
     """
 
     if not corpus_dir.is_dir():
-        raise ValueError(f"Corpus directory does not exist: {corpus_dir}")
+        raise ExtractionError(f"Corpus directory does not exist: {corpus_dir}")
 
     pdf_files = sorted(corpus_dir.glob("*.pdf"))
 
     if not pdf_files:
-        raise ValueError(f"No PDF files found in {corpus_dir}")
+        raise ExtractionError(f"No PDF files found in {corpus_dir}")
 
     results: list[dict] = []
 

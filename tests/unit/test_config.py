@@ -1,7 +1,5 @@
 """Tests for the settings."""
 
-from __future__ import annotations
-
 import os
 from typing import Any
 
@@ -47,9 +45,10 @@ def test_defaults_cover_floors_margins_and_bounds() -> None:
     settings = load_settings(**valid_config())
 
     assert settings.confidence_floor == 0.60
-    assert settings.similarity_threshold == 0.50
-    assert settings.near_boundary_margins.annual_limit_tede_rem == 0.25
-    assert settings.near_boundary_margins.immediate_notification_shallow_rad == 10.0
+    assert settings.similarity_threshold == 0.4
+    assert settings.near_boundary_margins.r3_tede_rem == 0.25
+    assert settings.near_boundary_margins.r1_shallow_rad == 10.0
+    assert settings.near_boundary_margins.r5_confidence == 0.05
     assert settings.bounds.max_tool_invocations_per_turn == 8
     assert settings.bounds.tokens_for("coordinator") == 4096
     assert settings.bounds.tokens_for("not-an-agent") == settings.bounds.default_max_tokens_per_call
@@ -72,8 +71,9 @@ def test_missing_required_field_names_the_field() -> None:
     with pytest.raises(ConfigurationError) as caught:
         load_settings(**payload)
 
-    assert "knowledge_base_id" in str(caught.value)
-    assert "knowledge_base_id" in caught.value.context["fields"]
+    # the error names the environment variable to set
+    assert "BEDROCK_KB_ID" in str(caught.value)
+    assert "BEDROCK_KB_ID" in caught.value.context["fields"]
     assert isinstance(caught.value, DosimeterError)
 
 
@@ -94,12 +94,12 @@ def test_region_outside_us_east_is_rejected() -> None:
 @pytest.fixture(autouse=True)
 def clean_settings_env(monkeypatch: pytest.MonkeyPatch) -> None:
     """
-    Importing dosimeter.aws.config loads the developer's .env into the real
-    environment, so clear it before asserting what is missing.
+    Clear the settings the shell and tests/unit/.env.test put in the
+    environment, so each test decides exactly what is set.
     """
 
     for name in list(os.environ):
-        if name.startswith("DOSIMETER_"):
+        if name.startswith(("DOSIMETER_", "BEDROCK_", "AWS_")):
             monkeypatch.delenv(name, raising=False)
 
 

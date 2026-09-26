@@ -1,7 +1,5 @@
 """Queue, decision card, the three decisions, and the approval-gated write."""
 
-from __future__ import annotations
-
 import pytest
 from sqlalchemy import func, select
 

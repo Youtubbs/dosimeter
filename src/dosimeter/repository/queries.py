@@ -1,7 +1,5 @@
 """Every database read and write in the project, through SQLAlchemy."""
 
-from __future__ import annotations
-
 import re
 from uuid import UUID
 
@@ -107,15 +105,6 @@ def insert_exposure(session: Session, exposure: Exposure) -> None:
 def get_exposure(session: Session, exposure_id: str) -> Exposure | None:
     row = session.get(orm.ExposureRow, exposure_id)
     return None if row is None else _exposure(row)
-
-
-def list_exposures_in_districts(session: Session, districts: list[str]) -> list[Exposure]:
-    rows = session.scalars(
-        select(orm.ExposureRow)
-        .where(orm.ExposureRow.district.in_(districts))
-        .order_by(orm.ExposureRow.id)
-    ).all()
-    return [_exposure(row) for row in rows]
 
 
 def insert_artifact(session: Session, artifact: Artifact) -> int:
@@ -508,10 +497,6 @@ def approved_record_for(session: Session, exposure_id: str):
         .where(orm.ApprovedRecordRow.exposure_id == exposure_id)
         .order_by(orm.ApprovedRecordRow.written_at.desc())
     ).first()
-
-
-def review_queue_item(session: Session, queue_id: int):
-    return session.get(orm.ReviewQueueRow, queue_id)
 
 
 def review_decision(session: Session, decision_id: int):

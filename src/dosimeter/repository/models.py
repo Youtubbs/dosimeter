@@ -1,7 +1,5 @@
 """Rows in and rows out. Anything parsed from outside the process forbids extras."""
 
-from __future__ import annotations
-
 from datetime import date, datetime
 from uuid import UUID
 

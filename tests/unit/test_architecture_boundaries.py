@@ -13,8 +13,6 @@ tests/fixtures/boundaries/ break the rules on purpose, which is how we know the
 test would actually catch it.
 """
 
-from __future__ import annotations
-
 import ast
 from dataclasses import dataclass
 from pathlib import Path

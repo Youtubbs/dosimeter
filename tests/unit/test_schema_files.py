@@ -1,7 +1,5 @@
 """Checks on the migration files, so they run without a database."""
 
-from __future__ import annotations
-
 import re
 
 from dosimeter.repository import orm

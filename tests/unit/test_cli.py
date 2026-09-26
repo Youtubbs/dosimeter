@@ -1,7 +1,5 @@
 """The eight commands exist, read the settings first, and quit non-zero."""
 
-from __future__ import annotations
-
 import os
 from pathlib import Path
 
@@ -29,7 +27,8 @@ ARGUMENTS: dict[str, list[str]] = {
     "submit": ["./packets/exp-0412"],
     "assess": ["EXP-2026-0412", "--officer", "OFF-101"],
     "dossier": ["EXP-2026-0412"],
-    "sources": ["EXP-2026-0412"],
+    "ask": ["EXP-2026-0412", "why no call?"],
+    "sources": ["EXP-2026-0412", "--ref", "2"],
     "trace": ["EXP-2026-0412"],
     "queue": ["--officer", "OFF-101"],
     "review": ["EXP-2026-0412", "--officer", "OFF-102"],
@@ -46,7 +45,7 @@ def configured(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("AWS_REGION", "us-east-1")
     monkeypatch.setenv("BEDROCK_MODEL_ID", "text-model-id")
     monkeypatch.setenv("BEDROCK_EMBED_MODEL_ID", "embedding-model-id")
-    monkeypatch.setenv("DOSIMETER_KNOWLEDGE_BASE_ID", "kb-000000")
+    monkeypatch.setenv("BEDROCK_KB_ID", "kb-000000")
     monkeypatch.setenv("DOSIMETER_GUARDRAIL_ID", "gr-000000")
     monkeypatch.setenv("AWS_CORPUS_BUCKET_NAME", "dosimeter-corpus")
     monkeypatch.setenv("AWS_PACKET_BUCKET_NAME", "dosimeter-packets")
@@ -94,11 +93,11 @@ def test_command_loads_configuration_before_anything_else(
             monkeypatch.delenv(name, raising=False)
 
     with caplog.at_level("ERROR"):
-        exit_code = main(["ask"])
+        exit_code = main(["ask", "EXP-2026-0412", "why no call?"])
 
     assert exit_code == EXIT_CONFIG_ERROR
     assert caplog.records[-1].message == "config.invalid"
-    assert "knowledge_base_id" in caplog.records[-1].fields
+    assert "guardrail_id" in caplog.records[-1].fields
 
 
 def test_an_unknown_subcommand_is_rejected() -> None:

@@ -1,36 +1,25 @@
 """
-The groundedness judge.
-
-A separate Converse call on the judge model, given one claim and the text of
-the chunk it cited, returning a validated verdict. It is deliberately not the
-reasoning model: a model grading its own work with a different prompt is not an
-independent check.
+The groundedness judge. One separate model call per claim, given the claim and
+the text it cited, returning a validated verdict.
 """
 
-from __future__ import annotations
-
-import json
-from collections.abc import Callable
-from dataclasses import dataclass
+import logging
 from enum import StrEnum
 
-from pydantic import BaseModel, ConfigDict, Field, ValidationError
+from langchain_core.language_models import BaseChatModel
+from langchain_core.messages import HumanMessage, SystemMessage
+from pydantic import BaseModel, ConfigDict, Field
 
 from dosimeter.config.settings import Settings
 from dosimeter.errors import ExternalServiceError
-from dosimeter.logging_config import get_logger
+from dosimeter.models.bedrock import get_chat_model
+from dosimeter.prompts import JUDGE_PROMPT
+from dosimeter.redaction import redact
 
-_LOGGER = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
+# the run record names the role; settings say which model serves it
 JUDGE_ROLE = "judge"
-
-SYSTEM_PROMPT = (
-    "You check whether a claim is supported by the text it cites. "
-    "You are not deciding whether the claim is true, only whether this text "
-    "supports it. Answer with JSON only: "
-    '{"verdict": "supported" | "not_supported" | "partially_supported", '
-    '"reason": "one sentence"}'
-)
 
 
 class Verdict(StrEnum):
@@ -39,14 +28,23 @@ class Verdict(StrEnum):
     PARTIALLY_SUPPORTED = "partially_supported"
 
 
+# the first line of the class docstring is the model's instructions
 class JudgeVerdict(BaseModel):
-    model_config = ConfigDict(extra="forbid", frozen=True)
+    """Whether the cited text supports the claim. Judge only from the cited text."""
 
-    verdict: Verdict
-    reason: str = Field(default="", max_length=500)
+    verdict: Verdict = Field(
+        description="supported, not_supported or partially_supported"
+    )
+    reason: str = Field(
+        default="",
+        max_length=500,
+        description="One sentence on why.",
+    )
 
 
 class JudgedClaim(BaseModel):
+    """One claim, the text it cited, and the verdict."""
+
     model_config = ConfigDict(extra="forbid", frozen=True)
 
     claim: str = Field(min_length=1)
@@ -59,82 +57,48 @@ class JudgedClaim(BaseModel):
     output_tokens: int = 0
 
 
-Converse = Callable[..., dict]
+def judge_claim(
+    claim: str,
+    chunk_id: str,
+    chunk_text: str,
+    settings: Settings,
+    model: BaseChatModel | None = None,
+) -> JudgedClaim:
+    """Ask whether the cited text supports the claim. A verdict that does not validate is a typed failure."""
 
+    chat_model = model or get_chat_model(max_tokens=settings.bounds.tokens_for(JUDGE_ROLE))
 
-def _default_converse() -> Converse:
-    from dosimeter.aws.aws import get_client
+    # include_raw keeps the token usage next to the parsed verdict
+    structured = chat_model.with_structured_output(JudgeVerdict, include_raw=True)
 
-    return get_client("bedrock-runtime").converse
+    message = (
+        f"Claim:\n{claim}\n\nCited text ({chunk_id}):\n{chunk_text}\n\n"
+        "Does the cited text support the claim?"
+    )
+    result = structured.invoke([SystemMessage(JUDGE_PROMPT), HumanMessage(redact(message))])
 
-
-@dataclass
-class GroundednessJudge:
-    """One call per claim, on the pinned judge model."""
-
-    settings: Settings
-    converse: Converse | None = None
-
-    def _client(self) -> Converse:
-        return self.converse or _default_converse()
-
-    def judge(self, claim: str, chunk_id: str, chunk_text: str) -> JudgedClaim:
-        model_id = self.settings.model_for(JUDGE_ROLE)
-        message = (
-            f"Claim:\n{claim}\n\nCited text (chunk {chunk_id}):\n{chunk_text}\n\n"
-            "Does the cited text support the claim?"
+    verdict = result.get("parsed")
+    if verdict is None:
+        raise ExternalServiceError(
+            "the judge verdict did not validate",
+            detail=str(result.get("parsing_error")),
         )
 
-        request = {
-            "modelId": model_id,
-            "system": [{"text": SYSTEM_PROMPT}],
-            "messages": [{"role": "user", "content": [{"text": message}]}],
-            "inferenceConfig": {
-                "maxTokens": self.settings.bounds.tokens_for(JUDGE_ROLE),
-                "temperature": 0,
-            },
-        }
-        if self.settings.guardrail_id:
-            request["guardrailConfig"] = {
-                "guardrailIdentifier": self.settings.guardrail_id,
-                "guardrailVersion": self.settings.guardrail_version,
-            }
+    model_id = settings.model_for(JUDGE_ROLE)
+    usage = getattr(result.get("raw"), "usage_metadata", None) or {}
 
-        response = self._client()(**request)
-        verdict = _parse(response)
-        usage = response.get("usage", {})
+    logger.info(
+        "judge.verdict",
+        extra={"chunk_id": chunk_id, "verdict": verdict.verdict.value, "model_id": model_id},
+    )
 
-        _LOGGER.info(
-            "judge.verdict",
-            extra={"chunk_id": chunk_id, "verdict": verdict.verdict.value, "model_id": model_id},
-        )
-
-        return JudgedClaim(
-            claim=claim,
-            chunk_id=chunk_id,
-            chunk_text=chunk_text,
-            verdict=verdict.verdict,
-            reason=verdict.reason,
-            model_id=model_id,
-            input_tokens=usage.get("inputTokens", 0),
-            output_tokens=usage.get("outputTokens", 0),
-        )
-
-
-def _parse(response: dict) -> JudgeVerdict:
-    """One retry is the caller's job; a shape we cannot read is a typed failure."""
-
-    try:
-        blocks = response["output"]["message"]["content"]
-        text = "".join(block.get("text", "") for block in blocks).strip()
-    except (KeyError, TypeError) as error:
-        raise ExternalServiceError("the judge returned no content") from error
-
-    start, end = text.find("{"), text.rfind("}")
-    if start == -1 or end == -1:
-        raise ExternalServiceError("the judge did not return JSON", detail=text[:200])
-
-    try:
-        return JudgeVerdict.model_validate(json.loads(text[start : end + 1]))
-    except (json.JSONDecodeError, ValidationError) as error:
-        raise ExternalServiceError("the judge verdict did not validate", detail=str(error)) from error
+    return JudgedClaim(
+        claim=claim,
+        chunk_id=chunk_id,
+        chunk_text=chunk_text,
+        verdict=verdict.verdict,
+        reason=verdict.reason,
+        model_id=model_id,
+        input_tokens=usage.get("input_tokens", 0),
+        output_tokens=usage.get("output_tokens", 0),
+    )

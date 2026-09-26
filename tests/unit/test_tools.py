@@ -1,23 +1,22 @@
 """The tool contract: no subject in a schema, stable keys, structured errors."""
 
-from __future__ import annotations
-
 import pytest
 from pydantic import BaseModel, ConfigDict, Field
 
 from dosimeter.api.schemas import FindSimilarExposuresInput, SimilarExposures
 from dosimeter.config.settings import Bounds
-from dosimeter.errors import DosimeterError, RetrievalError
-from dosimeter.graph.state import Subject
+from dosimeter.errors import DosimeterError, ExternalServiceError, RetrievalError
+from dosimeter.graph.schemas import Subject
 from dosimeter.harness.budgets import SessionLedger
-from dosimeter.tools.api_clients import ApiToolset
-from dosimeter.tools.base import Tool, ToolDispatcher, ToolError, ToolErrorCode, ToolRegistry
-from dosimeter.tools.idempotency import (
-    arguments_hash,
-    canonicalize,
-    idempotency_key,
-    normalize_unit,
+from dosimeter.tools.dispatcher import (
+    Tool,
+    ToolDispatcher,
+    ToolError,
+    ToolErrorCode,
+    build_registry,
 )
+from dosimeter.tools.idempotency import arguments_hash, canonicalize, idempotency_key
+from dosimeter.tools.tools import ApiToolset
 from dosimeter.tools.transport import TransportResponse
 
 SUBJECT = Subject(
@@ -56,25 +55,35 @@ ECHO_TOOL = Tool(
     name="echo",
     description="Repeat the question back, for tests.",
     input_model=EchoInput,
-    output_model=EchoOutput,
     handler=echo,
 )
 
 
-def dispatcher(*tools: Tool, bounds: Bounds | None = None) -> ToolDispatcher:
-    registry = ToolRegistry(list(tools) or [ECHO_TOOL])
+class FakeRecorder:
+    """Keeps what RunRecorder.tool_called would have written."""
+
+    def __init__(self) -> None:
+        self.calls: list[dict] = []
+
+    def tool_called(self, tool_name, arguments, result, outcome, **extra) -> None:
+        self.calls.append(
+            {"tool": tool_name, "arguments": arguments, "result": result, "outcome": outcome, **extra}
+        )
+
+
+def dispatcher(*tools: Tool, bounds: Bounds | None = None, recorder=None) -> ToolDispatcher:
     return ToolDispatcher(
-        registry=registry,
+        registry=build_registry(list(tools) or [ECHO_TOOL]),
         ledger=SessionLedger(bounds=bounds or Bounds()),
         subject=SUBJECT,
+        recorder=recorder,
     )
 
 
 def test_no_tool_schema_takes_the_subject() -> None:
-    transport_tools = ApiToolset(transport=None).tools()
-    registry = ToolRegistry([ECHO_TOOL, *transport_tools])
+    tools = [ECHO_TOOL, *ApiToolset(transport=None).tools()]
 
-    offenders = {tool.name: tool.subject_arguments() for tool in registry.all()}
+    offenders = {tool.name: tool.subject_arguments() for tool in tools}
 
     assert all(not found for found in offenders.values()), offenders
 
@@ -84,17 +93,7 @@ def test_registering_a_tool_that_takes_a_subject_is_refused() -> None:
         exposure_id: str
 
     with pytest.raises(DosimeterError):
-        ToolRegistry(
-            [
-                Tool(
-                    name="bad",
-                    description="takes what it must not",
-                    input_model=Bad,
-                    output_model=EchoOutput,
-                    handler=echo,
-                )
-            ]
-        )
+        build_registry([Tool(name="bad", description="takes what it must not", input_model=Bad, handler=echo)])
 
 
 def test_the_subject_reaches_the_handler_without_being_an_argument() -> None:
@@ -102,7 +101,7 @@ def test_the_subject_reaches_the_handler_without_being_an_argument() -> None:
 
     assert response.ok
     assert response.value["exposure_id"] == SUBJECT.exposure_id
-    assert "exposure_id" not in ECHO_TOOL.input_schema()["properties"]
+    assert "exposure_id" not in EchoInput.model_json_schema()["properties"]
 
 
 def test_a_subject_passed_as_an_argument_is_rejected() -> None:
@@ -120,13 +119,7 @@ def test_arguments_that_miss_the_schema_come_back_as_an_error() -> None:
 
 
 def test_a_failing_tool_returns_an_error_rather_than_raising() -> None:
-    tool = Tool(
-        name="flaky",
-        description="always fails",
-        input_model=EchoInput,
-        output_model=EchoOutput,
-        handler=failing,
-    )
+    tool = Tool(name="flaky", description="always fails", input_model=EchoInput, handler=failing)
 
     response = dispatcher(tool).invoke("flaky", {"question": "q"})
 
@@ -154,17 +147,17 @@ def test_the_invocation_cap_stops_the_next_call() -> None:
     assert "max_tool_invocations_per_turn" in third.error.message
 
 
-def test_every_call_is_recorded_with_its_arguments_and_result() -> None:
-    dispatch = dispatcher()
-    dispatch.invoke("echo", {"question": "recorded"})
+def test_every_call_lands_on_the_run_record() -> None:
+    recorder = FakeRecorder()
+    dispatcher(recorder=recorder).invoke("echo", {"question": "recorded"})
 
-    record = dispatch.invocations[-1]
+    call = recorder.calls[-1]
 
-    assert record.tool == "echo"
-    assert record.arguments == {"question": "recorded"}
-    assert record.result["answer"] == "RECORDED"
-    assert record.outcome == "ok"
-    assert len(record.arguments_sha256) == 64
+    assert call["tool"] == "echo"
+    assert call["arguments"] == {"question": "recorded"}
+    assert call["result"]["answer"] == "RECORDED"
+    assert call["outcome"] == "ok"
+    assert len(call["argument_sha256"]) == 64
 
 
 def test_a_disabled_tool_says_so() -> None:
@@ -177,8 +170,8 @@ def test_a_disabled_tool_says_so() -> None:
 
 
 def test_keys_do_not_depend_on_argument_order() -> None:
-    first = {"query_text": "retract failure", "limit": 5, "unit": "REM"}
-    shuffled = {"unit": "rems", "limit": 5.0, "query_text": "retract failure"}
+    first = {"query_text": "retract failure", "limit": 5, "unit": "rem"}
+    shuffled = {"unit": "rem", "limit": 5, "query_text": "retract failure"}
 
     assert canonicalize(first) == canonicalize(shuffled)
     assert arguments_hash(first) == arguments_hash(shuffled)
@@ -193,47 +186,31 @@ def test_keys_differ_by_session_and_tool() -> None:
 
 
 def test_nested_arguments_canonicalize_too() -> None:
-    left = {"filters": {"status": "in_force", "doc_type": "regulation"}, "dose": {"unit": "Rads"}}
+    left = {"filters": {"status": "in_force", "doc_type": "regulation"}, "dose": {"unit": "rad"}}
     right = {"dose": {"unit": "rad"}, "filters": {"doc_type": "regulation", "status": "in_force"}}
 
     assert canonicalize(left) == canonicalize(right)
 
 
-def test_units_normalize_to_one_spelling() -> None:
-    assert normalize_unit("REM") == normalize_unit("rems") == "rem"
-    assert normalize_unit("Rads") == "rad"
-    assert normalize_unit("bananas") == "bananas"
-
-
 class UnreachableTransport:
-    def get(self, path, params=None):
-        raise_unreachable()
+    def get(self, path):
+        raise ExternalServiceError("connection refused")
 
     def post(self, path, body=None):
-        raise_unreachable()
-
-
-def raise_unreachable() -> None:
-    from dosimeter.errors import ExternalServiceError
-
-    raise ExternalServiceError("connection refused")
+        raise ExternalServiceError("connection refused")
 
 
 class DenyingTransport:
-    def get(self, path, params=None):
-        return TransportResponse(403, {"reason_code": "district_not_granted", "message": "no"})
+    def get(self, path):
+        return TransportResponse(status=403, payload={"reason_code": "district_not_granted", "message": "no"})
 
     def post(self, path, body=None):
-        return TransportResponse(403, {"reason_code": "district_not_granted", "message": "no"})
+        return TransportResponse(status=403, payload={"reason_code": "district_not_granted", "message": "no"})
 
 
 def test_an_unreachable_api_disables_both_tools_and_names_them() -> None:
     toolset = ApiToolset(transport=UnreachableTransport())
-    dispatch = ToolDispatcher(
-        registry=ToolRegistry(toolset.tools()),
-        ledger=SessionLedger(bounds=Bounds()),
-        subject=SUBJECT,
-    )
+    dispatch = dispatcher(*toolset.tools())
 
     response = dispatch.invoke("find_similar_exposures", {"query_text": "retract failure"})
 
@@ -244,11 +221,7 @@ def test_an_unreachable_api_disables_both_tools_and_names_them() -> None:
 
 def test_a_denial_from_the_api_is_surfaced_not_swallowed() -> None:
     toolset = ApiToolset(transport=DenyingTransport())
-    dispatch = ToolDispatcher(
-        registry=ToolRegistry(toolset.tools()),
-        ledger=SessionLedger(bounds=Bounds()),
-        subject=SUBJECT,
-    )
+    dispatch = dispatcher(*toolset.tools())
 
     response = dispatch.invoke("get_exposure_extraction", {})
 

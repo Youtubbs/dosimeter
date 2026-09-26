@@ -6,8 +6,6 @@ rests on a source that is only proposed.
 Both read the stored run record, so they assert facts rather than opinions.
 """
 
-from __future__ import annotations
-
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field

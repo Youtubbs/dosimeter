@@ -1,7 +1,5 @@
 """The submit command: it reads settings, runs the pipeline, prints the report."""
 
-from __future__ import annotations
-
 from contextlib import contextmanager
 from pathlib import Path
 
@@ -16,7 +14,7 @@ from dosimeter.ingestion.submit import IngestionReport
 def configured(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("BEDROCK_MODEL_ID", "text-model-id")
     monkeypatch.setenv("BEDROCK_EMBED_MODEL_ID", "embedding-model-id")
-    monkeypatch.setenv("DOSIMETER_KNOWLEDGE_BASE_ID", "kb-000000")
+    monkeypatch.setenv("BEDROCK_KB_ID", "kb-000000")
     monkeypatch.setenv("DOSIMETER_GUARDRAIL_ID", "gr-000000")
     monkeypatch.setenv("AWS_CORPUS_BUCKET_NAME", "dosimeter-corpus")
     monkeypatch.setenv("AWS_PACKET_BUCKET_NAME", "dosimeter-packets")

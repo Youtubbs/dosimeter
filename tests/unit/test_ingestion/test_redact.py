@@ -1,6 +1,6 @@
-"""Test suite for redact.py"""
+"""Test suite for redact_fields, in redaction.py"""
 
-from dosimeter.ingestion.redact import redact_fields
+from dosimeter.redaction import redact_fields
 
 
 def test_redact_moves_sensitive_fields_to_detachable_identity():

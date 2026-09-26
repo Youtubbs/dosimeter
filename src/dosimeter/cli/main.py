@@ -1,9 +1,8 @@
-"""The dosimeter command line app. Each command reads the settings first and
-then quits with 'not implemented' until someone fills it in."""
-
-from __future__ import annotations
+"""The dosimeter command line app. Each command reads the settings, runs one
+function from the package, and prints what it returned."""
 
 import argparse
+import logging
 import sys
 from collections.abc import Sequence
 from pathlib import Path
@@ -11,24 +10,24 @@ from pathlib import Path
 from dosimeter import __version__
 from dosimeter.config.settings import Settings, load_settings
 from dosimeter.errors import ConfigurationError, DosimeterError
-from dosimeter.logging_config import configure_logging, correlation_scope, get_logger
+from dosimeter.logging_config import configure_logging, correlation_scope
 
 EXIT_CONFIG_ERROR = 2
 EXIT_NOT_IMPLEMENTED = 3
 EXIT_FAILED = 1
 
 COMMANDS: dict[str, str] = {
-    "submit": "Submit an exposure packet and produce a normalized record",
-    "assess": "Apply the rules engine to a submitted exposure",
-    "dossier": "Draft the cited dossier for an officer to review",
-    "ask": "Answer a question grounded in the regulatory corpus",
-    "sources": "List the sources behind an answer or a dossier",
-    "trace": "Show the recorded trace for a run",
-    "queue": "List exposures waiting for officer review",
-    "review": "Record an officer decision on a queued exposure",
+    "submit": "Crack an exposure packet into a normalized record",
+    "assess": "Run the workflow on a submitted exposure",
+    "dossier": "Render the dossier with its citations",
+    "ask": "Ask a follow-up question on the same session",
+    "sources": "Print the text behind one citation, with its status",
+    "trace": "Show the plan, the dispatches and the tool loops",
+    "queue": "List escalated dossiers and why each one escalated",
+    "review": "Approve, edit or reject a queued dossier",
 }
 
-_LOGGER = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -46,8 +45,12 @@ def build_parser() -> argparse.ArgumentParser:
         command = subparsers.add_parser(name, help=help_text, description=help_text)
         if name == "submit":
             command.add_argument("packet_dir", type=Path, help="the packet directory to submit")
-        if name in ("assess", "trace", "dossier", "sources", "review"):
+        if name in ("assess", "dossier", "ask", "sources", "trace", "review"):
             command.add_argument("exposure_id", help="the exposure, for example EXP-2026-0412")
+        if name == "ask":
+            command.add_argument("question", help="the follow-up question, in quotes")
+        if name == "sources":
+            command.add_argument("--ref", type=int, help="which citation to print, by its number")
         if name in ("assess", "queue", "review"):
             command.add_argument(
                 "--officer",
@@ -65,10 +68,6 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _load_configuration() -> Settings:
-    return load_settings()
-
-
 def main(argv: Sequence[str] | None = None) -> int:
     """What runs when you type dosimeter."""
 
@@ -79,9 +78,9 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     with correlation_scope():
         try:
-            settings = _load_configuration()
+            settings = load_settings()
         except ConfigurationError as error:
-            _LOGGER.error(
+            logger.error(
                 "config.invalid",
                 extra={"command": args.command, "fields": error.context.get("fields", [])},
             )
@@ -104,7 +103,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.command == "review":
             return _review(args.exposure_id, args.officer, args.decision, args.note)
 
-        _LOGGER.error(
+        logger.error(
             "command.not_implemented",
             extra={"command": args.command, "detail": "not implemented"},
         )
@@ -127,7 +126,7 @@ def _submit(packet_dir: Path, settings: Settings) -> int:
                 store=S3ObjectStore(),
             )
     except DosimeterError as error:
-        _LOGGER.error("submit.failed", extra={"detail": str(error)})
+        logger.error("submit.failed", extra={"detail": str(error)})
         return EXIT_FAILED
 
     sys.stdout.write(report.render() + "\n")
@@ -137,7 +136,6 @@ def _submit(packet_dir: Path, settings: Settings) -> int:
 def _assess(exposure_id: str, officer_code: str, settings: Settings) -> int:
     """Run the workflow on a submitted exposure and persist what it produced."""
 
-    from dosimeter.graph.nodes import build_nodes, escalation_evaluator
     from dosimeter.harness.assess import run_assess
     from dosimeter.repository.connection import session_scope
 
@@ -148,11 +146,9 @@ def _assess(exposure_id: str, officer_code: str, settings: Settings) -> int:
                 exposure_id=exposure_id,
                 officer_code=officer_code,
                 settings=settings,
-                nodes=build_nodes(settings),
-                evaluate=escalation_evaluator(),
             )
     except DosimeterError as error:
-        _LOGGER.error("assess.failed", extra={"detail": str(error)})
+        logger.error("assess.failed", extra={"detail": str(error)})
         return EXIT_FAILED
 
     lines = [
@@ -160,11 +156,10 @@ def _assess(exposure_id: str, officer_code: str, settings: Settings) -> int:
         f"outcome:   {result.outcome}",
         f"run id:    {result.run_id}",
         f"duration:  {result.duration_seconds:.2f} s",
+        f"triggers:  {result.eligibility.outcome.reason()}",
     ]
-    if result.eligibility is not None:
-        lines.append(f"triggers:  {result.eligibility.outcome.reason()}")
-        if result.escalated:
-            lines.append(f"queued as: {result.eligibility.queue_id}")
+    if result.escalated:
+        lines.append(f"queued as: {result.eligibility.queue_id}")
 
     sys.stdout.write("\n".join(lines) + "\n")
     return 0
@@ -180,7 +175,7 @@ def _trace(exposure_id: str) -> int:
         with session_scope() as session:
             rendered = render_trace(session, exposure_id)
     except DosimeterError as error:
-        _LOGGER.error("trace.failed", extra={"detail": str(error)})
+        logger.error("trace.failed", extra={"detail": str(error)})
         return EXIT_FAILED
 
     sys.stdout.write(rendered + "\n")
@@ -197,7 +192,7 @@ def _queue(officer_code: str) -> int:
         with session_scope() as session:
             entries = queue_entries(session, officer_code)
     except DosimeterError as error:
-        _LOGGER.error("queue.failed", extra={"detail": str(error)})
+        logger.error("queue.failed", extra={"detail": str(error)})
         return EXIT_FAILED
 
     if not isinstance(entries, list):
@@ -231,7 +226,7 @@ def _review(exposure_id: str, officer_code: str, decision: str | None, note: str
             else:
                 rendered = record_from_cli(session, exposure_id, officer_code, decision, note)
     except DosimeterError as error:
-        _LOGGER.error("review.failed", extra={"detail": str(error)})
+        logger.error("review.failed", extra={"detail": str(error)})
         return EXIT_FAILED
 
     sys.stdout.write(rendered + "\n")

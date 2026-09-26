@@ -1,66 +1,10 @@
-"""
-The typed state the graph carries, and the reducers
-"""
-
-from __future__ import annotations
+""" State that will be used by every node in our graph """
 
 import operator
 from typing import Annotated, Any, TypedDict
 
-from pydantic import BaseModel, ConfigDict, Field
-
-from dosimeter.graph.threads import Participant
-
-WORKER_NAMES = ("notification", "written_report", "equipment")
-
-
-class DispatchPlan(BaseModel):
-    """What the Coordinator decided. The model chooses what, the graph routes it."""
-
-    model_config = ConfigDict(extra="forbid", frozen=True)
-
-    workers: list[str] = Field(default_factory=list)
-    goals: dict[str, str] = Field(default_factory=dict)
-    rationale: str = ""
-    redispatch_trigger: str | None = None
-
-    def validated_workers(self) -> list[str]:
-        unknown = [name for name in self.workers if name not in WORKER_NAMES]
-        if unknown:
-            raise ValueError(f"unknown workers in dispatch plan: {', '.join(unknown)}")
-        return list(self.workers)
-
-
-class WorkerProposal(BaseModel):
-    """One worker's output. Proposals are validated and never written by a tool."""
-
-    model_config = ConfigDict(extra="forbid", frozen=True)
-
-    worker: str
-    kind: str
-    payload: dict[str, Any] = Field(default_factory=dict)
-    citations: list[str] = Field(default_factory=list)
-
-
-class ReviewerVerdict(BaseModel):
-    model_config = ConfigDict(extra="forbid", frozen=True)
-
-    iteration: int
-    worker: str
-    verdict: str
-    reason: str = ""
-
-
-class Subject(BaseModel):
-    """Who and what this run is about. Never model-editable, never a tool argument."""
-
-    model_config = ConfigDict(extra="forbid", frozen=True)
-
-    session_id: str
-    officer_id: int
-    officer_code: str
-    exposure_id: str
-    worker_id: str | None = None
+from dosimeter.graph.schemas import DispatchPlan, ReviewerVerdict, Subject, WorkerProposal
+from dosimeter.harness.escalation import EscalationOutcome
 
 
 def merge_proposals(
@@ -92,7 +36,7 @@ class GraphState(TypedDict, total=False):
     rule_invocations: Annotated[list[dict[str, Any]], operator.add]
     retrieval_log: Annotated[list[dict[str, Any]], operator.add]
     usage: Annotated[dict[str, int], add_usage]
-    escalation_signals: Annotated[list[str], operator.add]
+    escalation: EscalationOutcome | None
     outcome: str | None
 
 
@@ -106,10 +50,6 @@ def initial_state(subject: Subject) -> GraphState:
         rule_invocations=[],
         retrieval_log=[],
         usage={},
-        escalation_signals=[],
+        escalation=None,
         outcome=None,
     )
-
-
-def participant_for(worker: str) -> Participant:
-    return Participant(worker)

@@ -6,8 +6,6 @@ PostgresSaver.from_conn_string is a context manager, and setup() creates the
 checkpoint tables.
 """
 
-from __future__ import annotations
-
 from collections.abc import Callable, Iterator
 from contextlib import contextmanager
 

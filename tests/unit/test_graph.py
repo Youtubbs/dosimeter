@@ -1,34 +1,14 @@
 """Thread ids, state reducers and routing, all without a model or a database."""
 
-from __future__ import annotations
-
 import pytest
 
 from dosimeter.config.settings import Bounds
-from dosimeter.graph.state import (
-    DispatchPlan,
-    ReviewerVerdict,
-    Subject,
-    WorkerProposal,
-    add_usage,
-    initial_state,
-    merge_proposals,
-)
-from dosimeter.graph.threads import (
-    THREAD_ID_FORMAT,
-    Participant,
-    thread_config,
-    thread_id,
-    thread_ids,
-)
-from dosimeter.graph.workflow import (
-    COORDINATOR,
-    ELIGIBILITY,
-    Nodes,
-    compile_graph,
-    route_after_coordinator,
-    route_after_reviewer,
-)
+from dosimeter.graph.graph import build_graph
+from dosimeter.graph.nodes.coordinator import route_after_coordinator
+from dosimeter.graph.nodes.reviewer import route_after_reviewer
+from dosimeter.graph.schemas import DispatchPlan, ReviewerVerdict, Subject, WorkerProposal
+from dosimeter.graph.state import add_usage, initial_state, merge_proposals
+from dosimeter.graph.threads import THREAD_ID_FORMAT, Participant, thread_config, thread_id
 
 SUBJECT = Subject(
     session_id="session-1",
@@ -47,10 +27,9 @@ def test_a_thread_id_is_the_same_string_every_time() -> None:
 
 
 def test_every_participant_gets_its_own_thread() -> None:
-    threads = thread_ids(7, "EXP-2026-0412")
+    threads = {thread_id(7, "EXP-2026-0412", item) for item in Participant}
 
-    assert len(set(threads.values())) == len(threads) == 5
-    assert threads["reviewer"] != threads["written_report"]
+    assert len(threads) == len(Participant) == 5
 
 
 def test_a_different_officer_or_exposure_is_a_different_thread() -> None:
@@ -102,10 +81,10 @@ def test_routing_follows_the_plan_rather_than_dispatching_everything() -> None:
 
 def test_no_plan_and_an_empty_plan_both_skip_the_workers() -> None:
     state = initial_state(SUBJECT)
-    assert route_after_coordinator(state) == [ELIGIBILITY]
+    assert route_after_coordinator(state) == ["eligibility_check"]
 
     state["dispatch_plan"] = DispatchPlan(workers=[])
-    assert route_after_coordinator(state) == [ELIGIBILITY]
+    assert route_after_coordinator(state) == ["eligibility_check"]
 
 
 def test_a_rejection_goes_back_to_the_coordinator() -> None:
@@ -115,7 +94,7 @@ def test_a_rejection_goes_back_to_the_coordinator() -> None:
     ]
     state["reviewer_iterations"] = 1
 
-    assert route_after_reviewer(state, Bounds()) == COORDINATOR
+    assert route_after_reviewer(state, iteration_cap=3) == "coordinator"
 
 
 def test_the_iteration_cap_ends_the_cycle_even_on_a_rejection() -> None:
@@ -125,7 +104,7 @@ def test_the_iteration_cap_ends_the_cycle_even_on_a_rejection() -> None:
     ]
     state["reviewer_iterations"] = 3
 
-    assert route_after_reviewer(state, Bounds(reviewer_iteration_cap=3)) == ELIGIBILITY
+    assert route_after_reviewer(state, iteration_cap=3) == "eligibility_check"
 
 
 def test_an_approval_falls_through_to_the_eligibility_check() -> None:
@@ -134,10 +113,12 @@ def test_an_approval_falls_through_to_the_eligibility_check() -> None:
         ReviewerVerdict(iteration=1, worker="notification", verdict="approved")
     ]
 
-    assert route_after_reviewer(state, Bounds()) == ELIGIBILITY
+    assert route_after_reviewer(state, iteration_cap=3) == "eligibility_check"
 
 
-def build_test_graph(dispatched: list[str]):
+def build_test_graph(monkeypatch: pytest.MonkeyPatch, dispatched: list[str]):
+    """The real graph, with stand-in node bodies swapped in before it is built."""
+
     def coordinator(state):
         return {"dispatch_plan": DispatchPlan(workers=dispatched, rationale="test")}
 
@@ -158,24 +139,17 @@ def build_test_graph(dispatched: list[str]):
             "reviewer_iterations": state.get("reviewer_iterations", 0) + 1,
         }
 
-    def eligibility(state):
-        return {"outcome": "ready_for_officer"}
+    monkeypatch.setattr("dosimeter.graph.graph.coordinator_node", coordinator)
+    monkeypatch.setattr("dosimeter.graph.graph.notification_node", worker("notification"))
+    monkeypatch.setattr("dosimeter.graph.graph.written_report_node", worker("written_report"))
+    monkeypatch.setattr("dosimeter.graph.graph.equipment_node", worker("equipment"))
+    monkeypatch.setattr("dosimeter.graph.graph.reviewer_node", reviewer)
 
-    return compile_graph(
-        Nodes(
-            coordinator=coordinator,
-            notification=worker("notification"),
-            written_report=worker("written_report"),
-            equipment=worker("equipment"),
-            reviewer=reviewer,
-            eligibility_check=eligibility,
-        ),
-        Bounds(),
-    )
+    return build_graph(Bounds())
 
 
-def test_two_parallel_legs_both_land_in_the_state() -> None:
-    app = build_test_graph(["notification", "written_report"])
+def test_two_parallel_legs_both_land_in_the_state(monkeypatch: pytest.MonkeyPatch) -> None:
+    app = build_test_graph(monkeypatch, ["notification", "written_report"])
 
     result = app.invoke(initial_state(SUBJECT))
 
@@ -184,14 +158,15 @@ def test_two_parallel_legs_both_land_in_the_state() -> None:
     assert result["outcome"] == "ready_for_officer"
 
 
-def test_the_equipment_leg_only_runs_when_the_plan_says_so() -> None:
-    result = build_test_graph(["notification"]).invoke(initial_state(SUBJECT))
+def test_the_equipment_leg_only_runs_when_the_plan_says_so(monkeypatch: pytest.MonkeyPatch) -> None:
+    result = build_test_graph(monkeypatch, ["notification"]).invoke(initial_state(SUBJECT))
 
     assert sorted(result["proposals"]) == ["notification"]
 
 
-def test_a_turn_with_no_workers_still_reaches_the_end() -> None:
-    result = build_test_graph([]).invoke(initial_state(SUBJECT))
+def test_a_turn_with_no_workers_still_reaches_the_end(monkeypatch: pytest.MonkeyPatch) -> None:
+    result = build_test_graph(monkeypatch, []).invoke(initial_state(SUBJECT))
 
     assert result["proposals"] == {}
     assert result["outcome"] == "ready_for_officer"
+    assert result["escalation"].reason() == "no trigger fired"

@@ -4,8 +4,6 @@ a body or a query argument, so swapping the local stub for gateway-propagated
 identity later is a configuration change rather than a rewrite.
 """
 
-from __future__ import annotations
-
 from collections.abc import Mapping
 
 from pydantic import BaseModel, ConfigDict, Field

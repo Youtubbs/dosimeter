@@ -1,7 +1,5 @@
 """Small stand-ins the database tests share."""
 
-from __future__ import annotations
-
 from dosimeter.config.settings import Bounds
 from dosimeter.harness.budgets import SessionLedger
 

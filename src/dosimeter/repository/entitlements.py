@@ -3,8 +3,6 @@ Who is allowed to read what. An officer holds grants over districts, and a call
 without a grant gets a denial object back, never an empty list.
 """
 
-from __future__ import annotations
-
 from sqlalchemy.orm import Session
 
 from dosimeter.repository import queries
@@ -14,8 +12,6 @@ from dosimeter.repository.models import (
     ReviewQueueItem,
     SimilarExposure,
 )
-
-DISTRICTS = ("District 1", "District 2", "District 3", "District 4")
 
 UNKNOWN_OFFICER = "unknown_officer"
 NO_GRANTS = "no_grants"
@@ -72,16 +68,6 @@ def exposure_for_officer(
             district=exposure.district,
         )
     return exposure
-
-
-def exposures_for_officer(
-    session: Session,
-    officer_code: str,
-) -> list[Exposure] | EntitlementDenial:
-    districts = check_officer(session, officer_code)
-    if isinstance(districts, EntitlementDenial):
-        return districts
-    return queries.list_exposures_in_districts(session, districts)
 
 
 def review_queue_for_officer(

@@ -7,9 +7,12 @@ They run against the compose database. Start it with:
 
 Set DOSIMETER_TEST_URL to point somewhere else. When nothing answers, these
 tests skip, so a clone without Docker still runs the suite.
-"""
 
-from __future__ import annotations
+Every test drops and recreates the public schema of that database, so point it
+at a database you do not mind losing, such as a separate dosimeter_test
+database. The assess test opens its checkpointer from the DOSIMETER_DB_*
+settings, so set DOSIMETER_DB_NAME to the same database.
+"""
 
 import os
 from collections.abc import Iterator

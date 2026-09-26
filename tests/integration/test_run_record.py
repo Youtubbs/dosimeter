@@ -1,22 +1,13 @@
 """The run record writer, the eligibility check and what trace renders."""
 
-from __future__ import annotations
-
-
 import pytest
 from sqlalchemy import func, select
 
 from dosimeter.config.settings import Settings
-from dosimeter.graph.state import DispatchPlan, ReviewerVerdict, WorkerProposal
-from dosimeter.graph.workflow import Nodes
+from dosimeter.graph.schemas import DispatchPlan, ReviewerVerdict, WorkerProposal
 from dosimeter.harness.assess import run_assess
-from dosimeter.harness.eligibility import check_eligibility
-from dosimeter.harness.escalation import (
-    EscalationOutcome,
-    FiredTrigger,
-    Trigger,
-    TriggerSignals,
-)
+from dosimeter.harness.eligibility import record_eligibility
+from dosimeter.harness.escalation import EscalationOutcome, FiredTrigger, Trigger
 from dosimeter.harness.run_record import RunRecorder
 from dosimeter.harness.trace import render_trace
 from dosimeter.logging_config import correlation_scope
@@ -143,26 +134,21 @@ def test_a_correction_is_a_new_row_pointing_at_the_original(seeded: Session) -> 
     assert seeded.scalar(select(func.count()).select_from(orm.RunRecordRow)) == 2
 
 
-def fires(*triggers: Trigger):
-    def evaluate(signals: TriggerSignals) -> EscalationOutcome:
-        return EscalationOutcome(
-            evaluated=list(Trigger),
-            fired=[FiredTrigger(trigger=item, detail="") for item in triggers],
-        )
-
-    return evaluate
-
+def fired(*triggers: Trigger) -> EscalationOutcome:
+    return EscalationOutcome(
+        evaluated=list(Trigger),
+        fired=[FiredTrigger(trigger=item, detail="") for item in triggers],
+    )
 
 
 def test_a_fired_trigger_queues_the_dossier_naming_every_trigger(seeded: Session) -> None:
     recorder = recorder_for(seeded)
 
-    result = check_eligibility(
+    result = record_eligibility(
         session=seeded,
         exposure_id=EXPOSURE,
         district="District 2",
-        signals=TriggerSignals(notification_required_rules=["R1"]),
-        evaluate=fires(Trigger.NOTIFICATION_REQUIRED, Trigger.AT_OR_ABOVE_ANNUAL_LIMIT),
+        outcome=fired(Trigger.NOTIFICATION_REQUIRED, Trigger.AT_OR_ABOVE_ANNUAL_LIMIT),
         recorder=recorder,
     )
 
@@ -174,8 +160,9 @@ def test_a_fired_trigger_queues_the_dossier_naming_every_trigger(seeded: Session
     assert "dose_at_or_above_annual_limit" in queued[0].reason
 
 
+def dispatch_two_workers(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Swap in node bodies that plan two workers and approve on the first review."""
 
-def nodes_that_dispatch_two_workers() -> Nodes:
     def coordinator(state):
         return {
             "dispatch_plan": DispatchPlan(
@@ -202,37 +189,40 @@ def nodes_that_dispatch_two_workers() -> Nodes:
             "reviewer_iterations": state.get("reviewer_iterations", 0) + 1,
         }
 
-    return Nodes(
-        coordinator=coordinator,
-        notification=worker("notification"),
-        written_report=worker("written_report"),
-        equipment=worker("equipment"),
-        reviewer=reviewer,
-        eligibility_check=lambda state: {"outcome": "ready_for_officer"},
+    monkeypatch.setattr("dosimeter.graph.graph.coordinator_node", coordinator)
+    monkeypatch.setattr("dosimeter.graph.graph.notification_node", worker("notification"))
+    monkeypatch.setattr("dosimeter.graph.graph.written_report_node", worker("written_report"))
+    monkeypatch.setattr("dosimeter.graph.graph.reviewer_node", reviewer)
+    monkeypatch.setattr(
+        "dosimeter.graph.nodes.eligibility.evaluate",
+        lambda signals: fired(Trigger.AT_OR_ABOVE_ANNUAL_LIMIT),
     )
 
 
-def test_assess_runs_the_graph_and_persists_the_dossier_and_record(seeded: Session) -> None:
+def test_assess_runs_the_graph_and_persists_the_dossier_and_record(
+    seeded: Session,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     from dosimeter.graph.checkpointer import setup_checkpointer
     from tests.integration.test_checkpointer import database_settings
 
     setup_checkpointer(database_settings())
+    dispatch_two_workers(monkeypatch)
 
     result = run_assess(
         session=seeded,
         exposure_id=EXPOSURE,
         officer_code=OFFICER,
         settings=settings_for_tests(),
-        nodes=nodes_that_dispatch_two_workers(),
-        evaluate=fires(Trigger.AT_OR_ABOVE_ANNUAL_LIMIT),
     )
 
     dossier = queries.latest_dossier(seeded, EXPOSURE)
     detail = queries.run_record_detail(seeded, result.run_id)
 
-    assert result.outcome == "ready_for_officer"
+    assert result.outcome == "escalated"
     assert result.escalated
     assert dossier.payload["workers"] == ["notification", "written_report"]
+    assert dossier.payload["escalation_signals"] == ["dose_at_or_above_annual_limit"]
     assert {item.worker for item in detail["dispatches"]} == {"notification", "written_report"}
     assert detail["reviewer_verdicts"][0].verdict == "approved"
     assert result.duration_seconds < 30
