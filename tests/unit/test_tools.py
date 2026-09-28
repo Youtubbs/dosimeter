@@ -1,5 +1,7 @@
 """The tool contract: no subject in a schema, stable keys, structured errors."""
 
+from enum import Enum
+
 import pytest
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -55,6 +57,7 @@ ECHO_TOOL = Tool(
     name="echo",
     description="Repeat the question back, for tests.",
     input_model=EchoInput,
+    output_model=EchoOutput,
     handler=echo,
 )
 
@@ -80,6 +83,79 @@ def dispatcher(*tools: Tool, bounds: Bounds | None = None, recorder=None) -> Too
     )
 
 
+class StrictJsonChoice(str, Enum):
+    NONE = "none"
+    REQUIRED = "required"
+
+
+class StrictJsonInput(BaseModel):
+    model_config = ConfigDict(
+        strict=True,
+        extra="forbid",
+    )
+
+    choice: StrictJsonChoice
+    citations: tuple[str, ...]
+
+
+class StrictJsonOutput(BaseModel):
+    model_config = ConfigDict(
+        strict=True,
+        extra="forbid",
+    )
+
+    accepted: bool
+
+
+def strict_json_handler(
+    subject: Subject,
+    arguments: BaseModel,
+) -> BaseModel:
+    del subject
+
+    assert isinstance(arguments, StrictJsonInput)
+    assert arguments.choice == StrictJsonChoice.NONE
+    assert arguments.citations == (
+        "source-a",
+        "source-b",
+    )
+
+    return StrictJsonOutput(
+        accepted=True,
+    )
+
+
+def test_dispatcher_accepts_json_for_strict_input_model() -> None:
+    tool = Tool(
+        name="strict_json_tool",
+        description="Test the strict JSON tool boundary.",
+        input_model=StrictJsonInput,
+        output_model=StrictJsonOutput,
+        handler=strict_json_handler,
+    )
+
+    strict_dispatcher = dispatcher(tool)
+
+    response = strict_dispatcher.invoke(
+        "strict_json_tool",
+        {
+            "choice": "none",
+            "citations": [
+                "source-a",
+                "source-b",
+            ],
+        },
+    )
+
+    assert response.ok is True
+    assert response.error is None
+    assert response.value is not None
+    assert response.value["accepted"] is True
+
+    assert len(strict_dispatcher.invocations) == 1
+    assert strict_dispatcher.invocations[0].outcome == "ok"
+
+
 def test_no_tool_schema_takes_the_subject() -> None:
     tools = [ECHO_TOOL, *ApiToolset(transport=None).tools()]
 
@@ -93,7 +169,17 @@ def test_registering_a_tool_that_takes_a_subject_is_refused() -> None:
         exposure_id: str
 
     with pytest.raises(DosimeterError):
-        build_registry([Tool(name="bad", description="takes what it must not", input_model=Bad, handler=echo)])
+        build_registry(
+            [
+                Tool(
+                    name="bad",
+                    description="takes what it must not",
+                    input_model=Bad,
+                    output_model=EchoOutput,
+                    handler=echo,
+                )
+            ]
+        )
 
 
 def test_the_subject_reaches_the_handler_without_being_an_argument() -> None:
@@ -119,7 +205,13 @@ def test_arguments_that_miss_the_schema_come_back_as_an_error() -> None:
 
 
 def test_a_failing_tool_returns_an_error_rather_than_raising() -> None:
-    tool = Tool(name="flaky", description="always fails", input_model=EchoInput, handler=failing)
+    tool = Tool(
+        name="flaky",
+        description="always fails",
+        input_model=EchoInput,
+        output_model=EchoOutput,
+        handler=failing,
+    )
 
     response = dispatcher(tool).invoke("flaky", {"question": "q"})
 

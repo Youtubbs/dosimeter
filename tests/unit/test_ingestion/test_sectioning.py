@@ -26,24 +26,15 @@ def test_get_text_lines_extracts_line_blocks():
 
 
 def test_cfr_heading_is_detected():
-    assert is_section_heading(
-        "§ 20.1201 Occupational dose limits for adults."
-    )
+    assert is_section_heading("§ 20.1201 Occupational dose limits for adults.")
 
 
 def test_non_heading_is_not_detected():
-    assert not is_section_heading(
-        "(a) The licensee shall control..."
-    )
+    assert not is_section_heading("(a) The licensee shall control...")
 
 
 def test_extract_section_path():
-    assert (
-        extract_section_path(
-            "§ 20.1201 Occupational dose limits for adults."
-        )
-        == "§ 20.1201"
-    )
+    assert extract_section_path("§ 20.1201 Occupational dose limits for adults.") == "§ 20.1201"
 
 
 def test_build_sections():

@@ -69,6 +69,7 @@ def test_create_rule_invocation() -> None:
 
     invocation = RuleInvocation(
         rule_id="R1",
+        path="harness",
         inputs={
             "shallow_dose": "310 rad",
         },
@@ -76,8 +77,9 @@ def test_create_rule_invocation() -> None:
     )
 
     assert invocation.rule_id == "R1"
+    assert invocation.path == "harness"
+    assert invocation.inputs["shallow_dose"] == "310 rad"
     assert invocation.result == result
-    assert invocation.result.outcome == RuleOutcome.REQUIRED
 
 
 def test_insufficient_data_result() -> None:

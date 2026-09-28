@@ -88,6 +88,7 @@ class ApiToolset:
                     "session, with the Textract confidence for each field."
                 ),
                 input_model=GetExposureExtractionInput,
+                output_model=ExposureExtraction,
                 handler=self.get_exposure_extraction,
             ),
             Tool(
@@ -98,6 +99,7 @@ class ApiToolset:
                     "decided it. Candidates are evidence, never a conclusion."
                 ),
                 input_model=FindSimilarExposuresInput,
+                output_model=SimilarExposures,
                 handler=self.find_similar_exposures,
             ),
         ]

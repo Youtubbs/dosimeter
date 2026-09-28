@@ -8,9 +8,11 @@ workers, reviewers, guardrails, evaluation, and dossier gen.
 """
 
 from enum import Enum
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
+
+RuleInvocationPath = Literal["harness", "tool"]
 
 
 class RuleOutcome(str, Enum):
@@ -91,3 +93,5 @@ class RuleInvocation(BaseModel):
     inputs: dict[str, Any]
 
     result: RuleResult
+
+    path: RuleInvocationPath
