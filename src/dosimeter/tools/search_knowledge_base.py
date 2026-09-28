@@ -21,6 +21,7 @@ class KnowledgeBaseSearchInput(BaseModel):
     k: int = Field(default=4, ge=1, le=10)
     status: Status | None = None
 
+
 class KnowledgeBaseSource(BaseModel):
     """One retrieved regulatory source."""
 
@@ -68,10 +69,7 @@ def _search_knowledge_base(
             found=False,
             query=arguments.query,
             sources=[],
-            refusal_reason=(
-                "No regulatory evidence met the retrieval threshold "
-                "for this query."
-            ),
+            refusal_reason=("No regulatory evidence met the retrieval threshold for this query."),
         )
 
     sources: list[KnowledgeBaseSource] = []
@@ -86,11 +84,7 @@ def _search_knowledge_base(
                 title=str(metadata.get("title", "")),
                 doc_type=str(metadata.get("doc_type", "")),
                 section_path=str(metadata.get("section_path", "")),
-                page=(
-                    int(metadata["page"])
-                    if metadata.get("page") is not None
-                    else None
-                ),
+                page=(int(metadata["page"]) if metadata.get("page") is not None else None),
                 status=metadata.get("status", "in_force"),
                 score=float(metadata.get("score", 0.0)),
                 text=document.page_content,

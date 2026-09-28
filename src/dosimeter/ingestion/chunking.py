@@ -1,10 +1,11 @@
-""" Structure-aware chunking for regulatory corpus documents """
+"""Structure-aware chunking for regulatory corpus documents"""
 
 from pydantic import BaseModel, ConfigDict
 import hashlib
 
 DEFAULT_CHUNK_SIZE = 1000
 DEFAULT_CHUNK_OVERLAP = 100
+
 
 class CorpusSection(BaseModel):
     """A section of a regulatory document extracted from Textract."""
@@ -18,6 +19,7 @@ class CorpusSection(BaseModel):
     section_path: str
     page: int
     text: str
+
 
 class CorpusChunk(BaseModel):
     """A chunk ready to be indexed in the Knowledge Base."""
@@ -45,13 +47,7 @@ def create_chunk_id(
 ) -> str:
     """Create a stable deterministic ID for a chunk."""
 
-    raw = (
-        f"{doc_id}|"
-        f"{section_path}|"
-        f"{page}|"
-        f"{chunk_index}|"
-        f"{text}"
-    )
+    raw = f"{doc_id}|{section_path}|{page}|{chunk_index}|{text}"
 
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()
 
@@ -70,9 +66,7 @@ def split_by_size(
         raise ValueError("chunk_overlap cannot be negative.")
 
     if chunk_overlap >= chunk_size:
-        raise ValueError(
-            "chunk_overlap must be smaller than chunk_size."
-        )
+        raise ValueError("chunk_overlap must be smaller than chunk_size.")
 
     text = text.strip()
 

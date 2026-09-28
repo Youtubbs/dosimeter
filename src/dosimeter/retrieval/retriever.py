@@ -37,9 +37,7 @@ def load_corpus_chunks() -> list[Document]:
         metadata: dict = {}
 
         if metadata_path.exists():
-            raw_metadata = json.loads(
-                metadata_path.read_text(encoding="utf-8")
-            )
+            raw_metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
 
             metadata_attributes = raw_metadata.get(
                 "metadataAttributes",
@@ -70,11 +68,13 @@ class ScoreThresholdRetriever(BaseRetriever):
     store: InMemoryVectorStore
     k: int = 4
     threshold: float = THRESHOLD
-    status : Status | None = None
+    status: Status | None = None
 
     model_config = {"arbitrary_types_allowed": True}
 
-    def _get_relevant_documents(self, query: str, *, run_manager: CallbackManagerForRetrieverRun) -> list[Document]:
+    def _get_relevant_documents(
+        self, query: str, *, run_manager: CallbackManagerForRetrieverRun
+    ) -> list[Document]:
 
         hits = self.store.similarity_search_with_score(
             query,
@@ -87,10 +87,7 @@ class ScoreThresholdRetriever(BaseRetriever):
             if score < self.threshold:
                 continue
 
-            if (
-                self.status is not None
-                and document.metadata.get("status") != self.status
-            ):
+            if self.status is not None and document.metadata.get("status") != self.status:
                 continue
 
             documents.append(
@@ -105,11 +102,10 @@ class ScoreThresholdRetriever(BaseRetriever):
 
         return documents
 
+
 @lru_cache(maxsize=None)
 def build_local_retriever(
-    k: int = 4,
-    threshold: float = THRESHOLD,
-    status : Status | None = None
+    k: int = 4, threshold: float = THRESHOLD, status: Status | None = None
 ) -> BaseRetriever:
     """Build the local in-memory retriever for development."""
 
@@ -125,12 +121,7 @@ def build_local_retriever(
         embedding=embeddings,
     )
 
-    return ScoreThresholdRetriever(
-        store=store,
-        k=k,
-        threshold=threshold,
-        status=status
-    )
+    return ScoreThresholdRetriever(store=store, k=k, threshold=threshold, status=status)
 
 
 def build_kb_retriever(
@@ -176,8 +167,4 @@ def get_retriever(
             status=status,
         )
 
-    return build_local_retriever(
-        k=k,
-        threshold=threshold,
-        status=status
-    )
+    return build_local_retriever(k=k, threshold=threshold, status=status)

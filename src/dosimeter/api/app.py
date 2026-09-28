@@ -91,7 +91,10 @@ def create_app(
             return _denied(NO_IDENTITY, "this call carries no verified identity", "unknown")
 
         arguments = GetExposureExtractionInput.model_validate(
-            {"include_low_confidence": request.args.get("include_low_confidence", "true") != "false"}
+            {
+                "include_low_confidence": request.args.get("include_low_confidence", "true")
+                != "false"
+            }
         )
 
         with correlation_scope(), session() as active:
@@ -274,9 +277,7 @@ def openapi_document() -> dict[str, Any]:
                     "requestBody": {
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/FindSimilarExposuresInput"
-                                }
+                                "schema": {"$ref": "#/components/schemas/FindSimilarExposuresInput"}
                             }
                         }
                     },

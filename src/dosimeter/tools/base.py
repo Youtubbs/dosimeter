@@ -8,6 +8,7 @@ dispatcher from the session, and no tool schema may contain it.
 
 from __future__ import annotations
 
+import json
 import time
 from collections.abc import Callable
 from dataclasses import dataclass, field
@@ -104,6 +105,7 @@ class ToolRegistry:
 
     def __init__(self, tools: list[Tool] | None = None) -> None:
         self._tools: dict[str, Tool] = {}
+
         for tool in tools or []:
             self.register(tool)
 
@@ -114,6 +116,7 @@ class ToolRegistry:
                 tool=tool.name,
                 arguments=tool.subject_arguments(),
             )
+
         self._tools[tool.name] = tool
 
     def get(self, name: str) -> Tool | None:
@@ -141,8 +144,15 @@ class InvocationRecord:
 @dataclass
 class ToolDispatcher:
     """
-    Runs tools for one turn: injects the subject, enforces the invocation cap,
-    derives the idempotency key and records every call.
+    Runs tools for one turn.
+
+    The dispatcher:
+    - injects the subject
+    - enforces invocation budgets
+    - derives idempotency metadata
+    - validates JSON tool arguments
+    - invokes the handler
+    - records every call
     """
 
     registry: ToolRegistry
@@ -154,13 +164,24 @@ class ToolDispatcher:
     def disable(self, *names: str) -> None:
         self.disabled.update(names)
 
-    def invoke(self, tool_name: str, arguments: dict[str, Any] | None = None) -> ToolResponse:
+    def invoke(
+        self,
+        tool_name: str,
+        arguments: dict[str, Any] | None = None,
+    ) -> ToolResponse:
         supplied = dict(arguments or {})
+
         digest = arguments_hash(supplied)
-        key = idempotency_key(self.subject.session_id, tool_name, supplied)
+        key = idempotency_key(
+            self.subject.session_id,
+            tool_name,
+            supplied,
+        )
+
         started = time.perf_counter()
 
         tool = self.registry.get(tool_name)
+
         if tool is None:
             return self._finish(
                 tool_name,
@@ -188,6 +209,7 @@ class ToolDispatcher:
             )
 
         breach = self.ledger.check()
+
         if breach is not None:
             return self._finish(
                 tool_name,
@@ -198,10 +220,15 @@ class ToolDispatcher:
                 error=ToolError(
                     reason_code=ToolErrorCode.BUDGET_EXHAUSTED,
                     message=breach.message,
-                    detail={"ceiling": breach.ceiling, "limit": breach.limit},
+                    detail={
+                        "ceiling": breach.ceiling,
+                        "limit": breach.limit,
+                    },
                 ),
             )
 
+        # The model must never be allowed to choose the record/person
+        # that the tool operates on. The dispatcher injects Subject.
         for name in supplied:
             if name.lower() in SUBJECT_ARGUMENT_NAMES:
                 return self._finish(
@@ -212,14 +239,29 @@ class ToolDispatcher:
                     started,
                     error=ToolError(
                         reason_code=ToolErrorCode.INVALID_ARGUMENTS,
-                        message="the subject is injected by the dispatcher, not chosen",
+                        message=("the subject is injected by the dispatcher, not chosen"),
                         detail={"argument": name},
                     ),
                 )
 
+        # Bedrock toolUse input is JSON-compatible data. Validate through
+        # Pydantic's JSON boundary so strict domain models can still accept
+        # legitimate JSON representations such as enum strings and arrays
+        # that represent tuples.
         try:
-            parsed = tool.input_model.model_validate(supplied)
-        except ValidationError as error:
+            parsed = tool.input_model.model_validate_json(json.dumps(supplied))
+        except (ValidationError, TypeError, ValueError) as error:
+            detail: dict[str, Any]
+
+            if isinstance(error, ValidationError):
+                detail = {
+                    "errors": error.errors(include_url=False),
+                }
+            else:
+                detail = {
+                    "error": str(error),
+                }
+
             return self._finish(
                 tool_name,
                 digest,
@@ -229,14 +271,18 @@ class ToolDispatcher:
                 error=ToolError(
                     reason_code=ToolErrorCode.INVALID_ARGUMENTS,
                     message="the arguments did not match the tool schema",
-                    detail={"errors": error.errors(include_url=False)},
+                    detail=detail,
                 ),
             )
 
         self.ledger.record_tool_invocation()
 
         try:
-            result = tool.handler(self.subject, parsed)
+            result = tool.handler(
+                self.subject,
+                parsed,
+            )
+
         except BudgetError as error:
             return self._finish(
                 tool_name,
@@ -249,6 +295,7 @@ class ToolDispatcher:
                     message=str(error),
                 ),
             )
+
         except DosimeterError as error:
             return self._finish(
                 tool_name,
@@ -256,11 +303,62 @@ class ToolDispatcher:
                 key,
                 supplied,
                 started,
-                error=ToolError(reason_code=ToolErrorCode.INTERNAL, message=str(error)),
+                error=ToolError(
+                    reason_code=ToolErrorCode.INTERNAL,
+                    message=str(error),
+                ),
             )
 
+        except Exception as error:
+            _LOGGER.exception(
+                "tool.handler_failed",
+                extra={"tool": tool_name},
+            )
+
+            return self._finish(
+                tool_name,
+                digest,
+                key,
+                supplied,
+                started,
+                error=ToolError(
+                    reason_code=ToolErrorCode.INTERNAL,
+                    message="the tool failed",
+                    detail={
+                        "error_type": type(error).__name__,
+                    },
+                ),
+            )
+
+        # A handler may intentionally return a ToolError, for example when
+        # an external API becomes unavailable.
         if isinstance(result, ToolError):
-            return self._finish(tool_name, digest, key, supplied, started, error=result)
+            return self._finish(
+                tool_name,
+                digest,
+                key,
+                supplied,
+                started,
+                error=result,
+            )
+
+        # Protect the dispatcher boundary from a handler returning the wrong
+        # output model.
+        if not isinstance(result, tool.output_model):
+            try:
+                result = tool.output_model.model_validate(result)
+            except ValidationError:
+                return self._finish(
+                    tool_name,
+                    digest,
+                    key,
+                    supplied,
+                    started,
+                    error=ToolError(
+                        reason_code=ToolErrorCode.INTERNAL,
+                        message="the tool returned an invalid result",
+                    ),
+                )
 
         return self._finish(
             tool_name,
@@ -268,7 +366,7 @@ class ToolDispatcher:
             key,
             supplied,
             started,
-            value=result.model_dump(mode="json"),
+            result=result,
         )
 
     def _finish(
@@ -278,38 +376,62 @@ class ToolDispatcher:
         key: str,
         arguments: dict[str, Any],
         started: float,
-        value: dict[str, Any] | None = None,
+        *,
+        result: BaseModel | None = None,
         error: ToolError | None = None,
     ) -> ToolResponse:
-        duration_ms = round((time.perf_counter() - started) * 1000, 3)
-        outcome = "ok" if error is None else error.reason_code.value
+        """Create the response and record the completed invocation."""
+
+        duration_ms = (time.perf_counter() - started) * 1000.0
+
+        result_data: dict[str, Any] | None = None
+
+        if result is not None:
+            # Keep Python-mode values in the invocation record. This preserves
+            # strict domain types such as enums and tuples for downstream
+            # worker reconstruction.
+            result_data = result.model_dump()
+
+        outcome = "ok" if error is None else "error"
 
         self.invocations.append(
             InvocationRecord(
                 tool=tool_name,
                 arguments_sha256=digest,
                 arguments=arguments,
-                result=value,
+                result=result_data,
                 outcome=outcome,
                 duration_ms=duration_ms,
             )
         )
-        _LOGGER.info(
-            "tool.invoked",
-            extra={
-                "tool": tool_name,
-                "outcome": outcome,
-                "arguments_sha256": digest,
-                "duration_ms": duration_ms,
-            },
-        )
+
+        if error is not None:
+            return ToolResponse(
+                tool=tool_name,
+                ok=False,
+                error=error,
+                idempotency_key=key,
+                arguments_sha256=digest,
+                duration_ms=duration_ms,
+            )
 
         return ToolResponse(
             tool=tool_name,
-            ok=error is None,
-            value=value,
-            error=error,
+            ok=True,
+            value=result_data,
             idempotency_key=key,
             arguments_sha256=digest,
             duration_ms=duration_ms,
         )
+
+
+__all__ = [
+    "InvocationRecord",
+    "SUBJECT_ARGUMENT_NAMES",
+    "Tool",
+    "ToolDispatcher",
+    "ToolError",
+    "ToolErrorCode",
+    "ToolRegistry",
+    "ToolResponse",
+]

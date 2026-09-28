@@ -1,4 +1,4 @@
-""" Ingest the regulatory corpus through Amazon Textract """
+"""Ingest the regulatory corpus through Amazon Textract"""
 
 import json
 from pathlib import Path
@@ -11,13 +11,15 @@ from .s3 import calculate_content_hash, read_file_bytes
 CORPUS_DIR = Path(__file__).resolve().parents[3] / "corpus" / "pdf"
 CACHE_PREFIX = "textract-cache"
 
+
 def get_cache_key(file_name: str, content_hash: str) -> str:
-    """ Build the S3 key used to cache raw Textract results """
+    """Build the S3 key used to cache raw Textract results"""
 
     return f"{CACHE_PREFIX}/{content_hash}/{file_name}.json"
 
+
 def get_cached_results(cache_key: str) -> list[dict] | None:
-    """ Return cached Textract blocks if they exist """
+    """Return cached Textract blocks if they exist"""
 
     s3 = get_client("s3")
 
@@ -41,7 +43,7 @@ def get_cached_results(cache_key: str) -> list[dict] | None:
 
 
 def save_cached_results(cache_key: str, blocks: list[dict]) -> None:
-    """ Save raw Textract blocks to the corpus cache """
+    """Save raw Textract blocks to the corpus cache"""
 
     s3 = get_client("s3")
 
@@ -54,7 +56,7 @@ def save_cached_results(cache_key: str, blocks: list[dict]) -> None:
 
 
 def upload_corpus_document(file_path: Path) -> str:
-    """ Upload a corpus PDF to the corpus S3 bucket """
+    """Upload a corpus PDF to the corpus S3 bucket"""
 
     s3 = get_client("s3")
 
@@ -100,9 +102,7 @@ def process_corpus_document(file_path: Path) -> dict:
     blocks = extract_artifact(s3_key, CORPUS_BUCKET_NAME)
 
     if not blocks:
-        raise RuntimeError(
-            f"Textract returned no blocks for {file_path.name}"
-        )
+        raise RuntimeError(f"Textract returned no blocks for {file_path.name}")
 
     save_cached_results(
         cache_key=cache_key,
@@ -141,9 +141,7 @@ def process_corpus(corpus_dir: Path = CORPUS_DIR) -> list[dict]:
             results.append(result)
 
         except Exception as exc:
-            print(
-                f"Skipping corpus document {file_path.name}: {exc}"
-            )
+            print(f"Skipping corpus document {file_path.name}: {exc}")
 
             results.append(
                 {

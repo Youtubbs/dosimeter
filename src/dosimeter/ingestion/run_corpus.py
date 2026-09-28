@@ -16,11 +16,7 @@ def main() -> None:
         cached = result.get("cached", False)
         blocks = len(result.get("blocks", []))
 
-        print(
-            f"{document}: "
-            f"cached={cached}, "
-            f"blocks={blocks}"
-        )
+        print(f"{document}: cached={cached}, blocks={blocks}")
 
 
 if __name__ == "__main__":

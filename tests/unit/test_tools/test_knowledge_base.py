@@ -13,7 +13,6 @@ from dosimeter.tools.search_knowledge_base import (
 )
 
 
-
 class FakeRetriever(BaseModel):
     """Simple retriever used by the tests."""
 
@@ -31,9 +30,7 @@ def make_document(
     """Create a representative regulatory document."""
 
     return Document(
-        page_content=(
-            "The total effective dose equivalent must not exceed 5 rem."
-        ),
+        page_content=("The total effective dose equivalent must not exceed 5 rem."),
         metadata={
             "doc_id": "CFR-20-LIMITS",
             "chunk_id": "chunk-123",
@@ -128,8 +125,6 @@ def test_search_returns_refusal_when_no_documents() -> None:
 
     retriever = FakeRetriever(documents=[])
 
-    documents = retriever.invoke(
-        "What dose limit applies to an adult radiation worker?"
-    )
+    documents = retriever.invoke("What dose limit applies to an adult radiation worker?")
 
     assert documents == []

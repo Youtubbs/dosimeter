@@ -12,6 +12,7 @@ from .chunking import chunk_sections
 from .sectioning import build_sections
 from .corpus import process_corpus
 
+
 def ingest_packet(packet_dir):
     artifacts = upload_packet(packet_dir)
 
@@ -32,6 +33,7 @@ def ingest_packet(packet_dir):
         results.append(report)
 
     return results
+
 
 def ingest_corpus():
     """Ingest the regulatory corpus and produce Knowledge Base chunks."""
