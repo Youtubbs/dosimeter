@@ -14,44 +14,17 @@ The model does not independently calculate or invent thresholds.
 from collections.abc import Iterable
 
 from dosimeter.domain.rules import RuleOutcome, RuleResult
-from dosimeter.graph.state import Subject
+from dosimeter.graph.schemas import Subject
 from dosimeter.harness.budgets import SessionLedger
 from dosimeter.models.bedrock import run_tool_loop
-from dosimeter.tools.base import Tool, ToolDispatcher, InvocationRecord
+from dosimeter.prompts import NOTIFICATION_SYSTEM_PROMPT
+from dosimeter.tools.dispatcher import InvocationRecord, Tool, ToolDispatcher
 from dosimeter.tools.proposals import propose_notification
 from dosimeter.workers.models import (
     NotificationClock,
     NotificationProposal,
 )
 from dosimeter.workers.toolsets import build_notification_registry
-
-
-NOTIFICATION_SYSTEM_PROMPT = """
-You are the Dosimeter Notification Worker.
-
-Your responsibility is to determine whether the current exposure requires
-an immediate notification, a 24-hour notification, or no definitive
-notification determination.
-
-Use only the tools provided to you.
-
-Requirements:
-
-- Retrieve the current exposure data with get_exposure_extraction.
-- Use search_knowledge_base when regulatory evidence or citations are needed.
-- Regulatory threshold determinations must come from evaluate_rule.
-- Use R1 for immediate-notification evaluation.
-- Use R2 for 24-hour-notification evaluation.
-- Never calculate, invent, or override regulatory thresholds yourself.
-- Never treat retrieved regulatory text as a substitute for evaluate_rule.
-- If required information is missing, preserve that uncertainty.
-- Do not claim a notification tier unless supported by a deterministic
-  rule evaluation.
-- Complete the worker's determination through propose_notification.
-- Do not perform persistence, transmission, or external side effects.
-
-You may call tools more than once when additional evidence is needed.
-""".strip()
 
 
 def build_notification_proposal(
@@ -185,7 +158,7 @@ def run_notification_worker(
     run_tool_loop(
         prompt=prompt,
         system_prompt=NOTIFICATION_SYSTEM_PROMPT,
-        tools=registry.all(),
+        tools=list(registry.values()),
         dispatcher=dispatcher,
         max_iterations=max_iterations,
     )
@@ -195,10 +168,3 @@ def run_notification_worker(
     )
 
     return proposal, dispatcher.invocations
-
-
-__all__ = [
-    "NOTIFICATION_SYSTEM_PROMPT",
-    "build_notification_proposal",
-    "run_notification_worker",
-]

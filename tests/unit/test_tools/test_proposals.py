@@ -2,7 +2,7 @@
 
 import pytest
 from pydantic import ValidationError
-from dosimeter.tools.base import Tool
+from dosimeter.tools.dispatcher import Tool
 
 
 from dosimeter.domain.dose import (

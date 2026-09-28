@@ -2,11 +2,14 @@
 
 from unittest.mock import Mock, patch
 
+import pytest
+
 from dosimeter.config.settings import Bounds
-from dosimeter.graph.workflow import Nodes, compile_graph
 from dosimeter.domain.rules import RuleOutcome, RuleResult, RuleSource
-from dosimeter.graph.state import DispatchPlan, Subject, initial_state, ReviewerVerdict
-from dosimeter.tools.base import InvocationRecord
+from dosimeter.graph.graph import build_graph
+from dosimeter.graph.schemas import DispatchPlan, ReviewerVerdict, Subject
+from dosimeter.graph.state import initial_state
+from dosimeter.tools.dispatcher import InvocationRecord
 from dosimeter.workers.models import (
     NotificationClock,
     NotificationProposal,
@@ -248,7 +251,9 @@ def test_written_report_node_uses_default_prompt_without_dispatch_plan() -> None
     assert call["prompt"] == ("Evaluate whether a regulatory written report is required.")
 
 
-def test_real_worker_nodes_merge_parallel_proposals_in_graph() -> None:
+def test_real_worker_nodes_merge_parallel_proposals_in_graph(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     """Notification and written-report adapters merge into graph state."""
 
     ledger = Mock()
@@ -345,16 +350,14 @@ def test_real_worker_nodes_merge_parallel_proposals_in_graph() -> None:
             return_value=(written_report_proposal, []),
         ),
     ):
-        app = compile_graph(
-            Nodes(
-                coordinator=coordinator,
-                notification=notification_node,
-                written_report=written_report_node,
-                reviewer=reviewer,
-                eligibility_check=eligibility,
-            ),
-            Bounds(),
-        )
+        # the real graph, with these node bodies swapped in before it is built
+        monkeypatch.setattr("dosimeter.graph.graph.coordinator_node", coordinator)
+        monkeypatch.setattr("dosimeter.graph.graph.notification_node", notification_node)
+        monkeypatch.setattr("dosimeter.graph.graph.written_report_node", written_report_node)
+        monkeypatch.setattr("dosimeter.graph.graph.reviewer_node", reviewer)
+        monkeypatch.setattr("dosimeter.graph.graph.eligibility_node", eligibility)
+
+        app = build_graph(Bounds())
 
         result = app.invoke(initial_state(SUBJECT))
 

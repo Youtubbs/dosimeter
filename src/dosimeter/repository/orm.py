@@ -3,8 +3,6 @@ The tables, mapped for SQLAlchemy. The committed migrations create them; these
 classes are how the rest of the repository reads and writes them.
 """
 
-from __future__ import annotations
-
 from datetime import date, datetime
 from typing import Any
 from uuid import UUID
@@ -173,6 +171,9 @@ class RunRecordRow(Base):
     command: Mapped[str] = mapped_column(Text, nullable=False)
     turn_kind: Mapped[str] = mapped_column(Text, nullable=False)
     outcome: Mapped[str | None] = mapped_column(Text)
+    session_id: Mapped[UUID | None] = mapped_column(ForeignKey("sessions.id"))
+    corrects_run_id: Mapped[UUID | None] = mapped_column(ForeignKey("run_records.id"))
+    token_totals: Mapped[dict[str, Any]] = mapped_column(JSONB, default=dict)
     started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     finished_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
@@ -186,9 +187,10 @@ class ToolInvocationRow(Base):
     argument_sha256: Mapped[str] = mapped_column(Text, nullable=False)
     outcome: Mapped[str] = mapped_column(Text, nullable=False)
     duration_ms: Mapped[float | None] = mapped_column(Numeric(12, 3))
-    occurred_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now()
-    )
+    arguments: Mapped[dict[str, Any]] = mapped_column(JSONB, default=dict)
+    result: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
+    worker: Mapped[str | None] = mapped_column(Text)
+    occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
 class RuleInvocationRow(Base):
@@ -200,9 +202,10 @@ class RuleInvocationRow(Base):
     outcome: Mapped[str] = mapped_column(Text, nullable=False)
     threshold_named: Mapped[str | None] = mapped_column(Text)
     inputs: Mapped[dict[str, Any]] = mapped_column(JSONB, default=dict)
-    occurred_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now()
-    )
+    result: Mapped[dict[str, Any]] = mapped_column(JSONB, default=dict)
+    dose_quantity: Mapped[str | None] = mapped_column(Text)
+    path: Mapped[str | None] = mapped_column(Text)
+    occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
 class RetrievalRow(Base):
@@ -214,9 +217,9 @@ class RetrievalRow(Base):
     chunk_ids: Mapped[list[str]] = mapped_column(ARRAY(Text), default=list)
     scores: Mapped[list[float]] = mapped_column(ARRAY(Float), default=list)
     status_filter: Mapped[str | None] = mapped_column(Text)
-    occurred_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now()
-    )
+    statuses: Mapped[list[str]] = mapped_column(ARRAY(Text), default=list)
+    query_text: Mapped[str | None] = mapped_column(Text)
+    occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
 class ModelCallRow(Base):
@@ -229,9 +232,8 @@ class ModelCallRow(Base):
     input_tokens: Mapped[int] = mapped_column(Integer, default=0)
     output_tokens: Mapped[int] = mapped_column(Integer, default=0)
     duration_ms: Mapped[float | None] = mapped_column(Numeric(12, 3))
-    occurred_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now()
-    )
+    agent: Mapped[str | None] = mapped_column(Text)
+    occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
 class EscalationTriggerRow(Base):
@@ -243,9 +245,7 @@ class EscalationTriggerRow(Base):
     evaluated: Mapped[bool] = mapped_column(Boolean, default=False)
     fired: Mapped[bool] = mapped_column(Boolean, default=False)
     detail: Mapped[str | None] = mapped_column(Text)
-    occurred_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now()
-    )
+    occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
 class GuardrailEventRow(Base):
@@ -257,9 +257,53 @@ class GuardrailEventRow(Base):
     guardrail_id: Mapped[str | None] = mapped_column(Text)
     action: Mapped[str] = mapped_column(Text, nullable=False)
     detail: Mapped[dict[str, Any]] = mapped_column(JSONB, default=dict)
-    occurred_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now()
-    )
+    occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class WorkerDispatchRow(Base):
+    __tablename__ = "worker_dispatches"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    run_id: Mapped[UUID] = mapped_column(ForeignKey("run_records.id", ondelete="CASCADE"))
+    worker: Mapped[str] = mapped_column(Text, nullable=False)
+    reason: Mapped[str] = mapped_column(Text, nullable=False)
+    iteration: Mapped[int] = mapped_column(Integer, default=1)
+    redispatch_trigger: Mapped[str | None] = mapped_column(Text)
+    occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class ReviewerVerdictRow(Base):
+    __tablename__ = "reviewer_verdicts"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    run_id: Mapped[UUID] = mapped_column(ForeignKey("run_records.id", ondelete="CASCADE"))
+    iteration: Mapped[int] = mapped_column(Integer, nullable=False)
+    worker: Mapped[str] = mapped_column(Text, nullable=False)
+    verdict: Mapped[str] = mapped_column(Text, nullable=False)
+    objections: Mapped[list[Any]] = mapped_column(JSONB, default=list)
+    occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class ApprovedRecordRow(Base):
+    __tablename__ = "approved_records"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    exposure_id: Mapped[str] = mapped_column(ForeignKey("exposures.id", ondelete="CASCADE"))
+    decision_id: Mapped[int] = mapped_column(ForeignKey("review_decisions.id"))
+    idempotency_key: Mapped[str] = mapped_column(Text, nullable=False, unique=True)
+    payload: Mapped[dict[str, Any]] = mapped_column(JSONB, nullable=False)
+    approver_officer_id: Mapped[int] = mapped_column(ForeignKey("officers.id"))
+    written_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class DossierRow(Base):
+    __tablename__ = "dossiers"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    exposure_id: Mapped[str] = mapped_column(ForeignKey("exposures.id", ondelete="CASCADE"))
+    run_id: Mapped[UUID] = mapped_column(ForeignKey("run_records.id", ondelete="CASCADE"))
+    payload: Mapped[dict[str, Any]] = mapped_column(JSONB, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
 class IngestionReportRow(Base):

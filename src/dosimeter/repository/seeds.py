@@ -5,26 +5,27 @@ are read through. No row here contains a name.
     python -m dosimeter.repository.seeds
 """
 
-from __future__ import annotations
-
+import logging
 from datetime import date
 
 from sqlalchemy.orm import Session
 
 from dosimeter.errors import DosimeterError
-from dosimeter.logging_config import configure_logging, get_logger
+from dosimeter.logging_config import configure_logging
 from dosimeter.repository import queries
 from dosimeter.repository.connection import session_scope
 from dosimeter.repository.models import DistrictGrant, Exposure, WorkerDoseRecord
 
-_LOGGER = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 # Update if the packet is built with a different id.
 P4_WORKER_ID = "WKR-1047"
 
 OFFICER_DISTRICTS: dict[str, tuple[str, ...]] = {
     "OFF-101": ("District 1", "District 2"),
-    "OFF-102": ("District 3",),
+    # Two officers over District 2, so an approval can come from someone other
+    # than the officer who ran the assessment.
+    "OFF-102": ("District 2", "District 3"),
     "OFF-103": ("District 4",),
 }
 
@@ -120,9 +121,9 @@ def main() -> int:
         with session_scope() as session:
             counts = apply_seeds(session)
     except DosimeterError as error:
-        _LOGGER.error("seeds.failed", extra={"detail": str(error)})
+        logger.error("seeds.failed", extra={"detail": str(error)})
         return 1
-    _LOGGER.info("seeds.applied", extra=counts)
+    logger.info("seeds.applied", extra=counts)
     return 0
 
 

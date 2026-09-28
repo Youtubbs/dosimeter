@@ -5,13 +5,12 @@ generic WorkerProposal contract to the typed Notification and Written Report
 workers.
 """
 
-from __future__ import annotations
-
 from collections.abc import Callable, Iterable
 
-from dosimeter.graph.state import GraphState, Subject, WorkerProposal
+from dosimeter.graph.schemas import Subject, WorkerProposal
+from dosimeter.graph.state import GraphState
 from dosimeter.harness.budgets import SessionLedger
-from dosimeter.tools.base import InvocationRecord, Tool
+from dosimeter.tools.dispatcher import InvocationRecord, Tool
 from dosimeter.workers.notification import run_notification_worker
 from dosimeter.workers.written_report import run_written_report_worker
 
@@ -144,9 +143,3 @@ def make_written_report_node(
         }
 
     return written_report_node
-
-
-__all__ = [
-    "make_notification_node",
-    "make_written_report_node",
-]

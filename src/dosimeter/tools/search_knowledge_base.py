@@ -4,9 +4,9 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from dosimeter.graph.state import Subject
+from dosimeter.graph.schemas import Subject
 from dosimeter.retrieval.retriever import get_retriever
-from dosimeter.tools.base import Tool
+from dosimeter.tools.dispatcher import Tool
 
 
 Status = Literal["in_force", "proposed"]

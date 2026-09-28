@@ -7,14 +7,13 @@ Removed values are handed back with the field they came from, so the caller can
 put them in the detachable identity record and nowhere else.
 """
 
-from __future__ import annotations
-
 import json
 import re
-from collections.abc import Iterable, Mapping, Sequence
-from dataclasses import dataclass, field
+from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
+
+from pydantic import BaseModel, ConfigDict, Field
 
 REDACTED = "[redacted]"
 
@@ -76,16 +75,17 @@ def normalize_field_name(name: str) -> str:
     return _PUNCTUATION.sub(" ", name.strip().lower()).strip()
 
 
-def is_redacted_field(name: str, extra_fields: Iterable[str] = ()) -> bool:
+def is_redacted_field(name: str) -> bool:
+    """True when a field with this name holds a name or a dose history."""
+
     normalized = normalize_field_name(name)
-    if normalized in PII_FIELD_NAMES or normalized in DOSE_HISTORY_FIELD_NAMES:
-        return True
-    return normalized in {normalize_field_name(item) for item in extra_fields}
+    return normalized in PII_FIELD_NAMES or normalized in DOSE_HISTORY_FIELD_NAMES
 
 
-@dataclass(frozen=True)
-class RemovedSpan:
+class RemovedSpan(BaseModel):
     """One value that was taken out, and where it came from."""
+
+    model_config = ConfigDict(frozen=True)
 
     field_name: str
     value: str
@@ -93,13 +93,14 @@ class RemovedSpan:
     end: int | None = None
 
 
-@dataclass
-class Redaction:
+class Redaction(BaseModel):
+    """The cleaned value, plus every value that was taken out of it."""
+
     value: Any
-    removed: list[RemovedSpan] = field(default_factory=list)
+    removed: list[RemovedSpan] = Field(default_factory=list)
 
 
-def redact_text(text: str, extra_fields: Iterable[str] = ()) -> Redaction:
+def redact_text(text: str) -> Redaction:
     """Blank the value of any labelled line whose label is a redacted field."""
 
     removed: list[RemovedSpan] = []
@@ -109,7 +110,7 @@ def redact_text(text: str, extra_fields: Iterable[str] = ()) -> Redaction:
     for line in text.splitlines(keepends=True):
         stripped = line.rstrip("\r\n")
         match = _LABELLED_LINE.match(stripped)
-        if match and is_redacted_field(match.group("label"), extra_fields):
+        if match and is_redacted_field(match.group("label")):
             value = match.group("value").strip()
             start = offset + match.start("value")
             removed.append(
@@ -126,83 +127,90 @@ def redact_text(text: str, extra_fields: Iterable[str] = ()) -> Redaction:
             out_lines.append(line)
         offset += len(line)
 
-    return Redaction("".join(out_lines), removed)
+    return Redaction(value="".join(out_lines), removed=removed)
 
 
-def redact_value(value: Any, extra_fields: Iterable[str] = ()) -> Redaction:
-    """Walk a mapping, sequence or string and take out every redacted field."""
+def redact_value(value: Any) -> Redaction:
+    """Walk a mapping, list or string and take out every redacted field."""
 
     removed: list[RemovedSpan] = []
+    cleaned = _walk(value, removed)
+    return Redaction(value=cleaned, removed=removed)
 
+
+def redact(value: Any) -> Any:
+    """The cleaned value only. Log lines, run records and model calls all go through here."""
+
+    return redact_value(value).value
+
+
+def _walk(value: Any, removed: list[RemovedSpan]) -> Any:
     if isinstance(value, Mapping):
+        # a {field, value} pair, the shape the extraction pipeline produces
         if _is_field_record(value):
-            return _redact_field_record(value, extra_fields)
+            return _redact_field_record(value, removed)
 
         cleaned: dict[Any, Any] = {}
         for key, item in value.items():
-            if isinstance(key, str) and is_redacted_field(key, extra_fields):
+            if isinstance(key, str) and is_redacted_field(key):
                 removed.append(RemovedSpan(field_name=key, value=_as_text(item)))
                 cleaned[key] = REDACTED
-                continue
-            nested = redact_value(item, extra_fields)
-            cleaned[key] = nested.value
-            removed.extend(nested.removed)
-        return Redaction(cleaned, removed)
+            else:
+                cleaned[key] = _walk(item, removed)
+        return cleaned
 
     if isinstance(value, str):
-        text = redact_text(value, extra_fields)
-        return Redaction(text.value, text.removed)
+        text = redact_text(value)
+        removed.extend(text.removed)
+        return text.value
 
     if isinstance(value, Sequence) and not isinstance(value, bytes | bytearray):
-        items = []
-        for item in value:
-            nested = redact_value(item, extra_fields)
-            items.append(nested.value)
-            removed.extend(nested.removed)
-        return Redaction(type(value)(items) if isinstance(value, tuple) else items, removed)
+        items = [_walk(item, removed) for item in value]
+        return tuple(items) if isinstance(value, tuple) else items
 
-    return Redaction(value, removed)
+    return value
 
 
 def _is_field_record(value: Mapping[Any, Any]) -> bool:
-    """A {field, value} pair, the shape the extraction pipeline produces."""
-
     return "value" in value and ("field" in value or "field_key" in value or "key" in value)
 
 
-def _redact_field_record(original: Mapping[Any, Any], extra_fields: Iterable[str]) -> Redaction:
+def _redact_field_record(original: Mapping[Any, Any], removed: list[RemovedSpan]) -> dict:
     label = str(original.get("field") or original.get("field_key") or original.get("key") or "")
-    if not is_redacted_field(label, extra_fields):
-        return Redaction(dict(original), [])
-
     cleaned = dict(original)
-    cleaned["value"] = REDACTED
-    return Redaction(
-        cleaned,
-        [RemovedSpan(field_name=label, value=_as_text(original.get("value")))],
-    )
+    if is_redacted_field(label):
+        removed.append(RemovedSpan(field_name=label, value=_as_text(original.get("value"))))
+        cleaned["value"] = REDACTED
+    return cleaned
 
 
 def _as_text(value: Any) -> str:
     return value if isinstance(value, str) else json.dumps(value, default=str)
 
 
-def redact_for_model(payload: Any) -> Any:
-    """Everything sent to a model goes through here first."""
+# subject to change have to look at packet data
+def redact_fields(data: dict) -> dict:
+    """Remove sensitive identity fields from the main report.
 
-    return redact_value(payload).value
+    Sensitive fields are moved into a separate detachable section.
+    """
 
+    report_fields = []
+    detachable_identity = []
 
-def redact_for_index(payload: Any) -> Any:
-    """Everything written to the index goes through here first."""
+    for field in data.get("fields", []):
+        field_name = field.get("field", "").rstrip(":")
 
-    return redact_value(payload).value
+        if is_redacted_field(field_name):
+            detachable_identity.append(field.copy())
+        else:
+            report_fields.append(field.copy())
 
-
-def redact_for_log(payload: Any) -> Any:
-    """Everything written to a log line goes through here first."""
-
-    return redact_value(payload).value
+    return {
+        "source_artifact": data.get("source_artifact"),
+        "fields": report_fields,
+        "detachable_identity": detachable_identity,
+    }
 
 
 class IdentityVault:

@@ -9,44 +9,17 @@ The model does not independently calculate or invent thresholds.
 from collections.abc import Iterable
 
 from dosimeter.domain.rules import RuleOutcome, RuleResult
-from dosimeter.graph.state import Subject
+from dosimeter.graph.schemas import Subject
 from dosimeter.harness.budgets import SessionLedger
 from dosimeter.models.bedrock import run_tool_loop
-from dosimeter.tools.base import InvocationRecord, Tool, ToolDispatcher
+from dosimeter.prompts import WRITTEN_REPORT_SYSTEM_PROMPT
+from dosimeter.tools.dispatcher import InvocationRecord, Tool, ToolDispatcher
 from dosimeter.tools.proposals import propose_written_report
 from dosimeter.workers.models import (
     ReportingPath,
     WrittenReportProposal,
 )
 from dosimeter.workers.toolsets import build_written_report_registry
-
-
-WRITTEN_REPORT_SYSTEM_PROMPT = """
-You are the Dosimeter Written Report Worker.
-
-Your responsibility is to determine whether the current exposure requires
-a written report and which supported regulatory reporting path applies.
-
-Use only the tools provided to you.
-
-Requirements:
-
-- Retrieve the current exposure data with get_exposure_extraction.
-- Use search_knowledge_base when regulatory evidence or citations are needed.
-- Regulatory determinations must come from evaluate_rule.
-- Use R3 for the section 20.2203 written-report determination.
-- Use R4 for the planned-special-exposure / section 20.2204 path.
-- Never calculate, invent, or override regulatory thresholds yourself.
-- Never treat retrieved regulatory text as a substitute for evaluate_rule.
-- Preserve uncertainty when required evidence is missing.
-- Do not claim a reporting path unless supported by a deterministic
-  rule evaluation.
-- Complete the worker's determination through propose_written_report.
-- Do not write, persist, transmit, or submit an actual regulatory report.
-- Do not perform external side effects.
-
-You may call tools more than once when additional evidence is needed.
-""".strip()
 
 
 def build_written_report_proposal(
@@ -192,7 +165,7 @@ def run_written_report_worker(
     run_tool_loop(
         prompt=prompt,
         system_prompt=WRITTEN_REPORT_SYSTEM_PROMPT,
-        tools=registry.all(),
+        tools=list(registry.values()),
         dispatcher=dispatcher,
         max_iterations=max_iterations,
     )
@@ -202,10 +175,3 @@ def run_written_report_worker(
     )
 
     return proposal, dispatcher.invocations
-
-
-__all__ = [
-    "WRITTEN_REPORT_SYSTEM_PROMPT",
-    "build_written_report_proposal",
-    "run_written_report_worker",
-]

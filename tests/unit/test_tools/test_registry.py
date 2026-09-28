@@ -16,7 +16,7 @@ class DummyTransport:
 def test_registry_contains_expected_tools() -> None:
     registry = build_tool_registry(DummyTransport())
 
-    assert registry.names() == [
+    assert sorted(registry) == [
         "evaluate_rule",
         "find_similar_exposures",
         "get_exposure_extraction",
@@ -29,5 +29,5 @@ def test_registry_contains_expected_tools() -> None:
 def test_registered_tools_do_not_expose_subject_arguments() -> None:
     registry = build_tool_registry(DummyTransport())
 
-    for tool in registry.all():
+    for tool in registry.values():
         assert tool.subject_arguments() == []

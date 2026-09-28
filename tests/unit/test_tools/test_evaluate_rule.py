@@ -4,7 +4,7 @@ import pytest
 from pydantic import ValidationError
 
 from dosimeter.domain.rules import RuleInvocation
-from dosimeter.tools.base import Tool
+from dosimeter.tools.dispatcher import Tool
 
 from dosimeter.tools.rules import (
     EVALUATE_RULE,

@@ -3,8 +3,8 @@
 import pytest
 from pydantic import BaseModel, ConfigDict
 
-from dosimeter.graph.state import Subject
-from dosimeter.tools.base import Tool
+from dosimeter.graph.schemas import Subject
+from dosimeter.tools.dispatcher import Tool
 from dosimeter.workers.toolsets import (
     build_notification_registry,
     build_written_report_registry,
@@ -54,14 +54,14 @@ def test_notification_registry_contains_only_notification_tools() -> None:
         ],
     )
 
-    assert registry.names() == [
+    assert sorted(registry) == [
         "evaluate_rule",
         "get_exposure_extraction",
         "propose_notification",
         "search_knowledge_base",
     ]
 
-    assert "propose_written_report" not in registry.names()
+    assert "propose_written_report" not in sorted(registry)
 
 
 def test_written_report_registry_contains_only_report_tools() -> None:
@@ -75,14 +75,14 @@ def test_written_report_registry_contains_only_report_tools() -> None:
         ],
     )
 
-    assert registry.names() == [
+    assert sorted(registry) == [
         "evaluate_rule",
         "get_exposure_extraction",
         "propose_written_report",
         "search_knowledge_base",
     ]
 
-    assert "propose_notification" not in registry.names()
+    assert "propose_notification" not in sorted(registry)
 
 
 def test_missing_extraction_tool_is_rejected() -> None:

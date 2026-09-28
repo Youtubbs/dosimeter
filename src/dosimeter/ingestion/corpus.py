@@ -1,31 +1,30 @@
-"""Ingest the regulatory corpus through Amazon Textract"""
+""" Ingest the regulatory corpus through Amazon Textract """
 
 import json
 from pathlib import Path
 
 from ..aws.aws import get_client
-from ..aws.config import CORPUS_BUCKET_NAME
+from ..config.settings import get_settings
+from ..errors import ExtractionError
 from .textract import extract_artifact
 from .s3 import calculate_content_hash, read_file_bytes
 
 CORPUS_DIR = Path(__file__).resolve().parents[3] / "corpus" / "pdf"
 CACHE_PREFIX = "textract-cache"
 
-
 def get_cache_key(file_name: str, content_hash: str) -> str:
-    """Build the S3 key used to cache raw Textract results"""
+    """ Build the S3 key used to cache raw Textract results """
 
     return f"{CACHE_PREFIX}/{content_hash}/{file_name}.json"
 
-
 def get_cached_results(cache_key: str) -> list[dict] | None:
-    """Return cached Textract blocks if they exist"""
+    """ Return cached Textract blocks if they exist """
 
     s3 = get_client("s3")
 
     try:
         response = s3.get_object(
-            Bucket=CORPUS_BUCKET_NAME,
+            Bucket=get_settings().corpus_bucket,
             Key=cache_key,
         )
     except s3.exceptions.NoSuchKey:
@@ -43,12 +42,12 @@ def get_cached_results(cache_key: str) -> list[dict] | None:
 
 
 def save_cached_results(cache_key: str, blocks: list[dict]) -> None:
-    """Save raw Textract blocks to the corpus cache"""
+    """ Save raw Textract blocks to the corpus cache """
 
     s3 = get_client("s3")
 
     s3.put_object(
-        Bucket=CORPUS_BUCKET_NAME,
+        Bucket=get_settings().corpus_bucket,
         Key=cache_key,
         Body=json.dumps(blocks).encode("utf-8"),
         ContentType="application/json",
@@ -56,7 +55,7 @@ def save_cached_results(cache_key: str, blocks: list[dict]) -> None:
 
 
 def upload_corpus_document(file_path: Path) -> str:
-    """Upload a corpus PDF to the corpus S3 bucket"""
+    """ Upload a corpus PDF to the corpus S3 bucket """
 
     s3 = get_client("s3")
 
@@ -64,7 +63,7 @@ def upload_corpus_document(file_path: Path) -> str:
 
     s3.upload_file(
         str(file_path),
-        CORPUS_BUCKET_NAME,
+        get_settings().corpus_bucket,
         key,
     )
 
@@ -99,10 +98,12 @@ def process_corpus_document(file_path: Path) -> dict:
 
     s3_key = upload_corpus_document(file_path)
 
-    blocks = extract_artifact(s3_key, CORPUS_BUCKET_NAME)
+    blocks = extract_artifact(s3_key, get_settings().corpus_bucket)
 
     if not blocks:
-        raise RuntimeError(f"Textract returned no blocks for {file_path.name}")
+        raise ExtractionError(
+            f"Textract returned no blocks for {file_path.name}"
+        )
 
     save_cached_results(
         cache_key=cache_key,
@@ -126,12 +127,12 @@ def process_corpus(corpus_dir: Path = CORPUS_DIR) -> list[dict]:
     """
 
     if not corpus_dir.is_dir():
-        raise ValueError(f"Corpus directory does not exist: {corpus_dir}")
+        raise ExtractionError(f"Corpus directory does not exist: {corpus_dir}")
 
     pdf_files = sorted(corpus_dir.glob("*.pdf"))
 
     if not pdf_files:
-        raise ValueError(f"No PDF files found in {corpus_dir}")
+        raise ExtractionError(f"No PDF files found in {corpus_dir}")
 
     results: list[dict] = []
 
@@ -141,7 +142,9 @@ def process_corpus(corpus_dir: Path = CORPUS_DIR) -> list[dict]:
             results.append(result)
 
         except Exception as exc:
-            print(f"Skipping corpus document {file_path.name}: {exc}")
+            print(
+                f"Skipping corpus document {file_path.name}: {exc}"
+            )
 
             results.append(
                 {

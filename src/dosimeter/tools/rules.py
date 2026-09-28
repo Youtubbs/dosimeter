@@ -8,8 +8,6 @@ deterministic rule implementations.
 from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict
-from dosimeter.graph.state import Subject
-from dosimeter.tools.base import Tool
 
 from dosimeter.domain.dose import (
     DoseUnit,
@@ -19,6 +17,7 @@ from dosimeter.domain.dose import (
     TotalEffectiveDoseEquivalent,
 )
 from dosimeter.domain.rules import RuleInvocation, RuleResult
+from dosimeter.graph.schemas import Subject
 from dosimeter.rules.r1_immediate import evaluate_r1
 from dosimeter.rules.r2_twenty_four_hour import evaluate_r2
 from dosimeter.rules.r3_written_report import R3Inputs, evaluate_r3
@@ -27,6 +26,7 @@ from dosimeter.rules.r4_planned_special_exposure import (
     evaluate_r4,
 )
 from dosimeter.rules.r5_confidence import R5Inputs, evaluate_r5
+from dosimeter.tools.dispatcher import Tool
 
 
 RuleId = Literal["R1", "R2", "R3", "R4", "R5"]
@@ -243,12 +243,3 @@ def rule_tools() -> list[Tool]:
     """Return deterministic rule tools for registration."""
 
     return [EVALUATE_RULE_TOOL]
-
-
-__all__ = [
-    "EVALUATE_RULE",
-    "EVALUATE_RULE_TOOL",
-    "EvaluateRuleRequest",
-    "evaluate_rule",
-    "rule_tools",
-]

@@ -5,7 +5,7 @@ Each worker receives only the tools required for its responsibility.
 
 from collections.abc import Iterable
 
-from dosimeter.tools.base import Tool, ToolRegistry
+from dosimeter.tools.dispatcher import Tool, build_registry
 from dosimeter.tools.proposals import (
     PROPOSE_NOTIFICATION_TOOL,
     PROPOSE_WRITTEN_REPORT_TOOL,
@@ -32,12 +32,12 @@ def _find_tool(
 def build_notification_registry(
     *,
     shared_tools: Iterable[Tool],
-) -> ToolRegistry:
+) -> dict[str, Tool]:
     """Build the least-privilege tool registry for the Notification Worker."""
 
     available = list(shared_tools)
 
-    return ToolRegistry(
+    return build_registry(
         [
             _find_tool(available, SEARCH_KNOWLEDGE_BASE),
             _find_tool(available, GET_EXPOSURE_EXTRACTION),
@@ -50,12 +50,12 @@ def build_notification_registry(
 def build_written_report_registry(
     *,
     shared_tools: Iterable[Tool],
-) -> ToolRegistry:
+) -> dict[str, Tool]:
     """Build the least-privilege tool registry for the Written Report Worker."""
 
     available = list(shared_tools)
 
-    return ToolRegistry(
+    return build_registry(
         [
             _find_tool(available, SEARCH_KNOWLEDGE_BASE),
             _find_tool(available, GET_EXPOSURE_EXTRACTION),
@@ -63,11 +63,3 @@ def build_written_report_registry(
             PROPOSE_WRITTEN_REPORT_TOOL,
         ]
     )
-
-
-__all__ = [
-    "GET_EXPOSURE_EXTRACTION",
-    "SEARCH_KNOWLEDGE_BASE",
-    "build_notification_registry",
-    "build_written_report_registry",
-]

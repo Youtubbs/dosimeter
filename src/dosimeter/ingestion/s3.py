@@ -1,7 +1,8 @@
 """handles s3 bucket ingestion"""
 
 from ..aws.aws import get_client
-from ..aws.config import PACKET_BUCKET_NAME
+from ..config.settings import get_settings
+from ..errors import ExtractionError
 
 import hashlib
 from pathlib import Path
@@ -24,7 +25,7 @@ def find_artifacts(packet_dir: Path) -> list[Path]:
     """Find all files inside an exposure packet directory"""
 
     if not packet_dir.is_dir():
-        raise ValueError(f"Packet directory does not exist: {packet_dir}")
+        raise ExtractionError(f"Packet directory does not exist: {packet_dir}")
 
     return sorted(file_path for file_path in packet_dir.rglob("*") if file_path.is_file())
 
@@ -41,13 +42,12 @@ def upload_artifact(
     extension = file_name.rsplit(".", 1)[-1].lower()
 
     if extension not in ALLOWED_EXTENSIONS:
-        # need to change this custom exception eventually?
-        raise ValueError(
+        raise ExtractionError(
             f".{extension} is not supported. expected one of the following : {[e for e in ALLOWED_EXTENSIONS]}"
         )
 
     get_client("s3").put_object(
-        Bucket=PACKET_BUCKET_NAME,
+        Bucket=get_settings().packet_bucket,
         Key=s3_key,
         Body=content,
     )

@@ -1,7 +1,5 @@
 """A planted name never reaches the record, the log or the model request."""
 
-from __future__ import annotations
-
 import json
 import logging
 from pathlib import Path
@@ -11,8 +9,7 @@ from dosimeter.redaction import (
     REDACTED,
     IdentityVault,
     is_redacted_field,
-    redact_for_log,
-    redact_for_model,
+    redact,
     redact_text,
     redact_value,
 )
@@ -49,11 +46,6 @@ def test_field_names_are_matched_however_they_are_written() -> None:
     assert not is_redacted_field("Total Effective Dose Equivalent")
 
 
-def test_extra_field_names_can_be_added_by_the_caller() -> None:
-    assert not is_redacted_field("Contractor")
-    assert is_redacted_field("Contractor", extra_fields=["contractor"])
-
-
 def test_name_is_gone_from_the_normalized_record() -> None:
     result = redact_value(NORMALIZED)
 
@@ -79,7 +71,7 @@ def test_name_is_gone_from_the_model_request_payload() -> None:
         "messages": [{"role": "user", "content": [{"text": CREW_NOTE}]}],
     }
 
-    assert PLANTED_NAME not in json.dumps(redact_for_model(payload))
+    assert PLANTED_NAME not in json.dumps(redact(payload))
 
 
 def test_name_is_gone_from_the_log_line() -> None:
@@ -108,7 +100,7 @@ def test_worker_dose_history_is_never_logged() -> None:
         "dose_history": [{"quantity": "tede_year_to_date", "value": 1.2}],
     }
 
-    logged = json.dumps(redact_for_log(payload))
+    logged = json.dumps(redact(payload))
 
     assert "6.0" not in logged
     assert "1.2" not in logged

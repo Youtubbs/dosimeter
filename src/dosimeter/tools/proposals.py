@@ -4,15 +4,15 @@ Proposal tools validate typed worker proposals and return them without
 performing persistence or external side effects.
 
 The module also exposes Tool objects compatible with the shared
-ToolRegistry and ToolDispatcher infrastructure.
+build_registry and ToolDispatcher infrastructure.
 """
 
 from typing import Any
 
 from pydantic import BaseModel, ConfigDict
 
-from dosimeter.graph.state import Subject
-from dosimeter.tools.base import Tool
+from dosimeter.graph.schemas import Subject
+from dosimeter.tools.dispatcher import Tool
 from dosimeter.workers.models import (
     NotificationProposal,
     WrittenReportProposal,
@@ -145,18 +145,3 @@ def proposal_tools() -> list[Tool]:
         PROPOSE_NOTIFICATION_TOOL,
         PROPOSE_WRITTEN_REPORT_TOOL,
     ]
-
-
-__all__ = [
-    "PROPOSE_NOTIFICATION",
-    "PROPOSE_NOTIFICATION_TOOL",
-    "PROPOSE_WRITTEN_REPORT",
-    "PROPOSE_WRITTEN_REPORT_TOOL",
-    "NotificationProposal",
-    "ProposeNotificationInput",
-    "ProposeWrittenReportInput",
-    "WrittenReportProposal",
-    "proposal_tools",
-    "propose_notification",
-    "propose_written_report",
-]

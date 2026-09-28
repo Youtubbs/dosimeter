@@ -11,10 +11,7 @@ from langchain_core.documents import Document
 from langchain_core.retrievers import BaseRetriever
 from langchain_core.vectorstores import InMemoryVectorStore
 
-from dosimeter.aws.config import EMBED_MODEL_ID, AWS_REGION, BEDROCK_KB_ID
-
-# this will change based on golden set rules
-THRESHOLD = 0.4
+from dosimeter.config.settings import get_settings
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 KB_DIR = PROJECT_ROOT / "kb"
@@ -37,7 +34,9 @@ def load_corpus_chunks() -> list[Document]:
         metadata: dict = {}
 
         if metadata_path.exists():
-            raw_metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+            raw_metadata = json.loads(
+                metadata_path.read_text(encoding="utf-8")
+            )
 
             metadata_attributes = raw_metadata.get(
                 "metadataAttributes",
@@ -67,14 +66,12 @@ class ScoreThresholdRetriever(BaseRetriever):
 
     store: InMemoryVectorStore
     k: int = 4
-    threshold: float = THRESHOLD
-    status: Status | None = None
+    threshold: float
+    status : Status | None = None
 
     model_config = {"arbitrary_types_allowed": True}
 
-    def _get_relevant_documents(
-        self, query: str, *, run_manager: CallbackManagerForRetrieverRun
-    ) -> list[Document]:
+    def _get_relevant_documents(self, query: str, *, run_manager: CallbackManagerForRetrieverRun) -> list[Document]:
 
         hits = self.store.similarity_search_with_score(
             query,
@@ -90,6 +87,7 @@ class ScoreThresholdRetriever(BaseRetriever):
             if self.status is not None and document.metadata.get("status") != self.status:
                 continue
 
+            # search_knowledge_base reports the score with each source
             documents.append(
                 Document(
                     page_content=document.page_content,
@@ -102,18 +100,21 @@ class ScoreThresholdRetriever(BaseRetriever):
 
         return documents
 
-
 @lru_cache(maxsize=None)
 def build_local_retriever(
-    k: int = 4, threshold: float = THRESHOLD, status: Status | None = None
+    k: int = 4,
+    threshold: float | None = None,
+    status : Status | None = None
 ) -> BaseRetriever:
     """Build the local in-memory retriever for development."""
 
+    settings = get_settings()
     chunks = load_corpus_chunks()
 
     embeddings = BedrockEmbeddings(
-        model_id=EMBED_MODEL_ID,
-        region_name=AWS_REGION,
+        model_id=settings.bedrock_embed_model_id,
+        region_name=settings.aws_region,
+        credentials_profile_name=settings.aws_profile,
     )
 
     store = InMemoryVectorStore.from_documents(
@@ -121,15 +122,22 @@ def build_local_retriever(
         embedding=embeddings,
     )
 
-    return ScoreThresholdRetriever(store=store, k=k, threshold=threshold, status=status)
+    return ScoreThresholdRetriever(
+        store=store,
+        k=k,
+        threshold=settings.similarity_threshold if threshold is None else threshold,
+        status=status
+    )
 
 
 def build_kb_retriever(
     k: int = 4,
-    threshold: float = THRESHOLD,
+    threshold: float | None = None,
     status: Status | None = None,
 ) -> BaseRetriever:
     """Build the production Amazon Bedrock Knowledge Base retriever."""
+
+    settings = get_settings()
 
     vector_search_configuration = {
         "numberOfResults": k,
@@ -144,27 +152,32 @@ def build_kb_retriever(
         }
 
     return AmazonKnowledgeBasesRetriever(
-        knowledge_base_id=BEDROCK_KB_ID,
-        region_name=AWS_REGION,
+        knowledge_base_id=settings.knowledge_base_id,
+        region_name=settings.aws_region,
+        credentials_profile_name=settings.aws_profile,
         retrieval_config={
             "vectorSearchConfiguration": vector_search_configuration,
         },
-        min_score_confidence=threshold,
+        min_score_confidence=settings.similarity_threshold if threshold is None else threshold,
     )
 
 
 def get_retriever(
     k: int = 4,
-    threshold: float = THRESHOLD,
+    threshold: float | None = None,
     status: Status | None = None,
 ) -> BaseRetriever:
     """Return the configured Dosimeter retriever."""
 
-    if BEDROCK_KB_ID:
+    if get_settings().knowledge_base_id:
         return build_kb_retriever(
             k=k,
             threshold=threshold,
             status=status,
         )
 
-    return build_local_retriever(k=k, threshold=threshold, status=status)
+    return build_local_retriever(
+        k=k,
+        threshold=threshold,
+        status=status
+    )

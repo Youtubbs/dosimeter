@@ -6,8 +6,8 @@ import pytest
 from pydantic import BaseModel, ConfigDict
 
 from dosimeter.domain.rules import RuleOutcome, RuleResult, RuleSource
-from dosimeter.graph.state import Subject
-from dosimeter.tools.base import InvocationRecord, Tool
+from dosimeter.graph.schemas import Subject
+from dosimeter.tools.dispatcher import InvocationRecord, Tool
 from dosimeter.workers.models import (
     NotificationClock,
     NotificationProposal,

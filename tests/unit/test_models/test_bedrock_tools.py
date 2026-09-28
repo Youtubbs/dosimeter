@@ -5,9 +5,9 @@ import pytest
 from pydantic import BaseModel, ConfigDict
 from unittest.mock import Mock, patch
 
-from dosimeter.graph.state import Subject
+from dosimeter.graph.schemas import Subject
 from dosimeter.models.bedrock import bedrock_tool_config, bedrock_tool_spec, run_tool_loop
-from dosimeter.tools.base import Tool
+from dosimeter.tools.dispatcher import Tool
 
 
 class ExampleInput(BaseModel):
