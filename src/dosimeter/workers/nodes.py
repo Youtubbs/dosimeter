@@ -6,7 +6,6 @@ workers.
 """
 
 from collections.abc import Callable, Iterable
-import json
 
 from dosimeter.graph.schemas import Subject, WorkerProposal
 from dosimeter.graph.state import GraphState
