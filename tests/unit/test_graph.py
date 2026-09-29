@@ -134,16 +134,35 @@ def build_test_graph(monkeypatch: pytest.MonkeyPatch, dispatched: list[str]):
     def reviewer(state):
         return {
             "reviewer_verdicts": [
-                ReviewerVerdict(iteration=1, worker="notification", verdict="approved")
+                ReviewerVerdict(
+                    iteration=1,
+                    worker="notification",
+                    verdict="approved",
+                )
             ],
             "reviewer_iterations": state.get("reviewer_iterations", 0) + 1,
         }
 
-    monkeypatch.setattr("dosimeter.graph.graph.coordinator_node", coordinator)
-    monkeypatch.setattr("dosimeter.graph.graph.notification_node", worker("notification"))
-    monkeypatch.setattr("dosimeter.graph.graph.written_report_node", worker("written_report"))
-    monkeypatch.setattr("dosimeter.graph.graph.equipment_node", worker("equipment"))
-    monkeypatch.setattr("dosimeter.graph.graph.reviewer_node", reviewer)
+    monkeypatch.setattr(
+        "dosimeter.graph.graph.coordinator_node",
+        coordinator,
+    )
+    monkeypatch.setattr(
+        "dosimeter.graph.graph.notification_node",
+        worker("notification"),
+    )
+    monkeypatch.setattr(
+        "dosimeter.graph.graph.written_report_node",
+        worker("written_report"),
+    )
+    monkeypatch.setattr(
+        "dosimeter.graph.graph.build_equipment_node",
+        worker("equipment"),
+    )
+    monkeypatch.setattr(
+        "dosimeter.graph.graph.reviewer_node",
+        reviewer,
+    )
 
     return build_graph(Bounds())
 

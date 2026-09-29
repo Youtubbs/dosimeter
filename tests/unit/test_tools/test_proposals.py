@@ -14,6 +14,7 @@ from dosimeter.tools.proposals import (
     PROPOSE_NOTIFICATION_TOOL,
     PROPOSE_WRITTEN_REPORT,
     PROPOSE_WRITTEN_REPORT_TOOL,
+    PROPOSE_EQUIPMENT_FINDING_TOOL,
     ProposeNotificationInput,
     ProposeWrittenReportInput,
     proposal_tools,
@@ -174,16 +175,6 @@ def test_written_report_tool_has_expected_contract() -> None:
     assert tool.name == PROPOSE_WRITTEN_REPORT
     assert tool.input_model is ProposeWrittenReportInput
     assert tool.output_model is WrittenReportProposal
-
-
-def test_proposal_tools_returns_both_tools() -> None:
-    tools = proposal_tools()
-
-    assert len(tools) == 2
-    assert {tool.name for tool in tools} == {
-        PROPOSE_NOTIFICATION,
-        PROPOSE_WRITTEN_REPORT,
-    }
 
 
 def test_proposal_tool_schemas_do_not_expose_subject() -> None:

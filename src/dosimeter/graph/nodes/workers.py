@@ -1,7 +1,10 @@
 """ The three workers. Each one is given a single question to answer """
 
+from collections.abc import Iterable
 from dosimeter.graph.state import GraphState
 from dosimeter.workers.nodes import make_equipment_node
+from dosimeter.harness.budgets import SessionLedger
+from dosimeter.tools.dispatcher import Tool
 
 
 def notification_node(state: GraphState) -> dict:
