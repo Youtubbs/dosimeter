@@ -12,7 +12,6 @@ from dosimeter.tools.proposals import (
     PROPOSE_EQUIPMENT_FINDING_TOOL
 )
 from dosimeter.tools.rules import EVALUATE_RULE_TOOL
-from ..tools.search_knowledge_base import _search_knowledge_base
 
 GET_EXPOSURE_EXTRACTION = "get_exposure_extraction"
 SEARCH_KNOWLEDGE_BASE = "search_knowledge_base"

@@ -14,7 +14,6 @@ from dosimeter.tools.proposals import (
     PROPOSE_NOTIFICATION_TOOL,
     PROPOSE_WRITTEN_REPORT,
     PROPOSE_WRITTEN_REPORT_TOOL,
-    PROPOSE_EQUIPMENT_FINDING_TOOL,
     ProposeNotificationInput,
     ProposeWrittenReportInput,
     proposal_tools,
