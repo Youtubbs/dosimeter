@@ -259,8 +259,6 @@ def test_trace_renders_what_the_turn_did_reading_only_from_postgres(seeded: Sess
     assert "equipment: 120" in rendered
 
 
-
-
 def test_the_record_checks_read_the_stored_record(seeded: Session) -> None:
     from dosimeter.evaluation.record_checks import run_checks
 
@@ -275,6 +273,3 @@ def test_the_record_checks_read_the_stored_record(seeded: Session) -> None:
     assert attribution.offenders == ["R3"]
     assert status.passed is False
     assert status.offenders == ["FR-DOSE#0001"]
-
-
-

@@ -20,6 +20,7 @@ def test_registry_contains_expected_tools() -> None:
         "evaluate_rule",
         "find_similar_exposures",
         "get_exposure_extraction",
+        "propose_equipment_finding",
         "propose_notification",
         "propose_written_report",
         "search_knowledge_base",

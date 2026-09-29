@@ -4,6 +4,7 @@ The signals escalation is decided from, and the evaluator that decides it.
 The signal model has no field for a model's self-reported confidence, on
 purpose: eligibility is computed from what the turn recorded, and a model
 saying it feels sure is not evidence.
+The twelve named triggers. Each one is recorded by name when it fires.
 """
 
 from enum import StrEnum
@@ -29,6 +30,7 @@ class Trigger(StrEnum):
     PHOTO_CONTRADICTS_NARRATIVE = "photo_contradicts_narrative"
 
 
+
 class TriggerSignals(BaseModel):
     """What the turn recorded. There is no self-reported confidence here."""
 
@@ -46,6 +48,7 @@ class TriggerSignals(BaseModel):
     planned_special_exposure_valid: bool = False
     doses_at_or_above_annual_limit: list[str] = Field(default_factory=list)
     photo_contradicts_narrative: bool = False
+
 
 
 class FiredTrigger(BaseModel):
@@ -75,9 +78,105 @@ class EscalationOutcome(BaseModel):
 
 
 def evaluate(signals: TriggerSignals) -> EscalationOutcome:
-    """
-    Stands in until the trigger logic is written. It fires nothing, which is
-    visible in the run record as a turn where no trigger was evaluated.
-    """
+    """Evaluate every deterministic escalation trigger for the current turn."""
 
-    return EscalationOutcome()
+    evaluated = list(Trigger)
+    fired: list[FiredTrigger] = []
+
+    if signals.fields_below_floor:
+        fired.append(
+            FiredTrigger(
+                trigger=Trigger.FIELD_BELOW_FLOOR,
+                detail=", ".join(signals.fields_below_floor),
+            )
+        )
+
+    if signals.insufficient_data_rules:
+        fired.append(
+            FiredTrigger(
+                trigger=Trigger.INSUFFICIENT_DATA,
+                detail=", ".join(signals.insufficient_data_rules),
+            )
+        )
+
+    if signals.near_boundary_rules:
+        fired.append(
+            FiredTrigger(
+                trigger=Trigger.NEAR_BOUNDARY,
+                detail=", ".join(signals.near_boundary_rules),
+            )
+        )
+
+    if signals.reviewer_iterations > 0 and not signals.reviewer_approved:
+        fired.append(
+            FiredTrigger(
+                trigger=Trigger.REVIEWER_NOT_APPROVED,
+                detail=(
+                    "Reviewer did not approve the proposal on the first "
+                    "review iteration."
+                ),
+            )
+        )
+
+    if signals.unresolved_citations:
+        fired.append(
+            FiredTrigger(
+                trigger=Trigger.CITATION_FAILED,
+                detail=", ".join(signals.unresolved_citations),
+            )
+        )
+
+    if signals.retrieval_below_threshold:
+        fired.append(
+            FiredTrigger(
+                trigger=Trigger.RETRIEVAL_BELOW_THRESHOLD,
+                detail="Retrieval score was below the configured threshold.",
+            )
+        )
+
+    if signals.prompt_attack_fired:
+        fired.append(
+            FiredTrigger(
+                trigger=Trigger.PROMPT_ATTACK_FIRED,
+                detail="Amazon Bedrock Prompt Attack filter fired.",
+            )
+        )
+
+    if signals.notification_required_rules:
+        fired.append(
+            FiredTrigger(
+                trigger=Trigger.NOTIFICATION_REQUIRED,
+                detail=", ".join(signals.notification_required_rules),
+            )
+        )
+
+    if signals.planned_special_exposure_valid:
+        fired.append(
+            FiredTrigger(
+                trigger=Trigger.PLANNED_SPECIAL_EXPOSURE_VALID,
+                detail="R4 determined that the planned special exposure is valid.",
+            )
+        )
+
+    if signals.doses_at_or_above_annual_limit:
+        fired.append(
+            FiredTrigger(
+                trigger=Trigger.AT_OR_ABOVE_ANNUAL_LIMIT,
+                detail=", ".join(signals.doses_at_or_above_annual_limit),
+            )
+        )
+
+    if signals.photo_contradicts_narrative:
+        fired.append(
+            FiredTrigger(
+                trigger=Trigger.PHOTO_CONTRADICTS_NARRATIVE,
+                detail="Photo evidence contradicts the narrative evidence.",
+            )
+        )
+
+
+
+    return EscalationOutcome(
+        evaluated=evaluated,
+        fired=fired,
+    )

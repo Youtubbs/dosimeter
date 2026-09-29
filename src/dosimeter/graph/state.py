@@ -1,10 +1,16 @@
-""" State that will be used by every node in our graph """
+"""State that will be used by every node in our graph."""
 
 import operator
 from typing import Annotated, Any, TypedDict
 
-from dosimeter.graph.schemas import DispatchPlan, ReviewerVerdict, Subject, WorkerProposal
+from dosimeter.graph.schemas import (
+    DispatchPlan,
+    ReviewerVerdict,
+    Subject,
+    WorkerProposal,
+)
 from dosimeter.harness.escalation import EscalationOutcome
+from dosimeter.guardrails.events import GuardrailEvent
 
 
 def merge_proposals(
@@ -35,6 +41,7 @@ class GraphState(TypedDict, total=False):
     reviewer_iterations: int
     rule_invocations: Annotated[list[dict[str, Any]], operator.add]
     retrieval_log: Annotated[list[dict[str, Any]], operator.add]
+    guardrail_events: Annotated[list[GuardrailEvent], operator.add]
     usage: Annotated[dict[str, int], add_usage]
     escalation: EscalationOutcome | None
     outcome: str | None
@@ -49,6 +56,7 @@ def initial_state(subject: Subject) -> GraphState:
         reviewer_iterations=0,
         rule_invocations=[],
         retrieval_log=[],
+        guardrail_events=[],
         usage={},
         escalation=None,
         outcome=None,

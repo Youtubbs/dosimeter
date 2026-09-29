@@ -88,3 +88,27 @@ class WrittenReportProposal(BaseModel):
     explanation: str = Field(min_length=1)
 
     missing_fields: tuple[str, ...] = ()
+
+
+class EquipmentFinding(BaseModel):
+    """
+    Typed finding produced by the Equipment Worker.
+
+    The finding records whether the available evidence indicates that
+    equipment-related reporting may be required. It does not submit,
+    persist, or transmit a report.
+    """
+
+    model_config = ConfigDict(
+        strict=True,
+        frozen=True,
+        extra="forbid",
+    )
+
+    report_required: bool
+
+    citations: tuple[str, ...] = ()
+
+    explanation: str = Field(min_length=1)
+
+    missing_fields: tuple[str, ...] = ()

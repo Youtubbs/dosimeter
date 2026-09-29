@@ -70,7 +70,13 @@ class FakeRecorder:
 
     def tool_called(self, tool_name, arguments, result, outcome, **extra) -> None:
         self.calls.append(
-            {"tool": tool_name, "arguments": arguments, "result": result, "outcome": outcome, **extra}
+            {
+                "tool": tool_name,
+                "arguments": arguments,
+                "result": result,
+                "outcome": outcome,
+                **extra,
+            }
         )
 
 
@@ -294,10 +300,14 @@ class UnreachableTransport:
 
 class DenyingTransport:
     def get(self, path):
-        return TransportResponse(status=403, payload={"reason_code": "district_not_granted", "message": "no"})
+        return TransportResponse(
+            status=403, payload={"reason_code": "district_not_granted", "message": "no"}
+        )
 
     def post(self, path, body=None):
-        return TransportResponse(status=403, payload={"reason_code": "district_not_granted", "message": "no"})
+        return TransportResponse(
+            status=403, payload={"reason_code": "district_not_granted", "message": "no"}
+        )
 
 
 def test_an_unreachable_api_disables_both_tools_and_names_them() -> None:
@@ -322,9 +332,10 @@ def test_a_denial_from_the_api_is_surfaced_not_swallowed() -> None:
 
 
 def test_similar_exposures_returns_candidates_not_a_conclusion() -> None:
-    assert "outcome" in SimilarExposures.model_json_schema()["$defs"]["SimilarExposureCandidate"][
-        "properties"
-    ]
+    assert (
+        "outcome"
+        in SimilarExposures.model_json_schema()["$defs"]["SimilarExposureCandidate"]["properties"]
+    )
     assert "conclusion" not in SimilarExposures.model_json_schema()["properties"]
     assert "limit" in FindSimilarExposuresInput.model_json_schema()["properties"]
 

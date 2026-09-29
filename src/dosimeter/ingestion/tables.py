@@ -1,4 +1,4 @@
-""" Utilities for validating tables extracted from Amazon Textract """
+"""Utilities for validating tables extracted from Amazon Textract"""
 
 from typing import Any
 
@@ -6,16 +6,12 @@ from ..errors import ExtractionError
 
 
 def get_blocks_by_id(blocks: list[dict]) -> dict:
-    """ Index Textract blocks by their ID """
-    return {
-        block["Id"]: block
-        for block in blocks
-        if "Id" in block
-    }
+    """Index Textract blocks by their ID"""
+    return {block["Id"]: block for block in blocks if "Id" in block}
 
 
 def get_cell_text(cell: dict, blocks_by_id: dict) -> str:
-    """ Return the text contained in a Textract CELL block """
+    """Return the text contained in a Textract CELL block"""
     text_parts: list[str] = []
 
     for relationship in cell.get("Relationships", []):
@@ -72,10 +68,7 @@ def extract_tables(blocks: list[dict]) -> list[list]:
         max_row = max(cell.get("RowIndex", 0) for cell in cells)
         max_column = max(cell.get("ColumnIndex", 0) for cell in cells)
 
-        rows = [
-            ["" for _ in range(max_column)]
-            for _ in range(max_row)
-        ]
+        rows = [["" for _ in range(max_column)] for _ in range(max_row)]
 
         for cell in cells:
             row_index = cell.get("RowIndex", 0)
@@ -119,11 +112,7 @@ def reconstruct_wrapped_rows(rows: list[list]) -> list[list]:
         release_fraction = row[1].strip()
         quantity = row[2].strip()
 
-        is_continuation = (
-            not material
-            and not release_fraction
-            and bool(quantity)
-        )
+        is_continuation = not material and not release_fraction and bool(quantity)
 
         if is_continuation and reconstructed:
             previous = reconstructed[-1]
@@ -155,29 +144,19 @@ def validate_schedule_c_rows(rows: list[list[str]]) -> None:
     for row_number, row in enumerate(rows, start=1):
         if len(row) != 3:
             raise ExtractionError(
-                f"Schedule C row {row_number} has "
-                f"{len(row)} columns; expected 3."
+                f"Schedule C row {row_number} has {len(row)} columns; expected 3."
             )
 
         material, release_fraction, quantity = row
 
         if not material:
-            raise ExtractionError(
-                f"Schedule C row {row_number} is missing "
-                "radioactive material."
-            )
+            raise ExtractionError(f"Schedule C row {row_number} is missing radioactive material.")
 
         if not release_fraction:
-            raise ExtractionError(
-                f"Schedule C row {row_number} is missing "
-                "release fraction."
-            )
+            raise ExtractionError(f"Schedule C row {row_number} is missing release fraction.")
 
         if not quantity:
-            raise ExtractionError(
-                f"Schedule C row {row_number} is missing "
-                "quantity."
-            )
+            raise ExtractionError(f"Schedule C row {row_number} is missing quantity.")
 
 
 def verify_schedule_c(blocks: list[dict]) -> list[list]:
@@ -204,6 +183,4 @@ def verify_schedule_c(blocks: list[dict]) -> list[list]:
             validate_schedule_c_rows(rows)
             return rows
 
-    raise ExtractionError(
-        "Could not find a three-column table suitable for Schedule C."
-    )
+    raise ExtractionError("Could not find a three-column table suitable for Schedule C.")

@@ -2,25 +2,29 @@
 
 import pytest
 from pydantic import ValidationError
-from dosimeter.tools.dispatcher import Tool
-
 
 from dosimeter.domain.dose import (
     DoseUnit,
     TotalEffectiveDoseEquivalent,
 )
+from dosimeter.tools.dispatcher import Tool
 from dosimeter.tools.proposals import (
+    PROPOSE_EQUIPMENT_FINDING,
+    PROPOSE_EQUIPMENT_FINDING_TOOL,
     PROPOSE_NOTIFICATION,
     PROPOSE_NOTIFICATION_TOOL,
     PROPOSE_WRITTEN_REPORT,
     PROPOSE_WRITTEN_REPORT_TOOL,
+    ProposeEquipmentFindingInput,
     ProposeNotificationInput,
     ProposeWrittenReportInput,
     proposal_tools,
+    propose_equipment_finding,
     propose_notification,
     propose_written_report,
 )
 from dosimeter.workers.models import (
+    EquipmentFinding,
     NotificationClock,
     NotificationProposal,
     ReportingPath,
@@ -97,6 +101,52 @@ def test_propose_notification_rejects_unknown_field() -> None:
 
 
 # ---------------------------------------------------------------------------
+# Equipment finding
+# ---------------------------------------------------------------------------
+
+
+def test_propose_equipment_finding_returns_typed_finding() -> None:
+    finding = EquipmentFinding(
+        report_required=True,
+        citations=("10 CFR 34.101",),
+        explanation="The equipment finding requires reporting.",
+    )
+
+    result = propose_equipment_finding(finding)
+
+    assert isinstance(result, EquipmentFinding)
+    assert result == finding
+    assert result.report_required is True
+
+
+def test_propose_equipment_finding_accepts_valid_mapping() -> None:
+    finding = {
+        "report_required": False,
+        "citations": (),
+        "explanation": "No equipment reporting condition was identified.",
+        "missing_fields": (),
+    }
+
+    result = propose_equipment_finding(finding)
+
+    assert isinstance(result, EquipmentFinding)
+    assert result.report_required is False
+
+
+def test_propose_equipment_finding_rejects_unknown_field() -> None:
+    finding = {
+        "report_required": False,
+        "citations": (),
+        "explanation": "No equipment reporting condition was identified.",
+        "missing_fields": (),
+        "unexpected": "value",
+    }
+
+    with pytest.raises(ValidationError):
+        propose_equipment_finding(finding)
+
+
+# ---------------------------------------------------------------------------
 # Written report proposal
 # ---------------------------------------------------------------------------
 
@@ -126,7 +176,7 @@ def test_propose_written_report_accepts_valid_mapping() -> None:
             "10 CFR 20.1206",
             "10 CFR 20.2204",
         ),
-        "explanation": ("The planned-special-exposure reporting path applies."),
+        "explanation": "The planned-special-exposure reporting path applies.",
     }
 
     result = propose_written_report(proposal)
@@ -158,6 +208,11 @@ def test_propose_written_report_rejects_unknown_field() -> None:
         propose_written_report(proposal)
 
 
+# ---------------------------------------------------------------------------
+# Tool contracts
+# ---------------------------------------------------------------------------
+
+
 def test_notification_tool_has_expected_contract() -> None:
     tool = PROPOSE_NOTIFICATION_TOOL
 
@@ -176,11 +231,22 @@ def test_written_report_tool_has_expected_contract() -> None:
     assert tool.output_model is WrittenReportProposal
 
 
-def test_proposal_tools_returns_both_tools() -> None:
+def test_equipment_finding_tool_has_expected_contract() -> None:
+    tool = PROPOSE_EQUIPMENT_FINDING_TOOL
+
+    assert isinstance(tool, Tool)
+    assert tool.name == PROPOSE_EQUIPMENT_FINDING
+    assert tool.input_model is ProposeEquipmentFindingInput
+    assert tool.output_model is EquipmentFinding
+
+
+def test_proposal_tools_returns_worker_proposal_tools() -> None:
     tools = proposal_tools()
 
-    assert len(tools) == 2
+    assert len(tools) == 3
+
     assert {tool.name for tool in tools} == {
+        PROPOSE_EQUIPMENT_FINDING,
         PROPOSE_NOTIFICATION,
         PROPOSE_WRITTEN_REPORT,
     }
