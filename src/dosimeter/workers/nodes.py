@@ -6,6 +6,7 @@ workers.
 """
 
 from collections.abc import Callable, Iterable
+import json
 
 from dosimeter.graph.schemas import Subject, WorkerProposal
 from dosimeter.graph.state import GraphState
@@ -175,14 +176,12 @@ def make_equipment_node(
         )
 
         return {
-            "proposals": [
-                WorkerProposal(
-                    worker="equipment",
-                    kind="equipment_finding",
-                    payload=proposal.model_dump(mode="json"),
-                    citations=list(proposal.citations),
-                )
-            ],
+            "proposals": WorkerProposal(
+                worker="equipment",
+                kind="equipment_finding",
+                payload=proposal.model_dump(mode="json"),
+                citations=list(proposal.citations),
+            ).model_dump(mode="json"),
             "rule_invocations": _invocation_dicts(invocations),
         }
 

@@ -21,8 +21,8 @@ from collections.abc import Iterable
 def build_graph(
     bounds: Bounds,
     *,
-    ledger: SessionLedger,
-    shared_tools: Iterable[Tool],
+    ledger: SessionLedger | None = None,
+    shared_tools: Iterable[Tool] = (),
     checkpointer=None,
 ):
 
