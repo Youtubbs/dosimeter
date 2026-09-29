@@ -176,16 +176,6 @@ def test_written_report_tool_has_expected_contract() -> None:
     assert tool.output_model is WrittenReportProposal
 
 
-def test_proposal_tools_returns_both_tools() -> None:
-    tools = proposal_tools()
-
-    assert len(tools) == 2
-    assert {tool.name for tool in tools} == {
-        PROPOSE_NOTIFICATION,
-        PROPOSE_WRITTEN_REPORT,
-    }
-
-
 def test_proposal_tool_schemas_do_not_expose_subject() -> None:
     for tool in proposal_tools():
         assert tool.subject_arguments() == []

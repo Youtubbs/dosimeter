@@ -16,10 +16,12 @@ from dosimeter.tools.dispatcher import Tool
 from dosimeter.workers.models import (
     NotificationProposal,
     WrittenReportProposal,
+    EquipmentProposal
 )
 
 PROPOSE_NOTIFICATION = "propose_notification"
 PROPOSE_WRITTEN_REPORT = "propose_written_report"
+PROPOSE_EQUIPMENT_FINDING = "propose_equipment_finding"
 
 
 # ---------------------------------------------------------------------------
@@ -41,6 +43,12 @@ class ProposeWrittenReportInput(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     proposal: WrittenReportProposal
+
+class ProposeEquipmentFindingInput(BaseModel):
+    """Arguments supplied by the Equipment Report Worker."""
+    model_config = ConfigDict(extra="forbid")
+
+    proposal: EquipmentProposal
 
 
 # ---------------------------------------------------------------------------
@@ -77,6 +85,15 @@ def propose_written_report(
 
     return WrittenReportProposal.model_validate(proposal)
 
+def propose_equipment_finding(
+    proposal: EquipmentProposal | dict[str, Any],
+) -> EquipmentProposal:
+    """Validate and return an Equipment Worker proposal."""
+
+    if isinstance(proposal, EquipmentProposal):
+        return proposal
+
+    return EquipmentProposal.model_validate(proposal)
 
 # ---------------------------------------------------------------------------
 # Tool handlers
@@ -105,6 +122,18 @@ def _handle_propose_written_report(
     del subject
 
     return propose_written_report(arguments.proposal)
+
+def _handle_propose_equipment_finding(
+    subject: Subject,
+    arguments: ProposeEquipmentFindingInput,
+) -> BaseModel:
+    """Validate an equipment proposal without performing side effects."""
+
+    # The dispatcher injects the subject. The proposal tool performs
+    # no subject-specific writes.
+    del subject
+
+    return propose_equipment_finding(arguments.proposal)
 
 
 # ---------------------------------------------------------------------------
@@ -137,6 +166,17 @@ PROPOSE_WRITTEN_REPORT_TOOL = Tool(
     handler=_handle_propose_written_report,
 )
 
+PROPOSE_EQUIPMENT_FINDING_TOOL = Tool(
+    name=PROPOSE_EQUIPMENT_FINDING,
+    description=(
+        "Submit a typed equipment finding after evaluating the "
+        "reported radiographic equipment failure. This tool validates "
+        "the proposal but does not submit or transmit a report."
+    ),
+    input_model=ProposeEquipmentFindingInput,
+    output_model=EquipmentProposal,
+    handler=_handle_propose_equipment_finding,
+)
 
 def proposal_tools() -> list[Tool]:
     """Return the proposal tools for registration."""
@@ -144,4 +184,7 @@ def proposal_tools() -> list[Tool]:
     return [
         PROPOSE_NOTIFICATION_TOOL,
         PROPOSE_WRITTEN_REPORT_TOOL,
+        PROPOSE_EQUIPMENT_FINDING_TOOL
+
     ]
+

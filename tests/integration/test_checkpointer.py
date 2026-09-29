@@ -62,19 +62,37 @@ def checkpointed(db: Session):
 
 def graph_for(monkeypatch: pytest.MonkeyPatch, participant: Participant, saver):
     """
-    The real graph, with an eligibility node that marks which participant wrote
-    the state. The Coordinator plans nothing, so every turn goes straight there.
+    Build the real graph with deterministic test nodes.
+
+    These tests verify Postgres checkpointer/thread behavior, so no
+    Bedrock/AWS calls should happen.
     """
 
-    def node(state):
+    def coordinator_node(state):
+        return {
+            "dispatch_plan": None,
+        }
+
+    def eligibility_node(state):
         return {
             "proposals": {
-                participant.value: WorkerProposal(worker=participant.value, kind=participant.value)
+                participant.value: WorkerProposal(
+                    worker=participant.value,
+                    kind=participant.value,
+                )
             },
             "outcome": f"{participant.value}-ran",
         }
 
-    monkeypatch.setattr("dosimeter.graph.graph.eligibility_node", node)
+    monkeypatch.setattr(
+        "dosimeter.graph.graph.coordinator_node",
+        coordinator_node,
+    )
+    monkeypatch.setattr(
+        "dosimeter.graph.graph.eligibility_node",
+        eligibility_node,
+    )
+
     return build_graph(Bounds(), checkpointer=saver)
 
 

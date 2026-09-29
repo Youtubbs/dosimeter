@@ -9,6 +9,7 @@ from dosimeter.tools.dispatcher import Tool, build_registry
 from dosimeter.tools.proposals import (
     PROPOSE_NOTIFICATION_TOOL,
     PROPOSE_WRITTEN_REPORT_TOOL,
+    PROPOSE_EQUIPMENT_FINDING_TOOL
 )
 from dosimeter.tools.rules import EVALUATE_RULE_TOOL
 
@@ -61,5 +62,21 @@ def build_written_report_registry(
             _find_tool(available, GET_EXPOSURE_EXTRACTION),
             EVALUATE_RULE_TOOL,
             PROPOSE_WRITTEN_REPORT_TOOL,
+        ]
+    )
+
+def build_equipment_registry(
+    *,
+    shared_tools: Iterable[Tool],
+) -> dict[str, Tool]:
+    """Build the least-privilege tool registry for the Equipment Worker."""
+
+    available = list(shared_tools)
+
+    return build_registry(
+        [
+            _find_tool(available, SEARCH_KNOWLEDGE_BASE),
+            _find_tool(available, GET_EXPOSURE_EXTRACTION),
+            PROPOSE_EQUIPMENT_FINDING_TOOL,
         ]
     )
