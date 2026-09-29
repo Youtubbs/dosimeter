@@ -1,4 +1,4 @@
-""" Decorators the rest of the code reuses """
+"""Decorators the rest of the code reuses"""
 
 import functools
 import logging

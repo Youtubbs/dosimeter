@@ -1,4 +1,4 @@
-""" The Coordinator: decides which workers this exposure needs """
+"""The Coordinator: decides which workers this exposure needs"""
 
 from dosimeter.graph.state import GraphState
 

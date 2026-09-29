@@ -1,4 +1,4 @@
-""" The Dossier Reviewer, and the cycle back to the Coordinator when it rejects """
+"""The Dossier Reviewer, and the cycle back to the Coordinator when it rejects"""
 
 from dosimeter.graph.state import GraphState
 

@@ -99,11 +99,7 @@ def validate_edit(original: dict[str, Any], edited: dict[str, Any]) -> EditRejec
                 field_path=f"sources[{index}].status",
             )
 
-    unexpected = [
-        key
-        for key in edited
-        if key not in original and key not in EDITABLE_KEYS
-    ]
+    unexpected = [key for key in edited if key not in original and key not in EDITABLE_KEYS]
     if unexpected:
         return EditRejection(
             reason_code="unexpected_field",

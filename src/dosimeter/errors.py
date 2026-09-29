@@ -1,13 +1,13 @@
-""" All the errors this project raises, so each kind of failure can be caught on its own """
+"""All the errors this project raises, so each kind of failure can be caught on its own"""
 
 from typing import Any
 
 
 class DosimeterError(Exception):
-    """ Parent of every error we raise.
+    """Parent of every error we raise.
 
-        Extra keyword arguments are kept as context and printed with the message,
-        so a log line says which field or file the error was about.
+    Extra keyword arguments are kept as context and printed with the message,
+    so a log line says which field or file the error was about.
     """
 
     def __init__(self, message: str, **context: Any) -> None:

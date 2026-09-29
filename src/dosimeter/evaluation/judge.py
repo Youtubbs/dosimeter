@@ -32,9 +32,7 @@ class Verdict(StrEnum):
 class JudgeVerdict(BaseModel):
     """Whether the cited text supports the claim. Judge only from the cited text."""
 
-    verdict: Verdict = Field(
-        description="supported, not_supported or partially_supported"
-    )
+    verdict: Verdict = Field(description="supported, not_supported or partially_supported")
     reason: str = Field(
         default="",
         max_length=500,

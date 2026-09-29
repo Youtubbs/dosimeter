@@ -78,7 +78,9 @@ def record_from_cli(
         raise EntitlementError("no officer with that code", officer_code=officer_code)
 
     stored = queries.latest_dossier(session, exposure_id)
-    original: dict[str, Any] = stored.payload if stored is not None else {"exposure_id": exposure_id}
+    original: dict[str, Any] = (
+        stored.payload if stored is not None else {"exposure_id": exposure_id}
+    )
 
     run = queries.latest_run_record(session, exposure_id, command="assess")
     assessed_by = run.officer_id if run is not None else None
