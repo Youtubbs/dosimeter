@@ -175,12 +175,12 @@ def make_equipment_node(
         )
 
         return {
-            "proposals": WorkerProposal(
+            "proposals": {"equipment": WorkerProposal(
                 worker="equipment",
                 kind="equipment_finding",
                 payload=proposal.model_dump(mode="json"),
                 citations=list(proposal.citations),
-            ).model_dump(mode="json"),
+            )},
             "rule_invocations": _invocation_dicts(invocations),
         }
 
