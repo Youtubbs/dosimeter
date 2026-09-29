@@ -9,6 +9,7 @@ from dosimeter.graph.nodes.reviewer import route_after_reviewer
 from dosimeter.graph.schemas import DispatchPlan, ReviewerVerdict, Subject, WorkerProposal
 from dosimeter.graph.state import add_usage, initial_state, merge_proposals
 from dosimeter.graph.threads import THREAD_ID_FORMAT, Participant, thread_config, thread_id
+from unittest.mock import Mock
 
 SUBJECT = Subject(
     session_id="session-1",
@@ -120,12 +121,22 @@ def build_test_graph(monkeypatch: pytest.MonkeyPatch, dispatched: list[str]):
     """The real graph, with stand-in node bodies swapped in before it is built."""
 
     def coordinator(state):
-        return {"dispatch_plan": DispatchPlan(workers=dispatched, rationale="test")}
+        return {
+            "dispatch_plan": DispatchPlan(
+                workers=dispatched,
+                rationale="test",
+            )
+        }
 
     def worker(name):
-        def run(state):
+        def run(state, *, ledger=None, shared_tools=()):
             return {
-                "proposals": {name: WorkerProposal(worker=name, kind=name)},
+                "proposals": {
+                    name: WorkerProposal(
+                        worker=name,
+                        kind=name,
+                    )
+                },
                 "usage": {"input_tokens": 10},
             }
 
@@ -147,24 +158,32 @@ def build_test_graph(monkeypatch: pytest.MonkeyPatch, dispatched: list[str]):
         "dosimeter.graph.graph.coordinator_node",
         coordinator,
     )
+
     monkeypatch.setattr(
         "dosimeter.graph.graph.notification_node",
         worker("notification"),
     )
+
     monkeypatch.setattr(
         "dosimeter.graph.graph.written_report_node",
         worker("written_report"),
     )
+
     monkeypatch.setattr(
         "dosimeter.graph.graph.build_equipment_node",
-        worker("equipment"),
+        lambda *, ledger, shared_tools: worker("equipment"),
     )
+
     monkeypatch.setattr(
         "dosimeter.graph.graph.reviewer_node",
         reviewer,
     )
 
-    return build_graph(Bounds())
+    return build_graph(
+        Bounds(),
+        ledger=Mock(),
+        shared_tools=[],
+    )
 
 
 def test_two_parallel_legs_both_land_in_the_state(monkeypatch: pytest.MonkeyPatch) -> None:
