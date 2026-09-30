@@ -108,6 +108,15 @@ def make_coordinator_node(
 
         plan = result.get("parsed")
 
+        if plan is None:
+            parsing_error = result.get("parsing_error")
+            raw = result.get("raw")
+
+            raise RuntimeError(
+                "Coordinator failed to produce a valid DispatchPlan. "
+                f"parsing_error={parsing_error!r}, raw={raw!r}"
+            )
+
         if not isinstance(plan, DispatchPlan):
             plan = DispatchPlan.model_validate(plan)
 
