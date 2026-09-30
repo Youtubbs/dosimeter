@@ -1,0 +1,21 @@
+{
+  "id": "GOLD-018",
+  "category": "escalation",
+  "query": "A worker experienced loss of control of licensed material and received 5 rem total effective dose equivalent. Does this require 24-hour notification?",
+  "expected_outcome": "not_required",
+  "sources": [
+    {
+      "document_id": "CFR-20-REPORTS",
+      "section": "§ 20.2202(b)"
+    }
+  ],
+  "exposure_id": null,
+  "why": "Paired baseline case. Loss of control exists, but the TEDE does not exceed the greater-than-5-rem threshold.",
+  "required_terms": [
+    "loss of control",
+    "5 rem"
+  ],
+  "forbidden_sources": [],
+  "expected_missing_fields": [],
+  "expected_triggers": []
+}

@@ -1,0 +1,32 @@
+{
+  "id": "GOLD-004",
+  "category": "threshold",
+  "query": "A worker received exactly 25 rem total effective dose equivalent. Is immediate notification required under § 20.2202(a)?",
+  "expected_outcome": "required",
+  "sources": [
+    {
+      "document_id": "CFR-20-REPORTS",
+      "section": "§ 20.2202(a)"
+    }
+  ],
+  "exposure_id": null,
+  "why": "Tests the inclusive R1 TEDE boundary: exactly 25 rem satisfies the immediate-notification threshold.",
+  "threshold": {
+    "pair_id": "R1-TEDE-25",
+    "boundary": 25.0,
+    "value": 25.0,
+    "dose_quantity": "total_effective_dose_equivalent",
+    "side": "at",
+    "expected_rule_outcome": "required"
+  },
+  "refusal": null,
+  "turns": [],
+  "required_terms": [
+    "total effective dose equivalent",
+    "25 rem",
+    "immediate"
+  ],
+  "forbidden_sources": [],
+  "expected_missing_fields": [],
+  "expected_triggers": []
+}

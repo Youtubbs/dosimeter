@@ -1,0 +1,32 @@
+{
+  "id": "GOLD-006",
+  "category": "threshold",
+  "query": "Licensed material was out of control and a worker received exactly 15 rem lens dose equivalent. Is 24-hour notification required under § 20.2202(b)?",
+  "expected_outcome": "not_required",
+  "sources": [
+    {
+      "document_id": "CFR-20-REPORTS",
+      "section": "§ 20.2202(b)"
+    }
+  ],
+  "exposure_id": null,
+  "why": "Tests the strict R2 lens boundary: exactly 15 rem does not exceed 15 rem even when loss of control is present.",
+  "threshold": {
+    "pair_id": "R2-LENS-15",
+    "boundary": 15.0,
+    "value": 15.0,
+    "dose_quantity": "lens_dose_equivalent",
+    "side": "at",
+    "expected_rule_outcome": "not_required"
+  },
+  "refusal": null,
+  "turns": [],
+  "required_terms": [
+    "lens dose equivalent",
+    "loss of control",
+    "15 rem"
+  ],
+  "forbidden_sources": [],
+  "expected_missing_fields": [],
+  "expected_triggers": []
+}

@@ -2,60 +2,98 @@
 
 from enum import StrEnum
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class GoldenCategory(StrEnum):
-    """Supported golden-set evaluation categories."""
+    """Required golden-set evaluation categories."""
 
-    RULE_BOUNDARY = "rule_boundary"
-    MISSING_DATA = "missing_data"
-    DOSE_QUANTITY = "dose_quantity"
-    PACKET = "packet"
-    POLICY_QUESTION = "policy_question"
+    SINGLE_DOCUMENT = "single_document"
+    MULTI_HOP = "multi_hop"
+    THRESHOLD = "threshold"
+    EXPOSURE_BACKED = "exposure_backed"
     REFUSAL = "refusal"
+    DETERMINATION = "determination"
     ADVERSARIAL = "adversarial"
-    MULTI_TURN = "multi_turn"
-    SOURCE_GROUNDING = "source_grounding"
+    NEAR_MISS = "near_miss"
     ESCALATION = "escalation"
+    MULTI_TURN = "multi_turn"
 
 
-class GoldenExpected(BaseModel):
-    """Expected deterministic behavior for a golden case."""
+class GoldenSource(BaseModel):
+    """A document and section/path required to support the expected result."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", frozen=True)
 
-    outcome: str
-    rule_id: str | None = None
-    dispatch_workers: bool | None = None
-    human_determination_required: bool = False
-    escalation_required: bool = False
-    required_sources: tuple[str, ...] = ()
-    expected_missing_fields: tuple[str, ...] = ()
-    expected_triggers: tuple[str, ...] = ()
+    document_id: str = Field(min_length=1)
+    section: str = Field(min_length=1)
 
 
 class GoldenTurn(BaseModel):
-    """One user turn in a golden evaluation case."""
+    """One turn in a multi-turn golden case."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", frozen=True)
 
+    command: str = Field(min_length=1)
     text: str = Field(min_length=1)
+    expected_outcome: str = Field(min_length=1)
+
+
+class ThresholdExpectation(BaseModel):
+    """Extra assertions required for a threshold-boundary case."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    pair_id: str = Field(min_length=1)
+    boundary: float
+    value: float
+    dose_quantity: str = Field(min_length=1)
+    side: str = Field(pattern=r"^(below|at|above)$")
+    expected_rule_outcome: str = Field(min_length=1)
+
+
+class RefusalExpectation(BaseModel):
+    """Extra assertions required for an out-of-corpus refusal."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    reason: str = Field(min_length=1)
+    forbidden_phrase: str = Field(min_length=1)
 
 
 class GoldenCase(BaseModel):
     """One machine-readable golden evaluation case."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", frozen=True)
 
-    case_id: str = Field(min_length=1)
-    title: str = Field(min_length=1)
+    id: str = Field(min_length=1)
     category: GoldenCategory
-    description: str = Field(min_length=1)
+    query: str = Field(min_length=1)
+    expected_outcome: str = Field(min_length=1)
+    sources: tuple[GoldenSource, ...] = ()
+    exposure_id: str | None = None
+    why: str = Field(min_length=1)
 
-    turns: tuple[GoldenTurn, ...] = Field(min_length=1)
+    threshold: ThresholdExpectation | None = None
+    refusal: RefusalExpectation | None = None
+    turns: tuple[GoldenTurn, ...] = ()
 
-    packet_id: str | None = None
-    tags: tuple[str, ...] = ()
+    required_terms: tuple[str, ...] = ()
+    forbidden_sources: tuple[str, ...] = ()
+    expected_missing_fields: tuple[str, ...] = ()
+    expected_triggers: tuple[str, ...] = ()
 
-    expected: GoldenExpected
+    @model_validator(mode="after")
+    def validate_case_specific_fields(self):
+        """Require metadata that is mandatory for specialized case types."""
+
+        if self.category == GoldenCategory.THRESHOLD and self.threshold is None:
+            raise ValueError("threshold cases require threshold metadata")
+
+        if self.category == GoldenCategory.REFUSAL and self.refusal is None:
+            raise ValueError("refusal cases require refusal metadata")
+
+        if len(self.turns) == 1:
+            raise ValueError("multi-turn cases must contain at least two turns")
+
+        return self

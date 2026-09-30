@@ -136,16 +136,16 @@ def build_kb_retriever(
     threshold: float | None = None,
     status: Status | None = None,
 ) -> BaseRetriever:
-    """Build the production Amazon Bedrock Knowledge Base retriever."""
+    """Build the production Amazon Bedrock managed Knowledge Base retriever."""
 
     settings = get_settings()
 
-    vector_search_configuration = {
+    managed_search_configuration = {
         "numberOfResults": k,
     }
 
     if status is not None:
-        vector_search_configuration["filter"] = {
+        managed_search_configuration["filter"] = {
             "equals": {
                 "key": "status",
                 "value": status,
@@ -158,9 +158,9 @@ def build_kb_retriever(
         credentials_profile_name=settings.aws_profile,
         config=client_config(),
         retrieval_config={
-            "vectorSearchConfiguration": vector_search_configuration,
+            "managedSearchConfiguration": managed_search_configuration,
         },
-        min_score_confidence=settings.similarity_threshold if threshold is None else threshold,
+        min_score_confidence=(settings.similarity_threshold if threshold is None else threshold),
     )
 
 

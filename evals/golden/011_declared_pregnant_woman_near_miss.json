@@ -1,0 +1,24 @@
+{
+  "id": "GOLD-011",
+  "category": "near_miss",
+  "query": "Which section of the available NRC regulations addresses occupational exposure involving the embryo or fetus of a declared pregnant woman?",
+  "expected_outcome": "answer",
+  "sources": [
+    {
+      "document_id": "CFR-20-LIMITS",
+      "section": "§ 20.1208"
+    }
+  ],
+  "exposure_id": null,
+  "why": "Tests refusal precision: declared pregnant woman is explicitly present in the corpus and must be answered rather than incorrectly refused as out of scope.",
+  "threshold": null,
+  "refusal": null,
+  "turns": [],
+  "required_terms": [
+    "§ 20.1208",
+    "declared pregnant woman"
+  ],
+  "forbidden_sources": [],
+  "expected_missing_fields": [],
+  "expected_triggers": []
+}

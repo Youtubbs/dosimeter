@@ -1,0 +1,22 @@
+{
+  "id": "GOLD-009",
+  "category": "refusal",
+  "query": "What inspection requirements apply to a reactor pressure vessel under NRC regulations?",
+  "expected_outcome": "refusal",
+  "sources": [],
+  "exposure_id": null,
+  "why": "Reactor pressure vessel requirements are deliberately outside the committed corpus, so the system must refuse rather than answer from model knowledge.",
+  "threshold": null,
+  "refusal": {
+    "reason": "Reactor pressure vessel requirements are outside the available corpus.",
+    "forbidden_phrase": "The NRC requires reactor pressure vessel inspections"
+  },
+  "turns": [],
+  "required_terms": [
+    "outside",
+    "corpus"
+  ],
+  "forbidden_sources": [],
+  "expected_missing_fields": [],
+  "expected_triggers": []
+}
