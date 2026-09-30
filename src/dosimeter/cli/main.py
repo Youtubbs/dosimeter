@@ -160,6 +160,9 @@ def _assess(exposure_id: str, officer_code: str, settings: Settings) -> int:
     ]
     if result.escalated:
         lines.append(f"queued as: {result.eligibility.queue_id}")
+    if result.partial is not None:
+        lines.append(f"stopped:   {result.partial['message']}")
+        lines.append(f"partial:   {result.partial['partial']}")
 
     sys.stdout.write("\n".join(lines) + "\n")
     return 0

@@ -1,15 +1,21 @@
 """invoking our bedrock modal"""
 
+import time
 from typing import Any
 
 from langchain_aws import ChatBedrockConverse
 from langchain_core.language_models import BaseChatModel
 
-from ..aws.aws import get_client
+from ..aws.aws import client_config, get_client
 from ..config.settings import get_settings
+from ..harness.budgets import SessionLedger
+from ..harness.run_record import RunRecorder
 from ..prompts import SYSTEM_PROMPT
 from ..redaction import redact
 from ..tools.dispatcher import Tool, ToolDispatcher
+
+# the role every agent's model call is recorded under; the judge records its own
+REASONING_ROLE = "reasoning"
 
 
 def converse(prompt: str) -> str:
@@ -51,12 +57,57 @@ def get_chat_model(*, temperature: float = 0.0, max_tokens: int | None = None) -
         credentials_profile_name=settings.aws_profile,
         temperature=temperature,
         max_tokens=max_tokens or settings.bounds.default_max_tokens_per_call,
+        config=client_config(),
         # content filters on every model call
         guardrail_config={
             "guardrailIdentifier": settings.guardrail_id,
             "guardrailVersion": settings.guardrail_version,
         },
     )
+
+
+def usage_of(response: dict[str, Any]) -> dict[str, int]:
+    """retrieving the token usage of a Converse response"""
+
+    usage = response.get("usage", {})
+
+    return {
+        "input_tokens": usage.get("inputTokens", 0),
+        "output_tokens": usage.get("outputTokens", 0),
+    }
+
+
+def check_budget(ledger: SessionLedger | None, agent: str | None) -> None:
+    """Refuse to start the next model call once any budget is spent."""
+
+    if ledger is not None:
+        ledger.require(agent=agent)
+
+
+def record_usage(
+    *,
+    ledger: SessionLedger | None,
+    recorder: RunRecorder | None,
+    agent: str | None,
+    role: str,
+    input_tokens: int,
+    output_tokens: int,
+    started: float,
+) -> None:
+    """Add one model call to the session budget and to the turn's run record."""
+
+    if ledger is not None:
+        ledger.record_model_call(input_tokens, output_tokens)
+
+    if recorder is not None:
+        recorder.model_called(
+            model_id=get_settings().model_for(role),
+            role=role,
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            agent=agent,
+            duration_ms=round((time.perf_counter() - started) * 1000, 3),
+        )
 
 
 def bedrock_tool_spec(tool: Tool) -> dict[str, Any]:
@@ -91,6 +142,8 @@ def run_tool_loop(
 
     settings = get_settings()
     bedrock = get_client("bedrock-runtime")
+    ledger = dispatcher.ledger
+    agent = dispatcher.agent
 
     messages: list[dict[str, Any]] = [
         {
@@ -102,15 +155,32 @@ def run_tool_loop(
 
     tool_config = bedrock_tool_config(tools)
 
+    # the model's stop reason ends the loop; max_iterations is the hard cap
     for _ in range(max_iterations):
+        check_budget(ledger, agent)
+
+        started = time.perf_counter()
         response = bedrock.converse(
             modelId=settings.bedrock_model_id,
             system=[{"text": system_prompt}],
             messages=messages,
             toolConfig=tool_config,
             inferenceConfig={
-                "maxTokens": settings.bounds.default_max_tokens_per_call,
+                "maxTokens": (
+                    ledger.tokens_left_for(agent)
+                    if ledger is not None
+                    else settings.bounds.tokens_for(agent)
+                ),
             },
+        )
+
+        record_usage(
+            ledger=ledger,
+            recorder=dispatcher.recorder,
+            agent=agent,
+            role=REASONING_ROLE,
+            started=started,
+            **usage_of(response),
         )
 
         assistant_message = response["output"]["message"]

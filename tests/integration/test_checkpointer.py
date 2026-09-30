@@ -85,8 +85,8 @@ def graph_for(monkeypatch: pytest.MonkeyPatch, participant: Participant, saver):
         }
 
     monkeypatch.setattr(
-        "dosimeter.graph.graph.coordinator_node",
-        coordinator_node,
+        "dosimeter.graph.graph.make_coordinator_node",
+        lambda **_: coordinator_node,
     )
     monkeypatch.setattr(
         "dosimeter.graph.graph.eligibility_node",

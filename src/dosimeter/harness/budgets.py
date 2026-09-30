@@ -20,6 +20,15 @@ WALL_CLOCK = "per_turn_wall_clock_seconds"
 SESSION_TOKENS = "max_session_tokens"
 REVIEWER_ITERATIONS = "reviewer_iteration_cap"
 
+# no tokenizer ships with the project, so retrieved text is estimated at about 4 characters a token
+CHARS_PER_TOKEN = 4
+
+
+def estimate_tokens(text: str) -> int:
+    """Roughly how many tokens a piece of text costs."""
+
+    return (len(text) + CHARS_PER_TOKEN - 1) // CHARS_PER_TOKEN
+
 
 class TurnUsage(BaseModel):
     """What one turn has spent so far."""
@@ -60,10 +69,16 @@ class SessionLedger:
     which is what makes the session ceiling accumulate across assess and ask.
     """
 
-    def __init__(self, bounds: Bounds) -> None:
+    def __init__(
+        self,
+        bounds: Bounds,
+        session_input_tokens: int = 0,
+        session_output_tokens: int = 0,
+    ) -> None:
         self.bounds = bounds
-        self.session_input_tokens = 0
-        self.session_output_tokens = 0
+        # what earlier turns of this session already spent, read back from the run records
+        self.session_input_tokens = session_input_tokens
+        self.session_output_tokens = session_output_tokens
         self.turn = TurnUsage()
 
     @property
@@ -133,9 +148,14 @@ class SessionLedger:
 
         breach = self.check(agent=agent)
         if breach is not None:
-            raise BudgetError(breach.message, ceiling=breach.ceiling, limit=breach.limit)
+            raise BudgetError(
+                breach.message,
+                ceiling=breach.ceiling,
+                limit=breach.limit,
+                used=breach.used,
+            )
 
-    def tokens_left_for(self, agent: str) -> int:
+    def tokens_left_for(self, agent: str | None) -> int:
         """What the agent may still spend this session, capped by its per-call limit."""
 
         session_left = self.bounds.max_session_tokens - self.session_tokens

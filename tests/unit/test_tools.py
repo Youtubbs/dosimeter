@@ -18,6 +18,11 @@ from dosimeter.tools.dispatcher import (
     build_registry,
 )
 from dosimeter.tools.idempotency import arguments_hash, canonicalize, idempotency_key
+from dosimeter.tools.search_knowledge_base import (
+    KnowledgeBaseSearchInput,
+    KnowledgeBaseSearchOutput,
+    KnowledgeBaseSource,
+)
 from dosimeter.tools.tools import ApiToolset
 from dosimeter.tools.transport import TransportResponse
 
@@ -63,10 +68,14 @@ ECHO_TOOL = Tool(
 
 
 class FakeRecorder:
-    """Keeps what RunRecorder.tool_called would have written."""
+    """Keeps what RunRecorder.tool_called and RunRecorder.retrieved would have written."""
 
     def __init__(self) -> None:
         self.calls: list[dict] = []
+        self.retrievals: list[dict] = []
+
+    def retrieved(self, **retrieval) -> None:
+        self.retrievals.append(retrieval)
 
     def tool_called(self, tool_name, arguments, result, outcome, **extra) -> None:
         self.calls.append(
@@ -344,3 +353,69 @@ def test_tool_errors_are_plain_data() -> None:
     error = ToolError(reason_code=ToolErrorCode.DENIED, message="no grant")
 
     assert error.model_dump()["reason_code"] == "not_entitled"
+
+
+def search(subject: Subject, arguments: KnowledgeBaseSearchInput) -> KnowledgeBaseSearchOutput:
+    return KnowledgeBaseSearchOutput(
+        found=True,
+        query=arguments.query,
+        sources=[
+            KnowledgeBaseSource(
+                doc_id="CFR-20",
+                chunk_id="CFR-20#0001",
+                title="CFR-20",
+                doc_type="regulation",
+                section_path="20.2202",
+                page=1,
+                status="in_force",
+                score=0.81,
+                text="a" * 400,
+            )
+        ],
+    )
+
+
+SEARCH_TOOL = Tool(
+    name="search_knowledge_base",
+    description="Search the corpus, for tests.",
+    input_model=KnowledgeBaseSearchInput,
+    output_model=KnowledgeBaseSearchOutput,
+    handler=search,
+)
+
+
+def test_a_search_counts_against_the_retrieval_budget_and_lands_on_the_record() -> None:
+    recorder = FakeRecorder()
+    ledger = SessionLedger(bounds=Bounds())
+    dispatch = ToolDispatcher(
+        registry=build_registry([SEARCH_TOOL]),
+        ledger=ledger,
+        subject=SUBJECT,
+        recorder=recorder,
+        agent="notification",
+    )
+
+    dispatch.invoke("search_knowledge_base", {"query": "20.2202 thresholds", "status": "in_force"})
+
+    assert ledger.turn.retrieved_chunks == 1
+    assert ledger.turn.retrieved_tokens == 100
+    assert recorder.retrievals == [
+        {
+            "query_text": "20.2202 thresholds",
+            "chunk_ids": ["CFR-20#0001"],
+            "scores": [0.81],
+            "statuses": ["in_force"],
+            "status_filter": "in_force",
+        }
+    ]
+    assert recorder.calls[0]["worker"] == "notification"
+
+
+def test_the_next_tool_call_is_refused_once_retrieval_passes_its_limit() -> None:
+    dispatch = dispatcher(SEARCH_TOOL, ECHO_TOOL, bounds=Bounds(max_retrieved_tokens=50))
+
+    dispatch.invoke("search_knowledge_base", {"query": "20.2202 thresholds"})
+    refused = dispatch.invoke("echo", {"question": "q"})
+
+    assert refused.error.reason_code == ToolErrorCode.BUDGET_EXHAUSTED
+    assert "max_retrieved_tokens" in refused.error.message

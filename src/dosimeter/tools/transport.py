@@ -11,6 +11,7 @@ from typing import Any
 from pydantic import BaseModel
 
 from dosimeter.api.identity import VERIFIED_HEADER
+from dosimeter.config.settings import get_settings
 from dosimeter.errors import ExternalServiceError
 
 
@@ -28,10 +29,15 @@ class TransportResponse(BaseModel):
 class HttpTransport:
     """Calls the tool API over HTTP. Identity travels in the verified header, never in the body."""
 
-    def __init__(self, base_url: str, officer_code: str, timeout_seconds: float = 30.0) -> None:
+    def __init__(
+        self,
+        base_url: str,
+        officer_code: str,
+        timeout_seconds: float | None = None,
+    ) -> None:
         self.base_url = base_url
         self.officer_code = officer_code
-        self.timeout_seconds = timeout_seconds
+        self.timeout_seconds = timeout_seconds or get_settings().bounds.per_call_http_timeout_seconds
 
     def _send(self, request: urllib.request.Request) -> TransportResponse:
         if request.type not in ("http", "https"):

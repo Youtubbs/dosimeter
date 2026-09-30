@@ -4,6 +4,7 @@ from collections.abc import Iterable
 from dosimeter.graph.state import GraphState
 from dosimeter.workers.nodes import make_equipment_node
 from dosimeter.harness.budgets import SessionLedger
+from dosimeter.harness.run_record import RunRecorder
 from dosimeter.tools.dispatcher import Tool
 
 
@@ -23,10 +24,12 @@ def build_equipment_node(
     *,
     ledger: SessionLedger,
     shared_tools: Iterable[Tool],
+    recorder: RunRecorder | None = None,
 ):
     """Build the LangGraph Equipment Worker node."""
 
     return make_equipment_node(
         ledger=ledger,
         shared_tools=shared_tools,
+        recorder=recorder,
     )
