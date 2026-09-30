@@ -223,8 +223,8 @@ def dispatch_two_workers(monkeypatch: pytest.MonkeyPatch) -> None:
             "reviewer_iterations": state.get("reviewer_iterations", 0) + 1,
         }
 
-    monkeypatch.setattr("dosimeter.graph.graph.notification_node", worker("notification"))
-    monkeypatch.setattr("dosimeter.graph.graph.written_report_node", worker("written_report"))
+    monkeypatch.setattr("dosimeter.graph.graph.build_notification_node",lambda **_: worker("notification"),)
+    monkeypatch.setattr("dosimeter.graph.graph.build_written_report_node",lambda **_: worker("written_report"),)
     monkeypatch.setattr("dosimeter.graph.graph.make_reviewer_node", lambda **_: reviewer)
     monkeypatch.setattr(
         "dosimeter.graph.nodes.eligibility.evaluate",
