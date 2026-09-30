@@ -25,6 +25,7 @@ from dosimeter.tools.proposals import (
 )
 from dosimeter.workers.models import (
     EquipmentFinding,
+    EquipmentProposal,
     NotificationClock,
     NotificationProposal,
     ReportingPath,
@@ -106,7 +107,8 @@ def test_propose_notification_rejects_unknown_field() -> None:
 
 
 def test_propose_equipment_finding_returns_typed_finding() -> None:
-    finding = EquipmentFinding(
+    finding = EquipmentProposal(
+        equipment_finding=EquipmentFinding.INABILITY_TO_RETRACT,
         report_required=True,
         citations=("10 CFR 34.101",),
         explanation="The equipment finding requires reporting.",
@@ -114,13 +116,15 @@ def test_propose_equipment_finding_returns_typed_finding() -> None:
 
     result = propose_equipment_finding(finding)
 
-    assert isinstance(result, EquipmentFinding)
+    assert isinstance(result, EquipmentProposal)
     assert result == finding
+    assert result.equipment_finding == EquipmentFinding.INABILITY_TO_RETRACT
     assert result.report_required is True
 
 
 def test_propose_equipment_finding_accepts_valid_mapping() -> None:
     finding = {
+        "equipment_finding": EquipmentFinding.NONE,
         "report_required": False,
         "citations": (),
         "explanation": "No equipment reporting condition was identified.",
@@ -129,7 +133,8 @@ def test_propose_equipment_finding_accepts_valid_mapping() -> None:
 
     result = propose_equipment_finding(finding)
 
-    assert isinstance(result, EquipmentFinding)
+    assert isinstance(result, EquipmentProposal)
+    assert result.equipment_finding == EquipmentFinding.NONE
     assert result.report_required is False
 
 
@@ -237,7 +242,7 @@ def test_equipment_finding_tool_has_expected_contract() -> None:
     assert isinstance(tool, Tool)
     assert tool.name == PROPOSE_EQUIPMENT_FINDING
     assert tool.input_model is ProposeEquipmentFindingInput
-    assert tool.output_model is EquipmentFinding
+    assert tool.output_model is EquipmentProposal
 
 
 def test_proposal_tools_returns_worker_proposal_tools() -> None:

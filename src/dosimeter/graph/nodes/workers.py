@@ -1,6 +1,10 @@
 """The three workers. Each one is given a single question to answer"""
 
+from collections.abc import Iterable
 from dosimeter.graph.state import GraphState
+from dosimeter.workers.nodes import make_equipment_node
+from dosimeter.harness.budgets import SessionLedger
+from dosimeter.tools.dispatcher import Tool
 
 
 def notification_node(state: GraphState) -> dict:
@@ -15,7 +19,14 @@ def written_report_node(state: GraphState) -> dict:
     return {}
 
 
-def equipment_node(state: GraphState) -> dict:
-    """Does 34.101 require a report on the equipment itself? Not written yet."""
+def build_equipment_node(
+    *,
+    ledger: SessionLedger,
+    shared_tools: Iterable[Tool],
+):
+    """Build the LangGraph Equipment Worker node."""
 
-    return {}
+    return make_equipment_node(
+        ledger=ledger,
+        shared_tools=shared_tools,
+    )

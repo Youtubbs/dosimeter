@@ -90,13 +90,21 @@ class WrittenReportProposal(BaseModel):
     missing_fields: tuple[str, ...] = ()
 
 
-class EquipmentFinding(BaseModel):
-    """
-    Typed finding produced by the Equipment Worker.
+class EquipmentFinding(StrEnum):
+    """Supported equipment findings from the Equipment Worker."""
 
-    The finding records whether the available evidence indicates that
-    equipment-related reporting may be required. It does not submit,
-    persist, or transmit a report.
+    INABILITY_TO_RETRACT = "inability_to_retract"
+    NONE = "none"
+    INSUFFICIENT_DATA = "insufficient_data"
+
+
+class EquipmentProposal(BaseModel):
+    """
+    Typed proposal from the Equipment Worker.
+
+    The worker proposes whether a reported radiographic equipment
+    failure requires regulatory reporting. It does not submit,
+    transmit, or persist a regulatory report.
     """
 
     model_config = ConfigDict(
@@ -105,10 +113,12 @@ class EquipmentFinding(BaseModel):
         extra="forbid",
     )
 
+    equipment_finding: EquipmentFinding
+
     report_required: bool
 
-    citations: tuple[str, ...] = ()
+    citations: tuple = ()
 
     explanation: str = Field(min_length=1)
 
-    missing_fields: tuple[str, ...] = ()
+    missing_fields: tuple = ()

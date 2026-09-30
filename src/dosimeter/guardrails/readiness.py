@@ -67,9 +67,7 @@ def evaluate_readiness(inputs: ReadinessInput) -> ReadinessDecision:
             may_answer_from_retrieval=False,
             refused=True,
             human_determination_required=False,
-            reasons=(
-                "The request is outside the system scope and requires escalation.",
-            ),
+            reasons=("The request is outside the system scope and requires escalation.",),
         )
 
     if inputs.request_kind == RequestKind.POLICY_QUESTION:
@@ -88,9 +86,7 @@ def evaluate_readiness(inputs: ReadinessInput) -> ReadinessDecision:
 
     if inputs.missing_required_fields:
         reasons.append(
-            "Required fields are missing: "
-            + ", ".join(inputs.missing_required_fields)
-            + "."
+            "Required fields are missing: " + ", ".join(inputs.missing_required_fields) + "."
         )
 
     if inputs.low_confidence_fields:

@@ -48,10 +48,7 @@ def _guard_extracted_blocks(
             source=f"artifact:{artifact_name}",
         )
 
-        if (
-            result.outcome == BedrockGuardrailOutcome.INTERVENED
-            and result.prompt_attack_fired
-        ):
+        if result.outcome == BedrockGuardrailOutcome.INTERVENED and result.prompt_attack_fired:
             events.append(
                 create_guardrail_event(
                     trigger="prompt_attack_filter_fired",

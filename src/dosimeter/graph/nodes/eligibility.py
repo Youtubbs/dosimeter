@@ -11,8 +11,7 @@ def signals_from_state(state: GraphState) -> TriggerSignals:
     guardrail_events = state.get("guardrail_events") or []
 
     prompt_attack_fired = any(
-        event.trigger == "prompt_attack_filter_fired"
-        for event in guardrail_events
+        event.trigger == "prompt_attack_filter_fired" for event in guardrail_events
     )
 
     unresolved_citations = [
@@ -23,8 +22,7 @@ def signals_from_state(state: GraphState) -> TriggerSignals:
 
     return TriggerSignals(
         reviewer_iterations=state.get("reviewer_iterations", 0),
-        reviewer_approved=bool(verdicts)
-        and verdicts[-1].verdict == "approved",
+        reviewer_approved=bool(verdicts) and verdicts[-1].verdict == "approved",
         unresolved_citations=unresolved_citations,
         prompt_attack_fired=prompt_attack_fired,
     )
@@ -40,9 +38,5 @@ def eligibility_node(state: GraphState) -> dict:
 
     return {
         "escalation": escalation,
-        "outcome": (
-            "escalated"
-            if escalation.escalates
-            else "ready_for_officer"
-        ),
+        "outcome": ("escalated" if escalation.escalates else "ready_for_officer"),
     }

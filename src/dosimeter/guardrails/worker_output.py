@@ -68,9 +68,7 @@ def _rule_invocations(
         ):
             continue
 
-        collected.append(
-            RuleInvocation.model_validate(invocation.result)
-        )
+        collected.append(RuleInvocation.model_validate(invocation.result))
 
     return tuple(collected)
 

@@ -64,7 +64,4 @@ def test_prompt_attack_causes_escalated_outcome():
 
     assert result["outcome"] == "escalated"
     assert result["escalation"].escalates is True
-    assert (
-        Trigger.PROMPT_ATTACK_FIRED.value
-        in result["escalation"].names()
-    )
+    assert Trigger.PROMPT_ATTACK_FIRED.value in result["escalation"].names()

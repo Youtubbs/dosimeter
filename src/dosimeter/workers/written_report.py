@@ -22,7 +22,6 @@ from dosimeter.workers.models import (
 from dosimeter.workers.toolsets import build_written_report_registry
 
 
-
 def build_written_report_proposal(
     *,
     r3_result: RuleResult,

@@ -30,7 +30,6 @@ class Trigger(StrEnum):
     PHOTO_CONTRADICTS_NARRATIVE = "photo_contradicts_narrative"
 
 
-
 class TriggerSignals(BaseModel):
     """What the turn recorded. There is no self-reported confidence here."""
 
@@ -48,7 +47,6 @@ class TriggerSignals(BaseModel):
     planned_special_exposure_valid: bool = False
     doses_at_or_above_annual_limit: list[str] = Field(default_factory=list)
     photo_contradicts_narrative: bool = False
-
 
 
 class FiredTrigger(BaseModel):
@@ -111,10 +109,7 @@ def evaluate(signals: TriggerSignals) -> EscalationOutcome:
         fired.append(
             FiredTrigger(
                 trigger=Trigger.REVIEWER_NOT_APPROVED,
-                detail=(
-                    "Reviewer did not approve the proposal on the first "
-                    "review iteration."
-                ),
+                detail=("Reviewer did not approve the proposal on the first review iteration."),
             )
         )
 
@@ -173,8 +168,6 @@ def evaluate(signals: TriggerSignals) -> EscalationOutcome:
                 detail="Photo evidence contradicts the narrative evidence.",
             )
         )
-
-
 
     return EscalationOutcome(
         evaluated=evaluated,

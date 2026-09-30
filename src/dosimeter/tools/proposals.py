@@ -13,15 +13,11 @@ from pydantic import BaseModel, ConfigDict
 
 from dosimeter.graph.schemas import Subject
 from dosimeter.tools.dispatcher import Tool
-from dosimeter.workers.models import (
-    NotificationProposal,
-    WrittenReportProposal,
-    EquipmentFinding,
-)
+from dosimeter.workers.models import NotificationProposal, WrittenReportProposal, EquipmentProposal
 
-PROPOSE_EQUIPMENT_FINDING = "propose_equipment_finding"
 PROPOSE_NOTIFICATION = "propose_notification"
 PROPOSE_WRITTEN_REPORT = "propose_written_report"
+PROPOSE_EQUIPMENT_FINDING = "propose_equipment_finding"
 
 
 # ---------------------------------------------------------------------------
@@ -46,11 +42,11 @@ class ProposeWrittenReportInput(BaseModel):
 
 
 class ProposeEquipmentFindingInput(BaseModel):
-    """Arguments supplied by the Equipment Worker."""
+    """Arguments supplied by the Equipment Report Worker."""
 
     model_config = ConfigDict(extra="forbid")
 
-    finding: EquipmentFinding
+    proposal: EquipmentProposal
 
 
 # ---------------------------------------------------------------------------
@@ -89,18 +85,14 @@ def propose_written_report(
 
 
 def propose_equipment_finding(
-    finding: EquipmentFinding | dict[str, Any],
-) -> EquipmentFinding:
-    """Validate and return an Equipment Worker finding.
+    proposal: EquipmentProposal | dict[str, Any],
+) -> EquipmentProposal:
+    """Validate and return an Equipment Worker proposal."""
 
-    This function intentionally performs no database, S3, API, or other
-    persistence operation.
-    """
+    if isinstance(proposal, EquipmentProposal):
+        return proposal
 
-    if isinstance(finding, EquipmentFinding):
-        return finding
-
-    return EquipmentFinding.model_validate(finding)
+    return EquipmentProposal.model_validate(proposal)
 
 
 # ---------------------------------------------------------------------------
@@ -136,11 +128,13 @@ def _handle_propose_equipment_finding(
     subject: Subject,
     arguments: ProposeEquipmentFindingInput,
 ) -> BaseModel:
-    """Validate an equipment finding without performing side effects."""
+    """Validate an equipment proposal without performing side effects."""
 
+    # The dispatcher injects the subject. The proposal tool performs
+    # no subject-specific writes.
     del subject
 
-    return propose_equipment_finding(arguments.finding)
+    return propose_equipment_finding(arguments.proposal)
 
 
 # ---------------------------------------------------------------------------
@@ -176,12 +170,12 @@ PROPOSE_WRITTEN_REPORT_TOOL = Tool(
 PROPOSE_EQUIPMENT_FINDING_TOOL = Tool(
     name=PROPOSE_EQUIPMENT_FINDING,
     description=(
-        "Submit a typed equipment finding after evaluating the relevant "
-        "equipment evidence. This tool validates the finding but does not "
-        "send a report or write external state."
+        "Submit a typed equipment finding after evaluating the "
+        "reported radiographic equipment failure. This tool validates "
+        "the proposal but does not submit or transmit a report."
     ),
     input_model=ProposeEquipmentFindingInput,
-    output_model=EquipmentFinding,
+    output_model=EquipmentProposal,
     handler=_handle_propose_equipment_finding,
 )
 
@@ -189,8 +183,4 @@ PROPOSE_EQUIPMENT_FINDING_TOOL = Tool(
 def proposal_tools() -> list[Tool]:
     """Return the proposal tools for registration."""
 
-    return [
-        PROPOSE_NOTIFICATION_TOOL,
-        PROPOSE_WRITTEN_REPORT_TOOL,
-        PROPOSE_EQUIPMENT_FINDING_TOOL,
-    ]
+    return [PROPOSE_NOTIFICATION_TOOL, PROPOSE_WRITTEN_REPORT_TOOL, PROPOSE_EQUIPMENT_FINDING_TOOL]
