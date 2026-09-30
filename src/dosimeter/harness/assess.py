@@ -5,17 +5,20 @@ record the eligibility check, and store the dossier.
 
 import logging
 import time
+from typing import Any
 from uuid import UUID, uuid4
 
+from langgraph.errors import GraphRecursionError
 from pydantic import BaseModel
 
 from dosimeter.config.settings import Settings
-from dosimeter.errors import EntitlementError, GateError
+from dosimeter.errors import BudgetError, EntitlementError, GateError
 from dosimeter.graph.checkpointer import open_checkpointer
 from dosimeter.graph.graph import build_graph
 from dosimeter.graph.schemas import Subject
 from dosimeter.graph.state import initial_state
 from dosimeter.graph.threads import Participant, thread_config
+from dosimeter.harness.budgets import RECURSION_DEPTH, BudgetBreach, SessionLedger
 from dosimeter.harness.eligibility import EligibilityResult, record_eligibility
 from dosimeter.harness.escalation import EscalationOutcome
 from dosimeter.harness.run_record import RunRecorder
@@ -31,6 +34,8 @@ class AssessResult(BaseModel):
     dossier_id: int
     duration_seconds: float
     eligibility: EligibilityResult
+    # set when a bound stopped the turn early, naming the ceiling
+    partial: dict[str, Any] | None = None
 
     @property
     def escalated(self) -> bool:
@@ -76,7 +81,10 @@ def run_assess(
     if officer is None:
         raise EntitlementError("no such officer", officer_code=officer_code)
 
-    turn_session_id = session_id or uuid4()
+    # a later turn on this exposure continues the officer's session, so its token ceiling carries over
+    turn_session_id = (
+        session_id or queries.latest_session(session, officer.id, exposure_id) or uuid4()
+    )
     queries.start_session(
         session,
         turn_session_id,
@@ -96,6 +104,13 @@ def run_assess(
     )
     recorder.start()
 
+    input_tokens, output_tokens = queries.session_token_usage(session, turn_session_id)
+    ledger = SessionLedger(
+        settings.bounds,
+        session_input_tokens=input_tokens,
+        session_output_tokens=output_tokens,
+    )
+
     subject = Subject(
         session_id=str(turn_session_id),
         officer_id=officer.id,
@@ -104,24 +119,57 @@ def run_assess(
         worker_id=exposure.worker_id,
     )
 
+    config = thread_config(
+        officer.id,
+        exposure_id,
+        Participant.COORDINATOR,
+        settings.bounds.max_recursion_depth,
+    )
+
+    breach: BudgetBreach | None = None
     started = time.perf_counter()
     with open_checkpointer() as checkpointer:
-        app = build_graph(settings.bounds, checkpointer=checkpointer)
-        state = app.invoke(
-            initial_state(subject),
-            thread_config(
-                officer.id,
-                exposure_id,
-                Participant.COORDINATOR,
-                settings.bounds.max_recursion_depth,
-            ),
+        app = build_graph(
+            settings.bounds,
+            ledger=ledger,
+            recorder=recorder,
+            checkpointer=checkpointer,
         )
+
+        try:
+            state = app.invoke(initial_state(subject), config)
+        except BudgetError as error:
+            breach = BudgetBreach(
+                ceiling=error.context["ceiling"],
+                limit=error.context["limit"],
+                used=error.context["used"],
+            )
+        except GraphRecursionError:
+            breach = BudgetBreach(
+                ceiling=RECURSION_DEPTH,
+                limit=settings.bounds.max_recursion_depth,
+                used=settings.bounds.max_recursion_depth,
+            )
+
+        # a breach stops the turn; the steps that finished are the partial response
+        if breach is not None:
+            state = app.get_state(config).values
     duration = time.perf_counter() - started
 
-    plan = state.get("dispatch_plan")
-    if plan is not None:
-        for worker in plan.validated_workers():
-            recorder.dispatched(worker, plan.goals.get(worker, plan.rationale or "dispatched"))
+    partial = None
+    if breach is not None:
+        finished = ", ".join(sorted(state.get("proposals") or {})) or "none"
+        partial = ledger.partial_response(breach, partial=f"workers finished: {finished}")
+        recorder.guardrail_event(
+            stage="bounds",
+            action="terminated",
+            guardrail_id=breach.ceiling,
+            detail=partial,
+        )
+        logger.warning(
+            "assess.stopped",
+            extra={"exposure_id": exposure_id, "ceiling": breach.ceiling},
+        )
 
     for verdict in state.get("reviewer_verdicts") or []:
         recorder.reviewer_verdict(
@@ -153,12 +201,17 @@ def run_assess(
         recorder=recorder,
     )
 
-    outcome = state.get("outcome") or "complete"
+    outcome = "partial" if breach is not None else state.get("outcome") or "complete"
+
+    payload = dossier_payload(state, exposure_id)
+    if partial is not None:
+        payload["partial"] = partial
+
     dossier_id = queries.save_dossier(
         session,
         exposure_id,
         recorder.run_id,
-        dossier_payload(state, exposure_id),
+        payload,
     )
     recorder.finish(outcome)
     queries.end_session(session, turn_session_id)
@@ -181,4 +234,5 @@ def run_assess(
         dossier_id=dossier_id,
         duration_seconds=duration,
         eligibility=eligibility,
+        partial=partial,
     )

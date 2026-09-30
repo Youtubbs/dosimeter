@@ -358,6 +358,10 @@ def start_session(
     officer_id: int | None = None,
     exposure_id: str | None = None,
 ) -> None:
+    # a later turn continues an existing session rather than starting a second one
+    if session.get(orm.SessionRow, session_id) is not None:
+        return
+
     session.add(
         orm.SessionRow(
             id=session_id,
@@ -367,6 +371,34 @@ def start_session(
         )
     )
     session.flush()
+
+
+def latest_session(session: Session, officer_id: int, exposure_id: str) -> UUID | None:
+    """The officer's most recent session on this exposure, so the next turn continues it."""
+
+    return session.scalars(
+        select(orm.SessionRow.id)
+        .where(
+            orm.SessionRow.officer_id == officer_id,
+            orm.SessionRow.exposure_id == exposure_id,
+        )
+        .order_by(orm.SessionRow.started_at.desc())
+    ).first()
+
+
+def session_token_usage(session: Session, session_id: UUID) -> tuple[int, int]:
+    """Input and output tokens every earlier turn of this session already spent."""
+
+    input_tokens, output_tokens = session.execute(
+        select(
+            func.coalesce(func.sum(orm.ModelCallRow.input_tokens), 0),
+            func.coalesce(func.sum(orm.ModelCallRow.output_tokens), 0),
+        )
+        .join(orm.RunRecordRow, orm.RunRecordRow.id == orm.ModelCallRow.run_id)
+        .where(orm.RunRecordRow.session_id == session_id)
+    ).one()
+
+    return int(input_tokens), int(output_tokens)
 
 
 def end_session(session: Session, session_id: UUID) -> None:

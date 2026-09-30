@@ -4,7 +4,8 @@ import time
 
 import pytest
 
-from dosimeter.config.settings import Bounds
+from dosimeter.aws.aws import client_config
+from dosimeter.config.settings import Bounds, get_settings
 from dosimeter.errors import BudgetError
 from dosimeter.harness.budgets import (
     REVIEWER_ITERATIONS,
@@ -12,7 +13,9 @@ from dosimeter.harness.budgets import (
     TOOL_INVOCATIONS,
     WALL_CLOCK,
     SessionLedger,
+    estimate_tokens,
 )
+from dosimeter.tools.transport import HttpTransport
 
 
 def test_a_fresh_ledger_lets_a_leg_start() -> None:
@@ -96,14 +99,25 @@ def test_the_wall_clock_stops_a_long_turn() -> None:
     assert breach.ceiling == WALL_CLOCK
 
 
-def test_retrieval_limits_are_counted() -> None:
+def test_retrieval_stops_the_next_leg_at_the_configured_limit() -> None:
     ledger = SessionLedger(bounds=Bounds(max_retrieved_chunks=3, max_retrieved_tokens=100))
 
-    ledger.record_retrieval(chunks=3, tokens=90)
+    ledger.record_retrieval(chunks=2, tokens=90)
     assert ledger.check() is None
 
+    # the limit itself is spent, exactly like every other ceiling
     ledger.record_retrieval(chunks=1, tokens=0)
     assert ledger.check().ceiling == "max_retrieved_chunks"
+
+
+def test_retrieved_tokens_stop_the_next_leg_at_the_configured_limit() -> None:
+    ledger = SessionLedger(bounds=Bounds(max_retrieved_chunks=99, max_retrieved_tokens=100))
+
+    ledger.record_retrieval(chunks=1, tokens=99)
+    assert ledger.check() is None
+
+    ledger.record_retrieval(chunks=1, tokens=1)
+    assert ledger.check().ceiling == "max_retrieved_tokens"
 
 
 def test_tokens_left_for_an_agent_respects_both_ceilings() -> None:
@@ -118,3 +132,35 @@ def test_tokens_left_for_an_agent_respects_both_ceilings() -> None:
     ledger.record_model_call(input_tokens=1000, output_tokens=0)
     assert ledger.tokens_left_for("coordinator") == 0
     assert ledger.check(agent="coordinator") is not None
+
+
+def test_a_later_turn_starts_from_what_the_session_already_spent() -> None:
+    first_turn = SessionLedger(bounds=Bounds(max_session_tokens=1000))
+    first_turn.record_model_call(input_tokens=700, output_tokens=300)
+
+    # the second turn is a new process; its ledger is loaded from the first turn's run record
+    second_turn = SessionLedger(
+        bounds=Bounds(max_session_tokens=1000),
+        session_input_tokens=first_turn.session_input_tokens,
+        session_output_tokens=first_turn.session_output_tokens,
+    )
+
+    with pytest.raises(BudgetError) as caught:
+        second_turn.require(agent="coordinator")
+
+    assert caught.value.context["ceiling"] == SESSION_TOKENS
+    assert caught.value.context["used"] == 1000
+
+
+def test_retrieved_text_is_estimated_at_four_characters_a_token() -> None:
+    assert estimate_tokens("") == 0
+    assert estimate_tokens("abcd") == 1
+    assert estimate_tokens("abcde") == 2
+
+
+def test_the_http_timeout_reaches_every_aws_client_and_the_tool_api() -> None:
+    timeout = get_settings().bounds.per_call_http_timeout_seconds
+
+    assert client_config().read_timeout == timeout
+    assert client_config().connect_timeout == timeout
+    assert HttpTransport("http://localhost:8080", "OFF-101").timeout_seconds == timeout

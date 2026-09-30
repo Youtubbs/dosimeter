@@ -1,9 +1,11 @@
 """The run record writer, the eligibility check and what trace renders."""
 
+from types import SimpleNamespace
+
 import pytest
 from sqlalchemy import func, select
 
-from dosimeter.config.settings import Settings
+from dosimeter.config.settings import Bounds, Settings
 from dosimeter.graph.schemas import DispatchPlan, ReviewerVerdict, WorkerProposal
 from dosimeter.harness.assess import run_assess
 from dosimeter.harness.eligibility import record_eligibility
@@ -17,7 +19,7 @@ EXPOSURE = "EXP-2026-0412"
 OFFICER = "OFF-101"
 
 
-def settings_for_tests() -> Settings:
+def settings_for_tests(**overrides) -> Settings:
     return Settings(
         _env_file=None,
         bedrock_model_id="text-model-id",
@@ -26,6 +28,36 @@ def settings_for_tests() -> Settings:
         guardrail_id="gr",
         corpus_bucket="corpus",
         packet_bucket="packets",
+        **overrides,
+    )
+
+
+class FakeChatModel:
+    """Stands in for get_chat_model(): with_structured_output(...).invoke(...), with token usage."""
+
+    def __init__(self, plan: DispatchPlan, input_tokens: int, output_tokens: int) -> None:
+        self.plan = plan
+        self.usage = {"input_tokens": input_tokens, "output_tokens": output_tokens}
+
+    def with_structured_output(self, schema, include_raw=False):
+        return self
+
+    def invoke(self, messages):
+        raw = SimpleNamespace(usage_metadata=self.usage)
+        return {"raw": raw, "parsed": self.plan, "parsing_error": None}
+
+
+def coordinator_answers(
+    monkeypatch: pytest.MonkeyPatch,
+    plan: DispatchPlan,
+    input_tokens: int,
+    output_tokens: int,
+) -> None:
+    """The real Coordinator node, with the model call answered by a stand-in."""
+
+    monkeypatch.setattr(
+        "dosimeter.graph.nodes.coordinator.get_chat_model",
+        lambda **_: FakeChatModel(plan, input_tokens, output_tokens),
     )
 
 
@@ -161,16 +193,18 @@ def test_a_fired_trigger_queues_the_dossier_naming_every_trigger(seeded: Session
 
 
 def dispatch_two_workers(monkeypatch: pytest.MonkeyPatch) -> None:
-    """Swap in node bodies that plan two workers and approve on the first review."""
+    """Plan two workers and approve on the first review."""
 
-    def coordinator(state):
-        return {
-            "dispatch_plan": DispatchPlan(
-                workers=["notification", "written_report"],
-                goals={"notification": "does any tier fire", "written_report": "is a report owed"},
-                rationale="a dose over an annual limit",
-            )
-        }
+    coordinator_answers(
+        monkeypatch,
+        DispatchPlan(
+            workers=["notification", "written_report"],
+            goals={"notification": "does any tier fire", "written_report": "is a report owed"},
+            rationale="a dose over an annual limit",
+        ),
+        input_tokens=300,
+        output_tokens=50,
+    )
 
     def worker(name):
         def run(state):
@@ -189,10 +223,9 @@ def dispatch_two_workers(monkeypatch: pytest.MonkeyPatch) -> None:
             "reviewer_iterations": state.get("reviewer_iterations", 0) + 1,
         }
 
-    monkeypatch.setattr("dosimeter.graph.graph.coordinator_node", coordinator)
     monkeypatch.setattr("dosimeter.graph.graph.notification_node", worker("notification"))
     monkeypatch.setattr("dosimeter.graph.graph.written_report_node", worker("written_report"))
-    monkeypatch.setattr("dosimeter.graph.graph.reviewer_node", reviewer)
+    monkeypatch.setattr("dosimeter.graph.graph.make_reviewer_node", lambda **_: reviewer)
     monkeypatch.setattr(
         "dosimeter.graph.nodes.eligibility.evaluate",
         lambda signals: fired(Trigger.AT_OR_ABOVE_ANNUAL_LIMIT),
@@ -226,6 +259,57 @@ def test_assess_runs_the_graph_and_persists_the_dossier_and_record(
     assert {item.worker for item in detail["dispatches"]} == {"notification", "written_report"}
     assert detail["reviewer_verdicts"][0].verdict == "approved"
     assert result.duration_seconds < 30
+
+    # the Coordinator's dispatches, its model call and the per-agent totals are on the record
+    dispatches = {item.worker: item for item in detail["dispatches"]}
+    assert dispatches["notification"].reason == "does any tier fire"
+    assert dispatches["notification"].iteration == 1
+    assert dispatches["notification"].redispatch_trigger is None
+    assert [
+        (call.agent, call.role, call.input_tokens, call.output_tokens)
+        for call in detail["model_calls"]
+    ] == [("coordinator", "reasoning", 300, 50)]
+    assert queries.get_run_record(seeded, result.run_id).token_totals == {"coordinator": 350}
+
+
+def test_the_session_ceiling_carries_across_two_turns(
+    seeded: Session,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from dosimeter.graph.checkpointer import setup_checkpointer
+    from tests.integration.test_checkpointer import database_settings
+
+    setup_checkpointer(database_settings())
+    coordinator_answers(
+        monkeypatch,
+        DispatchPlan(workers=[], rationale="nothing to dispatch"),
+        input_tokens=700,
+        output_tokens=300,
+    )
+    settings = settings_for_tests(bounds=Bounds(max_session_tokens=1000))
+
+    first = run_assess(seeded, EXPOSURE, OFFICER, settings)
+    second = run_assess(seeded, EXPOSURE, OFFICER, settings)
+
+    first_record = queries.get_run_record(seeded, first.run_id)
+    second_record = queries.get_run_record(seeded, second.run_id)
+    second_detail = queries.run_record_detail(seeded, second.run_id)
+
+    assert first.partial is None
+    assert first_record.session_id == second_record.session_id
+    assert queries.session_token_usage(seeded, first_record.session_id) == (700, 300)
+
+    # the second turn spent nothing; the first turn's tokens are what stopped it
+    assert second.outcome == "partial"
+    assert second.partial["ceiling"] == "max_session_tokens"
+    assert "max_session_tokens reached" in second.partial["message"]
+    assert second_detail["model_calls"] == []
+    assert [(event.stage, event.guardrail_id) for event in second_detail["guardrail_events"]] == [
+        ("bounds", "max_session_tokens")
+    ]
+    assert queries.latest_dossier(seeded, EXPOSURE).payload["partial"]["ceiling"] == (
+        "max_session_tokens"
+    )
 
 
 def test_trace_renders_what_the_turn_did_reading_only_from_postgres(seeded: Session) -> None:

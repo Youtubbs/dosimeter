@@ -12,6 +12,7 @@ from collections.abc import Iterable
 
 from dosimeter.graph.schemas import Subject
 from dosimeter.harness.budgets import SessionLedger
+from dosimeter.harness.run_record import RunRecorder
 from dosimeter.models.bedrock import run_tool_loop
 from dosimeter.prompts import EQUIPMENT_SYSTEM_PROMPT
 from dosimeter.tools.dispatcher import InvocationRecord, Tool, ToolDispatcher
@@ -42,6 +43,7 @@ def run_equipment_worker(
     shared_tools: Iterable[Tool],
     prompt: str,
     max_iterations: int = 10,
+    recorder: RunRecorder | None = None,
 ) -> tuple[EquipmentProposal, list[InvocationRecord]]:
     """Run the Equipment Worker through the Bedrock tool loop."""
 
@@ -53,6 +55,8 @@ def run_equipment_worker(
         registry=registry,
         ledger=ledger,
         subject=subject,
+        recorder=recorder,
+        agent="equipment",
     )
 
     run_tool_loop(

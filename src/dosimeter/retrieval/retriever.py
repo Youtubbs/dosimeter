@@ -11,6 +11,7 @@ from langchain_core.documents import Document
 from langchain_core.retrievers import BaseRetriever
 from langchain_core.vectorstores import InMemoryVectorStore
 
+from dosimeter.aws.aws import client_config
 from dosimeter.config.settings import get_settings
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
@@ -114,6 +115,7 @@ def build_local_retriever(
         model_id=settings.bedrock_embed_model_id,
         region_name=settings.aws_region,
         credentials_profile_name=settings.aws_profile,
+        config=client_config(),
     )
 
     store = InMemoryVectorStore.from_documents(
@@ -154,6 +156,7 @@ def build_kb_retriever(
         knowledge_base_id=settings.knowledge_base_id,
         region_name=settings.aws_region,
         credentials_profile_name=settings.aws_profile,
+        config=client_config(),
         retrieval_config={
             "vectorSearchConfiguration": vector_search_configuration,
         },

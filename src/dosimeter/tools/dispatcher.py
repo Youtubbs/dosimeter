@@ -18,7 +18,7 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from dosimeter.errors import BudgetError, DosimeterError
 from dosimeter.graph.schemas import Subject
-from dosimeter.harness.budgets import SessionLedger
+from dosimeter.harness.budgets import SessionLedger, estimate_tokens
 from dosimeter.harness.run_record import RunRecorder
 from dosimeter.tools.idempotency import arguments_hash, idempotency_key
 
@@ -145,11 +145,14 @@ class ToolDispatcher:
         ledger: SessionLedger,
         subject: Subject,
         recorder: RunRecorder | None = None,
+        agent: str | None = None,
     ) -> None:
         self.registry = registry
         self.ledger = ledger
         self.subject = subject
         self.recorder = recorder
+        # the worker this dispatcher runs for, so its calls and tokens are attributed to it
+        self.agent = agent
         self.disabled: set[str] = set()
         self.invocations: list[InvocationRecord] = []
 
@@ -254,6 +257,14 @@ class ToolDispatcher:
             )
         )
 
+        # retrieved text counts against the turn's retrieval budget
+        if tool_name == "search_knowledge_base" and value is not None:
+            sources = value.get("sources", [])
+            self.ledger.record_retrieval(
+                chunks=len(sources),
+                tokens=sum(estimate_tokens(source.get("text", "")) for source in sources),
+            )
+
         # every call lands on the turn's run record, redacted there
         if self.recorder is not None:
             self.recorder.tool_called(
@@ -261,9 +272,20 @@ class ToolDispatcher:
                 arguments,
                 value,
                 outcome,
+                worker=self.agent,
                 duration_ms=duration_ms,
                 argument_sha256=digest,
             )
+
+            if tool_name == "search_knowledge_base" and value is not None:
+                sources = value.get("sources", [])
+                self.recorder.retrieved(
+                    query_text=value.get("query", ""),
+                    chunk_ids=[source.get("chunk_id", "") for source in sources],
+                    scores=[source.get("score", 0.0) for source in sources],
+                    statuses=[source.get("status", "") for source in sources],
+                    status_filter=arguments.get("status"),
+                )
 
             if tool_name == "evaluate_rule" and outcome == "ok" and value is not None:
                 rule_result = value.get("result", {})

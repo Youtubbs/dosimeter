@@ -112,7 +112,7 @@ class Bounds(BaseModel):
     max_artifacts_per_packet: int = Field(default=12, gt=0)
     max_artifact_bytes: int = Field(default=25 * 1024 * 1024, gt=0)
 
-    def tokens_for(self, agent: str) -> int:
+    def tokens_for(self, agent: str | None) -> int:
         """Token limit for one agent, or the default if it has none of its own."""
 
         return self.max_tokens_per_call.get(agent, self.default_max_tokens_per_call)

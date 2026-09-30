@@ -10,6 +10,7 @@ from collections.abc import Callable, Iterable
 from dosimeter.graph.schemas import Subject, WorkerProposal
 from dosimeter.graph.state import GraphState
 from dosimeter.harness.budgets import SessionLedger
+from dosimeter.harness.run_record import RunRecorder
 from dosimeter.tools.dispatcher import InvocationRecord, Tool
 from dosimeter.workers.notification import run_notification_worker
 from dosimeter.workers.written_report import run_written_report_worker
@@ -56,6 +57,7 @@ def make_notification_node(
     *,
     ledger: SessionLedger,
     shared_tools: Iterable[Tool],
+    recorder: RunRecorder | None = None,
 ) -> NodeFn:
     """Create the Notification Worker graph node."""
 
@@ -82,6 +84,7 @@ def make_notification_node(
             ledger=ledger,
             shared_tools=tools,
             prompt=prompt,
+            recorder=recorder,
         )
 
         guardrail_events = evaluate_worker_output(
@@ -122,6 +125,7 @@ def make_written_report_node(
     *,
     ledger: SessionLedger,
     shared_tools: Iterable[Tool],
+    recorder: RunRecorder | None = None,
 ) -> NodeFn:
     """Create the Written Report Worker graph node."""
 
@@ -148,6 +152,7 @@ def make_written_report_node(
             ledger=ledger,
             shared_tools=tools,
             prompt=prompt,
+            recorder=recorder,
         )
 
         guardrail_events = evaluate_worker_output(
@@ -188,6 +193,7 @@ def make_equipment_node(
     *,
     ledger: SessionLedger,
     shared_tools: Iterable[Tool],
+    recorder: RunRecorder | None = None,
 ):
     """Create the LangGraph Equipment Worker node."""
 
@@ -211,6 +217,7 @@ def make_equipment_node(
             ledger=ledger,
             shared_tools=shared_tools,
             prompt=goal,
+            recorder=recorder,
         )
 
         return {

@@ -4,11 +4,21 @@ The Coordinator decides which specialized workers should run.
 The graph is responsible for routing the workers.
 """
 
+import time
+
 from langchain_core.messages import HumanMessage, SystemMessage
 
 from dosimeter.graph.schemas import DispatchPlan
 from dosimeter.graph.state import GraphState
-from dosimeter.models.bedrock import get_chat_model
+from dosimeter.harness.budgets import SessionLedger
+from dosimeter.harness.run_record import RunRecorder
+from dosimeter.models.bedrock import (
+    REASONING_ROLE,
+    check_budget,
+    get_chat_model,
+    max_tokens_for,
+    record_usage,
+)
 from dosimeter.prompts import COORDINATOR_SYSTEM_PROMPT
 from dosimeter.redaction import redact
 
@@ -45,31 +55,85 @@ def _build_coordinator_prompt(state: GraphState) -> str:
     return redact(prompt)
 
 
-def coordinator_node(state: GraphState) -> dict:
-    """Ask the model for a structured worker dispatch plan."""
+def _rejection_trigger(state: GraphState) -> str | None:
+    """The Reviewer rejections that sent this turn back for a re-dispatch."""
 
-    model = get_chat_model()
+    iteration = state.get("reviewer_iterations", 0)
+    rejected = [
+        f"{verdict.worker}: {verdict.reason}"
+        for verdict in state.get("reviewer_verdicts") or []
+        if verdict.iteration == iteration and verdict.verdict == "rejected"
+    ]
 
-    structured_model = model.with_structured_output(DispatchPlan)
+    return "; ".join(rejected) or None
 
-    prompt = _build_coordinator_prompt(state)
 
-    plan = structured_model.invoke(
-        [
-            SystemMessage(content=COORDINATOR_SYSTEM_PROMPT),
-            HumanMessage(content=prompt),
-        ]
-    )
+def make_coordinator_node(
+    *,
+    ledger: SessionLedger | None = None,
+    recorder: RunRecorder | None = None,
+):
+    """Create the Coordinator node, with the turn's budget and run record."""
 
-    if not isinstance(plan, DispatchPlan):
-        plan = DispatchPlan.model_validate(plan)
+    def coordinator_node(state: GraphState) -> dict:
+        """Ask the model for a structured worker dispatch plan."""
 
-    # This is important: don't allow the model to invent worker names.
-    plan.validated_workers()
+        check_budget(ledger, "coordinator")
 
-    return {
-        "dispatch_plan": plan,
-    }
+        model = get_chat_model(max_tokens=max_tokens_for(ledger, "coordinator"))
+
+        # include_raw keeps the token usage next to the parsed plan
+        structured_model = model.with_structured_output(DispatchPlan, include_raw=True)
+
+        prompt = _build_coordinator_prompt(state)
+
+        started = time.perf_counter()
+        result = structured_model.invoke(
+            [
+                SystemMessage(content=COORDINATOR_SYSTEM_PROMPT),
+                HumanMessage(content=prompt),
+            ]
+        )
+
+        usage = getattr(result.get("raw"), "usage_metadata", None) or {}
+        record_usage(
+            ledger=ledger,
+            recorder=recorder,
+            agent="coordinator",
+            role=REASONING_ROLE,
+            input_tokens=usage.get("input_tokens", 0),
+            output_tokens=usage.get("output_tokens", 0),
+            started=started,
+        )
+
+        plan = result.get("parsed")
+
+        if not isinstance(plan, DispatchPlan):
+            plan = DispatchPlan.model_validate(plan)
+
+        # This is important: don't allow the model to invent worker names.
+        plan.validated_workers()
+
+        # every dispatch lands on the run record; a re-dispatch names the rejection behind it
+        if recorder is not None:
+            iteration = state.get("reviewer_iterations", 0) + 1
+            trigger = None
+            if iteration > 1:
+                trigger = plan.redispatch_trigger or _rejection_trigger(state)
+
+            for worker in plan.validated_workers():
+                recorder.dispatched(
+                    worker,
+                    plan.goals.get(worker, plan.rationale or "dispatched"),
+                    iteration=iteration,
+                    redispatch_trigger=trigger,
+                )
+
+        return {
+            "dispatch_plan": plan,
+        }
+
+    return coordinator_node
 
 
 def route_after_coordinator(state: GraphState) -> list[str]:

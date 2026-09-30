@@ -5,9 +5,18 @@ import pytest
 from pydantic import BaseModel, ConfigDict
 from unittest.mock import Mock, patch
 
+from dosimeter.config.settings import Bounds
+from dosimeter.errors import BudgetError
 from dosimeter.graph.schemas import Subject
-from dosimeter.models.bedrock import bedrock_tool_config, bedrock_tool_spec, run_tool_loop
-from dosimeter.tools.dispatcher import Tool
+from dosimeter.harness.budgets import SessionLedger
+from dosimeter.models.bedrock import (
+    bedrock_tool_config,
+    bedrock_tool_spec,
+    converse,
+    max_tokens_for,
+    run_tool_loop,
+)
+from dosimeter.tools.dispatcher import Tool, ToolDispatcher, build_registry
 
 
 class ExampleInput(BaseModel):
@@ -251,3 +260,134 @@ def test_run_tool_loop_stops_at_iteration_limit() -> None:
         )
 
     assert bedrock.converse.call_count == 2
+
+
+class FakeRecorder:
+    """Keeps what RunRecorder would have written for the tool and model calls."""
+
+    def __init__(self) -> None:
+        self.model_calls: list[dict] = []
+        self.tool_calls: list[dict] = []
+
+    def model_called(self, **call) -> None:
+        self.model_calls.append(call)
+
+    def tool_called(self, tool_name, arguments, result, outcome, **extra) -> None:
+        self.tool_calls.append({"tool": tool_name, "outcome": outcome, **extra})
+
+
+def converse_response(stop_reason: str, content: list[dict], input_tokens: int, output_tokens: int):
+    return {
+        "stopReason": stop_reason,
+        "output": {"message": {"role": "assistant", "content": content}},
+        "usage": {"inputTokens": input_tokens, "outputTokens": output_tokens},
+    }
+
+
+TOOL_USE = [{"toolUse": {"toolUseId": "tool-1", "name": "example_tool", "input": {"query": "q"}}}]
+
+
+def notification_dispatcher(ledger: SessionLedger, recorder: FakeRecorder) -> ToolDispatcher:
+    return ToolDispatcher(
+        registry=build_registry([EXAMPLE_TOOL]),
+        ledger=ledger,
+        subject=Subject(
+            session_id="session-1",
+            officer_id=1,
+            officer_code="OFF-101",
+            exposure_id="EXP-2026-0412",
+        ),
+        recorder=recorder,
+        agent="notification",
+    )
+
+
+def test_run_tool_loop_counts_and_records_every_model_call() -> None:
+    bedrock = Mock()
+    bedrock.converse.side_effect = [
+        converse_response("tool_use", TOOL_USE, input_tokens=100, output_tokens=20),
+        converse_response("end_turn", [{"text": "done"}], input_tokens=50, output_tokens=10),
+    ]
+    ledger = SessionLedger(bounds=Bounds())
+    recorder = FakeRecorder()
+
+    with patch("dosimeter.models.bedrock.get_client", return_value=bedrock):
+        run_tool_loop(
+            prompt="Evaluate.",
+            system_prompt="Test worker.",
+            tools=[EXAMPLE_TOOL],
+            dispatcher=notification_dispatcher(ledger, recorder),
+        )
+
+    assert ledger.session_tokens == 180
+    assert [(call["agent"], call["input_tokens"], call["output_tokens"]) for call in recorder.model_calls] == [
+        ("notification", 100, 20),
+        ("notification", 50, 10),
+    ]
+    assert recorder.tool_calls[0]["worker"] == "notification"
+
+    # the per-call limit is the worker's own, from typed config
+    first_call = bedrock.converse.call_args_list[0].kwargs
+    assert first_call["inferenceConfig"]["maxTokens"] == Bounds().tokens_for("notification")
+
+
+def test_run_tool_loop_refuses_the_next_call_once_the_budget_is_spent() -> None:
+    bedrock = Mock()
+    bedrock.converse.return_value = converse_response(
+        "tool_use", TOOL_USE, input_tokens=80, output_tokens=30
+    )
+    ledger = SessionLedger(bounds=Bounds(max_session_tokens=100))
+
+    with (
+        patch("dosimeter.models.bedrock.get_client", return_value=bedrock),
+        pytest.raises(BudgetError) as caught,
+    ):
+        run_tool_loop(
+            prompt="Evaluate.",
+            system_prompt="Test worker.",
+            tools=[EXAMPLE_TOOL],
+            dispatcher=notification_dispatcher(ledger, FakeRecorder()),
+        )
+
+    assert caught.value.context["ceiling"] == "max_session_tokens"
+    assert bedrock.converse.call_count == 1
+
+
+def test_the_one_shot_converse_counts_and_records_its_call() -> None:
+    bedrock = Mock()
+    bedrock.converse.return_value = converse_response(
+        "end_turn", [{"text": "done"}], input_tokens=40, output_tokens=8
+    )
+    ledger = SessionLedger(bounds=Bounds())
+    recorder = FakeRecorder()
+
+    with patch("dosimeter.models.bedrock.get_client", return_value=bedrock):
+        converse("what does 20.2202 require", ledger=ledger, recorder=recorder, agent="coordinator")
+
+    assert ledger.session_tokens == 48
+    assert recorder.model_calls[0]["agent"] == "coordinator"
+    assert recorder.model_calls[0]["role"] == "reasoning"
+
+
+def test_the_one_shot_converse_does_not_start_once_the_budget_is_spent() -> None:
+    bedrock = Mock()
+    ledger = SessionLedger(bounds=Bounds(max_session_tokens=10), session_input_tokens=10)
+
+    with (
+        patch("dosimeter.models.bedrock.get_client", return_value=bedrock),
+        pytest.raises(BudgetError),
+    ):
+        converse("what does 20.2202 require", ledger=ledger, agent="coordinator")
+
+    bedrock.converse.assert_not_called()
+
+
+def test_the_per_call_limit_never_exceeds_what_the_session_has_left() -> None:
+    bounds = Bounds(max_session_tokens=5000)
+
+    assert max_tokens_for(None, "notification") == bounds.tokens_for("notification")
+
+    ledger = SessionLedger(bounds=bounds, session_input_tokens=4000)
+
+    # the agent's own limit is 4096, but only 1000 tokens of the session remain
+    assert max_tokens_for(ledger, "notification") == 1000

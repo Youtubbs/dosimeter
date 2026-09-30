@@ -1,14 +1,19 @@
 """Thread ids, state reducers and routing, all without a model or a database."""
 
+from types import SimpleNamespace
+
 import pytest
+from langgraph.errors import GraphRecursionError
 
 from dosimeter.config.settings import Bounds
+from dosimeter.errors import BudgetError
 from dosimeter.graph.graph import build_graph
-from dosimeter.graph.nodes.coordinator import route_after_coordinator
-from dosimeter.graph.nodes.reviewer import route_after_reviewer
+from dosimeter.graph.nodes.coordinator import make_coordinator_node, route_after_coordinator
+from dosimeter.graph.nodes.reviewer import make_reviewer_node, route_after_reviewer
 from dosimeter.graph.schemas import DispatchPlan, ReviewerVerdict, Subject, WorkerProposal
 from dosimeter.graph.state import add_usage, initial_state, merge_proposals
 from dosimeter.graph.threads import THREAD_ID_FORMAT, Participant, thread_config, thread_id
+from dosimeter.harness.budgets import REVIEWER_ITERATIONS, SessionLedger
 from unittest.mock import Mock
 
 SUBJECT = Subject(
@@ -155,8 +160,8 @@ def build_test_graph(monkeypatch: pytest.MonkeyPatch, dispatched: list[str]):
         }
 
     monkeypatch.setattr(
-        "dosimeter.graph.graph.coordinator_node",
-        coordinator,
+        "dosimeter.graph.graph.make_coordinator_node",
+        lambda **_: coordinator,
     )
 
     monkeypatch.setattr(
@@ -171,12 +176,12 @@ def build_test_graph(monkeypatch: pytest.MonkeyPatch, dispatched: list[str]):
 
     monkeypatch.setattr(
         "dosimeter.graph.graph.build_equipment_node",
-        lambda *, ledger, shared_tools: worker("equipment"),
+        lambda **_: worker("equipment"),
     )
 
     monkeypatch.setattr(
-        "dosimeter.graph.graph.reviewer_node",
-        reviewer,
+        "dosimeter.graph.graph.make_reviewer_node",
+        lambda **_: reviewer,
     )
 
     return build_graph(
@@ -208,3 +213,170 @@ def test_a_turn_with_no_workers_still_reaches_the_end(monkeypatch: pytest.Monkey
     assert result["proposals"] == {}
     assert result["outcome"] == "ready_for_officer"
     assert result["escalation"].reason() == "no trigger fired"
+
+
+class FakeChatModel:
+    """Stands in for get_chat_model(): with_structured_output(...).invoke(...), with token usage."""
+
+    def __init__(self, plan: DispatchPlan, input_tokens: int, output_tokens: int) -> None:
+        self.plan = plan
+        self.usage = {"input_tokens": input_tokens, "output_tokens": output_tokens}
+
+    def with_structured_output(self, schema, include_raw=False):
+        return self
+
+    def invoke(self, messages):
+        raw = SimpleNamespace(usage_metadata=self.usage)
+        return {"raw": raw, "parsed": self.plan, "parsing_error": None}
+
+
+class FakeRecorder:
+    """Keeps what RunRecorder would have written for the Coordinator."""
+
+    def __init__(self) -> None:
+        self.dispatches: list[dict] = []
+        self.model_calls: list[dict] = []
+
+    def dispatched(self, worker, reason, iteration=1, redispatch_trigger=None) -> None:
+        self.dispatches.append(
+            {
+                "worker": worker,
+                "reason": reason,
+                "iteration": iteration,
+                "redispatch_trigger": redispatch_trigger,
+            }
+        )
+
+    def model_called(self, **call) -> None:
+        self.model_calls.append(call)
+
+
+NARROWED_PLAN = DispatchPlan(
+    workers=["written_report"],
+    goals={"written_report": "check the 20.1206 conditions"},
+    rationale="the first report was rejected",
+)
+
+
+def rejected_once() -> dict:
+    state = initial_state(SUBJECT)
+    state["reviewer_iterations"] = 1
+    state["reviewer_verdicts"] = [
+        ReviewerVerdict(
+            iteration=1,
+            worker="written_report",
+            verdict="rejected",
+            reason="unsupported by its cited text",
+        )
+    ]
+    return state
+
+
+def test_a_redispatch_is_recorded_with_the_rejection_that_caused_it(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(
+        "dosimeter.graph.nodes.coordinator.get_chat_model",
+        lambda **_: FakeChatModel(NARROWED_PLAN, 200, 40),
+    )
+    ledger = SessionLedger(bounds=Bounds())
+    recorder = FakeRecorder()
+
+    make_coordinator_node(ledger=ledger, recorder=recorder)(rejected_once())
+
+    assert recorder.dispatches == [
+        {
+            "worker": "written_report",
+            "reason": "check the 20.1206 conditions",
+            "iteration": 2,
+            "redispatch_trigger": "written_report: unsupported by its cited text",
+        }
+    ]
+    assert recorder.model_calls[0]["agent"] == "coordinator"
+    assert ledger.session_tokens == 240
+
+
+def test_the_coordinator_does_not_start_once_the_budget_is_spent(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    model = Mock()
+    monkeypatch.setattr("dosimeter.graph.nodes.coordinator.get_chat_model", lambda **_: model)
+    ledger = SessionLedger(bounds=Bounds(max_session_tokens=100), session_input_tokens=100)
+
+    with pytest.raises(BudgetError):
+        make_coordinator_node(ledger=ledger)(initial_state(SUBJECT))
+
+    model.with_structured_output.assert_not_called()
+
+
+def always_rejecting_graph(monkeypatch: pytest.MonkeyPatch, bounds: Bounds):
+    """Every review rejects, so only a cap can end the Reviewer loop."""
+
+    def coordinator(state):
+        return {"dispatch_plan": DispatchPlan(workers=["notification"], rationale="test")}
+
+    def worker(state):
+        return {"proposals": {"notification": WorkerProposal(worker="notification", kind="n")}}
+
+    def reviewer(state):
+        iteration = state.get("reviewer_iterations", 0) + 1
+        return {
+            "reviewer_verdicts": [
+                ReviewerVerdict(iteration=iteration, worker="notification", verdict="rejected")
+            ],
+            "reviewer_iterations": iteration,
+        }
+
+    monkeypatch.setattr("dosimeter.graph.graph.make_coordinator_node", lambda **_: coordinator)
+    monkeypatch.setattr("dosimeter.graph.graph.notification_node", worker)
+    monkeypatch.setattr("dosimeter.graph.graph.make_reviewer_node", lambda **_: reviewer)
+
+    return build_graph(bounds, ledger=Mock(), shared_tools=[])
+
+
+def test_the_reviewer_loop_stops_at_its_iteration_cap(monkeypatch: pytest.MonkeyPatch) -> None:
+    app = always_rejecting_graph(monkeypatch, Bounds(reviewer_iteration_cap=3))
+
+    result = app.invoke(initial_state(SUBJECT))
+
+    assert result["reviewer_iterations"] == 3
+    assert result["outcome"] is not None
+
+
+def test_the_recursion_limit_stops_the_loop_even_when_the_cap_is_too_high(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    app = always_rejecting_graph(monkeypatch, Bounds(reviewer_iteration_cap=100))
+
+    with pytest.raises(GraphRecursionError):
+        app.invoke(initial_state(SUBJECT), {"recursion_limit": Bounds().max_recursion_depth})
+
+
+def uncited_proposal_state() -> dict:
+    """A proposal with no citations, so the Reviewer rejects without calling the judge."""
+
+    state = initial_state(SUBJECT)
+    state["proposals"] = {"notification": WorkerProposal(worker="notification", kind="n")}
+    return state
+
+
+def test_the_reviewer_records_each_iteration_against_the_ledger() -> None:
+    ledger = SessionLedger(bounds=Bounds(reviewer_iteration_cap=3))
+
+    make_reviewer_node(ledger=ledger)(uncited_proposal_state())
+
+    assert ledger.turn.reviewer_iterations == 1
+
+
+def test_the_reviewer_cap_on_the_ledger_is_reached_by_running_the_node() -> None:
+    ledger = SessionLedger(bounds=Bounds(reviewer_iteration_cap=2))
+    node = make_reviewer_node(ledger=ledger)
+    state = uncited_proposal_state()
+
+    state.update(node(state))
+    assert ledger.check() is None
+
+    state.update(node(state))
+
+    assert ledger.turn.reviewer_iterations == 2
+    assert ledger.check().ceiling == REVIEWER_ITERATIONS
