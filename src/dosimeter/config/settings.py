@@ -134,7 +134,9 @@ class Settings(BaseSettings):
     # the profile's assumed role locally, the execution role when deployed
     aws_profile: str | None = Field(default=None, validation_alias="AWS_PROFILE")
     # the class cloud policy puts every resource in US East
-    aws_region: str = Field(default="us-east-1", pattern=r"^us-east-\d$", validation_alias="AWS_REGION")
+    aws_region: str = Field(
+        default="us-east-1", pattern=r"^us-east-\d$", validation_alias="AWS_REGION"
+    )
     corpus_bucket: str = Field(min_length=1, validation_alias="AWS_CORPUS_BUCKET_NAME")
     packet_bucket: str = Field(min_length=1, validation_alias="AWS_PACKET_BUCKET_NAME")
 
@@ -146,7 +148,7 @@ class Settings(BaseSettings):
     )
     knowledge_base_id: str = Field(min_length=1, validation_alias="BEDROCK_KB_ID")
     guardrail_id: str = Field(min_length=1)
-    guardrail_version: str = Field(default="DRAFT", min_length=1)
+    guardrail_version: str = Field(default="1", min_length=1)
 
     confidence_floor: float = Field(default=0.60, ge=0, le=1)
     # this will change once the golden set shows where right and wrong answers separate
@@ -179,7 +181,9 @@ class Settings(BaseSettings):
 
 
 def _field_names(error: ValidationError) -> list[str]:
-    return sorted({".".join(str(part) for part in item["loc"]) or "<model>" for item in error.errors()})
+    return sorted(
+        {".".join(str(part) for part in item["loc"]) or "<model>" for item in error.errors()}
+    )
 
 
 def _describe(error: ValidationError) -> str:

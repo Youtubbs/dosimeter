@@ -78,7 +78,12 @@ def test_notification_node_adds_worker_proposal_to_graph_state() -> None:
         tool="evaluate_rule",
         arguments_sha256="hash-r1",
         arguments={"rule_id": "R1"},
-        result={"rule_id": "R1"},
+        result={
+            "rule_id": "R1",
+            "inputs": {},
+            "result": rule_result.model_dump(),
+            "path": "tool",
+        },
         outcome="ok",
         duration_ms=1.0,
     )
@@ -148,7 +153,12 @@ def test_written_report_node_adds_worker_proposal_to_graph_state() -> None:
         tool="evaluate_rule",
         arguments_sha256="hash-r3",
         arguments={"rule_id": "R3"},
-        result={"rule_id": "R3"},
+        result={
+            "rule_id": "R3",
+            "inputs": {},
+            "result": rule_result.model_dump(),
+            "path": "tool",
+        },
         outcome="ok",
         duration_ms=1.0,
     )

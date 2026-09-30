@@ -96,12 +96,16 @@ class SessionLedger:
 
         if turn.retrieved_chunks > bounds.max_retrieved_chunks:
             return BudgetBreach(
-                ceiling=RETRIEVED_CHUNKS, limit=bounds.max_retrieved_chunks, used=turn.retrieved_chunks
+                ceiling=RETRIEVED_CHUNKS,
+                limit=bounds.max_retrieved_chunks,
+                used=turn.retrieved_chunks,
             )
 
         if turn.retrieved_tokens > bounds.max_retrieved_tokens:
             return BudgetBreach(
-                ceiling=RETRIEVED_TOKENS, limit=bounds.max_retrieved_tokens, used=turn.retrieved_tokens
+                ceiling=RETRIEVED_TOKENS,
+                limit=bounds.max_retrieved_tokens,
+                used=turn.retrieved_tokens,
             )
 
         if turn.reviewer_iterations >= bounds.reviewer_iteration_cap:
@@ -118,7 +122,9 @@ class SessionLedger:
             )
 
         if agent is not None and self.tokens_left_for(agent) <= 0:
-            return BudgetBreach(ceiling=TOKENS_PER_CALL, limit=bounds.tokens_for(agent), used=turn.tokens)
+            return BudgetBreach(
+                ceiling=TOKENS_PER_CALL, limit=bounds.tokens_for(agent), used=turn.tokens
+            )
 
         return None
 

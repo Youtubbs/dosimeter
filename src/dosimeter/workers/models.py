@@ -89,6 +89,7 @@ class WrittenReportProposal(BaseModel):
 
     missing_fields: tuple[str, ...] = ()
 
+
 class EquipmentFinding(StrEnum):
     """Supported equipment findings from the Equipment Worker."""
 

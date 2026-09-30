@@ -32,9 +32,7 @@ def _equipment_proposal_from_invocations(
         ):
             return EquipmentProposal.model_validate(invocation.result)
 
-    raise RuntimeError(
-        "Equipment Worker finished without producing a valid equipment proposal"
-    )
+    raise RuntimeError("Equipment Worker finished without producing a valid equipment proposal")
 
 
 def run_equipment_worker(

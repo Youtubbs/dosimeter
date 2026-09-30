@@ -13,17 +13,18 @@ class DummyTransport:
         raise AssertionError("transport should not be called")
 
 
-# def test_registry_contains_expected_tools() -> None:
-#     registry = build_tool_registry(DummyTransport())
+def test_registry_contains_expected_tools() -> None:
+    registry = build_tool_registry(DummyTransport())
 
-#     assert sorted(registry) == [
-#         "evaluate_rule",
-#         "find_similar_exposures",
-#         "get_exposure_extraction",
-#         "propose_notification",
-#         "propose_written_report",
-#         "search_knowledge_base",
-#     ]
+    assert sorted(registry) == [
+        "evaluate_rule",
+        "find_similar_exposures",
+        "get_exposure_extraction",
+        "propose_equipment_finding",
+        "propose_notification",
+        "propose_written_report",
+        "search_knowledge_base",
+    ]
 
 
 def test_registered_tools_do_not_expose_subject_arguments() -> None:

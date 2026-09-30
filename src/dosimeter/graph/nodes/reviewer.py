@@ -16,7 +16,6 @@ def reviewer_node(state: GraphState) -> dict:
     verdicts = []
 
     for worker, proposal in proposals.items():
-
         # 1. Citation check
         if not proposal.citations:
             verdicts.append(
@@ -118,10 +117,7 @@ def route_after_reviewer(
     verdicts = state.get("reviewer_verdicts") or []
     iterations = state.get("reviewer_iterations", 0)
 
-    current = [
-        verdict for verdict in verdicts
-        if verdict.iteration == iterations
-    ]
+    current = [verdict for verdict in verdicts if verdict.iteration == iterations]
 
     if iterations >= iteration_cap:
         return "eligibility_check"

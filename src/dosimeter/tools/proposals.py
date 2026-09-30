@@ -13,11 +13,7 @@ from pydantic import BaseModel, ConfigDict
 
 from dosimeter.graph.schemas import Subject
 from dosimeter.tools.dispatcher import Tool
-from dosimeter.workers.models import (
-    NotificationProposal,
-    WrittenReportProposal,
-    EquipmentProposal
-)
+from dosimeter.workers.models import NotificationProposal, WrittenReportProposal, EquipmentProposal
 
 PROPOSE_NOTIFICATION = "propose_notification"
 PROPOSE_WRITTEN_REPORT = "propose_written_report"
@@ -44,8 +40,10 @@ class ProposeWrittenReportInput(BaseModel):
 
     proposal: WrittenReportProposal
 
+
 class ProposeEquipmentFindingInput(BaseModel):
     """Arguments supplied by the Equipment Report Worker."""
+
     model_config = ConfigDict(extra="forbid")
 
     proposal: EquipmentProposal
@@ -85,6 +83,7 @@ def propose_written_report(
 
     return WrittenReportProposal.model_validate(proposal)
 
+
 def propose_equipment_finding(
     proposal: EquipmentProposal | dict[str, Any],
 ) -> EquipmentProposal:
@@ -94,6 +93,7 @@ def propose_equipment_finding(
         return proposal
 
     return EquipmentProposal.model_validate(proposal)
+
 
 # ---------------------------------------------------------------------------
 # Tool handlers
@@ -122,6 +122,7 @@ def _handle_propose_written_report(
     del subject
 
     return propose_written_report(arguments.proposal)
+
 
 def _handle_propose_equipment_finding(
     subject: Subject,
@@ -178,13 +179,8 @@ PROPOSE_EQUIPMENT_FINDING_TOOL = Tool(
     handler=_handle_propose_equipment_finding,
 )
 
+
 def proposal_tools() -> list[Tool]:
     """Return the proposal tools for registration."""
 
-    return [
-        PROPOSE_NOTIFICATION_TOOL,
-        PROPOSE_WRITTEN_REPORT_TOOL,
-        PROPOSE_EQUIPMENT_FINDING_TOOL
-
-    ]
-
+    return [PROPOSE_NOTIFICATION_TOOL, PROPOSE_WRITTEN_REPORT_TOOL, PROPOSE_EQUIPMENT_FINDING_TOOL]

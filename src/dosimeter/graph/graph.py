@@ -1,4 +1,4 @@
-""" The graph: a Coordinator, three workers, a Reviewer and the eligibility check """
+"""The graph: a Coordinator, three workers, a Reviewer and the eligibility check"""
 
 from langgraph.graph import END, START, StateGraph
 
@@ -6,13 +6,16 @@ from dosimeter.config.settings import Bounds
 from dosimeter.graph.nodes.coordinator import coordinator_node, route_after_coordinator
 from dosimeter.graph.nodes.eligibility import eligibility_node
 from dosimeter.graph.nodes.reviewer import reviewer_node, route_after_reviewer
-from dosimeter.graph.nodes.workers import build_equipment_node, notification_node, written_report_node
+from dosimeter.graph.nodes.workers import (
+    build_equipment_node,
+    notification_node,
+    written_report_node,
+)
 from dosimeter.graph.schemas import WORKER_NAMES
 from dosimeter.graph.state import GraphState
 from dosimeter.harness.budgets import SessionLedger
 from dosimeter.tools.tools import Tool
 from collections.abc import Iterable
-
 
 
 # checkpointer writes graph state to Postgres, one thread per participant
@@ -27,7 +30,6 @@ def build_graph(
 ):
 
     graph = StateGraph(GraphState)
-
 
     # --- NODES ---
     graph.add_node("coordinator", coordinator_node)

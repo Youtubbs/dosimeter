@@ -70,7 +70,11 @@ class FakeJudgeModel:
     def invoke(self, messages):
         self.messages = messages
         raw = SimpleNamespace(usage_metadata={"input_tokens": 120, "output_tokens": 30})
-        return {"raw": raw, "parsed": self.parsed, "parsing_error": None if self.parsed else "no tool call"}
+        return {
+            "raw": raw,
+            "parsed": self.parsed,
+            "parsing_error": None if self.parsed else "no tool call",
+        }
 
 
 def test_the_judge_returns_a_validated_verdict() -> None:

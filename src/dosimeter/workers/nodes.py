@@ -13,6 +13,10 @@ from dosimeter.harness.budgets import SessionLedger
 from dosimeter.tools.dispatcher import InvocationRecord, Tool
 from dosimeter.workers.notification import run_notification_worker
 from dosimeter.workers.written_report import run_written_report_worker
+from dosimeter.guardrails.worker_output import (
+    evaluate_worker_output,
+    redact_worker_output,
+)
 from dosimeter.workers.equipment import run_equipment_worker
 
 
@@ -80,10 +84,23 @@ def make_notification_node(
             prompt=prompt,
         )
 
+        guardrail_events = evaluate_worker_output(
+            rule_results=proposal.rule_results,
+            invocations=invocations,
+            source="notification_worker",
+            correlation_id=subject.session_id,
+        )
+
+        clean_payload, pii_events = redact_worker_output(
+            proposal.model_dump(mode="json"),
+            source="notification_worker",
+            correlation_id=subject.session_id,
+        )
+
         graph_proposal = WorkerProposal(
             worker="notification",
             kind="notification",
-            payload=proposal.model_dump(mode="json"),
+            payload=clean_payload,
             citations=list(proposal.citations),
         )
 
@@ -92,6 +109,10 @@ def make_notification_node(
                 "notification": graph_proposal,
             },
             "rule_invocations": _invocation_dicts(invocations),
+            "guardrail_events": [
+                *guardrail_events,
+                *pii_events,
+            ],
         }
 
     return notification_node
@@ -129,10 +150,23 @@ def make_written_report_node(
             prompt=prompt,
         )
 
+        guardrail_events = evaluate_worker_output(
+            rule_results=proposal.rule_results,
+            invocations=invocations,
+            source="written_report_worker",
+            correlation_id=subject.session_id,
+        )
+
+        clean_payload, pii_events = redact_worker_output(
+            proposal.model_dump(mode="json"),
+            source="written_report_worker",
+            correlation_id=subject.session_id,
+        )
+
         graph_proposal = WorkerProposal(
             worker="written_report",
             kind="written_report",
-            payload=proposal.model_dump(mode="json"),
+            payload=clean_payload,
             citations=list(proposal.citations),
         )
 
@@ -141,9 +175,14 @@ def make_written_report_node(
                 "written_report": graph_proposal,
             },
             "rule_invocations": _invocation_dicts(invocations),
+            "guardrail_events": [
+                *guardrail_events,
+                *pii_events,
+            ],
         }
 
     return written_report_node
+
 
 def make_equipment_node(
     *,
@@ -175,12 +214,14 @@ def make_equipment_node(
         )
 
         return {
-            "proposals": {"equipment": WorkerProposal(
-                worker="equipment",
-                kind="equipment_finding",
-                payload=proposal.model_dump(mode="json"),
-                citations=list(proposal.citations),
-            )},
+            "proposals": {
+                "equipment": WorkerProposal(
+                    worker="equipment",
+                    kind="equipment_finding",
+                    payload=proposal.model_dump(mode="json"),
+                    citations=list(proposal.citations),
+                )
+            },
             "rule_invocations": _invocation_dicts(invocations),
         }
 

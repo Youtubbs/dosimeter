@@ -34,9 +34,7 @@ def load_corpus_chunks() -> list[Document]:
         metadata: dict = {}
 
         if metadata_path.exists():
-            raw_metadata = json.loads(
-                metadata_path.read_text(encoding="utf-8")
-            )
+            raw_metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
 
             metadata_attributes = raw_metadata.get(
                 "metadataAttributes",
@@ -67,11 +65,13 @@ class ScoreThresholdRetriever(BaseRetriever):
     store: InMemoryVectorStore
     k: int = 4
     threshold: float
-    status : Status | None = None
+    status: Status | None = None
 
     model_config = {"arbitrary_types_allowed": True}
 
-    def _get_relevant_documents(self, query: str, *, run_manager: CallbackManagerForRetrieverRun) -> list[Document]:
+    def _get_relevant_documents(
+        self, query: str, *, run_manager: CallbackManagerForRetrieverRun
+    ) -> list[Document]:
 
         hits = self.store.similarity_search_with_score(
             query,
@@ -100,11 +100,10 @@ class ScoreThresholdRetriever(BaseRetriever):
 
         return documents
 
+
 @lru_cache(maxsize=None)
 def build_local_retriever(
-    k: int = 4,
-    threshold: float | None = None,
-    status : Status | None = None
+    k: int = 4, threshold: float | None = None, status: Status | None = None
 ) -> BaseRetriever:
     """Build the local in-memory retriever for development."""
 
@@ -126,7 +125,7 @@ def build_local_retriever(
         store=store,
         k=k,
         threshold=settings.similarity_threshold if threshold is None else threshold,
-        status=status
+        status=status,
     )
 
 
@@ -176,8 +175,4 @@ def get_retriever(
             status=status,
         )
 
-    return build_local_retriever(
-        k=k,
-        threshold=threshold,
-        status=status
-    )
+    return build_local_retriever(k=k, threshold=threshold, status=status)

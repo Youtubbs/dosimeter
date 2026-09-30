@@ -222,7 +222,12 @@ def openapi_document() -> dict[str, Any]:
             },
         }
 
-    exposure_id = {"name": "exposure_id", "in": "path", "required": True, "schema": {"type": "string"}}
+    exposure_id = {
+        "name": "exposure_id",
+        "in": "path",
+        "required": True,
+        "schema": {"type": "string"},
+    }
 
     return {
         "openapi": "3.1.0",

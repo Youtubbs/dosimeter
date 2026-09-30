@@ -1,4 +1,4 @@
-""" prompts for our modal """
+"""prompts for our modal"""
 
 # this will grow into our agent specific prompts
 

@@ -435,7 +435,9 @@ def run_record_detail(session: Session, run_id: UUID) -> dict[str, list]:
     """Everything recorded under one run, for trace and the evaluators."""
 
     def rows(model, order):
-        return list(session.scalars(select(model).where(model.run_id == run_id).order_by(order)).all())
+        return list(
+            session.scalars(select(model).where(model.run_id == run_id).order_by(order)).all()
+        )
 
     return {
         "dispatches": rows(orm.WorkerDispatchRow, orm.WorkerDispatchRow.id),

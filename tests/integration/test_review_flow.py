@@ -23,7 +23,9 @@ DOSSIER = {
     "outcome": "written_report_required",
     "rule_outcomes": {"R3": "required"},
     "narrative": "The reported dose is above the annual limit.",
-    "sources": [{"doc_id": "CFR-20-REPORTS", "chunk_id": "CFR-20-REPORTS#0007", "status": "in_force"}],
+    "sources": [
+        {"doc_id": "CFR-20-REPORTS", "chunk_id": "CFR-20-REPORTS#0007", "status": "in_force"}
+    ],
 }
 
 
@@ -63,9 +65,6 @@ def test_queue_lists_the_dossier_with_every_trigger(queued: Session) -> None:
     ]
 
 
-
-
-
 def test_approving_records_the_decision_and_writes_the_record(queued: Session) -> None:
     printed = record_from_cli(queued, EXPOSURE, OTHER, "approve")
 
@@ -91,14 +90,11 @@ def test_edit_then_approve_stores_the_original_and_the_edit_separately(queued: S
     assert decision.original_payload["rule_outcomes"] == decision.edited_payload["rule_outcomes"]
 
 
-
-
 def test_the_approver_may_not_be_the_officer_who_ran_assess(queued: Session) -> None:
     with pytest.raises(EntitlementError):
         record_from_cli(queued, EXPOSURE, OWNER, "approve")
 
     assert queries.approved_record_for(queued, EXPOSURE) is None
-
 
 
 def test_the_same_approval_writes_once_however_often_it_is_retried(queued: Session) -> None:
@@ -121,5 +117,3 @@ def test_the_same_approval_writes_once_however_often_it_is_retried(queued: Sessi
     assert second.already_written
     assert first.idempotency_key == second.idempotency_key
     assert queued.scalar(select(func.count()).select_from(orm.ApprovedRecordRow)) == 1
-
-

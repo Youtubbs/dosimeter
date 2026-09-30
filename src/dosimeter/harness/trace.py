@@ -39,7 +39,9 @@ def render_trace(session: Session, exposure_id: str, run_id: UUID | None = None)
     lines.append("workers dispatched")
     if detail["dispatches"]:
         for item in detail["dispatches"]:
-            trigger = f" (re-dispatch: {item.redispatch_trigger})" if item.redispatch_trigger else ""
+            trigger = (
+                f" (re-dispatch: {item.redispatch_trigger})" if item.redispatch_trigger else ""
+            )
             lines.append(f"  {item.iteration}. {item.worker}: {item.reason}{trigger}")
     else:
         lines.append("  none")

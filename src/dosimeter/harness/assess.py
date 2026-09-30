@@ -42,6 +42,8 @@ def dossier_payload(state: dict, exposure_id: str) -> dict:
 
     proposals = state.get("proposals") or {}
     escalation = state.get("escalation")
+    guardrail_events = state.get("guardrail_events") or []
+
     return {
         "exposure_id": exposure_id,
         "outcome": state.get("outcome"),
@@ -49,7 +51,8 @@ def dossier_payload(state: dict, exposure_id: str) -> dict:
         "proposals": {name: item.model_dump(mode="json") for name, item in proposals.items()},
         "rule_invocations": state.get("rule_invocations") or [],
         "sources": state.get("retrieval_log") or [],
-        "escalation_signals": escalation.names() if escalation else [],
+        "guardrail_events": [event.model_dump(mode="json") for event in guardrail_events],
+        "escalation_signals": (escalation.names() if escalation else []),
         "reviewer_verdicts": [
             item.model_dump(mode="json") for item in state.get("reviewer_verdicts") or []
         ],
@@ -126,6 +129,19 @@ def run_assess(
             verdict.worker,
             verdict.verdict,
             [{"reason": verdict.reason}] if verdict.reason else [],
+        )
+
+    for event in state.get("guardrail_events") or []:
+        recorder.guardrail_event(
+            stage="output",
+            action=event.remedy.value,
+            guardrail_id=event.trigger,
+            detail={
+                "correlation_id": event.correlation_id,
+                "trigger": event.trigger,
+                "source": event.source,
+                "detail": event.detail,
+            },
         )
 
     # the graph decided which triggers fired; the harness records them and queues the dossier

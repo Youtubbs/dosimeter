@@ -49,7 +49,9 @@ class FlaskClientTransport:
         return TransportResponse(status=response.status_code, payload=response.get_json() or {})
 
     def post(self, path: str, body: dict[str, Any] | None = None) -> TransportResponse:
-        response = self.client.post(path, json=body or {}, headers={VERIFIED_HEADER: self.officer_code})
+        response = self.client.post(
+            path, json=body or {}, headers={VERIFIED_HEADER: self.officer_code}
+        )
         return TransportResponse(status=response.status_code, payload=response.get_json() or {})
 
 
@@ -224,13 +226,21 @@ def test_the_dev_stub_header_only_works_when_it_is_switched_on(db: Session) -> N
     def session_factory():
         yield db
 
-    off = create_app(settings=settings_for_tests(dev_identity=False), session_factory=session_factory)
+    off = create_app(
+        settings=settings_for_tests(dev_identity=False), session_factory=session_factory
+    )
     on = create_app(settings=settings_for_tests(dev_identity=True), session_factory=session_factory)
 
     stub = {"X-Dosimeter-Officer": "OFF-101"}
 
-    assert off.test_client().get(f"/v1/exposures/{EXPOSURE}/extraction", headers=stub).status_code == 403
-    assert on.test_client().get(f"/v1/exposures/{EXPOSURE}/extraction", headers=stub).status_code == 200
+    assert (
+        off.test_client().get(f"/v1/exposures/{EXPOSURE}/extraction", headers=stub).status_code
+        == 403
+    )
+    assert (
+        on.test_client().get(f"/v1/exposures/{EXPOSURE}/extraction", headers=stub).status_code
+        == 200
+    )
 
 
 def test_similar_exposures_come_back_as_candidates(client) -> None:

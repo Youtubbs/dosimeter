@@ -1,4 +1,4 @@
-""" The Pydantic models the graph passes between nodes """
+"""The Pydantic models the graph passes between nodes"""
 
 from typing import Any
 

@@ -1,4 +1,4 @@
-""" The three workers. Each one is given a single question to answer """
+"""The three workers. Each one is given a single question to answer"""
 
 from collections.abc import Iterable
 from dosimeter.graph.state import GraphState

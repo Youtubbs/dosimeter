@@ -1,4 +1,4 @@
-""" invoking our bedrock modal """
+"""invoking our bedrock modal"""
 
 from typing import Any
 
@@ -13,7 +13,7 @@ from ..tools.dispatcher import Tool, ToolDispatcher
 
 
 def converse(prompt: str) -> str:
-    """ calling our bedrock modal """
+    """calling our bedrock modal"""
 
     settings = get_settings()
     bedrock = get_client("bedrock-runtime")
@@ -41,7 +41,7 @@ def converse(prompt: str) -> str:
 
 
 def get_chat_model(*, temperature: float = 0.0, max_tokens: int | None = None) -> BaseChatModel:
-    """ Return a configured bedrock chat model - could be swapped out for any BaseChatModel """
+    """Return a configured bedrock chat model - could be swapped out for any BaseChatModel"""
 
     settings = get_settings()
 

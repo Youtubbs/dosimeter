@@ -9,7 +9,7 @@ from dosimeter.tools.dispatcher import Tool, build_registry
 from dosimeter.tools.proposals import (
     PROPOSE_NOTIFICATION_TOOL,
     PROPOSE_WRITTEN_REPORT_TOOL,
-    PROPOSE_EQUIPMENT_FINDING_TOOL
+    PROPOSE_EQUIPMENT_FINDING_TOOL,
 )
 from dosimeter.tools.rules import EVALUATE_RULE_TOOL
 
@@ -64,6 +64,7 @@ def build_written_report_registry(
             PROPOSE_WRITTEN_REPORT_TOOL,
         ]
     )
+
 
 def build_equipment_registry(
     *,

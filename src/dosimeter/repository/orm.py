@@ -190,7 +190,9 @@ class ToolInvocationRow(Base):
     arguments: Mapped[dict[str, Any]] = mapped_column(JSONB, default=dict)
     result: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
     worker: Mapped[str | None] = mapped_column(Text)
-    occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    occurred_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
 
 
 class RuleInvocationRow(Base):
@@ -205,7 +207,9 @@ class RuleInvocationRow(Base):
     result: Mapped[dict[str, Any]] = mapped_column(JSONB, default=dict)
     dose_quantity: Mapped[str | None] = mapped_column(Text)
     path: Mapped[str | None] = mapped_column(Text)
-    occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    occurred_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
 
 
 class RetrievalRow(Base):
@@ -219,7 +223,9 @@ class RetrievalRow(Base):
     status_filter: Mapped[str | None] = mapped_column(Text)
     statuses: Mapped[list[str]] = mapped_column(ARRAY(Text), default=list)
     query_text: Mapped[str | None] = mapped_column(Text)
-    occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    occurred_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
 
 
 class ModelCallRow(Base):
@@ -233,7 +239,9 @@ class ModelCallRow(Base):
     output_tokens: Mapped[int] = mapped_column(Integer, default=0)
     duration_ms: Mapped[float | None] = mapped_column(Numeric(12, 3))
     agent: Mapped[str | None] = mapped_column(Text)
-    occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    occurred_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
 
 
 class EscalationTriggerRow(Base):
@@ -245,7 +253,9 @@ class EscalationTriggerRow(Base):
     evaluated: Mapped[bool] = mapped_column(Boolean, default=False)
     fired: Mapped[bool] = mapped_column(Boolean, default=False)
     detail: Mapped[str | None] = mapped_column(Text)
-    occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    occurred_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
 
 
 class GuardrailEventRow(Base):
@@ -257,7 +267,9 @@ class GuardrailEventRow(Base):
     guardrail_id: Mapped[str | None] = mapped_column(Text)
     action: Mapped[str] = mapped_column(Text, nullable=False)
     detail: Mapped[dict[str, Any]] = mapped_column(JSONB, default=dict)
-    occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    occurred_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
 
 
 class WorkerDispatchRow(Base):
@@ -269,7 +281,9 @@ class WorkerDispatchRow(Base):
     reason: Mapped[str] = mapped_column(Text, nullable=False)
     iteration: Mapped[int] = mapped_column(Integer, default=1)
     redispatch_trigger: Mapped[str | None] = mapped_column(Text)
-    occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    occurred_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
 
 
 class ReviewerVerdictRow(Base):
@@ -281,7 +295,9 @@ class ReviewerVerdictRow(Base):
     worker: Mapped[str] = mapped_column(Text, nullable=False)
     verdict: Mapped[str] = mapped_column(Text, nullable=False)
     objections: Mapped[list[Any]] = mapped_column(JSONB, default=list)
-    occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    occurred_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
 
 
 class ApprovedRecordRow(Base):

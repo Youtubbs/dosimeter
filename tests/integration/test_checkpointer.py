@@ -102,10 +102,7 @@ def test_the_checkpoint_tables_live_in_the_application_database(
 ) -> None:
     tables = set(
         db.scalars(
-            text(
-                "SELECT table_name FROM information_schema.tables "
-                "WHERE table_schema = 'public'"
-            )
+            text("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'")
         ).all()
     )
 
@@ -149,9 +146,7 @@ def test_every_participant_writes_to_its_own_thread(
                 thread_config(OFFICER_ID, EXPOSURE, participant, 12),
             )
 
-        stored = {
-            checkpoint.config["configurable"]["thread_id"] for checkpoint in saver.list(None)
-        }
+        stored = {checkpoint.config["configurable"]["thread_id"] for checkpoint in saver.list(None)}
 
     for participant in Participant:
         assert thread_id(OFFICER_ID, EXPOSURE, participant) in stored

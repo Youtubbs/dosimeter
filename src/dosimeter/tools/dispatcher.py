@@ -265,6 +265,19 @@ class ToolDispatcher:
                 argument_sha256=digest,
             )
 
+            if tool_name == "evaluate_rule" and outcome == "ok" and value is not None:
+                rule_result = value.get("result", {})
+
+                self.recorder.rule_invoked(
+                    rule_id=value["rule_id"],
+                    outcome=rule_result.get("outcome", "unknown"),
+                    inputs=value.get("inputs", {}),
+                    result=rule_result,
+                    threshold_named=_threshold_named(rule_result),
+                    dose_quantity=_dose_quantity(rule_result),
+                    path=value.get("path"),
+                )
+
         logger.info(
             "tool.invoked",
             extra={
@@ -284,3 +297,30 @@ class ToolDispatcher:
             arguments_sha256=digest,
             duration_ms=duration_ms,
         )
+
+
+def _threshold_named(result: dict[str, Any]) -> str | None:
+    """Return the threshold quantity or quantities evaluated by the rule."""
+
+    threshold = result.get("threshold")
+
+    if not isinstance(threshold, dict) or not threshold:
+        return None
+
+    return ", ".join(sorted(threshold))
+
+
+def _dose_quantity(result: dict[str, Any]) -> str | None:
+    """Return the dose quantity or quantities used by the rule."""
+
+    inputs = result.get("inputs_used")
+
+    if not isinstance(inputs, dict) or not inputs:
+        return None
+
+    dose_quantities = [name for name in ("tede", "lens", "shallow", "intake") if name in inputs]
+
+    if not dose_quantities:
+        return None
+
+    return ", ".join(dose_quantities)
