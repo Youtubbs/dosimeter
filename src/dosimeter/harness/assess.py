@@ -23,6 +23,8 @@ from dosimeter.harness.eligibility import EligibilityResult, record_eligibility
 from dosimeter.harness.escalation import EscalationOutcome
 from dosimeter.harness.run_record import RunRecorder
 from dosimeter.repository import Session, queries
+from dosimeter.tools.registry import build_tool_registry
+from dosimeter.tools.transport import HttpTransport
 
 logger = logging.getLogger(__name__)
 
@@ -119,6 +121,15 @@ def run_assess(
         worker_id=exposure.worker_id,
     )
 
+    # Local execution reaches API-backed read tools over HTTP.
+    # In deployment, these capabilities are exposed through AgentCore Gateway.
+    transport = HttpTransport(
+        base_url=settings.tool_api_url,
+        officer_code=subject.officer_code,
+    )
+    tool_registry = build_tool_registry(transport)
+    shared_tools = list(tool_registry.values())
+
     config = thread_config(
         officer.id,
         exposure_id,
@@ -133,6 +144,7 @@ def run_assess(
             settings.bounds,
             ledger=ledger,
             recorder=recorder,
+            shared_tools=shared_tools,
             checkpointer=checkpointer,
         )
 

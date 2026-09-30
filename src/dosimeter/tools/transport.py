@@ -37,7 +37,9 @@ class HttpTransport:
     ) -> None:
         self.base_url = base_url
         self.officer_code = officer_code
-        self.timeout_seconds = timeout_seconds or get_settings().bounds.per_call_http_timeout_seconds
+        self.timeout_seconds = (
+            timeout_seconds or get_settings().bounds.per_call_http_timeout_seconds
+        )
 
     def _send(self, request: urllib.request.Request) -> TransportResponse:
         if request.type not in ("http", "https"):

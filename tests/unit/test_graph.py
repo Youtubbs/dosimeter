@@ -165,13 +165,13 @@ def build_test_graph(monkeypatch: pytest.MonkeyPatch, dispatched: list[str]):
     )
 
     monkeypatch.setattr(
-        "dosimeter.graph.graph.notification_node",
-        worker("notification"),
+        "dosimeter.graph.graph.build_notification_node",
+        lambda **_: worker("notification"),
     )
 
     monkeypatch.setattr(
-        "dosimeter.graph.graph.written_report_node",
-        worker("written_report"),
+        "dosimeter.graph.graph.build_written_report_node",
+        lambda **_: worker("written_report"),
     )
 
     monkeypatch.setattr(
@@ -328,7 +328,10 @@ def always_rejecting_graph(monkeypatch: pytest.MonkeyPatch, bounds: Bounds):
         }
 
     monkeypatch.setattr("dosimeter.graph.graph.make_coordinator_node", lambda **_: coordinator)
-    monkeypatch.setattr("dosimeter.graph.graph.notification_node", worker)
+    monkeypatch.setattr(
+        "dosimeter.graph.graph.build_notification_node",
+        lambda **_: worker,
+    )
     monkeypatch.setattr("dosimeter.graph.graph.make_reviewer_node", lambda **_: reviewer)
 
     return build_graph(bounds, ledger=Mock(), shared_tools=[])
