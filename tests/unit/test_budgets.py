@@ -99,14 +99,25 @@ def test_the_wall_clock_stops_a_long_turn() -> None:
     assert breach.ceiling == WALL_CLOCK
 
 
-def test_retrieval_limits_are_counted() -> None:
+def test_retrieval_stops_the_next_leg_at_the_configured_limit() -> None:
     ledger = SessionLedger(bounds=Bounds(max_retrieved_chunks=3, max_retrieved_tokens=100))
 
-    ledger.record_retrieval(chunks=3, tokens=90)
+    ledger.record_retrieval(chunks=2, tokens=90)
     assert ledger.check() is None
 
+    # the limit itself is spent, exactly like every other ceiling
     ledger.record_retrieval(chunks=1, tokens=0)
     assert ledger.check().ceiling == "max_retrieved_chunks"
+
+
+def test_retrieved_tokens_stop_the_next_leg_at_the_configured_limit() -> None:
+    ledger = SessionLedger(bounds=Bounds(max_retrieved_chunks=99, max_retrieved_tokens=100))
+
+    ledger.record_retrieval(chunks=1, tokens=99)
+    assert ledger.check() is None
+
+    ledger.record_retrieval(chunks=1, tokens=1)
+    assert ledger.check().ceiling == "max_retrieved_tokens"
 
 
 def test_tokens_left_for_an_agent_respects_both_ceilings() -> None:

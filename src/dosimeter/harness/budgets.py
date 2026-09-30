@@ -109,14 +109,14 @@ class SessionLedger:
                 used=turn.tool_invocations,
             )
 
-        if turn.retrieved_chunks > bounds.max_retrieved_chunks:
+        if turn.retrieved_chunks >= bounds.max_retrieved_chunks:
             return BudgetBreach(
                 ceiling=RETRIEVED_CHUNKS,
                 limit=bounds.max_retrieved_chunks,
                 used=turn.retrieved_chunks,
             )
 
-        if turn.retrieved_tokens > bounds.max_retrieved_tokens:
+        if turn.retrieved_tokens >= bounds.max_retrieved_tokens:
             return BudgetBreach(
                 ceiling=RETRIEVED_TOKENS,
                 limit=bounds.max_retrieved_tokens,

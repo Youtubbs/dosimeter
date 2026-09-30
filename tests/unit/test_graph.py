@@ -9,11 +9,11 @@ from dosimeter.config.settings import Bounds
 from dosimeter.errors import BudgetError
 from dosimeter.graph.graph import build_graph
 from dosimeter.graph.nodes.coordinator import make_coordinator_node, route_after_coordinator
-from dosimeter.graph.nodes.reviewer import route_after_reviewer
+from dosimeter.graph.nodes.reviewer import make_reviewer_node, route_after_reviewer
 from dosimeter.graph.schemas import DispatchPlan, ReviewerVerdict, Subject, WorkerProposal
 from dosimeter.graph.state import add_usage, initial_state, merge_proposals
 from dosimeter.graph.threads import THREAD_ID_FORMAT, Participant, thread_config, thread_id
-from dosimeter.harness.budgets import SessionLedger
+from dosimeter.harness.budgets import REVIEWER_ITERATIONS, SessionLedger
 from unittest.mock import Mock
 
 SUBJECT = Subject(
@@ -350,3 +350,33 @@ def test_the_recursion_limit_stops_the_loop_even_when_the_cap_is_too_high(
 
     with pytest.raises(GraphRecursionError):
         app.invoke(initial_state(SUBJECT), {"recursion_limit": Bounds().max_recursion_depth})
+
+
+def uncited_proposal_state() -> dict:
+    """A proposal with no citations, so the Reviewer rejects without calling the judge."""
+
+    state = initial_state(SUBJECT)
+    state["proposals"] = {"notification": WorkerProposal(worker="notification", kind="n")}
+    return state
+
+
+def test_the_reviewer_records_each_iteration_against_the_ledger() -> None:
+    ledger = SessionLedger(bounds=Bounds(reviewer_iteration_cap=3))
+
+    make_reviewer_node(ledger=ledger)(uncited_proposal_state())
+
+    assert ledger.turn.reviewer_iterations == 1
+
+
+def test_the_reviewer_cap_on_the_ledger_is_reached_by_running_the_node() -> None:
+    ledger = SessionLedger(bounds=Bounds(reviewer_iteration_cap=2))
+    node = make_reviewer_node(ledger=ledger)
+    state = uncited_proposal_state()
+
+    state.update(node(state))
+    assert ledger.check() is None
+
+    state.update(node(state))
+
+    assert ledger.turn.reviewer_iterations == 2
+    assert ledger.check().ceiling == REVIEWER_ITERATIONS

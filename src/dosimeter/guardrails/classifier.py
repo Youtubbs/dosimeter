@@ -1,5 +1,7 @@
 """Bedrock-backed request classification for the readiness gate."""
 
+import time
+
 from pydantic import BaseModel, ConfigDict
 
 from dosimeter.guardrails.bedrock import (
@@ -7,8 +9,12 @@ from dosimeter.guardrails.bedrock import (
     apply_guardrail,
 )
 from dosimeter.guardrails.readiness import RequestKind
-from dosimeter.models.bedrock import get_chat_model
+from dosimeter.harness.budgets import SessionLedger
+from dosimeter.harness.run_record import RunRecorder
+from dosimeter.models.bedrock import FAST_ROLE, check_budget, get_chat_model, record_usage
 from dosimeter.redaction import redact
+
+READINESS_AGENT = "readiness_gate"
 
 
 CLASSIFIER_SYSTEM_PROMPT = """
@@ -45,7 +51,12 @@ class ClassificationResult(BaseModel):
     request_kind: RequestKind
 
 
-def classify_request(text: str) -> ClassificationResult:
+def classify_request(
+    text: str,
+    *,
+    ledger: SessionLedger | None = None,
+    recorder: RunRecorder | None = None,
+) -> ClassificationResult:
     """Guard and classify an officer request."""
 
     guardrail_result = apply_guardrail(
@@ -58,16 +69,31 @@ def classify_request(text: str) -> ClassificationResult:
             request_kind=RequestKind.OUT_OF_SCOPE,
         )
 
+    check_budget(ledger, READINESS_AGENT)
+
+    # one label is all this call may return
     model = get_chat_model(
         temperature=0.0,
         max_tokens=20,
     )
 
+    started = time.perf_counter()
     response = model.invoke(
         [
             ("system", CLASSIFIER_SYSTEM_PROMPT),
             ("user", redact(text)),
         ]
+    )
+
+    usage = getattr(response, "usage_metadata", None) or {}
+    record_usage(
+        ledger=ledger,
+        recorder=recorder,
+        agent=READINESS_AGENT,
+        role=FAST_ROLE,
+        input_tokens=usage.get("input_tokens", 0),
+        output_tokens=usage.get("output_tokens", 0),
+        started=started,
     )
 
     raw_label = _response_text(response.content)

@@ -8,12 +8,17 @@ import time
 
 from langchain_core.messages import HumanMessage, SystemMessage
 
-from dosimeter.config.settings import get_settings
 from dosimeter.graph.schemas import DispatchPlan
 from dosimeter.graph.state import GraphState
 from dosimeter.harness.budgets import SessionLedger
 from dosimeter.harness.run_record import RunRecorder
-from dosimeter.models.bedrock import REASONING_ROLE, check_budget, get_chat_model, record_usage
+from dosimeter.models.bedrock import (
+    REASONING_ROLE,
+    check_budget,
+    get_chat_model,
+    max_tokens_for,
+    record_usage,
+)
 from dosimeter.prompts import COORDINATOR_SYSTEM_PROMPT
 from dosimeter.redaction import redact
 
@@ -75,7 +80,7 @@ def make_coordinator_node(
 
         check_budget(ledger, "coordinator")
 
-        model = get_chat_model(max_tokens=get_settings().bounds.tokens_for("coordinator"))
+        model = get_chat_model(max_tokens=max_tokens_for(ledger, "coordinator"))
 
         # include_raw keeps the token usage next to the parsed plan
         structured_model = model.with_structured_output(DispatchPlan, include_raw=True)

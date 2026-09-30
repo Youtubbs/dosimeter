@@ -4,9 +4,10 @@ from types import SimpleNamespace
 
 import pytest
 
-from dosimeter.config.settings import Settings
-from dosimeter.errors import ExternalServiceError
+from dosimeter.config.settings import Bounds, Settings
+from dosimeter.errors import BudgetError, ExternalServiceError
 from dosimeter.evaluation.judge import JudgeVerdict, Verdict, judge_claim
+from dosimeter.harness.budgets import SessionLedger
 from dosimeter.harness.escalation import (
     EscalationOutcome,
     FiredTrigger,
@@ -96,3 +97,53 @@ def test_the_judge_returns_a_validated_verdict() -> None:
 def test_a_verdict_that_does_not_validate_is_a_typed_failure() -> None:
     with pytest.raises(ExternalServiceError):
         judge_claim("claim", "cited", "text", settings_for_tests(), model=FakeJudgeModel(None))
+
+
+class FakeRecorder:
+    """Keeps what RunRecorder would have written for the judge."""
+
+    def __init__(self) -> None:
+        self.model_calls: list[dict] = []
+
+    def model_called(self, **call) -> None:
+        self.model_calls.append(call)
+
+
+def test_the_judge_counts_and_records_its_own_call() -> None:
+    ledger = SessionLedger(bounds=Bounds())
+    recorder = FakeRecorder()
+    model = FakeJudgeModel(JudgeVerdict(verdict=Verdict.SUPPORTED, reason="states the limit"))
+
+    judge_claim(
+        "claim",
+        "cited",
+        "text",
+        settings_for_tests(),
+        model=model,
+        ledger=ledger,
+        recorder=recorder,
+        agent="reviewer",
+    )
+
+    assert ledger.session_tokens == 150
+    assert recorder.model_calls[0]["agent"] == "reviewer"
+    assert recorder.model_calls[0]["role"] == "judge"
+    assert recorder.model_calls[0]["input_tokens"] == 120
+
+
+def test_the_judge_does_not_start_once_the_budget_is_spent() -> None:
+    ledger = SessionLedger(bounds=Bounds(max_session_tokens=10), session_input_tokens=10)
+    model = FakeJudgeModel(JudgeVerdict(verdict=Verdict.SUPPORTED))
+
+    with pytest.raises(BudgetError):
+        judge_claim(
+            "claim",
+            "cited",
+            "text",
+            settings_for_tests(),
+            model=model,
+            ledger=ledger,
+            agent="reviewer",
+        )
+
+    assert not hasattr(model, "messages")

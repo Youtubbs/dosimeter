@@ -14,16 +14,26 @@ from ..prompts import SYSTEM_PROMPT
 from ..redaction import redact
 from ..tools.dispatcher import Tool, ToolDispatcher
 
-# the role every agent's model call is recorded under; the judge records its own
+# the role each model call is recorded under; settings say which model serves it
 REASONING_ROLE = "reasoning"
+FAST_ROLE = "fast"
 
 
-def converse(prompt: str) -> str:
+def converse(
+    prompt: str,
+    *,
+    ledger: SessionLedger | None = None,
+    recorder: RunRecorder | None = None,
+    agent: str | None = None,
+) -> str:
     """calling our bedrock modal"""
 
     settings = get_settings()
     bedrock = get_client("bedrock-runtime")
 
+    check_budget(ledger, agent)
+
+    started = time.perf_counter()
     response = bedrock.converse(
         modelId=settings.bedrock_model_id,
         system=[
@@ -39,8 +49,17 @@ def converse(prompt: str) -> str:
             }
         ],
         inferenceConfig={
-            "maxTokens": settings.bounds.default_max_tokens_per_call,
+            "maxTokens": max_tokens_for(ledger, agent),
         },
+    )
+
+    record_usage(
+        ledger=ledger,
+        recorder=recorder,
+        agent=agent,
+        role=REASONING_ROLE,
+        started=started,
+        **usage_of(response),
     )
 
     return response["output"]["message"]["content"][0]["text"]
@@ -82,6 +101,18 @@ def check_budget(ledger: SessionLedger | None, agent: str | None) -> None:
 
     if ledger is not None:
         ledger.require(agent=agent)
+
+
+def max_tokens_for(ledger: SessionLedger | None, agent: str | None) -> int:
+    """
+    The per-call token limit every model call asks for: the agent's limit from
+    config, and never more than the session has left.
+    """
+
+    if ledger is not None:
+        return ledger.tokens_left_for(agent)
+
+    return get_settings().bounds.tokens_for(agent)
 
 
 def record_usage(
@@ -166,11 +197,7 @@ def run_tool_loop(
             messages=messages,
             toolConfig=tool_config,
             inferenceConfig={
-                "maxTokens": (
-                    ledger.tokens_left_for(agent)
-                    if ledger is not None
-                    else settings.bounds.tokens_for(agent)
-                ),
+                "maxTokens": max_tokens_for(ledger, agent),
             },
         )
 

@@ -1,13 +1,10 @@
 """Automated Reviewer for worker proposals."""
 
-import time
-
-from dosimeter.evaluation.judge import JUDGE_ROLE, Verdict, judge_claim
+from dosimeter.evaluation.judge import Verdict, judge_claim
 from dosimeter.graph.schemas import ReviewerVerdict
 from dosimeter.graph.state import GraphState
 from dosimeter.harness.budgets import SessionLedger
 from dosimeter.harness.run_record import RunRecorder
-from dosimeter.models.bedrock import check_budget, record_usage
 
 
 def make_reviewer_node(
@@ -90,9 +87,6 @@ def make_reviewer_node(
                     reason = f"Determination relies on proposed material: {citation}"
                     break
 
-                check_budget(ledger, "reviewer")
-
-                started = time.perf_counter()
                 judged = judge_claim(
                     claim=proposal.payload.get("explanation", ""),
                     chunk_id=citation,
@@ -101,16 +95,9 @@ def make_reviewer_node(
                         "dosimeter.config.settings",
                         fromlist=["get_settings"],
                     ).get_settings(),
-                )
-
-                record_usage(
                     ledger=ledger,
                     recorder=recorder,
                     agent="reviewer",
-                    role=JUDGE_ROLE,
-                    input_tokens=judged.input_tokens,
-                    output_tokens=judged.output_tokens,
-                    started=started,
                 )
 
                 if judged.verdict != Verdict.SUPPORTED:
@@ -126,6 +113,9 @@ def make_reviewer_node(
                     reason=reason,
                 )
             )
+
+        if ledger is not None:
+            ledger.record_reviewer_iteration()
 
         return {
             "reviewer_verdicts": verdicts,

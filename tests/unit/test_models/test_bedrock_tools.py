@@ -9,7 +9,13 @@ from dosimeter.config.settings import Bounds
 from dosimeter.errors import BudgetError
 from dosimeter.graph.schemas import Subject
 from dosimeter.harness.budgets import SessionLedger
-from dosimeter.models.bedrock import bedrock_tool_config, bedrock_tool_spec, run_tool_loop
+from dosimeter.models.bedrock import (
+    bedrock_tool_config,
+    bedrock_tool_spec,
+    converse,
+    max_tokens_for,
+    run_tool_loop,
+)
 from dosimeter.tools.dispatcher import Tool, ToolDispatcher, build_registry
 
 
@@ -345,3 +351,43 @@ def test_run_tool_loop_refuses_the_next_call_once_the_budget_is_spent() -> None:
 
     assert caught.value.context["ceiling"] == "max_session_tokens"
     assert bedrock.converse.call_count == 1
+
+
+def test_the_one_shot_converse_counts_and_records_its_call() -> None:
+    bedrock = Mock()
+    bedrock.converse.return_value = converse_response(
+        "end_turn", [{"text": "done"}], input_tokens=40, output_tokens=8
+    )
+    ledger = SessionLedger(bounds=Bounds())
+    recorder = FakeRecorder()
+
+    with patch("dosimeter.models.bedrock.get_client", return_value=bedrock):
+        converse("what does 20.2202 require", ledger=ledger, recorder=recorder, agent="coordinator")
+
+    assert ledger.session_tokens == 48
+    assert recorder.model_calls[0]["agent"] == "coordinator"
+    assert recorder.model_calls[0]["role"] == "reasoning"
+
+
+def test_the_one_shot_converse_does_not_start_once_the_budget_is_spent() -> None:
+    bedrock = Mock()
+    ledger = SessionLedger(bounds=Bounds(max_session_tokens=10), session_input_tokens=10)
+
+    with (
+        patch("dosimeter.models.bedrock.get_client", return_value=bedrock),
+        pytest.raises(BudgetError),
+    ):
+        converse("what does 20.2202 require", ledger=ledger, agent="coordinator")
+
+    bedrock.converse.assert_not_called()
+
+
+def test_the_per_call_limit_never_exceeds_what_the_session_has_left() -> None:
+    bounds = Bounds(max_session_tokens=5000)
+
+    assert max_tokens_for(None, "notification") == bounds.tokens_for("notification")
+
+    ledger = SessionLedger(bounds=bounds, session_input_tokens=4000)
+
+    # the agent's own limit is 4096, but only 1000 tokens of the session remain
+    assert max_tokens_for(ledger, "notification") == 1000
