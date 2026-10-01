@@ -103,7 +103,6 @@ jobs:
         run: npm install -g @aws/agentcore@0.30.0
 
       - name: Build, push and deploy
-        working-directory: DosimeterCloud
         run: agentcore deploy --yes
 
       - name: Migrate RDS through the workflow Runtime
