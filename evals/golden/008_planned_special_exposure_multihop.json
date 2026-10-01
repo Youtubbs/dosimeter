@@ -36,5 +36,11 @@
     "FR-DOSE"
   ],
   "expected_missing_fields": [],
-  "expected_triggers": []
+  "expected_triggers": [],
+  "execution": {
+    "kind": "retrieval",
+    "k": 10,
+    "status": "in_force",
+    "expect_found": true
+  }
 }

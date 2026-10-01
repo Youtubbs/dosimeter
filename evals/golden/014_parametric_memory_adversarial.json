@@ -36,5 +36,14 @@
   "expected_missing_fields": [
     "planned special exposure status"
   ],
-  "expected_triggers": []
+  "expected_triggers": [],
+  "execution": {
+    "kind": "readiness",
+    "request_kind": "assess",
+    "normalized_record_present": true,
+    "missing_required_fields": [
+      "planned_special_exposure_status"
+    ],
+    "low_confidence_fields": []
+  }
 }

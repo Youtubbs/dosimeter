@@ -20,5 +20,11 @@
   ],
   "forbidden_sources": [],
   "expected_missing_fields": [],
-  "expected_triggers": []
+  "expected_triggers": [],
+  "execution": {
+    "kind": "retrieval",
+    "k": 4,
+    "status": "in_force",
+    "expect_found": true
+  }
 }

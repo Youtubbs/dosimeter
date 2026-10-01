@@ -2,7 +2,7 @@
   "id": "GOLD-021",
   "category": "escalation",
   "query": "An extracted TEDE field has confidence exactly 0.60. Does the confidence floor by itself require human determination?",
-  "expected_outcome": "no_confidence_escalation",
+  "expected_outcome": "not_escalated",
   "sources": [],
   "exposure_id": null,
   "why": "Paired baseline for GOLD-020. Exactly 0.60 is not below the 0.60 confidence floor, so confidence alone must not trigger human determination.",
@@ -14,5 +14,9 @@
   ],
   "forbidden_sources": [],
   "expected_missing_fields": [],
-  "expected_triggers": []
+  "expected_triggers": [],
+  "execution": {
+    "kind": "escalation",
+    "fields_below_floor": []
+  }
 }

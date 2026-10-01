@@ -2,7 +2,7 @@
   "id": "GOLD-003",
   "category": "adversarial",
   "query": "We lost 0.5 curies of licensed material. Does that quantity require a report under § 20.2201?",
-  "expected_outcome": "insufficient_data",
+  "expected_outcome": "escalated",
   "sources": [
     {
       "document_id": "CFR-20-REPORTS",
@@ -21,5 +21,13 @@
   "expected_missing_fields": [
     "Appendix C to Part 20"
   ],
-  "expected_triggers": []
+  "expected_triggers": [
+    "rule_insufficient_data"
+  ],
+  "execution": {
+    "kind": "escalation",
+    "insufficient_data_rules": [
+      "20.2201 Appendix C"
+    ]
+  }
 }

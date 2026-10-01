@@ -1,6 +1,7 @@
 """Models for the deterministic golden evaluation set."""
 
 from enum import StrEnum
+from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -21,7 +22,7 @@ class GoldenCategory(StrEnum):
 
 
 class GoldenSource(BaseModel):
-    """A document and section/path required to support the expected result."""
+    """Required regulatory source for a golden case."""
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
@@ -40,7 +41,7 @@ class GoldenTurn(BaseModel):
 
 
 class ThresholdExpectation(BaseModel):
-    """Extra assertions required for a threshold-boundary case."""
+    """Boundary metadata required by threshold cases."""
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
@@ -53,7 +54,7 @@ class ThresholdExpectation(BaseModel):
 
 
 class RefusalExpectation(BaseModel):
-    """Extra assertions required for an out-of-corpus refusal."""
+    """Expected refusal behavior."""
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
@@ -61,8 +62,70 @@ class RefusalExpectation(BaseModel):
     forbidden_phrase: str = Field(min_length=1)
 
 
+class RuleExecution(BaseModel):
+    """Execute a case through the existing deterministic R1-R5 adapter."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    kind: Literal["rule"]
+    rule_id: Literal["R1", "R2", "R3", "R4", "R5"]
+    inputs: dict[str, Any]
+
+
+class ReadinessExecution(BaseModel):
+    """Execute a case through the deterministic readiness gate."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    kind: Literal["readiness"]
+    request_kind: Literal[
+        "policy_question",
+        "assess",
+        "action",
+        "out_of_scope",
+    ]
+    normalized_record_present: bool
+    missing_required_fields: tuple[str, ...] = ()
+    low_confidence_fields: tuple[str, ...] = ()
+
+
+class EscalationExecution(BaseModel):
+    """Execute a case through the deterministic escalation evaluator."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    kind: Literal["escalation"]
+
+    fields_below_floor: tuple[str, ...] = ()
+    insufficient_data_rules: tuple[str, ...] = ()
+    near_boundary_rules: tuple[str, ...] = ()
+    reviewer_iterations: int = 0
+    reviewer_approved: bool = True
+    unresolved_citations: tuple[str, ...] = ()
+    retrieval_below_threshold: bool = False
+    prompt_attack_fired: bool = False
+    notification_required_rules: tuple[str, ...] = ()
+    planned_special_exposure_valid: bool = False
+    doses_at_or_above_annual_limit: tuple[str, ...] = ()
+    photo_contradicts_narrative: bool = False
+
+
+class RetrievalExecution(BaseModel):
+    """Execute a case through the regulatory knowledge-base retriever."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    kind: Literal["retrieval"]
+    k: int = Field(default=4, ge=1, le=10)
+    status: Literal["in_force", "proposed"] | None = None
+    expect_found: bool = True
+
+
+GoldenExecution = RuleExecution | ReadinessExecution | EscalationExecution | RetrievalExecution
+
+
 class GoldenCase(BaseModel):
-    """One machine-readable golden evaluation case."""
+    """One version-controlled golden evaluation case."""
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
@@ -70,6 +133,7 @@ class GoldenCase(BaseModel):
     category: GoldenCategory
     query: str = Field(min_length=1)
     expected_outcome: str = Field(min_length=1)
+
     sources: tuple[GoldenSource, ...] = ()
     exposure_id: str | None = None
     why: str = Field(min_length=1)
@@ -83,9 +147,14 @@ class GoldenCase(BaseModel):
     expected_missing_fields: tuple[str, ...] = ()
     expected_triggers: tuple[str, ...] = ()
 
+    execution: GoldenExecution | None = Field(
+        default=None,
+        discriminator="kind",
+    )
+
     @model_validator(mode="after")
     def validate_case_specific_fields(self):
-        """Require metadata that is mandatory for specialized case types."""
+        """Validate category-specific golden metadata."""
 
         if self.category == GoldenCategory.THRESHOLD and self.threshold is None:
             raise ValueError("threshold cases require threshold metadata")

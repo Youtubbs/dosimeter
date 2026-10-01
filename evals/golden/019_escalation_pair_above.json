@@ -18,7 +18,28 @@
   ],
   "forbidden_sources": [],
   "expected_missing_fields": [],
-  "expected_triggers": [
-    "R2"
-  ]
+  "expected_triggers": [],
+  "execution": {
+    "kind": "rule",
+    "rule_id": "R2",
+    "inputs": {
+      "loss_of_control": true,
+      "tede": {
+        "value": 5.1,
+        "unit": "rem"
+      },
+      "lens": {
+        "value": 0.0,
+        "unit": "rem"
+      },
+      "shallow": {
+        "value": 0.0,
+        "unit": "rem",
+        "site": "skin"
+      },
+      "intake": {
+        "value": 0.0
+      }
+    }
+  }
 }

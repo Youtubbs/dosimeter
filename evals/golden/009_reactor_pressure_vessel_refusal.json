@@ -18,5 +18,12 @@
   ],
   "forbidden_sources": [],
   "expected_missing_fields": [],
-  "expected_triggers": []
+  "expected_triggers": [],
+  "execution": {
+    "kind": "readiness",
+    "request_kind": "out_of_scope",
+    "normalized_record_present": false,
+    "missing_required_fields": [],
+    "low_confidence_fields": []
+  }
 }

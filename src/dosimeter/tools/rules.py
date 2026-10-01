@@ -14,6 +14,7 @@ from dosimeter.domain.dose import (
     IntakeMultipleOfALI,
     LensDoseEquivalent,
     ShallowDoseEquivalent,
+    ShallowDoseSite,
     TotalEffectiveDoseEquivalent,
 )
 from dosimeter.domain.rules import RuleInvocation, RuleResult
@@ -163,6 +164,9 @@ def _optional_model(
 
     if "unit" in data and isinstance(data["unit"], str):
         data["unit"] = DoseUnit(data["unit"])
+
+    if model_type is ShallowDoseEquivalent and "site" in data and isinstance(data["site"], str):
+        data["site"] = ShallowDoseSite(data["site"])
 
     return model_type.model_validate(data)
 

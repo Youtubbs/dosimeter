@@ -20,9 +20,7 @@ def build_report(
 ) -> GoldenReport:
     """Create summary statistics from golden results."""
 
-    passed = sum(
-        1 for result in results if result.passed
-    )
+    passed = sum(1 for result in results if result.passed)
 
     failed = len(results) - passed
 
@@ -49,11 +47,7 @@ def format_report(
         "",
     ]
 
-    failures = [
-        result
-        for result in report.results
-        if not result.passed
-    ]
+    failures = [result for result in report.results if not result.passed]
 
     if failures:
         lines.append("Failures:")
@@ -63,9 +57,6 @@ def format_report(
             lines.append(result.case_id)
 
             for failure in result.failures:
-                lines.append(
-                    f"  - {failure}"
-                )
+                lines.append(f"  - {failure}")
 
     return "\n".join(lines)
-

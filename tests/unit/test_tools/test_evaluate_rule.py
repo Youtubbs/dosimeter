@@ -3,7 +3,7 @@
 import pytest
 from pydantic import ValidationError
 
-from dosimeter.domain.rules import RuleInvocation
+from dosimeter.domain.rules import RuleInvocation, RuleOutcome
 from dosimeter.tools.dispatcher import Tool
 
 from dosimeter.tools.rules import (
@@ -145,3 +145,36 @@ def test_rule_tools_returns_evaluate_rule() -> None:
     assert len(tools) == 1
     assert tools[0] is EVALUATE_RULE_TOOL
     assert tools[0].name == "evaluate_rule"
+
+
+def test_evaluate_rule_converts_shallow_site_string():
+    """Tool input converts serialized shallow-dose site into the typed enum."""
+
+    invocation = evaluate_rule(
+        {
+            "rule_id": "R1",
+            "inputs": {
+                "tede": {
+                    "value": 0.0,
+                    "unit": "rem",
+                },
+                "lens": {
+                    "value": 0.0,
+                    "unit": "rem",
+                },
+                "shallow": {
+                    "value": 250.0,
+                    "unit": "rad",
+                    "site": "skin",
+                },
+                "intake": {
+                    "value": 0.0,
+                },
+            },
+        }
+    )
+
+    assert invocation.rule_id == "R1"
+    assert invocation.path == "tool"
+    assert invocation.result.outcome == RuleOutcome.REQUIRED
+    assert "shallow" in invocation.result.failing_conditions

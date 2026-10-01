@@ -10,7 +10,7 @@
     }
   ],
   "exposure_id": null,
-  "why": "Tests that the system compares 20 rem against the lens dose equivalent threshold of 15 rem rather than incorrectly comparing it against the 25 rem TEDE immediate-notification threshold.",
+  "why": "Tests that the system compares 20 rem against the lens dose equivalent threshold of 15 rem rather than incorrectly comparing it against the TEDE threshold.",
   "threshold": null,
   "refusal": null,
   "turns": [],
@@ -22,5 +22,28 @@
   ],
   "forbidden_sources": [],
   "expected_missing_fields": [],
-  "expected_triggers": []
+  "expected_triggers": [],
+  "execution": {
+    "kind": "rule",
+    "rule_id": "R2",
+    "inputs": {
+      "loss_of_control": true,
+      "tede": {
+        "value": 0.0,
+        "unit": "rem"
+      },
+      "lens": {
+        "value": 20.0,
+        "unit": "rem"
+      },
+      "shallow": {
+        "value": 0.0,
+        "unit": "rem",
+        "site": "skin"
+      },
+      "intake": {
+        "value": 0.0
+      }
+    }
+  }
 }
