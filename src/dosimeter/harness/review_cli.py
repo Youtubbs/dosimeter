@@ -39,11 +39,20 @@ def render_decision_card(session: Session, exposure_id: str, officer_code: str) 
     triggers = [part.strip() for part in row.reason.split(",") if part.strip()]
     dossier = queries.latest_dossier(session, exposure_id)
 
+    # what each trigger found, from the run record of the turn that wrote this dossier
+    details = {}
+    if dossier is not None:
+        details = {
+            item.trigger_name: item.detail
+            for item in queries.run_record_detail(session, dossier.run_id)["escalation_triggers"]
+            if item.fired and item.detail
+        }
+
     lines = [
         f"{exposure_id} (queue {row.id}, {row.district})",
         "",
         "escalated because:",
-        *[f"  {trigger}" for trigger in triggers],
+        *[f"  {trigger}: {details[trigger]}" if trigger in details else f"  {trigger}" for trigger in triggers],
         "",
         "decisions:",
         "  approve            record approval as it stands",

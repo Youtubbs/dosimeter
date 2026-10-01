@@ -49,7 +49,10 @@ Requirements:
 - Complete the worker's determination through propose_notification.
 - Do not perform persistence, transmission, or external side effects.
 
-You may call tools more than once when additional evidence is needed.
+Work in this order and stop once the proposal is accepted: read the extraction
+once, evaluate R1 and R2, search only for the provision that cites the result,
+then call propose_notification. Cite each source by the chunk_id that
+search_knowledge_base returned.
 """.strip()
 
 WRITTEN_REPORT_SYSTEM_PROMPT = """
@@ -76,7 +79,11 @@ Requirements:
 - Do not write, persist, transmit, or submit an actual regulatory report.
 - Do not perform external side effects.
 
-You may call tools more than once when additional evidence is needed.
+Work in this order and stop once the proposal is accepted: read the extraction
+once, evaluate R1 and R2 for the r1_required and r2_required inputs, evaluate
+R3 (and R4 only if a planned special exposure is reported), search only for the
+provision that cites the result, then call propose_written_report. Cite each
+source by the chunk_id that search_knowledge_base returned.
 """.strip()
 
 COORDINATOR_SYSTEM_PROMPT = """
@@ -111,6 +118,18 @@ reports a radiographic equipment failure.
 
 Return a structured dispatch plan.
 """
+
+# the follow-up answer to dosimeter ask, after the turn's workers ran
+ASK_SYSTEM_PROMPT = """
+You answer a radiation safety officer's follow-up question about one exposure.
+
+Use only what you are given: the earlier dossier, and the proposals and rule
+results from this turn. State a threshold or a rule outcome only when a rule
+result shown to you contains it, and name that rule. Describe outcomes and the
+evidence for them; never tell the officer what they must do, and never make the
+determination yourself. If what you are given does not answer the question, say
+what is missing. Cite a source by its chunk_id when you rely on one.
+""".strip()
 
 EQUIPMENT_SYSTEM_PROMPT = """
 You are the Dosimeter Equipment Worker.

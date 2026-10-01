@@ -148,6 +148,8 @@ class RunRecord(BaseModel):
     outcome: str | None = None
     corrects_run_id: UUID | None = None
     token_totals: dict[str, int] = Field(default_factory=dict)
+    runtime_arn: str | None = None
+    runtime_session_id: str | None = None
     finished_at: datetime | None = None
 
 

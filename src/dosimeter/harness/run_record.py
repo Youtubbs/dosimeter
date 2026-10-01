@@ -6,9 +6,11 @@ Everything written here goes through the redactor first. No worker name and no
 dose history reaches a run record.
 """
 
+import functools
 import hashlib
 import json
 import logging
+import threading
 from typing import Any
 from uuid import UUID, uuid4
 
@@ -36,6 +38,17 @@ def sha256_of(value: Any) -> str:
     ).hexdigest()
 
 
+def _serialized(method):
+    """Workers run in parallel threads, and one SQLAlchemy session must not be used by two at once."""
+
+    @functools.wraps(method)
+    def wrapper(self, *args, **kwargs):
+        with self._lock:
+            return method(self, *args, **kwargs)
+
+    return wrapper
+
+
 class RunRecorder:
     """
     Collects what a turn did and writes it. Nothing is buffered in a way that
@@ -50,16 +63,23 @@ class RunRecorder:
         session_id: UUID | None = None,
         command: str = "assess",
         turn_kind: str = "assess",
+        runtime_arn: str | None = None,
+        runtime_session_id: str | None = None,
     ) -> None:
         self.session = session
+        self._lock = threading.RLock()
         self.exposure_id = exposure_id
         self.officer_id = officer_id
         self.session_id = session_id
         self.command = command
         self.turn_kind = turn_kind
+        # set when the turn ran on the AgentCore Runtime, so the trace shows where it ran
+        self.runtime_arn = runtime_arn
+        self.runtime_session_id = runtime_session_id
         self.run_id = uuid4()
         self.token_totals: dict[str, int] = {}
 
+    @_serialized
     def start(self) -> UUID:
         """Write the header row so children have something to hang from."""
 
@@ -73,11 +93,14 @@ class RunRecorder:
                 exposure_id=self.exposure_id,
                 officer_id=self.officer_id,
                 session_id=self.session_id,
+                runtime_arn=self.runtime_arn,
+                runtime_session_id=self.runtime_session_id,
             ),
         )
         self.session.commit()
         return self.run_id
 
+    @_serialized
     def dispatched(
         self,
         worker: str,
@@ -96,6 +119,7 @@ class RunRecorder:
             ),
         )
 
+    @_serialized
     def tool_called(
         self,
         tool_name: str,
@@ -120,6 +144,7 @@ class RunRecorder:
             ),
         )
 
+    @_serialized
     def rule_invoked(
         self,
         rule_id: str,
@@ -144,6 +169,7 @@ class RunRecorder:
             ),
         )
 
+    @_serialized
     def retrieved(
         self,
         query_text: str,
@@ -165,6 +191,7 @@ class RunRecorder:
             ),
         )
 
+    @_serialized
     def model_called(
         self,
         model_id: str,
@@ -190,6 +217,7 @@ class RunRecorder:
         key = agent or role
         self.token_totals[key] = self.token_totals.get(key, 0) + input_tokens + output_tokens
 
+    @_serialized
     def reviewer_verdict(
         self,
         iteration: int,
@@ -208,6 +236,7 @@ class RunRecorder:
             ),
         )
 
+    @_serialized
     def trigger_evaluated(self, name: str, fired: bool, detail: str | None = None) -> None:
         queries.add_escalation_trigger(
             self.session,
@@ -220,6 +249,7 @@ class RunRecorder:
             ),
         )
 
+    @_serialized
     def guardrail_event(
         self,
         stage: str,
@@ -239,6 +269,7 @@ class RunRecorder:
         )
         logger.info("guardrail.event", extra={"stage": stage, "action": action})
 
+    @_serialized
     def finish(self, outcome: str) -> None:
         """Close the turn and store the per-agent token totals."""
 
@@ -246,6 +277,7 @@ class RunRecorder:
         queries.finish_run_record(self.session, self.run_id, outcome)
         self.session.commit()
 
+    @_serialized
     def correct(self, outcome: str, command: str | None = None) -> UUID:
         """
         A correction is a new record pointing at this one. Run records are never

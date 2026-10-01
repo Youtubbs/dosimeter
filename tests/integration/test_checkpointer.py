@@ -31,7 +31,7 @@ SUBJECT = Subject(
 def database_settings() -> DatabaseSettings:
     url = os.environ.get(
         "DOSIMETER_TEST_URL",
-        "postgresql+psycopg://dosimeter:dosimeter_local_dev@localhost:55432/dosimeter",
+        "postgresql+psycopg://dosimeter:dosimeter_local_dev@localhost:55432/dosimeter_test",
     )
     without_driver = url.replace("postgresql+psycopg://", "")
     credentials, host_part = without_driver.split("@", 1)

@@ -28,12 +28,29 @@ def _build_coordinator_prompt(state: GraphState) -> str:
 
     subject = state["subject"]
 
+    # an ask turn plans for the officer's question, starting from what the earlier turn concluded
+    follow_up = ""
+    if state.get("question"):
+        follow_up = f"""
+        This is a follow-up question from the officer: {state["question"]}
+
+        What the earlier turn concluded:
+        {state.get("previous_dossier")}
+
+        Dispatch only the workers this question needs, and none if the earlier
+        conclusions already answer it. Put the question's specifics, such as a
+        hypothetical dose, in each dispatched worker's goal.
+        """
+
     prompt = f"""
         Analyze the current exposure run and decide which specialized workers
         are needed.
 
         Exposure ID: {subject.exposure_id}
 
+        Packet facts:
+        {chr(10).join(state.get("packet_facts") or ["none extracted"])}
+        {follow_up}
         Current dispatch plan:
         {state.get("dispatch_plan")}
 
@@ -153,7 +170,13 @@ def route_after_coordinator(state: GraphState) -> list[str]:
     if plan is None:
         return ["eligibility_check"]
 
-    workers = plan.validated_workers()
+    # a worker the Reviewer already approved this turn does not run again
+    approved = {
+        verdict.worker
+        for verdict in state.get("reviewer_verdicts") or []
+        if verdict.verdict == "approved"
+    }
+    workers = [worker for worker in plan.validated_workers() if worker not in approved]
 
     if not workers:
         return ["eligibility_check"]

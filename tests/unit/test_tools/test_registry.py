@@ -6,10 +6,7 @@ from dosimeter.tools.registry import build_tool_registry
 class DummyTransport:
     """Transport placeholder used only for registry construction tests."""
 
-    def get(self, path: str, params: dict | None = None):
-        raise AssertionError("transport should not be called")
-
-    def post(self, path: str, payload: dict):
+    def call(self, tool: str, exposure_id: str, arguments: dict | None = None):
         raise AssertionError("transport should not be called")
 
 

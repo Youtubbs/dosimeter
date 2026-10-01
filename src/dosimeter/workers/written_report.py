@@ -139,7 +139,7 @@ def run_written_report_worker(
     ledger: SessionLedger,
     shared_tools: Iterable[Tool],
     prompt: str,
-    max_iterations: int = 10,
+    max_iterations: int = 16,
     recorder: RunRecorder | None = None,
 ) -> tuple[WrittenReportProposal, list[InvocationRecord]]:
     """Run the Written Report Worker through its Bedrock tool loop.

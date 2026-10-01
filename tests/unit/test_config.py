@@ -49,7 +49,7 @@ def test_defaults_cover_floors_margins_and_bounds() -> None:
     assert settings.near_boundary_margins.r3_tede_rem == 0.25
     assert settings.near_boundary_margins.r1_shallow_rad == 10.0
     assert settings.near_boundary_margins.r5_confidence == 0.05
-    assert settings.bounds.max_tool_invocations_per_turn == 8
+    assert settings.bounds.max_tool_invocations_per_turn == 48
     assert settings.bounds.tokens_for("coordinator") == 4096
     assert settings.bounds.tokens_for("not-an-agent") == settings.bounds.default_max_tokens_per_call
 

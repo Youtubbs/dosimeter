@@ -24,7 +24,6 @@ from dosimeter.tools.search_knowledge_base import (
     KnowledgeBaseSource,
 )
 from dosimeter.tools.tools import ApiToolset
-from dosimeter.tools.transport import TransportResponse
 
 SUBJECT = Subject(
     session_id="session-1",
@@ -300,23 +299,13 @@ def test_nested_arguments_canonicalize_too() -> None:
 
 
 class UnreachableTransport:
-    def get(self, path):
-        raise ExternalServiceError("connection refused")
-
-    def post(self, path, body=None):
+    def call(self, tool, exposure_id, arguments=None):
         raise ExternalServiceError("connection refused")
 
 
 class DenyingTransport:
-    def get(self, path):
-        return TransportResponse(
-            status=403, payload={"reason_code": "district_not_granted", "message": "no"}
-        )
-
-    def post(self, path, body=None):
-        return TransportResponse(
-            status=403, payload={"reason_code": "district_not_granted", "message": "no"}
-        )
+    def call(self, tool, exposure_id, arguments=None):
+        return {"reason_code": "district_not_granted", "message": "no"}
 
 
 def test_an_unreachable_api_disables_both_tools_and_names_them() -> None:

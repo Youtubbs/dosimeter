@@ -1,0 +1,74 @@
+name: Deploy
+
+# On main: ruff and pytest, a secret scan, then `agentcore deploy` builds both Runtime
+# images (workflow and read tools) in CodeBuild, pushes them to ECR and points each
+# Runtime at its new image. Last, the workflow Runtime migrates the private RDS database.
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  test:
+    uses: ./.github/workflows/ci.yml
+
+  secret-scan:
+    name: Secret scan
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Gitleaks
+        run: docker run --rm -v "${{ github.workspace }}:/repo" zricethezav/gitleaks:v8.18.4 detect --source /repo --redact --verbose
+
+  deploy:
+    name: Deploy to AgentCore
+    needs: secret-scan
+    runs-on: ubuntu-latest
+    # GitHub OIDC: the job assumes the deploy role, so no AWS keys live in repo secrets
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install the AgentCore CLI
+        run: npm install -g @aws/agentcore@0.30.0
+
+      - name: Build, push and deploy
+        working-directory: DosimeterCloud
+        run: agentcore deploy --yes
+
+      - name: Migrate RDS through the workflow Runtime
+        run: |
+          session="dosimeter-migrate-$(python3 -c 'import uuid; print(uuid.uuid4())')"
+          aws bedrock-agentcore invoke-agent-runtime \
+            --agent-runtime-arn "${{ vars.WORKFLOW_RUNTIME_ARN }}" \
+            --runtime-session-id "$session" \
+            --content-type application/json \
+            --accept application/json \
+            --payload '{"command": "migrate"}' \
+            --cli-binary-format raw-in-base64-out \
+            migrate.json
+          cat migrate.json
+          if grep -q '"error"' migrate.json; then exit 1; fi

@@ -42,7 +42,7 @@ def run_equipment_worker(
     ledger: SessionLedger,
     shared_tools: Iterable[Tool],
     prompt: str,
-    max_iterations: int = 10,
+    max_iterations: int = 16,
     recorder: RunRecorder | None = None,
 ) -> tuple[EquipmentProposal, list[InvocationRecord]]:
     """Run the Equipment Worker through the Bedrock tool loop."""
