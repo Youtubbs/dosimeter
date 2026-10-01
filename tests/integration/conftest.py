@@ -34,10 +34,16 @@ def _url() -> str:
 
 def _create_database_if_missing(url: str) -> None:
     target = make_url(url)
-    admin = create_engine(target.set(database="postgres"), isolation_level="AUTOCOMMIT", connect_args={"connect_timeout": 3})
+    admin = create_engine(
+        target.set(database="postgres"),
+        isolation_level="AUTOCOMMIT",
+        connect_args={"connect_timeout": 3},
+    )
     try:
         with admin.connect() as connection:
-            exists = connection.execute(text("SELECT 1 FROM pg_database WHERE datname = :name"), {"name": target.database}).scalar()
+            exists = connection.execute(
+                text("SELECT 1 FROM pg_database WHERE datname = :name"), {"name": target.database}
+            ).scalar()
             if not exists:
                 connection.execute(text(f'CREATE DATABASE "{target.database}"'))
     finally:

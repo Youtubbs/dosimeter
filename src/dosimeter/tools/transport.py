@@ -34,7 +34,9 @@ class HttpTransport:
             timeout_seconds or get_settings().bounds.per_call_http_timeout_seconds
         )
 
-    def call(self, tool: str, exposure_id: str, arguments: dict[str, Any] | None = None) -> dict[str, Any]:
+    def call(
+        self, tool: str, exposure_id: str, arguments: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
         """The JSON the API answered with: the result, or a denial carrying its reason_code."""
 
         method, path = ROUTES[tool]

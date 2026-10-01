@@ -30,7 +30,10 @@ class Recording:
 
     def invoke(self, messages):
         self.prompts.append(messages[-1].content)
-        return {"raw": SimpleNamespace(usage_metadata={"input_tokens": 50, "output_tokens": 20}), "parsed": self.parsed}
+        return {
+            "raw": SimpleNamespace(usage_metadata={"input_tokens": 50, "output_tokens": 20}),
+            "parsed": self.parsed,
+        }
 
 
 @pytest.fixture
@@ -46,7 +49,9 @@ def assessed(db: Session, monkeypatch: pytest.MonkeyPatch) -> Recording:
     monkeypatch.setattr("dosimeter.graph.nodes.coordinator.get_chat_model", lambda **_: coordinator)
     monkeypatch.setattr(
         "dosimeter.harness.ask.get_chat_model",
-        lambda **_: Recording(AskAnswer(answer="R1 found notification required on the shallow dose.")),
+        lambda **_: Recording(
+            AskAnswer(answer="R1 found notification required on the shallow dose.")
+        ),
     )
 
     run_assess(db, EXPOSURE, OFFICER, settings_for_tests())

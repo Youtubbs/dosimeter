@@ -1,4 +1,4 @@
-""" reaching the read tools through the AgentCore Gateway, which exposes them as MCP tools """
+"""reaching the read tools through the AgentCore Gateway, which exposes them as MCP tools"""
 
 import asyncio
 import json
@@ -22,7 +22,9 @@ class GatewayTransport:
         self.url = url
         self.token_provider = token_provider
 
-    def call(self, tool: str, exposure_id: str, arguments: dict[str, Any] | None = None) -> dict[str, Any]:
+    def call(
+        self, tool: str, exposure_id: str, arguments: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
         tool_arguments: dict[str, Any] = {"exposure_id": exposure_id}
         if arguments:
             tool_arguments["arguments"] = arguments
@@ -49,7 +51,7 @@ class GatewayTransport:
 
 
 def payload_from(result: CallToolResult) -> dict[str, Any]:
-    """ the tool server answers with the same JSON body the Flask API sends """
+    """the tool server answers with the same JSON body the Flask API sends"""
 
     if result.structuredContent:
         return dict(result.structuredContent)
@@ -58,4 +60,6 @@ def payload_from(result: CallToolResult) -> dict[str, Any]:
     try:
         return json.loads(text)
     except json.JSONDecodeError as error:
-        raise ExternalServiceError("the Gateway did not answer with JSON", detail=text[:200]) from error
+        raise ExternalServiceError(
+            "the Gateway did not answer with JSON", detail=text[:200]
+        ) from error

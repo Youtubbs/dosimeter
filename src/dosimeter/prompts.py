@@ -55,6 +55,7 @@ then call propose_notification. Cite each source by the chunk_id that
 search_knowledge_base returned.
 """.strip()
 
+COORDINATOR_SYSTEM_PROMPT = """
 1. Retrieve the current exposure data with get_exposure_extraction.
    Do not retrieve the same exposure again unless the previous call failed.
 

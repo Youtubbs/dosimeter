@@ -105,7 +105,9 @@ def create_app(
         arguments = FindSimilarExposuresInput.model_validate(request.get_json(silent=True) or {})
 
         with correlation_scope(), session() as active:
-            payload, status = similar_for(active, identity.officer_code, exposure_id, arguments, embed)
+            payload, status = similar_for(
+                active, identity.officer_code, exposure_id, arguments, embed
+            )
 
         return jsonify(payload.model_dump()), status
 
@@ -126,7 +128,9 @@ def extraction_for(
     if isinstance(found, EntitlementDenial):
         return _denial(found), 403
     if found is None:
-        return Denial(reason_code=NOT_FOUND, message="no exposure with that id", officer_code=officer_code), 404
+        return Denial(
+            reason_code=NOT_FOUND, message="no exposure with that id", officer_code=officer_code
+        ), 404
 
     artifact_by_id = queries.artifact_hashes_by_id(active, exposure_id)
     rows = queries.list_extracted_fields(active, exposure_id)
@@ -150,9 +154,7 @@ def extraction_for(
         status=found.status,
         fields=fields,
         low_confidence_field_keys=[
-            row.field_key
-            for row in rows
-            if row.confidence is not None and row.confidence < floor
+            row.field_key for row in rows if row.confidence is not None and row.confidence < floor
         ],
     )
     return payload, 200
@@ -171,7 +173,9 @@ def similar_for(
     if isinstance(found, EntitlementDenial):
         return _denial(found), 403
     if found is None:
-        return Denial(reason_code=NOT_FOUND, message="no exposure with that id", officer_code=officer_code), 404
+        return Denial(
+            reason_code=NOT_FOUND, message="no exposure with that id", officer_code=officer_code
+        ), 404
 
     try:
         vector = embedder(arguments.query_text)

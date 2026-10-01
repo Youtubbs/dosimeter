@@ -26,7 +26,8 @@ from dosimeter.harness.escalation import EscalationOutcome
 from dosimeter.harness.run_record import RunRecorder
 from dosimeter.repository import Session, queries
 from dosimeter.repository.models import Exposure
-from dosimeter.tools.registry import shared_tools
+from dosimeter.tools.registry import build_tool_registry
+from dosimeter.tools.transport import HttpTransport
 
 logger = logging.getLogger(__name__)
 
@@ -102,7 +103,9 @@ def missing_dose_fields(session: Session, exposure_id: str) -> list[str]:
     return [
         name
         for name, words in REQUIRED_DOSES.items()
-        if not any(any(word in key for word in words) and re.search(r"\d", value) for key, value in read)
+        if not any(
+            any(word in key for word in words) and re.search(r"\d", value) for key, value in read
+        )
     ]
 
 

@@ -11,6 +11,7 @@ from typing import Any, Literal
 from pydantic import BaseModel, ConfigDict
 
 from dosimeter.domain.dose import (
+    DoseUnit,
     IntakeMultipleOfALI,
     LensDoseEquivalent,
     ShallowDoseEquivalent,
@@ -258,8 +259,7 @@ EVALUATE_RULE_TOOL = Tool(
     description=(
         "Evaluate one deterministic regulatory rule (R1-R5) using "
         "validated inputs. Regulatory thresholds remain inside the "
-        "rules engine; this tool does not invent or override thresholds. "
-        + RULE_INPUTS
+        "rules engine; this tool does not invent or override thresholds. " + RULE_INPUTS
     ),
     input_model=EvaluateRuleRequest,
     output_model=RuleInvocation,

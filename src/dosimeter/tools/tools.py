@@ -24,7 +24,10 @@ FIND_SIMILAR_EXPOSURES = "find_similar_exposures"
 
 # the API's refusals, by the reason code its body carries
 DENIED = {"no_verified_identity", "unknown_officer", "no_grants", "district_not_granted"}
-CODE_FOR_REASON = {"exposure_not_found": ToolErrorCode.NOT_FOUND, "embedding_unavailable": ToolErrorCode.UNAVAILABLE}
+CODE_FOR_REASON = {
+    "exposure_not_found": ToolErrorCode.NOT_FOUND,
+    "embedding_unavailable": ToolErrorCode.UNAVAILABLE,
+}
 
 logger = logging.getLogger(__name__)
 
@@ -113,7 +116,9 @@ def _error_from(payload: dict) -> ToolError:
     reason = payload.get("reason_code", "tool_failed")
 
     return ToolError(
-        reason_code=ToolErrorCode.DENIED if reason in DENIED else CODE_FOR_REASON.get(reason, ToolErrorCode.INTERNAL),
+        reason_code=ToolErrorCode.DENIED
+        if reason in DENIED
+        else CODE_FOR_REASON.get(reason, ToolErrorCode.INTERNAL),
         message=payload.get("message", "the tool API refused the call"),
         detail={"api_reason_code": reason},
     )

@@ -52,7 +52,10 @@ def render_decision_card(session: Session, exposure_id: str, officer_code: str) 
         f"{exposure_id} (queue {row.id}, {row.district})",
         "",
         "escalated because:",
-        *[f"  {trigger}: {details[trigger]}" if trigger in details else f"  {trigger}" for trigger in triggers],
+        *[
+            f"  {trigger}: {details[trigger]}" if trigger in details else f"  {trigger}"
+            for trigger in triggers
+        ],
         "",
         "decisions:",
         "  approve            record approval as it stands",

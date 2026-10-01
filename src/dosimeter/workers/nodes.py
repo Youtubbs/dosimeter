@@ -83,7 +83,11 @@ def make_worker_node(
         subject = state["subject"].model_copy(update={"worker_id": worker})
 
         plan = state.get("dispatch_plan")
-        goal = plan.goals.get(worker, DEFAULT_GOALS[worker]) if plan is not None else DEFAULT_GOALS[worker]
+        goal = (
+            plan.goals.get(worker, DEFAULT_GOALS[worker])
+            if plan is not None
+            else DEFAULT_GOALS[worker]
+        )
 
         try:
             proposal, invocations = _runner(worker)(
@@ -125,7 +129,9 @@ def make_worker_node(
             "retrieval_log": [
                 invocation.result
                 for invocation in invocations
-                if invocation.tool == "search_knowledge_base" and invocation.outcome == "ok" and invocation.result
+                if invocation.tool == "search_knowledge_base"
+                and invocation.outcome == "ok"
+                and invocation.result
             ],
             "guardrail_events": [
                 *guardrail_events,

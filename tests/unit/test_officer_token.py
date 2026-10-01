@@ -25,12 +25,16 @@ def configured(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
     monkeypatch.setenv("DOSIMETER_IDENTITY_PASSWORD", "demo-password")
 
 
-def test_it_prints_the_token_for_the_named_officer(configured, monkeypatch: pytest.MonkeyPatch, capsys) -> None:
+def test_it_prints_the_token_for_the_named_officer(
+    configured, monkeypatch: pytest.MonkeyPatch, capsys
+) -> None:
     signed_in = []
     monkeypatch.setattr(
         officer_token,
         "cognito_access_token",
-        lambda officer, password, client_id: signed_in.append((officer, password, client_id)) or "token-102",
+        lambda officer, password, client_id: (
+            signed_in.append((officer, password, client_id)) or "token-102"
+        ),
     )
 
     assert officer_token.main(["OFF-102"]) == 0
@@ -41,16 +45,22 @@ def test_it_prints_the_token_for_the_named_officer(configured, monkeypatch: pyte
     assert capsys.readouterr().out == "Authorization: Bearer token-102\n"
 
 
-def test_it_needs_the_identity_settings(configured, monkeypatch: pytest.MonkeyPatch, capsys) -> None:
+def test_it_needs_the_identity_settings(
+    configured, monkeypatch: pytest.MonkeyPatch, capsys
+) -> None:
     monkeypatch.delenv("DOSIMETER_IDENTITY_PASSWORD")
 
     assert officer_token.main(["OFF-102"]) == 2
     assert "DOSIMETER_IDENTITY_PASSWORD" in capsys.readouterr().err
 
 
-def test_a_refused_sign_in_is_reported_not_raised(configured, monkeypatch: pytest.MonkeyPatch, capsys) -> None:
+def test_a_refused_sign_in_is_reported_not_raised(
+    configured, monkeypatch: pytest.MonkeyPatch, capsys
+) -> None:
     def refused(*_args):
-        raise ClientError({"Error": {"Code": "NotAuthorizedException", "Message": "Incorrect"}}, "InitiateAuth")
+        raise ClientError(
+            {"Error": {"Code": "NotAuthorizedException", "Message": "Incorrect"}}, "InitiateAuth"
+        )
 
     monkeypatch.setattr(officer_token, "cognito_access_token", refused)
 

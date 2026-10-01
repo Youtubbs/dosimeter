@@ -22,7 +22,9 @@ from dosimeter.models.bedrock import embed_text
 from dosimeter.repository.connection import session_scope
 
 mcp = FastMCP(
-    "DosimeterTools", host="0.0.0.0", stateless_http=True  # noqa: S104 - runs in a container
+    "DosimeterTools",
+    host="0.0.0.0",  # noqa: S104 - runs in a container
+    stateless_http=True,
 )
 
 # the same embedding model the Knowledge Base uses; a test can swap it
@@ -58,7 +60,9 @@ def get_exposure_extraction(exposure_id: str, ctx: Context) -> dict[str, Any]:
 
 
 @mcp.tool()
-def find_similar_exposures(exposure_id: str, arguments: FindSimilarExposuresInput, ctx: Context) -> dict[str, Any]:
+def find_similar_exposures(
+    exposure_id: str, arguments: FindSimilarExposuresInput, ctx: Context
+) -> dict[str, Any]:
     """Find earlier exposures whose narrative resembles this one."""
 
     officer_code = _officer(ctx)
@@ -77,7 +81,6 @@ async def health(_request: Request) -> JSONResponse:
 
 
 if __name__ == "__main__":
-
     configure_logging(get_settings().log_level)
 
     # serves POST /mcp on port 8000

@@ -56,7 +56,9 @@ def cognito_access_token(username: str, password: str, client_id: str) -> str:
     return response["AuthenticationResult"]["AccessToken"]
 
 
-def invoke_agent_runtime(runtime_arn: str, session_id: str, payload: dict[str, Any], read_timeout: float) -> dict[str, Any]:
+def invoke_agent_runtime(
+    runtime_arn: str, session_id: str, payload: dict[str, Any], read_timeout: float
+) -> dict[str, Any]:
     """send one payload to a deployed AgentCore Runtime and read back its JSON answer"""
 
     try:
@@ -71,7 +73,9 @@ def invoke_agent_runtime(runtime_arn: str, session_id: str, payload: dict[str, A
         # `response` is a streaming body; read it once.
         return json.loads(response["response"].read().decode())
     except (BotoCoreError, ClientError) as error:
-        raise ExternalServiceError("the AgentCore Runtime call failed", detail=str(error)) from error
+        raise ExternalServiceError(
+            "the AgentCore Runtime call failed", detail=str(error)
+        ) from error
 
 
 def rds_auth_token(database: DatabaseSettings) -> str:
@@ -92,7 +96,7 @@ UNSIGNABLE = {"connection", "host", "content-length"}
 
 
 class SigV4HttpxAuth(httpx.Auth):
-    """ signs each request to an AWS_IAM Gateway with our credentials (the execution role when deployed) """
+    """signs each request to an AWS_IAM Gateway with our credentials (the execution role when deployed)"""
 
     # the body is part of the signature, so httpx must load it first
     requires_request_body = True
@@ -101,7 +105,9 @@ class SigV4HttpxAuth(httpx.Auth):
         credentials = credentials or get_session().get_credentials()
 
         if credentials is None:
-            raise RuntimeError("No AWS credentials. Locally, set AWS_PROFILE. Deployed, the execution role failed to resolve.")
+            raise RuntimeError(
+                "No AWS credentials. Locally, set AWS_PROFILE. Deployed, the execution role failed to resolve."
+            )
 
         self._signer = SigV4Auth(credentials, SIGNING_SERVICE, region or get_settings().aws_region)
 
@@ -110,7 +116,11 @@ class SigV4HttpxAuth(httpx.Auth):
             method=request.method,
             url=str(request.url),
             data=request.content or "",
-            headers={key: value for key, value in request.headers.items() if key.lower() not in UNSIGNABLE},
+            headers={
+                key: value
+                for key, value in request.headers.items()
+                if key.lower() not in UNSIGNABLE
+            },
         )
 
         # copy the Authorization, X-Amz-Date and X-Amz-Security-Token headers back onto the request
