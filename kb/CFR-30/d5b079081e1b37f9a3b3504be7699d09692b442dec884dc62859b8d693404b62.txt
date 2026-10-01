@@ -1,0 +1,78 @@
+100
+Technetium 99m (Tc 99m)
+100
+Technetium 99 (Tc 99)
+10
+Tellurium 125m (Te 125m)
+10
+Tellurium 127m (Te 127m)
+10
+Tellurium 127 (Te 127)
+100
+Tellurium 129m (Te 129m)
+10
+Tellurium 129 (Te 129)
+100
+Tellurium 131m (Te 131m)
+10
+Tellurium 132 (Te 132)
+10
+Terbium 160 (Tb 160)
+10
+Thallium 200 (Tl 200)
+100
+Thallium 201 (Tl 201)
+100
+Thallium 202 (Tl 202)
+100
+Thallium 204 (Tl 204)
+10
+Thulium 170 (Tm 170)
+10
+Thulium 171 (Tm 171)
+10
+Tin 113 (Sn 113)
+10
+Tin 125 (Sn 125)
+10
+Tungsten 181 (W 181)
+10
+Tungsten 185 (W 185)
+10
+Tungsten 187 (W 187)
+100
+Vanadium 48 (V 48)
+10
+Xenon 131m (Xe 131m)
+1,000
+Xenon 133 (Xe 133)
+100
+Xenon 135 (Xe 135)
+100
+Ytterbium 175 (Yb 175)
+100
+Yttrium 87 (Y 87)
+10
+Yttrium 88 (Y 88)
+10
+Yttrium 90 (Y 90)
+10
+Yttrium 91 (Y 91)
+10
+Yttrium 92 (Y 92)
+100
+Yttrium 93 (Y 93)
+100
+Zinc 65 (Zn 65)
+10
+Zinc 69m (Zn 69m)
+100
+Zinc 69 (Zn 69)
+1,000
+Zirconium 93 (Zr 93)
+10
+Zirconium 95 (Zr 95)
+10
+Zirconium 97 (Zr 97)
+10
+Any byproduct material not listed above other than alpha emitting byproduct ma

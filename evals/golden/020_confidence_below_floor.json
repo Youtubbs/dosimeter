@@ -1,0 +1,28 @@
+{
+  "id": "GOLD-020",
+  "category": "escalation",
+  "query": "An extracted TEDE field has confidence 0.59. Can the system proceed with the exposure determination?",
+  "expected_outcome": "escalated",
+  "sources": [],
+  "exposure_id": null,
+  "why": "Tests the confidence-floor escalation boundary. A confidence of 0.59 is below the 0.60 floor and must route to human determination.",
+  "threshold": null,
+  "refusal": null,
+  "turns": [],
+  "required_terms": [
+    "0.59",
+    "0.60",
+    "human"
+  ],
+  "forbidden_sources": [],
+  "expected_missing_fields": [],
+  "expected_triggers": [
+    "field_below_confidence_floor"
+  ],
+  "execution": {
+    "kind": "escalation",
+    "fields_below_floor": [
+      "tede"
+    ]
+  }
+}

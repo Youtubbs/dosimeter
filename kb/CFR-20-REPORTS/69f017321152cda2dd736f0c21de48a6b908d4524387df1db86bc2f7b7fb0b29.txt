@@ -1,0 +1,13 @@
+§ 20.2202 Notification of incidents.
+(a) Immediate notification. Notwithstanding any other requirements for notification, each licensee shall
+immediately report any event involving byproduct, source, or special nuclear material possessed by the licensee
+that may have caused or threatens to cause any of the following conditions—
+(1) An individual to receive-
+(i) A total effective dose equivalent of 25 rems (0.25 Sv) or more; or
+(ii) A lens dose equivalent of 75 rems (0.75 Sv) or more; or
+(iii) A shallow-dose equivalent to the skin or extremities of 250 rads (2.5 Gy) or more; or
+(2) The release of radioactive material, inside or outside of a restricted area, so that, had an individual been
+present for 24 hours, the individual could have received an intake five times the annual limit on intake (the
+provisions of this paragraph do not apply to locations where personnel are not normally stationed during routine
+operations, such as hot-cells or process enclosures).
+(b) Twenty-four hour notif

@@ -1,0 +1,54 @@
+ic dose limit.
+With respect to 10 CFR part 35, the
+entire administration regimen, which
+For the newly proposed 10 CFR
+NRC is proposing to assign
+could be delivered in multiple
+20.1205, which concerns a new process
+compatibility Category B to the new
+jurisdictions.
+for allowing workers to receive
+definitions for "Caregiver" and
+The compatibility (A, B, C, D, and
+occupational doses in excess of
+"Administration regimen" as well as the
+NRC) and adequacy (H&S) categories are
+applicable annual limits, the NRC is
+revised 10 CFR 35.75(b) regarding the
+designated in the following tables:
+ADEQUACY AND COMPATIBILITY TABLE FOR 10 CFR PART 19
+Compatibility
+Section
+Change
+Subject
+Existing
+New
+19.12
+Amend
+Instruction to workers
+C
+C.
+19.13
+Amend
+Notifications and reports to individuals
+c
+C.
+ADEQUACY AND COMPATIBILITY TABLE FOR 10 CFR PART 20
+Compatibility
+Section
+Change
+Subject
+Existing
+New
+20.1003
+Amend
+Definition-Airborne radioactivity area
+A
+A.
+20.1003
+Delete
+Definition-ALARA
+A.
+20.1003
+Amend
+Defin

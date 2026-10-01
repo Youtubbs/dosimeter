@@ -1,0 +1,12 @@
+ncident, if known;
+(3) Name of the manufacturer and model number of equipment involved in the incident;
+(4) Place, date, and time of the incident;
+(5) Actions taken to establish normal operations;
+(6) Corrective actions taken or planned to prevent recurrence; and
+(7) Qualifications of personnel involved in the incident.
+(c) Any licensee conducting radiographic operations or storing radioactive material at any location not listed on the
+license for a period in excess of 180 days in a calendar year, shall notify the appropriate NRC regional office listed
+in § 30.6(b)(2) of this chapter prior to exceeding the 180 days.
+This document is an excerpt of federal public-domain material, reproduced as a training artifact for the Dosimeter
+exercise. It is not a current or authoritative source and is not radiation safety, health physics or legal guidance.
+Consult the published source for the governing text.

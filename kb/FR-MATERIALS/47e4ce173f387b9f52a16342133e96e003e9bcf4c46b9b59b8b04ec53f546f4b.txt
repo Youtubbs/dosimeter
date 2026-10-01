@@ -1,0 +1,73 @@
+mend
+Specific license for industrial radiography
+C
+C.
+34.20(a)(1) & (c)
+Amend
+Performance requirements for industrial radiog-
+B
+B.
+raphy equipment.
+34.20(a)(2)
+Amend
+Performance requirements for industrial radiog-
+D
+D.
+raphy equipment.
+34.20(d) & (e)
+Remove
+Performance requirements for industrial radiog-
+B.
+raphy equipment.
+34.23
+Amend
+Locking of radiographic exposure devices, stor-
+B
+B.
+age containers and source changers.
+34.27(c)(1) & (e)
+Amend
+Leak testing and replacement of sealed sources
+C
+C.
+34.33
+Amend
+Permanent radiographic installations
+H&S
+H&S.
+28936
+Federal Register Vol. 91, No. 95 / Monday, May 18, 2026 Proposed Rules
+ADEQUACY AND COMPATIBILITY TABLE-Continued
+Compatibility
+Section
+Change
+Subject
+Existing
+New
+34.41(a)
+Amend
+Conducting industrial radiographic operations
+C
+C.
+34.41(d)
+Remove
+Conducting industrial radiographic operations
+D.
+34.43(a)(1)
+Amend
+Training
+B
+B.
+34.43(a)(2)
+Remove
+Training
+D.
+34.43(h) & (i)
+Remove
+Training
+B.
+34.51
+Remove
+Surveillance
+c
+Note-requirem

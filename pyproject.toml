@@ -1,0 +1,98 @@
+[project]
+name = "dosimeter"
+version = "0.1.0"
+description = "Multi-agent radiation exposure analysis using LangGraph, Amazon Bedrock, Textract, deterministic regulatory rules, and cited evidence."
+requires-python = ">=3.11"
+authors = [
+    { name = "Abdulmuqsit Jimoh" },
+    { name = "Victoria Mulugeta" },
+    { name = "Anthony Sherrell" },
+]
+
+dependencies = [
+    # pre week 6 dependencies
+    "pydantic==2.13.4",
+    "pydantic-settings==2.15.0",
+    "flask==3.1.2",
+    "sqlalchemy==2.0.43",
+    "psycopg[binary]==3.2.10",
+    "python-dotenv==1.1.1",
+    "boto3==1.43.97",
+    "botocore==1.43.97",
+    "gunicorn==26.2.0",
+
+    # post week 6 dependencies
+    "langgraph==1.2.11",
+    "langgraph-checkpoint-postgres==3.1.2",
+    "langchain-aws==1.7.8",
+    "langchain-core==1.6.3",
+
+    "pgvector==0.5.0",
+
+    # dependency for chunking the local runbooks for RAG - external Knowledge Base wouldn't need.
+    "langchain-text-splitters==1.0.0",
+    "langsmith>0.12",
+
+    # corpus dependencies
+    "reportlab==5.0.1",
+    "pypdf==6.18.0",
+
+    # agentcore dependencies
+    "bedrock-agentcore==1.23.1",
+    "mcp==1.24.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==9.1.1",
+    "pytest-asyncio==1.4.0",
+
+    # styling imports
+    "ruff==0.16.8",
+    "import-linter==2.15",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["dosimeter*"]
+
+# the SQL migrations ship inside the wheel, so every image can migrate the database
+[tool.setuptools.package-data]
+"dosimeter.repository" = ["migrations/*.sql"]
+
+# cli commands eventually will be implemented
+#  - submit, assess, dossier, ask, sources, trace, queue, review
+[project.scripts]
+dosimeter = "dosimeter.cli.main:main"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+extend-exclude = ["corpus"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "W", "B", "S"]
+ignore = ["S101"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S105", "S106", "S107"]
+"test/**" = ["S105", "S106", "S107"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "test"]
+asyncio_mode = "auto"
+markers = [
+    "integration: touches a real service and is not run in CI",
+    "eval: runs the evaluation harness",
+]
+# both come from inside libraries (bedrock-agentcore and mcp), not our code
+filterwarnings = [
+    "ignore:Support for class-based `config` is deprecated:pydantic.warnings.PydanticDeprecatedSince20:bedrock_agentcore.*",
+    "ignore:Field 'lifespan' has an incomplete definition",
+    "ignore:datetime.datetime.utcnow:DeprecationWarning:bedrock_agentcore.*",
+]

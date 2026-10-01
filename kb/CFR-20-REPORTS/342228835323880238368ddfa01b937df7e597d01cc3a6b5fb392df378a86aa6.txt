@@ -1,0 +1,13 @@
+oned during routine
+operations, such as hot-cells or process enclosures).
+(b) Twenty-four hour notification. Each licensee shall, within 24 hours of discovery of the event, report any event
+involving loss of control of licensed material possessed by the licensee that may have caused, or threatens to
+cause, any of the following conditions:
+(1) An individual to receive, in a period of 24 hours—
+(i) A total effective dose equivalent exceeding 5 rems (0.05 Sv); or
+(ii) A lens dose equivalent exceeding 15 rems (0.15 Sv); or
+(iii) A shallow-dose equivalent to the skin or extremities exceeding 50 rems (0.5 Sv); or
+(2) The release of radioactive material, inside or outside of a restricted area, so that, had an individual been
+present for 24 hours, the individual could have received an intake in excess of one occupational annual limit on
+intake (the provisions of this paragraph do not apply to locations where personnel are not normally stationed
+during routine operations, such as hot-cells or p

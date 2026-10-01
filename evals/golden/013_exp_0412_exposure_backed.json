@@ -1,0 +1,35 @@
+{
+  "id": "GOLD-013",
+  "category": "exposure_backed",
+  "query": "Assess exposure exp-0412 for notification and reporting requirements based on the packet evidence.",
+  "expected_outcome": "immediate_notification_required",
+  "sources": [
+    {
+      "document_id": "CFR-20-REPORTS",
+      "section": "§ 20.2202(a)"
+    },
+    {
+      "document_id": "CFR-20-REPORTS",
+      "section": "§ 20.2203"
+    },
+    {
+      "document_id": "CFR-34",
+      "section": "§ 34.101"
+    }
+  ],
+  "exposure_id": "EXP-2026-0412",
+  "why": "P2 contains a 310 rad shallow extremity dose, exceeding the 250 rad R1 immediate-notification threshold, and also contains a source retraction failure requiring equipment analysis.",
+  "threshold": null,
+  "refusal": null,
+  "turns": [],
+  "required_terms": [
+    "shallow-dose equivalent",
+    "310 rad",
+    "250 rad",
+    "immediate",
+    "equipment"
+  ],
+  "forbidden_sources": [],
+  "expected_missing_fields": [],
+  "expected_triggers": []
+}

@@ -1,0 +1,70 @@
+ial exposure
+D
+D.
+43484
+Federal Register Vol. 91, No. 134 / Wednesday, July 15, 2026 / Proposed Rules
+ADEQUACY AND COMPATIBILITY TABLE FOR 10 CFR PART 20-Continued
+Compatibility
+Section
+Change
+Subject
+Existing
+New
+20.1003
+New
+Definition-Planned occupational dose
+A.
+limit extension.
+20.1003
+New
+Definition-Radiation weighting factor
+A.
+20.1003
+Amend
+Definition-Stochastic effects
+A
+A.
+20.1003
+New
+Definition-Total effective dose
+A.
+20.1003
+Amend
+Definition-Weighting factor
+A
+A.
+20.1004
+Amend
+Units of radiation dose
+A
+A.
+20.1010
+New
+Dosimetry methods
+B.
+20.1101(a) and (c)
+Amend
+Radiation protection programs
+H&S
+H&S.
+20.1101(b)
+Amend
+Radiation protection programs
+H&S
+A.
+20.1101(d)
+Amend
+Radiation protection programs
+C
+A, except portions of these provisions
+are designated as NRC (Those por-
+tions of the provision that address
+areas reserved to the NRC, e.g., 10
+CFR Parts 50.34a and 53.260 are
+designated as a Compatibility Cat-
+egory NRC).
+20.1201
+Amend
+Occupational dose limits for adults
+A
+A.

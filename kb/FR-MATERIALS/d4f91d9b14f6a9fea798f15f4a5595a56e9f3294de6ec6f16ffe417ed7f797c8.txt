@@ -1,0 +1,11 @@
+t authorize any site-specific
+action on the part of the NRC or licensee. Licensees and applicants would need to request and receive separate
+regulatory approval before preparing and distributing microsources. Consequently, this rulemaking provides the
+basis for any procedure granting the license but does not, by its own operation, provide a license for preparation or
+distribution activities, but rather applicants must comply with the relevant NRC or Agreement State regulations be-
+fore they can receive a license. Therefore, this rulemaking will not result in any physical impacts to the environment,
+and the NRC has determined that the action would result in no significant environmental impacts.
+34.41; 34.51
+These proposed amendments would combine the requirements in § 34.51 with requirements in § 34.41(a), commonly
+called "the two-person rule," "Licenses for Industrial Radiography and Radiation Safety Requirements for Industrial
+Radiographic Operations" and eliminate § 34.51. The regula

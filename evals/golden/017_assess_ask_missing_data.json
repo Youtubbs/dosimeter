@@ -1,0 +1,35 @@
+{
+  "id": "GOLD-017",
+  "category": "multi_turn",
+  "query": "Assess the exposure and answer a follow-up question about missing information.",
+  "expected_outcome": "follow_up_answer",
+  "sources": [
+    {
+      "document_id": "CFR-20-REPORTS",
+      "section": "§ 20.2201"
+    }
+  ],
+  "exposure_id": "EXP-2026-0414",
+  "why": "Tests that a follow-up turn preserves the original assessment context and can explain why additional information is required.",
+  "turns": [
+    {
+      "command": "assess",
+      "text": "Assess exposure exp-0414.",
+      "expected_outcome": "insufficient_data"
+    },
+    {
+      "command": "ask",
+      "text": "What information is missing?",
+      "expected_outcome": "explain_missing_information"
+    }
+  ],
+  "required_terms": [
+    "missing",
+    "Appendix"
+  ],
+  "forbidden_sources": [],
+  "expected_missing_fields": [
+    "Appendix C to Part 20"
+  ],
+  "expected_triggers": []
+}

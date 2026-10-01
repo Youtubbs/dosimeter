@@ -1,0 +1,11 @@
+concentration of a given radionuclide in air which, if breathed by the
+reference man for a working year of 2,000 hours under conditions of light work (inhalation rate 1.2 cubic meters of
+air per hour), results in an intake of one ALI. DAC values are given in table 1, column 3, of appendix B to §§
+20.1001-20.2401.
+Derived air concentration-hour (DAC-hour) is the product of the concentration of radioactive material in air
+(expressed as a fraction or multiple of the derived air concentration for each radionuclide) and the time of
+exposure to that radionuclide, in hours. A licensee may take 2,000 DAC-hours to represent one ALI, equivalent to
+a committed effective dose equivalent of 5 rems (0.05 Sv).
+Discrete source means a radionuclide that has been processed so that its concentration within a material has
+been purposely increased for use for commercial, medical, or research activities.
+Disposable respirator means a respirator for which maintenance is not intended and that is designed to

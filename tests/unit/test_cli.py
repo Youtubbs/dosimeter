@@ -1,0 +1,93 @@
+"""The eight commands exist, read the settings first, and quit non-zero."""
+
+import os
+from pathlib import Path
+
+import pytest
+
+from dosimeter.cli.main import COMMANDS, EXIT_CONFIG_ERROR, build_parser, main
+
+EXPECTED_COMMANDS = (
+    "submit",
+    "assess",
+    "dossier",
+    "ask",
+    "sources",
+    "trace",
+    "queue",
+    "review",
+)
+
+# submit is built, and has its own tests. Take a command out of this list as it
+# lands.
+IMPLEMENTED_COMMANDS = ("submit", "assess", "ask", "dossier", "sources", "trace", "queue", "review")
+
+# What each command needs on the command line, beyond its own name.
+ARGUMENTS: dict[str, list[str]] = {
+    "submit": ["./packets/exp-0412"],
+    "assess": ["EXP-2026-0412", "--officer", "OFF-101"],
+    "dossier": ["EXP-2026-0412"],
+    "ask": ["EXP-2026-0412", "why no call?", "--officer", "OFF-101"],
+    "sources": ["EXP-2026-0412", "--ref", "2"],
+    "trace": ["EXP-2026-0412"],
+    "queue": ["--officer", "OFF-101"],
+    "review": ["EXP-2026-0412", "--officer", "OFF-102"],
+}
+
+
+@pytest.fixture
+def configured(monkeypatch: pytest.MonkeyPatch) -> None:
+    """A full set of settings, so a command only fails for being unfinished."""
+
+    monkeypatch.setenv("AWS_REGION", "us-east-1")
+    monkeypatch.setenv("BEDROCK_MODEL_ID", "text-model-id")
+    monkeypatch.setenv("BEDROCK_EMBED_MODEL_ID", "embedding-model-id")
+    monkeypatch.setenv("BEDROCK_KB_ID", "kb-000000")
+    monkeypatch.setenv("DOSIMETER_GUARDRAIL_ID", "gr-000000")
+    monkeypatch.setenv("AWS_CORPUS_BUCKET_NAME", "dosimeter-corpus")
+    monkeypatch.setenv("AWS_PACKET_BUCKET_NAME", "dosimeter-packets")
+    monkeypatch.setenv("DOSIMETER_DB_HOST", "dosimeter.example.us-east-1.rds.amazonaws.com")
+    monkeypatch.setenv("DOSIMETER_DB_NAME", "dosimeter")
+    monkeypatch.setenv("DOSIMETER_DB_USER", "dosimeter_app")
+
+
+def test_the_eight_subcommands_are_the_whole_surface() -> None:
+    assert tuple(COMMANDS) == EXPECTED_COMMANDS
+
+
+@pytest.mark.parametrize("command", EXPECTED_COMMANDS)
+def test_subcommand_parses(command: str) -> None:
+    args = build_parser().parse_args([command, *ARGUMENTS.get(command, [])])
+
+    assert args.command == command
+
+
+def test_every_command_is_implemented() -> None:
+    assert set(IMPLEMENTED_COMMANDS) == set(EXPECTED_COMMANDS)
+
+
+def test_command_loads_configuration_before_anything_else(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    # Run somewhere with no .env, so the developer's own file cannot supply
+    # the settings this test needs to be missing.
+    monkeypatch.chdir(tmp_path)
+    for name in list(os.environ):
+        if name.startswith("DOSIMETER_"):
+            monkeypatch.delenv(name, raising=False)
+
+    with caplog.at_level("ERROR"):
+        exit_code = main(["ask", "EXP-2026-0412", "why no call?", "--officer", "OFF-101"])
+
+    assert exit_code == EXIT_CONFIG_ERROR
+    assert caplog.records[-1].message == "config.invalid"
+    assert "guardrail_id" in caplog.records[-1].fields
+
+
+def test_an_unknown_subcommand_is_rejected() -> None:
+    with pytest.raises(SystemExit) as caught:
+        main(["notify"])
+
+    assert caught.value.code != 0

@@ -1,0 +1,11 @@
+centrations-
+(1) In excess of the derived air concentrations (DACs) specified in appendix B, to §§ 20.1001-20.2401, or
+(2) To such a degree that an individual present in the area without respiratory protective equipment could exceed,
+during the hours an individual is present in a week, an intake of 0.6 percent of the annual limit on intake (ALI) or
+12 DAC-hours.
+Air-purifying respirator means a respirator with an air-purifying filter, cartridge, or canister that removes specific air
+contaminants by passing ambient air through the air-purifying element.
+ALARA (acronym for "as low as is reasonably achievable") means making every reasonable effort to maintain
+exposures to radiation as far below the dose limits in this part as is practical consistent with the purpose for which
+the licensed activity is undertaken, taking into account the state of technology, the economics of improvements in
+relation to state of technology, the economics of improvements in relation to benefits to the public

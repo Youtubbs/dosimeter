@@ -1,0 +1,13 @@
+respirator
+when worn.
+Fit test means the use of a protocol to qualitatively or quantitatively evaluate the fit of a respirator on an individual.
+Generally applicable environmental radiation standards means standards issued by the Environmental Protection
+Agency (EPA) under the authority of the Atomic Energy Act of 1954, as amended, that impose limits on radiation
+exposures or levels, or concentrations or quantities of radioactive material, in the general environment outside the
+boundaries of locations under the control of persons possessing or using radioactive material.
+Government agency means any executive department, commission, independent establishment, corporation
+wholly or partly owned by the United States of America, which is an instrumentality of the United States, or any
+board, bureau, division, service, office, officer, authority, administration, or other establishment in the executive
+branch of the Government.
+Gray [See § 20.1004].
+Helmet means a rigid respiratory inlet cov

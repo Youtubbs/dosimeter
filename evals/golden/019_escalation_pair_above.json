@@ -1,0 +1,45 @@
+{
+  "id": "GOLD-019",
+  "category": "escalation",
+  "query": "A worker experienced loss of control of licensed material and received 5.1 rem total effective dose equivalent. Does this require 24-hour notification?",
+  "expected_outcome": "required",
+  "sources": [
+    {
+      "document_id": "CFR-20-REPORTS",
+      "section": "§ 20.2202(b)"
+    }
+  ],
+  "exposure_id": null,
+  "why": "Paired escalation case. The only change from GOLD-018 is crossing the strict TEDE threshold.",
+  "required_terms": [
+    "loss of control",
+    "5.1 rem",
+    "24-hour"
+  ],
+  "forbidden_sources": [],
+  "expected_missing_fields": [],
+  "expected_triggers": [],
+  "execution": {
+    "kind": "rule",
+    "rule_id": "R2",
+    "inputs": {
+      "loss_of_control": true,
+      "tede": {
+        "value": 5.1,
+        "unit": "rem"
+      },
+      "lens": {
+        "value": 0.0,
+        "unit": "rem"
+      },
+      "shallow": {
+        "value": 0.0,
+        "unit": "rem",
+        "site": "skin"
+      },
+      "intake": {
+        "value": 0.0
+      }
+    }
+  }
+}

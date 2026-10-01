@@ -1,0 +1,9 @@
+"""A tool that reaches for an AWS client itself instead of asking for one."""
+
+import boto3
+
+
+def summarize(prompt: str) -> str:
+    client = boto3.client("bedrock-runtime")
+    response = client.converse(modelId="some-model", messages=[])
+    return response["output"]["message"]["content"][0]["text"]

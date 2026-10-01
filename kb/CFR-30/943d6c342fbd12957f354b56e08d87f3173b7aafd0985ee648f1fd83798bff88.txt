@@ -1,0 +1,118 @@
+m (34)
+Se 75
+3 x 10-3
+Silicon (14)
+Si 31
+9 X 10-3
+Silver (47)
+Ag 105
+1 X 10-3
+Ag
+3 X 10-4
+110m
+Ag 111
+4 10-4
+Sodium (11)
+Na 24
+2 x 10-3
+Strontium (38)
+Sr 85
+1 X 10-4
+Sr 89
+1 X 10-4
+Sr 91
+7 X 10-4
+Sr 92
+7 X 10-4
+Sulfur (16)
+S 35
+9 X 10-8
+6 x 10-4
+Tantalum (73)
+Ta 182
+4 X 10-4
+Technetium (43)
+Tc 96m
+1 x 10-1
+Tc 96
+1 X 10-3
+Tellurium (52)
+Te
+2 X 10-3
+125m
+Te
+6 x 10-4
+127m
+Te 127
+3 x 10-3
+Te
+3 10-4
+129m
+Te
+6 X 10-4
+131m
+Te 132
+3 X 10-4
+Terbium (65)
+Tb 160
+4 x 10-4
+Thallium (81)
+T1 200
+4 X 10-3
+T1 201
+3 X 10-3
+T1 202
+1 X 10-3
+T1 204
+1 X 10-3
+Thulium (69)
+Tm 170
+5 X 10-4
+Tm 171
+5 x 10-3
+Tin (50)
+Sn 113
+9 X 10-4
+Sn 125
+2 X 10-4
+Tungsten (Wolfram) (74)
+W 181
+4 X 10-3
+W 187
+7 X 10-4
+Vanadium (23)
+V 48
+3 X 10-4
+Xenon (54)
+Xe
+4 X 10-6
+131m
+Xe 133 3 X 10-6
+Xe 135 1 X 10-6
+Ytterbium (70)
+Yb 175
+1 X 10-3
+Yttrium (39)
+Y 90
+2 X 10-4
+Y 91m
+3 X 10-2
+Y 91
+3 X 10-4
+Y 92
+6 X 10-4
+Y 93
+3 X 10-4
+Zinc (30)
+Zn 65
+1 X 10-3
+Zn 69m
+7 X 10-4
+Zn 69
+2 x 10-2
+Zirconium (40)
+Zr 95
+6 X 10-4
+Zr 97
+2 x 10-4
+Beta and/or g

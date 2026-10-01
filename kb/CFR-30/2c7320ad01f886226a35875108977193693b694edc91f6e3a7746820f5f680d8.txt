@@ -1,0 +1,4 @@
+rconium 97 (Zr 97)
+10
+Any byproduct material not listed above other than alpha emitting byproduct material
+0.1

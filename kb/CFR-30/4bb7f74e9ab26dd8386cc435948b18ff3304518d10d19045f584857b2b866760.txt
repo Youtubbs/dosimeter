@@ -1,0 +1,33 @@
+5
+1 X 10-3
+Zn 69m
+7 X 10-4
+Zn 69
+2 x 10-2
+Zirconium (40)
+Zr 95
+6 X 10-4
+Zr 97
+2 x 10-4
+Beta and/or gamma emitting byproduct material not listed
+1 X 10-10
+1 X 10-6
+above with half-life less than 3 years
+Footnotes to Schedule A:
+1 Values are given only for those materials normally used
+as gases.
+2 µCi/gm for solids.
+Note 1: Many radioisotopes disintegrate into isotopes
+which are also radioactive. In expressing the
+concentrations in Schedule A, the activity stated is that
+of the parent isotope and takes into account the
+daughters.
+Note 2: For purposes of § 30.14 where there is involved a
+combination of isotopes, the limit for the combination
+should be derived as follows:
+Determine for each isotope in the product the ratio
+between the concentration present in the product and the
+exempt concentration established in Schedule A for the
+specific isotope when not in combination. The sum of such
+ratios may not exceed "1" (i.e., unity).
+Example:

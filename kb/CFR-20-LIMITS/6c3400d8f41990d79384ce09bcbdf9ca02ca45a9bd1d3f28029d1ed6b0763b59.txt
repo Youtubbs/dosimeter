@@ -1,0 +1,11 @@
+red non-uranium special nuclear and byproduct materials from the cycle.
+User seal check (fit check) means an action conducted by the respirator user to determine if the respirator is
+properly seated to the face. Examples include negative pressure check, positive pressure check, irritant smoke
+check, or isoamyl acetate check.
+Very high radiation area means an area, accessible to individuals, in which radiation levels from radiation sources
+external to the body could result in an individual receiving an absorbed dose in excess of 500 rads (5 grays) in 1
+hour at 1 meter from a radiation source or 1 meter from any surface that the radiation penetrates.
+At very high doses received at high dose rates, units of absorbed dose (e.g., rads and grays) are appropriate,
+rather than units of dose equivalent (e.g., rems and sieverts)).
+Waste means those low-level radioactive wastes containing source, special nuclear, or byproduct material that are
+acceptable for disposal in a land disposal facility.

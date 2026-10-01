@@ -1,0 +1,11 @@
+elation to state of technology, the economics of improvements in relation to benefits to the public health and
+safety, and other societal and socioeconomic considerations, and in relation to utilization of nuclear energy and
+licensed materials in the public interest.
+Annual limit on intake (ALI) means the derived limit for the amount of radioactive material taken into the body of an
+adult worker by inhalation or ingestion in a year. ALI is the smaller value of intake of a given radionuclide in a year
+by the reference man that would result in a committed effective dose equivalent of 5 rems (0.05 Sv) or a
+committed dose equivalent of 50 rems (0.5 Sv) to any individual organ or tissue. (ALI values for intake by
+ingestion and by inhalation of selected radionuclides are given in table 1, columns 1 and 2, of appendix B to §§
+20.1001-20.2401).
+Assigned protection factor (APF) means the expected workplace level of respiratory protection that would be
+provided by a properly functioning respirat

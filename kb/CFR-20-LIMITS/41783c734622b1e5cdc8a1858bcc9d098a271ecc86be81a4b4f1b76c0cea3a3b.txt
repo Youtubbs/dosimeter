@@ -1,0 +1,16 @@
+mainder
+1 0.30
+Whole Body
+2 1.00
+1 0.30 results from 0.06 for each of 5 "remainder" organs (excluding the skin and the lens of the
+eye) that receive the highest doses.
+2 For the purpose of weighting the external whole body dose (for adding it to the internal dose), a
+single weighting factor, WT = 1.0, has been specified. The use of other weighting factors for
+external exposure will be approved on a case-by-case basis until such time as specific guidance is
+issued.
+Whole body means, for purposes of external exposure, head, trunk (including male gonads), arms above the
+elbow, or legs above the knee.
+Working level (WL) is any combination of short-lived radon daughters (for radon-222: polonium-218, lead-214,
+bismuth-214, and polonium-214; and for radon-220: polonium-216, lead-212, bismuth-212, and polonium-212) in
+1 liter of air that will result in the ultimate emission of 1.3 X 10 5 MeV of potential alpha particle energy.
+Working level month (WLM) means an exposure to 1 working level for

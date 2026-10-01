@@ -1,0 +1,7 @@
+"""A tool that runs its own query instead of calling the repository."""
+
+
+def load_exposure(connection, exposure_id: str):
+    cursor = connection.cursor()
+    cursor.execute("SELECT id, status FROM exposures WHERE id = %s", (exposure_id,))
+    return cursor.fetchone()

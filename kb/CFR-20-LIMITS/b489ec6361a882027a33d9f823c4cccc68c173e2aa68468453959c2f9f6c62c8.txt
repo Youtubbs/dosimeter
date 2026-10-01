@@ -1,0 +1,12 @@
+ar coincides with the starting date of the
+year and that no day is omitted or duplicated in consecutive quarters.
+Rad (See § 20.1004).
+Radiation (ionizing radiation) means alpha particles, beta particles, gamma rays, x-rays, neutrons, high-speed
+electrons, high-speed protons, and other particles capable of producing ions. Radiation, as used in this part, does
+not include non-ionizing radiation, such as radio- or microwaves, or visible, infrared, or ultraviolet light.
+Radiation area means an area, accessible to individuals, in which radiation levels could result in an individual
+receiving a dose equivalent in excess of 0.005 rem (0.05 mSv) in 1 hour at 30 centimeters from the radiation
+source or from any surface that the radiation penetrates.
+Reference man means a hypothetical aggregation of human physical and physiological characteristics arrived at
+by international consensus. These characteristics may be used by researchers and public health workers to
+standardize results of experimen

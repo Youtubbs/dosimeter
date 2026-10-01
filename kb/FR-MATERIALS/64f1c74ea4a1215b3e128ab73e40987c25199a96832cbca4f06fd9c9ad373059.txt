@@ -1,0 +1,47 @@
+OMPATIBILITY TABLE-Continued
+Compatibility
+Section
+Change
+Subject
+Existing
+New
+31.16 except (c)(1)(iii),
+New
+Standard General License for Certain Medical
+C-for States that authorize Stand-
+(c)(2)(iii), (c)(4)(iii),
+Uses.
+ard General Licenses.
+(c)(5)(iii), (c)(6)(iv).
+D-for States who don't.
+Note-States should not incor-
+porate references to Federal
+Government.
+31.16(c)(1)(iii), (c)(2)(iii),
+New
+Standard General License for Certain Medical
+D.
+(c)(4)(iii), (c)(5)(iii),
+Uses.
+(c)(6)(iv).
+31.17 except (a)(2),
+New
+Standard General License for Certain Analytical
+C-for States that authorize Stand-
+(a)(3)(iii), (c)(2)(ii),
+Equipment Including Electron Capture Detec-
+ard General Licenses.
+(c)(4)(ii), (c)(5)(i) &
+tors, X-Ray Fluorescence Devices, and Ion
+D-for States who don't.
+(c)(6)(ii).
+Generators.
+Note-States should not incor-
+porate references to Federal
+Government.
+Reference to NRC Form 1003 is
+Compatibility D.
+31.17(a)(2)
+New
+Standard General License for Certain Analytical
+B-for States th

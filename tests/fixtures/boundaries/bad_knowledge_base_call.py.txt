@@ -1,0 +1,9 @@
+"""A tool that queries the Knowledge Base directly."""
+
+
+def find_sources(runtime, question: str):
+    response = runtime.retrieve(
+        knowledgeBaseId="kb-id",
+        retrievalQuery={"text": question},
+    )
+    return response["retrievalResults"]

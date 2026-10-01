@@ -1,0 +1,6 @@
+"""A repository query that interpolates instead of parameterizing."""
+
+
+def load_exposure(cursor, exposure_id: str):
+    cursor.execute(f"SELECT id, status FROM exposures WHERE id = '{exposure_id}'")
+    return cursor.fetchone()

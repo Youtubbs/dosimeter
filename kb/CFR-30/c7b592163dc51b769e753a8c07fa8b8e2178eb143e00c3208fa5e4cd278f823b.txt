@@ -1,0 +1,115 @@
+X 10-3
+Mercury (80)
+Hg
+2 X 10-3
+197m
+Hg 197
+3 x 10-3
+Hg 203
+2 X 10-4
+Molybdenum (42)
+Mo 99
+2 X 10-3
+Neodymium (60)
+Nd 147
+6 x 10-4
+Nd 149
+3 X 10-3
+Nickel (28)
+Ni 65
+1 X 10-3
+Niobium (Columbium) (41)
+Nb 95
+1 x 10-3
+Nb 97
+9 X 10-3
+Osmium (76)
+Os 185
+7 X 10-4
+Os
+3 X 10-2
+191m
+Os 191
+2 X 10-3
+Os 193
+6 X 10-4
+Palladium (46)
+Pd 103
+3 X 10-3
+Pd 109
+9 X 10-4
+Phosphorus (15)
+P 32
+2 X 10-4
+Platinum (78)
+Pt 191
+1 X 10-3
+Pt
+1 X 10-2
+193m
+Pt
+1 X 10-2
+197m
+Pt 197
+1 X 10-3
+Potassium (19)
+K 42
+3 X 10-3
+Praseodymium (59)
+Pr 142
+3 X 10-4
+Pr 143
+5 x 10-4
+Promethium (61)
+Pm 147
+2 X 10-3
+Pm 149
+4 X 10-4
+Rhenium (75)
+Re 183
+6 x 10-3
+Re 186
+9 X 10-4
+Re 188
+6 X 10-4
+Rhodium (45)
+Rh
+1 X 10-1
+103m
+Rh 105
+1 X 10-3
+Rubidium (37)
+Rb 86
+7 X 10-4
+Ruthenium (44)
+Ru 97
+4 X 10-4
+Ru 103
+8 x 10-4
+Ru 105
+1 X 10-3
+Ru 106
+1 X 10-4
+Samarium (62)
+Sm 153
+8 X 10-4
+Scandium (21)
+Sc 46
+4 X 10-4
+Sc 47
+9 X 10-4
+Sc 48
+3 X 10-4
+Selenium (34)
+Se 75
+3 x 10-3
+Silicon (14)
+Si 31
+9 X 10-3
+Silver (47)
+Ag 105
+1 X 10-3
+Ag
+3 X 10-4
+110m
+Ag 11

@@ -1,0 +1,10 @@
+or the purpose of demonstrating compliance with the occupational dose limits, if the individual
+monitoring device was not in the region of highest potential exposure, or the results of individual monitoring are
+unavailable.
+(d) Derived air concentration (DAC) and annual limit on intake (ALI) values are presented in table 1 of appendix B
+to part 20 and may be used to determine the individual's dose (see § 20.2106) and to demonstrate compliance
+with the occupational dose limits.
+(e) In addition to the annual dose limits, the licensee shall limit the soluble uranium intake by an individual to 10
+milligrams in a week in consideration of chemical toxicity (see footnote 3 of appendix B to part 20).
+(f) The licensee shall reduce the dose that an individual may be allowed to receive in the current year by the
+amount of occupational dose received while employed by any other person (see § 20.2104(e)).

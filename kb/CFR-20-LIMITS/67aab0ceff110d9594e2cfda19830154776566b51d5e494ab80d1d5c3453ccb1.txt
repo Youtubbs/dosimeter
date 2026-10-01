@@ -1,0 +1,11 @@
+fective dose equivalent, as defined in
+other paragraphs of this section.
+Dose equivalent (HT) means the product of the absorbed dose in tissue, quality factor, and all other necessary
+modifying factors at the location of interest. The units of dose equivalent are the rem and sievert (Sv).
+Dosimetry processor means an individual or organization that processes and evaluates individual monitoring
+equipment in order to determine the radiation dose delivered to the equipment.
+Effective dose equivalent (HE) is the sum of the products of the dose equivalent to the organ or tissue (HT) and
+the weighting factors (wT) applicable to each of the body organs or tissues that are irradiated (HE = Σ wT HT).
+Embryo/fetus means the developing human organism from conception until the time of birth.
+Entrance or access point means any location through which an individual could gain access to radiation areas or
+to radioactive materials. This includes entry or exit portals of sufficient size to permit human

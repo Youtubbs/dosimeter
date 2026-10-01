@@ -1,0 +1,11 @@
+sources are those containing radioactive material at a quantity equal to or greater than the Category 2 threshold
+but less than the Category 1 threshold.
+Negative pressure respirator (tight fitting) means a respirator in which the air pressure inside the facepiece is
+negative during inhalation with respect to the ambient air pressure outside the respirator.
+Nonstochastic effect means health effects, the severity of which varies with the dose and for which a threshold is
+believed to exist. Radiation-induced cataract formation is an example of a nonstochastic effect (also called a
+deterministic effect).
+NRC means the Nuclear Regulatory Commission or its duly authorized representatives.
+Occupational dose means the dose received by an individual in the course of employment in which the individual's
+assigned duties involve exposure to radiation or to radioactive material from licensed and unlicensed sources of
+radiation, whether in the possession of the licensee or other person. Occupationa

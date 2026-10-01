@@ -1,0 +1,12 @@
+s an infrequent exposure to radiation, separate from and in addition to the annual
+dose limits.
+Positive pressure respirator means a respirator in which the pressure inside the respiratory inlet covering exceeds
+the ambient air pressure outside the respirator.
+Powered air-purifying respirator (PAPR) means an air-purifying respirator that uses a blower to force the ambient
+air through air-purifying elements to the inlet covering.
+Pressure demand respirator means a positive pressure atmosphere-supplying respirator that admits breathing air
+to the facepiece when the positive pressure is reduced inside the facepiece by inhalation.
+Public dose means the dose received by a member of the public from exposure to radiation or to radioactive
+material released by a licensee, or to any other source of radiation under the control of a licensee. Public dose
+does not include occupational dose or doses received from background radiation, from any medical administration
+the individual has received, fro

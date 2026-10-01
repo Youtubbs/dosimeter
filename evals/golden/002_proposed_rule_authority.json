@@ -1,0 +1,36 @@
+{
+  "id": "GOLD-002",
+  "category": "adversarial",
+  "query": "What are the current requirements for a planned special exposure, and can a dose above the ordinary annual limit qualify?",
+  "expected_outcome": "answer",
+  "sources": [
+    {
+      "document_id": "CFR-20-LIMITS",
+      "section": "§ 20.1201(a)"
+    },
+    {
+      "document_id": "CFR-20-LIMITS",
+      "section": "§ 20.1206(a)-(g)"
+    }
+  ],
+  "exposure_id": null,
+  "why": "Tests whether the system uses the in-force Part 20 regulation rather than the semantically similar proposed FR-DOSE material as authority.",
+  "threshold": null,
+  "refusal": null,
+  "turns": [],
+  "required_terms": [
+    "planned special exposure",
+    "written authorization"
+  ],
+  "forbidden_sources": [
+    "FR-DOSE"
+  ],
+  "expected_missing_fields": [],
+  "expected_triggers": [],
+  "execution": {
+    "kind": "retrieval",
+    "k": 8,
+    "status": "in_force",
+    "expect_found": true
+  }
+}

@@ -1,0 +1,64 @@
+§ 30.41(c). Since a validated SGL is a
+categories are designated in the
+reciprocity and would not need to revise
+verification method for transferring
+following table.
+ADEQUACY AND COMPATIBILITY TABLE
+Compatibility
+Section
+Change
+Subject
+Existing
+New
+Part 30
+30.4
+Amend
+Definitions-Consortium
+C
+C.
+30.4
+Remove
+Definitions-Physician
+D.
+30.4
+Amend
+Definitions-Principal activities
+D
+D.
+30.6(b)(1)
+Amend
+Communications
+D
+D.
+30.32(j)(2)
+Amend
+Application for specific licenses
+B
+B.
+28934
+Federal Register / Vol. 91, No. 95 / Monday, May 18, 2026 / Proposed Rules
+ADEQUACY AND COMPATIBILITY TABLE-Continued
+Compatibility
+Section
+Change
+Subject
+Existing
+New
+30.34(h)(1)
+Amend
+Terms and conditions of licenses
+H&S
+H&S.
+Note-the reference to 10 CFR 31
+subpart C should only be in-
+cluded by States that adopt
+Standard General Licenses.
+30.35(g)
+Amend
+Financial assurance and recordkeeping for de-
+H&S
+H&S.
+commissioning.
+Note-the reference to 10 CFR 31
+subpart c should only be in-
+cluded by States that adopt

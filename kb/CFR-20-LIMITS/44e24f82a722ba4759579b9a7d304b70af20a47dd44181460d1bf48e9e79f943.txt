@@ -1,0 +1,11 @@
+hat forms a complete seal with the face.
+Total Effective Dose Equivalent (TEDE) means the sum of the effective dose equivalent (for external exposures)
+and the committed effective dose equivalent (for internal exposures).
+Unrestricted area means an area, access to which is neither limited nor controlled by the licensee.
+Uranium fuel cycle means the operations of milling of uranium ore, chemical conversion of uranium, isotopic
+enrichment of uranium, fabrication of uranium fuel, generation of electricity by a light-water-cooled nuclear power
+plant using uranium fuel, and reprocessing of spent uranium fuel to the extent that these activities directly support
+the production of electrical power for public use. Uranium fuel cycle does not include mining operations,
+operations at waste disposal sites, transportation of radioactive material in support of these operations, and the
+reuse of recovered non-uranium special nuclear and byproduct materials from the cycle.
+User seal check (fit check)

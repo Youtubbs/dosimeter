@@ -1,0 +1,73 @@
+1
+4,000
+Thulium-170
+.01
+4,000
+Tin-113
+.01
+10,000
+Tin-123
+.01
+3,000
+Tin-126
+.01
+1,000
+Titanium-44
+.01
+100
+Vanadium-48
+.01
+7,000
+Xenon-133
+1.0
+900,00
+0
+Yttrium-91
+.01
+2,000
+Zinc-65
+.01
+5,000
+Zirconium-93
+.01
+400
+Zirconium-95
+.01
+5,000
+Any other beta-gamma emitter
+.01
+10,000
+Mixed fission products
+.01
+1,000
+Mixed corrosion products
+.01
+10,000
+Contaminated equipment beta-gamma
+.001
+10,000
+Irradiated material, any form other than solid noncombustible
+.01
+1,000
+Irradiated material, solid noncombustible
+.001
+10,000
+Mixed radioactive waste, beta-gamma
+.01
+1,000
+Packaged mixed waste, beta-gamma 4
+.001
+10,000
+Any other alpha emitter
+.001
+2
+Contaminated equipment, alpha
+.0001
+20
+Packaged waste, alpha 4
+.0001
+20
+Combinations of radioactive materials listed above 1
+1 For combinations of radioactive materials, consideration of the need for an emergency plan
+is required if the sum of the ratios of the quantity of each radioactive material authorized
+to the quantity listed for that material in Schedul
