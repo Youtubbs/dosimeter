@@ -26,6 +26,7 @@ from dosimeter.api.schemas import (
 )
 from dosimeter.config.settings import Settings, get_settings
 from dosimeter.logging_config import correlation_scope
+from dosimeter.models.bedrock import embed_text
 from dosimeter.repository import Session, entitlements, queries
 from dosimeter.repository.models import EntitlementDenial
 
@@ -53,6 +54,7 @@ def create_app(
     """Build the service. Everything it talks to is injected."""
 
     resolved = settings or get_settings()
+    embed = embedder or embed_text
     open_session = session_factory or _default_session_factory
 
     app = Flask(__name__)
@@ -102,11 +104,8 @@ def create_app(
 
         arguments = FindSimilarExposuresInput.model_validate(request.get_json(silent=True) or {})
 
-        if embedder is None:
-            return jsonify(embedding_unavailable(identity.officer_code).model_dump()), 503
-
         with correlation_scope(), session() as active:
-            payload, status = similar_for(active, identity.officer_code, exposure_id, arguments, embedder)
+            payload, status = similar_for(active, identity.officer_code, exposure_id, arguments, embed)
 
         return jsonify(payload.model_dump()), status
 
@@ -174,10 +173,16 @@ def similar_for(
     if found is None:
         return Denial(reason_code=NOT_FOUND, message="no exposure with that id", officer_code=officer_code), 404
 
+    try:
+        vector = embedder(arguments.query_text)
+    except Exception as error:  # no model access takes this one capability, not the call
+        logger.warning("api.embedding_failed", extra={"detail": str(error)})
+        return embedding_unavailable(officer_code), 503
+
     candidates = entitlements.similar_exposures_for_officer(
         active,
         officer_code,
-        embedder(arguments.query_text),
+        vector,
         query_text=arguments.query_text,
         limit=arguments.limit,
     )

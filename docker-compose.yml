@@ -22,6 +22,11 @@ services:
     build:
       context: .
     container_name: dosimeter-migrate
+    volumes:
+      - ~/.aws:/home/dosimeter/.aws:ro
+    env_file:
+      - path: .env
+        required: false
     command: ["sh", "-c", "python -m dosimeter.repository.migrate up && python -m dosimeter.repository.seeds"]
     depends_on:
       postgres:
@@ -41,6 +46,12 @@ services:
     build:
       context: .
     container_name: dosimeter-api
+    # .env and ~/.aws give the similar-exposure search its embedding model
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      - ~/.aws:/home/dosimeter/.aws:ro
     depends_on:
       postgres:
         condition: service_healthy
@@ -77,6 +88,8 @@ services:
       context: .
       dockerfile: Dockerfile.mcp
     container_name: dosimeter-mcp
+    volumes:
+      - ~/.aws:/home/dosimeter/.aws:ro
     depends_on:
       postgres:
         condition: service_healthy
@@ -101,8 +114,8 @@ services:
       timeout: 5s
       retries: 10
 
-  # The same image AgentCore Runtime runs, as its local stand-in. Point the CLI at it
-  # with DOSIMETER_WORKFLOW=runtime and DOSIMETER_RUNTIME_URL=http://localhost:8081
+  # The same image AgentCore Runtime runs, as its local stand-in. It serves the Runtime
+  # on http://localhost:8081: POST /invocations and GET /ping
   workflow:
     build:
       context: .

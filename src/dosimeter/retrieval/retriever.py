@@ -71,6 +71,12 @@ def load_corpus_chunks() -> list[Document]:
     return chunks
 
 
+def fetch_chunk(chunk_id: str) -> Document | None:
+    """One corpus chunk by id, read from the same files the Knowledge Base was built from."""
+
+    return next((chunk for chunk in load_corpus_chunks() if chunk.metadata.get("chunk_id") == chunk_id), None)
+
+
 class ScoreThresholdRetriever(BaseRetriever):
     """Retrieve the top-k local chunks that meet a similarity threshold."""
 

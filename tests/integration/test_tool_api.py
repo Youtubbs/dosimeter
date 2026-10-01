@@ -17,7 +17,7 @@ from dosimeter.repository import orm, queries, seeds
 from dosimeter.repository.models import Artifact, ExtractedField, HistoricalExposure
 from dosimeter.tools.dispatcher import ToolDispatcher, ToolErrorCode, build_registry
 from dosimeter.tools.tools import ApiToolset
-from dosimeter.tools.transport import TransportResponse
+from dosimeter.tools.transport import ROUTES
 
 EXPOSURE = "EXP-2026-0412"
 OWNED_ONLY_BY_OFF_103 = "EXP-2026-0414"
@@ -44,15 +44,15 @@ class FlaskClientTransport:
         self.client = client
         self.officer_code = officer_code
 
-    def get(self, path: str) -> TransportResponse:
-        response = self.client.get(path, headers={VERIFIED_HEADER: self.officer_code})
-        return TransportResponse(status=response.status_code, payload=response.get_json() or {})
-
-    def post(self, path: str, body: dict[str, Any] | None = None) -> TransportResponse:
-        response = self.client.post(
-            path, json=body or {}, headers={VERIFIED_HEADER: self.officer_code}
+    def call(self, tool: str, exposure_id: str, arguments: dict[str, Any] | None = None) -> dict[str, Any]:
+        method, path = ROUTES[tool]
+        response = self.client.open(
+            path.format(exposure_id=exposure_id),
+            method=method,
+            json=arguments if method == "POST" else None,
+            headers={VERIFIED_HEADER: self.officer_code},
         )
-        return TransportResponse(status=response.status_code, payload=response.get_json() or {})
+        return response.get_json() or {}
 
 
 def embedding(seed: float) -> list[float]:

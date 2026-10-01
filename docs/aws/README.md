@@ -15,7 +15,7 @@
 | ECR | [ecr.md](ecr.md) | later, when images exist |
 | ECS on Fargate | [ecs-fargate.md](ecs-fargate.md) | later, hosts the tool API |
 | AgentCore Runtime | [agentcore-runtime.md](agentcore-runtime.md) | later, hosts the workflow and the read tools |
-| AgentCore Gateway | [agentcore-gateway.md](agentcore-gateway.md) | later, the read tools and the KB over MCP |
+| AgentCore Gateway | [agentcore-gateway.md](agentcore-gateway.md) | later, the read tools over MCP |
 | AgentCore Identity | [agentcore-identity.md](agentcore-identity.md) | later, verifies the caller |
 
 The diagram of how they fit together is in

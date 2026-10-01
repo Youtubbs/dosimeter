@@ -10,6 +10,7 @@ from pathlib import Path
 from dosimeter import __version__
 from dosimeter.config.settings import Settings, load_settings
 from dosimeter.errors import ConfigurationError, DosimeterError
+from dosimeter.harness.dossier import render_dossier, render_sources
 from dosimeter.logging_config import configure_logging, correlation_scope
 
 EXIT_CONFIG_ERROR = 2
@@ -51,7 +52,7 @@ def build_parser() -> argparse.ArgumentParser:
             command.add_argument("question", help="the follow-up question, in quotes")
         if name == "sources":
             command.add_argument("--ref", type=int, help="which citation to print, by its number")
-        if name in ("assess", "queue", "review"):
+        if name in ("assess", "ask", "queue", "review"):
             command.add_argument(
                 "--officer",
                 required=True,
@@ -96,6 +97,15 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         if args.command == "trace":
             return _trace(args.exposure_id)
+
+        if args.command == "ask":
+            return _ask(args.exposure_id, args.officer, args.question, settings)
+
+        if args.command == "dossier":
+            return _render(args.command, lambda session: render_dossier(session, args.exposure_id))
+
+        if args.command == "sources":
+            return _render(args.command, lambda session: render_sources(session, args.exposure_id, args.ref))
 
         if args.command == "queue":
             return _queue(args.officer)
@@ -169,6 +179,47 @@ def _assess(exposure_id: str, officer_code: str, settings: Settings) -> int:
         lines.append(f"partial:   {result.partial['partial']}")
 
     sys.stdout.write("\n".join(lines) + "\n")
+    return 0
+
+
+def _ask(exposure_id: str, officer_code: str, question: str, settings: Settings) -> int:
+    """Answer a follow-up question through the same harness as assess."""
+
+    from dosimeter.harness.ask import run_ask
+    from dosimeter.repository.connection import session_scope
+
+    try:
+        with session_scope() as session:
+            result = run_ask(session, exposure_id, officer_code, question, settings)
+    except DosimeterError as error:
+        logger.error("ask.failed", extra={"detail": str(error)})
+        return EXIT_FAILED
+
+    lines = [
+        result.answer,
+        "",
+        f"workers run:  {', '.join(result.workers) or 'none, answered from the dossier'}",
+        f"rules run:    {', '.join(result.rules) or 'none this turn'}",
+        f"cited:        {', '.join(result.citations) or 'none'}",
+        f"run id:       {result.run_id}",
+    ]
+    sys.stdout.write("\n".join(lines) + "\n")
+    return 0
+
+
+def _render(command: str, render) -> int:
+    """Print what a renderer reads back from Postgres."""
+
+    from dosimeter.repository.connection import session_scope
+
+    try:
+        with session_scope() as session:
+            rendered = render(session)
+    except DosimeterError as error:
+        logger.error(f"{command}.failed", extra={"detail": str(error)})
+        return EXIT_FAILED
+
+    sys.stdout.write(rendered + "\n")
     return 0
 
 

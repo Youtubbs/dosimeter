@@ -35,6 +35,14 @@ class GraphState(TypedDict, total=False):
     """Everything a turn carries between nodes."""
 
     subject: Subject
+    # what the packet says, so the Coordinator can tell which workers apply
+    packet_facts: list[str]
+    # dose fields extracted below the confidence floor, or not readable at all; any of them stops the turn
+    low_confidence_fields: list[str]
+    missing_dose_fields: list[str]
+    # set on an ask turn: the officer's question and what the earlier turn concluded
+    question: str | None
+    previous_dossier: str | None
     dispatch_plan: DispatchPlan | None
     proposals: Annotated[dict[str, WorkerProposal], merge_proposals]
     reviewer_verdicts: Annotated[list[ReviewerVerdict], operator.add]
@@ -47,9 +55,21 @@ class GraphState(TypedDict, total=False):
     outcome: str | None
 
 
-def initial_state(subject: Subject) -> GraphState:
+def initial_state(
+    subject: Subject,
+    packet_facts: list[str] | None = None,
+    low_confidence_fields: list[str] | None = None,
+    missing_dose_fields: list[str] | None = None,
+    question: str | None = None,
+    previous_dossier: str | None = None,
+) -> GraphState:
     return GraphState(
         subject=subject,
+        packet_facts=packet_facts or [],
+        low_confidence_fields=low_confidence_fields or [],
+        missing_dose_fields=missing_dose_fields or [],
+        question=question,
+        previous_dossier=previous_dossier,
         dispatch_plan=None,
         proposals={},
         reviewer_verdicts=[],

@@ -13,6 +13,7 @@ RDS = DatabaseSettings(
     name="dosimeter",
     user="dosimeter_app",
     use_iam_auth=True,
+    sslmode="require",
 )
 
 

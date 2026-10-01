@@ -236,9 +236,30 @@ def insert_historical_exposure(
     ).first()
     if row is None:
         session.add(orm.HistoricalExposureRow(**record.model_dump(), embedding=embedding))
-    else:
+    elif embedding is not None:
         row.embedding = embedding
     session.flush()
+
+
+def historical_exposures_missing_embedding(session: Session) -> list[HistoricalExposure]:
+    """Historical records the similarity search cannot reach yet."""
+
+    rows = session.scalars(
+        select(orm.HistoricalExposureRow).where(orm.HistoricalExposureRow.embedding.is_(None))
+    ).all()
+    return [
+        HistoricalExposure(
+            exposure_id=row.exposure_id,
+            worker_id=row.worker_id,
+            district=row.district,
+            occurred_on=row.occurred_on,
+            outcome=row.outcome,
+            deciding_rule=row.deciding_rule,
+            narrative=row.narrative,
+            normalized_fields=row.normalized_fields or {},
+        )
+        for row in rows
+    ]
 
 
 def find_similar_exposures(

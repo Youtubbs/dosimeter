@@ -7,6 +7,7 @@ from contextlib import contextmanager
 from types import SimpleNamespace
 
 import pytest
+from botocore.exceptions import ClientError
 from starlette.testclient import TestClient
 
 from dosimeter.aws import aws
@@ -18,11 +19,20 @@ from dosimeter.harness.eligibility import EligibilityResult
 from dosimeter.harness.escalation import EscalationOutcome
 from dosimeter.runtime import client
 from dosimeter.runtime import main as runtime_main
-from dosimeter.runtime.client import SESSION_HEADER, run_assess_on_runtime, runtime_session_id
+from dosimeter.runtime.client import run_assess_on_runtime, runtime_session_id
 
-# nothing listens here, so every call is refused straight away
-DEAD_RUNTIME = "http://127.0.0.1:1"
 RUNTIME_ARN = "arn:aws:bedrock-agentcore:us-east-1:123456789012:runtime/DosimeterWorkflow-abc"
+SESSION_HEADER = "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"
+
+APP_SETTINGS = {
+    "AWS_REGION": "us-east-1",
+    "BEDROCK_MODEL_ID": "text-model-id",
+    "BEDROCK_EMBED_MODEL_ID": "embedding-model-id",
+    "BEDROCK_KB_ID": "kb-000000",
+    "DOSIMETER_GUARDRAIL_ID": "gr-000000",
+    "AWS_CORPUS_BUCKET_NAME": "dosimeter-corpus",
+    "AWS_PACKET_BUCKET_NAME": "dosimeter-packets",
+}
 
 
 def settings_for_tests(**overrides) -> Settings:
@@ -79,7 +89,13 @@ class FakeAgentCore:
         return {"response": io.BytesIO(json.dumps(self.body).encode())}
 
 
-def test_only_the_assess_command_runs_on_the_runtime(fake_turn: list[dict]) -> None:
+def agentcore_answering(monkeypatch: pytest.MonkeyPatch, body: dict) -> FakeAgentCore:
+    agentcore = FakeAgentCore(body)
+    monkeypatch.setattr(aws, "get_client", lambda *_args, **_kwargs: agentcore)
+    return agentcore
+
+
+def test_an_unknown_command_is_refused(fake_turn: list[dict]) -> None:
     response = runtime_main.invoke({"command": "ask"}, SimpleNamespace(session_id="s"))
 
     assert "error" in response
@@ -146,6 +162,23 @@ def test_the_app_serves_the_runtime_contract(fake_turn: list[dict]) -> None:
     assert fake_turn[0]["runtime_session_id"] == session_id
 
 
+def test_the_runtime_migrates_and_seeds_the_private_database(monkeypatch: pytest.MonkeyPatch, fake_turn) -> None:
+    steps: list[str] = []
+    monkeypatch.setattr(runtime_main, "migrate_up", lambda session: steps.append("migrate") or ["0004"])
+    monkeypatch.setattr(
+        runtime_main,
+        "apply_seeds",
+        lambda session, embed: steps.append(f"seed with {embed.__name__}") or {"officers": 4},
+    )
+    monkeypatch.setattr(runtime_main, "setup_checkpointer", lambda: steps.append("checkpointer"))
+
+    response = runtime_main.invoke({"command": "migrate"}, SimpleNamespace(session_id="s"))
+
+    assert response == {"applied": ["0004"], "seeded": {"officers": 4}}
+    # the Runtime role can reach Bedrock, so the seeded precedent gets its embeddings here
+    assert steps == ["migrate", "seed with embed_text", "checkpointer"]
+
+
 def test_the_session_id_is_long_enough_and_stable_per_officer_and_exposure() -> None:
     session_id = runtime_session_id("OFF-101", "EXP-2026-0412")
 
@@ -183,13 +216,12 @@ def test_the_deployed_runtime_is_invoked_by_arn(monkeypatch: pytest.MonkeyPatch)
 
 
 def test_through_the_gateway_the_officer_token_rides_along(monkeypatch: pytest.MonkeyPatch) -> None:
-    agentcore = FakeAgentCore(assess_result().model_dump(mode="json"))
-    monkeypatch.setattr(aws, "get_client", lambda *_args, **_kwargs: agentcore)
+    agentcore = agentcore_answering(monkeypatch, assess_result().model_dump(mode="json"))
     monkeypatch.setattr(client, "cognito_access_token", lambda officer, *_: f"token-for-{officer}")
     settings = settings_for_tests(
         runtime_arn=RUNTIME_ARN,
         tool_transport="gateway",
-        gateway_url="https://gateway.example/mcp",
+        gateway_url="https://gateway.example/toolApi",
         identity_client_id="client",
         identity_password="secret",
     )
@@ -199,12 +231,75 @@ def test_through_the_gateway_the_officer_token_rides_along(monkeypatch: pytest.M
     assert json.loads(agentcore.calls[0]["payload"])["access_token"] == "token-for-OFF-101"
 
 
-def test_an_error_body_from_the_runtime_is_a_typed_failure(monkeypatch: pytest.MonkeyPatch) -> None:
-    agentcore = FakeAgentCore({"error": "no such exposure"})
-    monkeypatch.setattr(aws, "get_client", lambda *_args, **_kwargs: agentcore)
+def test_an_error_body_or_an_aws_error_is_a_typed_failure(monkeypatch: pytest.MonkeyPatch) -> None:
+    settings = settings_for_tests(runtime_arn=RUNTIME_ARN)
 
+    agentcore_answering(monkeypatch, {"error": "no such exposure"})
     with pytest.raises(ExternalServiceError):
-        run_assess_on_runtime(settings_for_tests(runtime_arn=RUNTIME_ARN), "EXP-9999-0000", "OFF-101")
+        run_assess_on_runtime(settings, "EXP-9999-0000", "OFF-101")
+
+    class Refusing:
+        def invoke_agent_runtime(self, **_kwargs):
+            raise ClientError({"Error": {"Code": "AccessDeniedException", "Message": "no"}}, "InvokeAgentRuntime")
+
+    monkeypatch.setattr(aws, "get_client", lambda *_args, **_kwargs: Refusing())
+    with pytest.raises(ExternalServiceError, match="AgentCore Runtime call failed"):
+        run_assess_on_runtime(settings, "EXP-2026-0412", "OFF-101")
+
+
+def test_the_runtime_needs_an_arn() -> None:
+    with pytest.raises(ConfigurationError):
+        run_assess_on_runtime(settings_for_tests(), "EXP-2026-0412", "OFF-101")
+
+
+def configured(monkeypatch: pytest.MonkeyPatch, tmp_path, **extra: str) -> None:
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv("DOSIMETER_RUNTIME_ARN", raising=False)
+    for name, value in {**APP_SETTINGS, **extra}.items():
+        monkeypatch.setenv(name, value)
+
+
+def test_the_migrate_command_goes_to_the_runtime(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
+    configured(monkeypatch, tmp_path, DOSIMETER_RUNTIME_ARN=RUNTIME_ARN)
+    agentcore = agentcore_answering(monkeypatch, {"applied": [], "seeded": {}})
+
+    assert client.main(["migrate"]) == 0
+
+    [call] = agentcore.calls
+    assert json.loads(call["payload"])["command"] == "migrate"
+    assert len(call["runtimeSessionId"]) >= 33
+
+
+def test_the_migrate_command_fails_without_a_runtime_or_on_an_error(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
+    configured(monkeypatch, tmp_path)
+    assert client.main(["migrate"]) == 1
+
+    configured(monkeypatch, tmp_path, DOSIMETER_RUNTIME_ARN=RUNTIME_ARN)
+    agentcore_answering(monkeypatch, {"error": "database call failed"})
+    assert client.main(["migrate"]) == 1
+
+
+def test_the_cli_sends_assess_to_the_runtime_when_asked(monkeypatch: pytest.MonkeyPatch, tmp_path, capsys) -> None:
+    configured(
+        monkeypatch,
+        tmp_path,
+        DOSIMETER_DB_HOST="localhost",
+        DOSIMETER_DB_NAME="dosimeter",
+        DOSIMETER_DB_USER="dosimeter_app",
+        DOSIMETER_WORKFLOW="runtime",
+        DOSIMETER_RUNTIME_ARN=RUNTIME_ARN,
+    )
+
+    sent = []
+    monkeypatch.setattr(
+        client,
+        "run_assess_on_runtime",
+        lambda settings, exposure_id, officer_code: sent.append(officer_code) or assess_result(exposure_id),
+    )
+
+    assert main(["assess", "EXP-2026-0412", "--officer", "OFF-101"]) == 0
+    assert sent == ["OFF-101"]
+    assert "outcome:   drafted" in capsys.readouterr().out
 
 
 def test_the_stand_in_gets_the_session_header(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -223,138 +318,9 @@ def test_the_stand_in_gets_the_session_header(monkeypatch: pytest.MonkeyPatch) -
     assert request.get_header(SESSION_HEADER.capitalize()) == runtime_session_id("OFF-101", "EXP-2026-0412")
 
 
-def test_an_unreachable_stand_in_is_a_typed_failure() -> None:
+def test_an_unreachable_or_non_http_stand_in_is_a_typed_failure() -> None:
     with pytest.raises(ExternalServiceError):
-        run_assess_on_runtime(settings_for_tests(runtime_url=DEAD_RUNTIME), "EXP-2026-0412", "OFF-101")
-
-
-def test_the_runtime_needs_an_arn_or_a_url() -> None:
-    with pytest.raises(ConfigurationError):
-        run_assess_on_runtime(settings_for_tests(), "EXP-2026-0412", "OFF-101")
+        run_assess_on_runtime(settings_for_tests(runtime_url="http://127.0.0.1:1"), "EXP-2026-0412", "OFF-101")
 
     with pytest.raises(ConfigurationError):
         run_assess_on_runtime(settings_for_tests(runtime_url="file:///etc/passwd"), "EXP-2026-0412", "OFF-101")
-
-
-def test_the_cli_sends_assess_to_the_runtime_when_asked(monkeypatch: pytest.MonkeyPatch, tmp_path, capsys) -> None:
-    monkeypatch.chdir(tmp_path)
-    for name, value in {
-        "AWS_REGION": "us-east-1",
-        "BEDROCK_MODEL_ID": "text-model-id",
-        "BEDROCK_EMBED_MODEL_ID": "embedding-model-id",
-        "BEDROCK_KB_ID": "kb-000000",
-        "DOSIMETER_GUARDRAIL_ID": "gr-000000",
-        "AWS_CORPUS_BUCKET_NAME": "dosimeter-corpus",
-        "AWS_PACKET_BUCKET_NAME": "dosimeter-packets",
-        "DOSIMETER_DB_HOST": "localhost",
-        "DOSIMETER_DB_NAME": "dosimeter",
-        "DOSIMETER_DB_USER": "dosimeter_app",
-        "DOSIMETER_WORKFLOW": "runtime",
-        "DOSIMETER_RUNTIME_URL": "http://localhost:8081",
-    }.items():
-        monkeypatch.setenv(name, value)
-
-    sent = []
-    monkeypatch.setattr(
-        client,
-        "run_assess_on_runtime",
-        lambda settings, exposure_id, officer_code: sent.append(officer_code) or assess_result(exposure_id),
-    )
-
-    assert main(["assess", "EXP-2026-0412", "--officer", "OFF-101"]) == 0
-    assert sent == ["OFF-101"]
-    assert "outcome:   drafted" in capsys.readouterr().out
-
-
-@pytest.fixture
-def fake_database_steps(monkeypatch: pytest.MonkeyPatch) -> list[str]:
-    """Stand in for the migration runner, the checkpointer setup and the seeds."""
-
-    steps: list[str] = []
-
-    @contextmanager
-    def no_database():
-        yield object()
-
-    monkeypatch.setattr(runtime_main, "session_scope", no_database)
-    monkeypatch.setattr(runtime_main, "migrate_up", lambda session: steps.append("migrate") or ["0004_runtime_invocation"])
-    monkeypatch.setattr(runtime_main, "setup_checkpointer", lambda: steps.append("checkpointer"))
-    monkeypatch.setattr(runtime_main, "apply_seeds", lambda session: steps.append("seed") or {"officers": 4})
-    return steps
-
-
-def test_the_runtime_migrates_the_database_from_inside_the_vpc(fake_database_steps: list[str]) -> None:
-    response = runtime_main.invoke({"command": "migrate"}, SimpleNamespace(session_id="s"))
-
-    assert response == {"applied": ["0004_runtime_invocation"]}
-    assert fake_database_steps == ["migrate", "checkpointer"]
-
-
-def test_the_runtime_seeds_the_database(fake_database_steps: list[str]) -> None:
-    response = runtime_main.invoke({"command": "seed"}, SimpleNamespace(session_id="s"))
-
-    assert response == {"seeded": {"officers": 4}}
-    assert fake_database_steps == ["seed"]
-
-
-def test_a_failed_migration_comes_back_as_an_error_body(monkeypatch: pytest.MonkeyPatch, fake_database_steps) -> None:
-    def unreachable(session):
-        raise ExternalServiceError("database call failed")
-
-    monkeypatch.setattr(runtime_main, "migrate_up", unreachable)
-
-    response = runtime_main.invoke({"command": "migrate"}, SimpleNamespace(session_id="s"))
-
-    assert response["error"].startswith("database call failed")
-    assert "checkpointer" not in fake_database_steps
-
-
-def runtime_env(monkeypatch: pytest.MonkeyPatch, tmp_path, **extra: str) -> None:
-    monkeypatch.chdir(tmp_path)
-    monkeypatch.delenv("DOSIMETER_RUNTIME_ARN", raising=False)
-    monkeypatch.delenv("DOSIMETER_RUNTIME_URL", raising=False)
-    for name, value in {
-        "AWS_REGION": "us-east-1",
-        "BEDROCK_MODEL_ID": "text-model-id",
-        "BEDROCK_EMBED_MODEL_ID": "embedding-model-id",
-        "BEDROCK_KB_ID": "kb-000000",
-        "DOSIMETER_GUARDRAIL_ID": "gr-000000",
-        "AWS_CORPUS_BUCKET_NAME": "dosimeter-corpus",
-        "AWS_PACKET_BUCKET_NAME": "dosimeter-packets",
-        **extra,
-    }.items():
-        monkeypatch.setenv(name, value)
-
-
-def test_the_migrate_command_goes_to_the_runtime(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
-    runtime_env(monkeypatch, tmp_path, DOSIMETER_RUNTIME_ARN=RUNTIME_ARN)
-    agentcore = FakeAgentCore({"applied": []})
-    monkeypatch.setattr(aws, "get_client", lambda *_args, **_kwargs: agentcore)
-
-    assert client.main(["migrate"]) == 0
-
-    [call] = agentcore.calls
-    assert json.loads(call["payload"])["command"] == "migrate"
-    assert len(call["runtimeSessionId"]) >= 33
-
-
-def test_the_migrate_command_fails_on_an_error_body_or_no_runtime(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
-    runtime_env(monkeypatch, tmp_path)
-    assert client.main(["migrate"]) == 1
-
-    runtime_env(monkeypatch, tmp_path, DOSIMETER_RUNTIME_ARN=RUNTIME_ARN)
-    monkeypatch.setattr(aws, "get_client", lambda *_args, **_kwargs: FakeAgentCore({"error": "database call failed"}))
-    assert client.main(["seed"]) == 1
-
-
-def test_an_aws_error_from_the_runtime_is_a_typed_failure(monkeypatch: pytest.MonkeyPatch) -> None:
-    from botocore.exceptions import ClientError
-
-    class Refusing:
-        def invoke_agent_runtime(self, **_kwargs):
-            raise ClientError({"Error": {"Code": "AccessDeniedException", "Message": "no"}}, "InvokeAgentRuntime")
-
-    monkeypatch.setattr(aws, "get_client", lambda *_args, **_kwargs: Refusing())
-
-    with pytest.raises(ExternalServiceError, match="AgentCore Runtime call failed"):
-        run_assess_on_runtime(settings_for_tests(runtime_arn=RUNTIME_ARN), "EXP-2026-0412", "OFF-101")

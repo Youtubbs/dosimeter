@@ -100,6 +100,13 @@ def propose_equipment_finding(
 # ---------------------------------------------------------------------------
 
 
+def _cited(proposal: BaseModel) -> BaseModel:
+    # refused here, inside the worker's loop, the model can add the citation instead of failing review
+    if not proposal.citations:
+        raise ValueError("cite at least one chunk_id that search_knowledge_base returned")
+    return proposal
+
+
 def _handle_propose_notification(
     subject: Subject,
     arguments: ProposeNotificationInput,
@@ -110,7 +117,7 @@ def _handle_propose_notification(
     # perform no subject-specific writes.
     del subject
 
-    return propose_notification(arguments.proposal)
+    return _cited(propose_notification(arguments.proposal))
 
 
 def _handle_propose_written_report(
@@ -121,7 +128,7 @@ def _handle_propose_written_report(
 
     del subject
 
-    return propose_written_report(arguments.proposal)
+    return _cited(propose_written_report(arguments.proposal))
 
 
 def _handle_propose_equipment_finding(
@@ -134,7 +141,7 @@ def _handle_propose_equipment_finding(
     # no subject-specific writes.
     del subject
 
-    return propose_equipment_finding(arguments.proposal)
+    return _cited(propose_equipment_finding(arguments.proposal))
 
 
 # ---------------------------------------------------------------------------
@@ -147,7 +154,8 @@ PROPOSE_NOTIFICATION_TOOL = Tool(
     description=(
         "Submit a typed notification recommendation after evaluating the "
         "relevant deterministic rules. This tool validates the proposal "
-        "but does not send a notification or write external state."
+        "but does not send a notification or write external state. "
+        "citations must list the chunk_id of each source the finding rests on."
     ),
     input_model=ProposeNotificationInput,
     output_model=NotificationProposal,
@@ -160,7 +168,8 @@ PROPOSE_WRITTEN_REPORT_TOOL = Tool(
     description=(
         "Submit a typed written-report recommendation after evaluating the "
         "relevant deterministic rules. This tool validates the proposal "
-        "but does not send a report or write external state."
+        "but does not send a report or write external state. "
+        "citations must list the chunk_id of each source the finding rests on."
     ),
     input_model=ProposeWrittenReportInput,
     output_model=WrittenReportProposal,
@@ -172,7 +181,8 @@ PROPOSE_EQUIPMENT_FINDING_TOOL = Tool(
     description=(
         "Submit a typed equipment finding after evaluating the "
         "reported radiographic equipment failure. This tool validates "
-        "the proposal but does not submit or transmit a report."
+        "the proposal but does not submit or transmit a report. "
+        "citations must list the chunk_id of each source the finding rests on."
     ),
     input_model=ProposeEquipmentFindingInput,
     output_model=EquipmentProposal,

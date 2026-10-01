@@ -84,28 +84,25 @@ def transport(url: str, token: str) -> GatewayTransport:
 
 
 def test_an_entitled_officer_reads_the_extraction_over_mcp(mcp_url: str, seeded: Session) -> None:
-    response = transport(mcp_url, access_token("OFF-101")).get(f"/v1/exposures/{EXPOSURE}/extraction")
+    payload = transport(mcp_url, access_token("OFF-101")).call("get_exposure_extraction", EXPOSURE)
 
-    assert response.status == 200
-    assert response.payload["exposure_id"] == EXPOSURE
-    assert response.payload["low_confidence_field_keys"] == ["Shallow Dose Equivalent"]
+    assert payload["exposure_id"] == EXPOSURE
+    assert payload["low_confidence_field_keys"] == ["Shallow Dose Equivalent"]
 
 
 def test_the_entitlement_check_runs_against_the_token_officer(mcp_url: str, seeded: Session) -> None:
-    response = transport(mcp_url, access_token("OFF-104")).get(f"/v1/exposures/{EXPOSURE}/extraction")
+    payload = transport(mcp_url, access_token("OFF-104")).call("get_exposure_extraction", EXPOSURE)
 
-    assert response.status == 403
-    assert response.payload["reason_code"] == "no_grants"
-    assert response.payload["officer_code"] == "OFF-104"
+    assert payload["reason_code"] == "no_grants"
+    assert payload["officer_code"] == "OFF-104"
 
 
 def test_a_token_the_user_pool_did_not_sign_is_refused(mcp_url: str, seeded: Session) -> None:
     forged = access_token("OFF-101", key=rsa.generate_private_key(public_exponent=65537, key_size=2048))
 
-    response = transport(mcp_url, forged).get(f"/v1/exposures/{EXPOSURE}/extraction")
+    payload = transport(mcp_url, forged).call("get_exposure_extraction", EXPOSURE)
 
-    assert response.status == 403
-    assert response.payload["reason_code"] == "no_verified_identity"
+    assert payload["reason_code"] == "no_verified_identity"
 
 
 def test_the_equipment_worker_search_succeeds_over_mcp(mcp_url: str, seeded: Session) -> None:

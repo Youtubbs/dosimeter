@@ -362,8 +362,8 @@ def test_real_worker_nodes_merge_parallel_proposals_in_graph(
     ):
         # the real graph, with these node bodies swapped in before it is built
         monkeypatch.setattr("dosimeter.graph.graph.make_coordinator_node", lambda **_: coordinator)
-        monkeypatch.setattr("dosimeter.graph.graph.notification_node", notification_node)
-        monkeypatch.setattr("dosimeter.graph.graph.written_report_node", written_report_node)
+        monkeypatch.setattr("dosimeter.graph.graph.build_notification_node", lambda **_: notification_node)
+        monkeypatch.setattr("dosimeter.graph.graph.build_written_report_node", lambda **_: written_report_node)
         monkeypatch.setattr("dosimeter.graph.graph.make_reviewer_node", lambda **_: reviewer)
         monkeypatch.setattr("dosimeter.graph.graph.eligibility_node", eligibility)
 

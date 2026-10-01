@@ -24,7 +24,6 @@ flowchart TB
         ecr["ECR<br/>two images, deploy by digest"]
         runtime["AgentCore Runtime<br/>hosts the LangGraph workflow"]
         gateway["AgentCore Gateway<br/>read tools, passthrough"]
-        kbgateway["AgentCore Gateway<br/>KB connector"]
         identity["AgentCore Identity<br/>Cognito verifies the caller"]
         tools["AgentCore Runtime<br/>MCP read tools,<br/>entitlement check per call"]
         ecs["ECS Fargate<br/>Flask tool API, optional"]
@@ -51,12 +50,11 @@ flowchart TB
     gateway -.-> identity
     gateway -.-> tools
     tools -.-> rds
-    kbgateway -.-> kb
     ecr -.-> ecs
     ecr -.-> runtime
     ecr -.-> tools
     runtime -.-> gateway
-    runtime -.-> kbgateway
+    runtime -.-> kb
     oidc -.-> ecr
 
     iam -.- cli

@@ -117,8 +117,8 @@ class EquipmentProposal(BaseModel):
 
     report_required: bool
 
-    citations: tuple = ()
+    citations: tuple[str, ...] = ()
 
     explanation: str = Field(min_length=1)
 
-    missing_fields: tuple = ()
+    missing_fields: tuple[str, ...] = ()

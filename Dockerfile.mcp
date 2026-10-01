@@ -1,34 +1,19 @@
 # The two read tools as an MCP server, served the way an AgentCore Runtime with the MCP
-# protocol expects. The Gateway reaches it through a passthrough target. We build the wheel, 
-# then run it as a non-root user on a base image pinned by digest. 
+# protocol expects: stateless streamable HTTP at /mcp on port 8000.
+# The base image is pinned by digest. The digest is a multi-arch index, so the same
+# pin builds the arm64 image AgentCore Runtime runs.
 
+# stage 1: build our package into a wheel
 FROM python:3.11-slim-bookworm@sha256:a36c24f9cbdf4fd0f52d67f0823eeac19c2028c637cecc392d97f980d4fec56b AS build
+COPY pyproject.toml /build/
+COPY src /build/src
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /wheels /build
 
-WORKDIR /build
-ENV PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_NO_CACHE_DIR=1
-
-COPY pyproject.toml ./
-COPY src ./src
-
-RUN pip install --no-cache-dir build \
-    && python -m build --wheel --outdir /wheels
-
-
-FROM python:3.11-slim-bookworm@sha256:a36c24f9cbdf4fd0f52d67f0823eeac19c2028c637cecc392d97f980d4fec56b AS runtime
-
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    PORT=8000
-
-RUN useradd --create-home --uid 10001 dosimeter
-
+# stage 2: install it and run it as a non-root user
+FROM python:3.11-slim-bookworm@sha256:a36c24f9cbdf4fd0f52d67f0823eeac19c2028c637cecc392d97f980d4fec56b
+ENV PYTHONUNBUFFERED=1
 COPY --from=build /wheels /wheels
-RUN pip install --no-cache-dir /wheels/*.whl && rm -rf /wheels
-
+RUN pip install --no-cache-dir /wheels/*.whl && rm -rf /wheels && useradd --create-home --uid 10001 dosimeter
 USER dosimeter
-WORKDIR /home/dosimeter
-
 EXPOSE 8000
-
 CMD ["python", "-m", "dosimeter.api.mcp_server"]
