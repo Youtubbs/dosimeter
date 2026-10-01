@@ -50,6 +50,8 @@ class RunRecorder:
         session_id: UUID | None = None,
         command: str = "assess",
         turn_kind: str = "assess",
+        runtime_arn: str | None = None,
+        runtime_session_id: str | None = None,
     ) -> None:
         self.session = session
         self.exposure_id = exposure_id
@@ -57,6 +59,9 @@ class RunRecorder:
         self.session_id = session_id
         self.command = command
         self.turn_kind = turn_kind
+        # set when the turn ran on the AgentCore Runtime, so the trace shows where it ran
+        self.runtime_arn = runtime_arn
+        self.runtime_session_id = runtime_session_id
         self.run_id = uuid4()
         self.token_totals: dict[str, int] = {}
 
@@ -73,6 +78,8 @@ class RunRecorder:
                 exposure_id=self.exposure_id,
                 officer_id=self.officer_id,
                 session_id=self.session_id,
+                runtime_arn=self.runtime_arn,
+                runtime_session_id=self.runtime_session_id,
             ),
         )
         self.session.commit()

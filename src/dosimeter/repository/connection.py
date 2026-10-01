@@ -8,10 +8,17 @@ from sqlalchemy import URL, Engine, create_engine, event
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session, sessionmaker
 
+from dosimeter.aws.aws import rds_auth_token
 from dosimeter.config.settings import DatabaseSettings, get_database_settings
 from dosimeter.errors import ConfigurationError, ExternalServiceError
 
 TokenProvider = Callable[[], str]
+
+
+def rds_token_provider(settings: DatabaseSettings) -> TokenProvider:
+    """IAM auth on RDS: each new connection signs a fresh token for the configured user."""
+
+    return lambda: rds_auth_token(settings)
 
 
 def database_url(settings: DatabaseSettings, password: str | None = None) -> URL:
@@ -38,11 +45,7 @@ def build_engine(
     resolved = settings or get_database_settings()
 
     if resolved.use_iam_auth:
-        if token_provider is None:
-            raise ConfigurationError(
-                "IAM database authentication is on, so a token provider is required",
-                field="DOSIMETER_DB_USE_IAM_AUTH",
-            )
+        provider = token_provider or rds_token_provider(resolved)
         engine = create_engine(
             database_url(resolved),
             pool_pre_ping=True,
@@ -51,7 +54,7 @@ def build_engine(
 
         @event.listens_for(engine, "do_connect")
         def _use_a_fresh_token(dialect, connection_record, cargs, cparams):  # noqa: ANN001
-            cparams["password"] = token_provider()
+            cparams["password"] = provider()
             return None
 
         return engine
@@ -83,12 +86,7 @@ def conn_string(
 
 def _password(settings: DatabaseSettings, token_provider: TokenProvider | None) -> str:
     if settings.use_iam_auth:
-        if token_provider is None:
-            raise ConfigurationError(
-                "IAM database authentication is on, so a token provider is required",
-                field="DOSIMETER_DB_USE_IAM_AUTH",
-            )
-        return token_provider()
+        return (token_provider or rds_token_provider(settings))()
 
     if settings.password is None:
         raise ConfigurationError("a database password is required", field="DOSIMETER_DB_PASSWORD")

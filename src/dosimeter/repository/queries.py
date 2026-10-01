@@ -428,6 +428,8 @@ def get_run_record(session: Session, run_id: UUID) -> RunRecord | None:
         outcome=row.outcome,
         corrects_run_id=row.corrects_run_id,
         token_totals=row.token_totals or {},
+        runtime_arn=row.runtime_arn,
+        runtime_session_id=row.runtime_session_id,
         finished_at=row.finished_at,
     )
 

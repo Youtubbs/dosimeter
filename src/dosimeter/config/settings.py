@@ -10,7 +10,7 @@ The AWS and Bedrock values keep the names the .env already uses
 """
 
 from functools import lru_cache
-from typing import Any, Self
+from typing import Any, Literal, Self
 
 from pydantic import BaseModel, ConfigDict, Field, SecretStr, ValidationError, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -160,6 +160,23 @@ class Settings(BaseSettings):
     # the stub identity header is for docker compose only; deployed calls carry a verified one
     tool_api_dev_identity: bool = False
     tool_api_identity_header: str = Field(default="X-Dosimeter-Officer", min_length=1)
+
+    # how the read tools reach the tool API: straight over HTTP, or through the AgentCore Gateway
+    tool_transport: Literal["http", "gateway"] = "http"
+    tool_api_base_url: str = Field(default="http://127.0.0.1:8080", min_length=1)
+    gateway_url: str | None = None
+    # the knowledge base as a connector target on its own AWS_IAM Gateway; unset, retrieval calls the KB directly
+    kb_gateway_url: str | None = None
+
+    # where assess runs: in the CLI, or on the AgentCore Runtime (deployed ARN or local stand-in URL)
+    workflow: Literal["local", "runtime"] = "local"
+    runtime_arn: str | None = None
+    runtime_url: str | None = None
+
+    # AgentCore Identity: the Cognito user pool the Gateway trusts, one user per officer
+    identity_user_pool_id: str | None = None
+    identity_client_id: str | None = None
+    identity_password: SecretStr | None = None
 
     log_level: str = Field(default="INFO", min_length=1)
 

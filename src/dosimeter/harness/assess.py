@@ -23,6 +23,7 @@ from dosimeter.harness.eligibility import EligibilityResult, record_eligibility
 from dosimeter.harness.escalation import EscalationOutcome
 from dosimeter.harness.run_record import RunRecorder
 from dosimeter.repository import Session, queries
+from dosimeter.tools.registry import shared_tools
 
 logger = logging.getLogger(__name__)
 
@@ -70,6 +71,9 @@ def run_assess(
     officer_code: str,
     settings: Settings,
     session_id: UUID | None = None,
+    runtime_arn: str | None = None,
+    runtime_session_id: str | None = None,
+    access_token: str | None = None,
 ) -> AssessResult:
     """Run one assess turn end to end and persist everything it produced."""
 
@@ -101,6 +105,8 @@ def run_assess(
         session_id=turn_session_id,
         command="assess",
         turn_kind="assess",
+        runtime_arn=runtime_arn,
+        runtime_session_id=runtime_session_id,
     )
     recorder.start()
 
@@ -133,6 +139,8 @@ def run_assess(
             settings.bounds,
             ledger=ledger,
             recorder=recorder,
+            # the read tools reach the tool API as this officer, directly or through the Gateway
+            shared_tools=shared_tools(settings, officer_code, access_token),
             checkpointer=checkpointer,
         )
 

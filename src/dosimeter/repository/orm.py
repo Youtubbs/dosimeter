@@ -174,6 +174,8 @@ class RunRecordRow(Base):
     session_id: Mapped[UUID | None] = mapped_column(ForeignKey("sessions.id"))
     corrects_run_id: Mapped[UUID | None] = mapped_column(ForeignKey("run_records.id"))
     token_totals: Mapped[dict[str, Any]] = mapped_column(JSONB, default=dict)
+    runtime_arn: Mapped[str | None] = mapped_column(Text)
+    runtime_session_id: Mapped[str | None] = mapped_column(Text)
     started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     finished_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 

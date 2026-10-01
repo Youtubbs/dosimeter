@@ -322,3 +322,56 @@ def test_an_unentitled_tool_call_surfaces_the_api_denial(client) -> None:
     assert not response.ok
     assert response.error.reason_code == ToolErrorCode.DENIED
     assert response.error.detail["api_reason_code"] == "no_grants"
+
+
+def test_the_entitlement_check_uses_the_verified_token_not_a_header(
+    db: Session,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import time
+    from types import SimpleNamespace
+
+    import jwt
+    from cryptography.hazmat.primitives.asymmetric import rsa
+
+    from dosimeter.api.identity import cognito_issuer
+
+    seed_extraction(db)
+    key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
+    settings = settings_for_tests().model_copy(
+        update={"identity_user_pool_id": "us-east-1_TestPool", "identity_client_id": "client-123"}
+    )
+    monkeypatch.setattr(
+        "dosimeter.api.identity._signing_keys",
+        lambda issuer: SimpleNamespace(
+            get_signing_key_from_jwt=lambda token: SimpleNamespace(key=key.public_key())
+        ),
+    )
+
+    def token_for(officer_code: str) -> dict[str, str]:
+        claims = {
+            "iss": cognito_issuer(settings),
+            "token_use": "access",
+            "client_id": "client-123",
+            "username": officer_code,
+            "exp": int(time.time()) + 300,
+        }
+        return {"Authorization": f"Bearer {jwt.encode(claims, key, algorithm='RS256')}"}
+
+    @contextmanager
+    def session_factory():
+        yield db
+
+    client = create_app(settings=settings, session_factory=session_factory).test_client()
+    path = f"/v1/exposures/{EXPOSURE}/extraction"
+
+    assert client.get(path, headers=token_for("OFF-101")).status_code == 200
+
+    denied = client.get(path, headers=token_for("OFF-104"))
+    assert denied.status_code == 403
+    assert denied.get_json()["reason_code"] == "no_grants"
+
+    # a caller asserting an identity in the old header, with no token, is refused
+    asserted = client.get(path, headers=headers("OFF-101"))
+    assert asserted.status_code == 403
+    assert asserted.get_json()["reason_code"] == "no_verified_identity"

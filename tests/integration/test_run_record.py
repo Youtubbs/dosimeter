@@ -341,6 +341,30 @@ def test_trace_renders_what_the_turn_did_reading_only_from_postgres(seeded: Sess
     assert "iteration 1 on equipment: rejected" in rendered
     assert "objection: {'reason': 'no citation'}" in rendered
     assert "equipment: 120" in rendered
+    assert "agentcore runtime" not in rendered
+
+
+def test_a_turn_on_the_runtime_says_where_it_ran(seeded: Session) -> None:
+    officer = queries.officer_by_code(seeded, OFFICER)
+    arn = "arn:aws:bedrock-agentcore:us-east-1:123456789012:runtime/DosimeterWorkflow-abc"
+    recorder = RunRecorder(
+        session=seeded,
+        exposure_id=EXPOSURE,
+        officer_id=officer.id,
+        command="assess",
+        runtime_arn=arn,
+        runtime_session_id="dosimeter-session-0000000000000000000000",
+    )
+    recorder.start()
+    recorder.finish("complete")
+
+    stored = queries.get_run_record(seeded, recorder.run_id)
+    rendered = render_trace(seeded, EXPOSURE)
+
+    assert stored.runtime_arn == arn
+    assert stored.runtime_session_id == "dosimeter-session-0000000000000000000000"
+    assert arn in rendered
+    assert "dosimeter-session-0000000000000000000000" in rendered
 
 
 def test_the_record_checks_read_the_stored_record(seeded: Session) -> None:

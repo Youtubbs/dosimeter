@@ -138,15 +138,19 @@ def _assess(exposure_id: str, officer_code: str, settings: Settings) -> int:
 
     from dosimeter.harness.assess import run_assess
     from dosimeter.repository.connection import session_scope
+    from dosimeter.runtime.client import run_assess_on_runtime
 
     try:
-        with session_scope() as session:
-            result = run_assess(
-                session=session,
-                exposure_id=exposure_id,
-                officer_code=officer_code,
-                settings=settings,
-            )
+        if settings.workflow == "runtime":
+            result = run_assess_on_runtime(settings, exposure_id, officer_code)
+        else:
+            with session_scope() as session:
+                result = run_assess(
+                    session=session,
+                    exposure_id=exposure_id,
+                    officer_code=officer_code,
+                    settings=settings,
+                )
     except DosimeterError as error:
         logger.error("assess.failed", extra={"detail": str(error)})
         return EXIT_FAILED
