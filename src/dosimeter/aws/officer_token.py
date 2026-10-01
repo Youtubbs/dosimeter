@@ -1,4 +1,4 @@
-""" print a Cognito access token for one officer, so an outside MCP client 
+""" print a Cognito access token for one officer, so an outside MCP client
     can call the read tools Gateway as that officer
 
         python -m dosimeter.aws.officer_token OFF-102

@@ -24,8 +24,8 @@ from dosimeter.logging_config import configure_logging, correlation_scope
 from dosimeter.repository.connection import session_scope
 
 mcp = FastMCP(
-    "DosimeterTools", host="0.0.0.0", stateless_http=True
-)  # noqa: S104 - runs in a container
+    "DosimeterTools", host="0.0.0.0", stateless_http=True # noqa: S104 - runs in a container
+)
 
 # no embedding model is wired into the tool services yet, same as the Flask app
 embedder: Embedder | None = None
