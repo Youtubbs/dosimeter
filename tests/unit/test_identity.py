@@ -72,7 +72,9 @@ def test_a_token_signed_by_anyone_else_is_rejected() -> None:
 
 
 def test_a_token_for_another_client_or_an_id_token_is_rejected() -> None:
-    assert resolve_caller(bearer(access_token(client_id="someone-else")), settings_for_tests()) is None
+    assert (
+        resolve_caller(bearer(access_token(client_id="someone-else")), settings_for_tests()) is None
+    )
     assert resolve_caller(bearer(access_token(token_use="id")), settings_for_tests()) is None
 
 

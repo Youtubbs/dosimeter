@@ -21,9 +21,7 @@ def gateway_tool(tools: list[McpTool], operation: str) -> McpTool:
         if tool.name == operation or tool.name.endswith(f"___{operation}"):
             return tool
 
-    raise ExternalServiceError(
-        "the Gateway does not expose this tool", operation=operation
-    )
+    raise ExternalServiceError("the Gateway does not expose this tool", operation=operation)
 
 
 async def call_gateway_tool(

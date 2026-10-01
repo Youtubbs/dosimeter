@@ -26,7 +26,8 @@ from dosimeter.harness.escalation import EscalationOutcome
 from dosimeter.harness.run_record import RunRecorder
 from dosimeter.repository import Session, queries
 from dosimeter.repository.models import Exposure
-from dosimeter.tools.registry import shared_tools
+from dosimeter.tools.registry import build_tool_registry
+from dosimeter.tools.transport import HttpTransport
 
 logger = logging.getLogger(__name__)
 
@@ -102,7 +103,9 @@ def missing_dose_fields(session: Session, exposure_id: str) -> list[str]:
     return [
         name
         for name, words in REQUIRED_DOSES.items()
-        if not any(any(word in key for word in words) and re.search(r"\d", value) for key, value in read)
+        if not any(
+            any(word in key for word in words) and re.search(r"\d", value) for key, value in read
+        )
     ]
 
 
@@ -192,6 +195,15 @@ def run_turn(
         worker_id=exposure.worker_id,
     )
 
+    # Local execution reaches API-backed read tools over HTTP.
+    # In deployment, these capabilities are exposed through AgentCore Gateway.
+    transport = HttpTransport(
+        base_url=settings.tool_api_url,
+        officer_code=subject.officer_code,
+    )
+    tool_registry = build_tool_registry(transport)
+    shared_tools = list(tool_registry.values())
+
     config = thread_config(
         officer.id,
         exposure_id,
@@ -210,7 +222,7 @@ def run_turn(
             ledger=ledger,
             recorder=recorder,
             # the read tools reach the tool API as this officer, directly or through the Gateway
-            shared_tools=shared_tools(settings, officer_code, access_token),
+            shared_tools=shared_tools,
             checkpointer=checkpointer,
         )
 

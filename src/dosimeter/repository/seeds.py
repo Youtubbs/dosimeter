@@ -15,7 +15,12 @@ from dosimeter.errors import DosimeterError
 from dosimeter.logging_config import configure_logging
 from dosimeter.repository import queries
 from dosimeter.repository.connection import session_scope
-from dosimeter.repository.models import DistrictGrant, Exposure, HistoricalExposure, WorkerDoseRecord
+from dosimeter.repository.models import (
+    DistrictGrant,
+    Exposure,
+    HistoricalExposure,
+    WorkerDoseRecord,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -102,7 +107,7 @@ HISTORICAL_EXPOSURES: tuple[HistoricalExposure, ...] = (
         outcome="immediate_notification",
         deciding_rule="R1",
         narrative="Radiographer stayed at the crank during a 40-minute shot after the collimator was left off. Dosimeter processed at 26 rem TEDE.",
-        normalized_fields={'tede': '26 rem'},
+        normalized_fields={"tede": "26 rem"},
     ),
     HistoricalExposure(
         exposure_id="hist-r1-tede-below",
@@ -112,7 +117,7 @@ HISTORICAL_EXPOSURES: tuple[HistoricalExposure, ...] = (
         outcome="24_hour_notification",
         deciding_rule="R2",
         narrative="Assistant entered the restricted area during exposure to clear a stuck film holder. Badge read 24 rem TEDE, under the immediate tier.",
-        normalized_fields={'tede': '24 rem'},
+        normalized_fields={"tede": "24 rem"},
     ),
     HistoricalExposure(
         exposure_id="hist-r1-lens-above",
@@ -122,7 +127,7 @@ HISTORICAL_EXPOSURES: tuple[HistoricalExposure, ...] = (
         outcome="immediate_notification",
         deciding_rule="R1",
         narrative="Worker leaned over an open camera port to inspect the guide tube connector. Lens dose equivalent estimated at 80 rem.",
-        normalized_fields={'lens': '80 rem'},
+        normalized_fields={"lens": "80 rem"},
     ),
     HistoricalExposure(
         exposure_id="hist-r1-lens-below",
@@ -132,7 +137,7 @@ HISTORICAL_EXPOSURES: tuple[HistoricalExposure, ...] = (
         outcome="24_hour_notification",
         deciding_rule="R2",
         narrative="Eye-level viewing of the source window during a crank check. Lens dose equivalent reconstructed at 70 rem.",
-        normalized_fields={'lens': '70 rem'},
+        normalized_fields={"lens": "70 rem"},
     ),
     HistoricalExposure(
         exposure_id="hist-r1-shallow-above",
@@ -142,7 +147,7 @@ HISTORICAL_EXPOSURES: tuple[HistoricalExposure, ...] = (
         outcome="immediate_notification",
         deciding_rule="R1",
         narrative="Radiographer picked up a disconnected source pigtail by hand before recognizing it. Extremity shallow dose 260 rad.",
-        normalized_fields={'shallow': '260 rad extremity'},
+        normalized_fields={"shallow": "260 rad extremity"},
     ),
     HistoricalExposure(
         exposure_id="hist-r1-shallow-below",
@@ -152,7 +157,7 @@ HISTORICAL_EXPOSURES: tuple[HistoricalExposure, ...] = (
         outcome="24_hour_notification",
         deciding_rule="R2",
         narrative="Hand briefly touched the drive cable end fitting while the source was exposed. Extremity shallow dose 240 rad.",
-        normalized_fields={'shallow': '240 rad extremity'},
+        normalized_fields={"shallow": "240 rad extremity"},
     ),
     HistoricalExposure(
         exposure_id="hist-r2-tede-above",
@@ -162,7 +167,7 @@ HISTORICAL_EXPOSURES: tuple[HistoricalExposure, ...] = (
         outcome="24_hour_notification",
         deciding_rule="R2",
         narrative="Survey meter battery failed and the crew worked a second shift without a working rate alarm. TEDE 5.4 rem.",
-        normalized_fields={'tede': '5.4 rem'},
+        normalized_fields={"tede": "5.4 rem"},
     ),
     HistoricalExposure(
         exposure_id="hist-r2-tede-below",
@@ -172,7 +177,7 @@ HISTORICAL_EXPOSURES: tuple[HistoricalExposure, ...] = (
         outcome="no_report",
         deciding_rule="R2",
         narrative="Long weld-inspection campaign with repeated close approaches. Quarterly TEDE 4.6 rem, below the 24-hour tier.",
-        normalized_fields={'tede': '4.6 rem'},
+        normalized_fields={"tede": "4.6 rem"},
     ),
     HistoricalExposure(
         exposure_id="hist-r2-lens-above",
@@ -182,7 +187,7 @@ HISTORICAL_EXPOSURES: tuple[HistoricalExposure, ...] = (
         outcome="24_hour_notification",
         deciding_rule="R2",
         narrative="Worker repositioned the collimator by eye without shielding glasses. Lens dose equivalent 16 rem.",
-        normalized_fields={'lens': '16 rem'},
+        normalized_fields={"lens": "16 rem"},
     ),
     HistoricalExposure(
         exposure_id="hist-r2-lens-below",
@@ -192,7 +197,7 @@ HISTORICAL_EXPOSURES: tuple[HistoricalExposure, ...] = (
         outcome="no_report",
         deciding_rule="R2",
         narrative="Routine setup with the camera at chest height; lens dose equivalent 14 rem for the quarter.",
-        normalized_fields={'lens': '14 rem'},
+        normalized_fields={"lens": "14 rem"},
     ),
     HistoricalExposure(
         exposure_id="hist-r2-shallow-above",
@@ -202,7 +207,7 @@ HISTORICAL_EXPOSURES: tuple[HistoricalExposure, ...] = (
         outcome="24_hour_notification",
         deciding_rule="R2",
         narrative="Glove contaminated while handling a damaged source holder. Skin shallow dose 52 rem.",
-        normalized_fields={'shallow': '52 rem skin'},
+        normalized_fields={"shallow": "52 rem skin"},
     ),
     HistoricalExposure(
         exposure_id="hist-r2-shallow-below",
@@ -212,7 +217,7 @@ HISTORICAL_EXPOSURES: tuple[HistoricalExposure, ...] = (
         outcome="no_report",
         deciding_rule="R2",
         narrative="Skin contact with a contaminated hose fitting during cleanup. Skin shallow dose 47 rem.",
-        normalized_fields={'shallow': '47 rem skin'},
+        normalized_fields={"shallow": "47 rem skin"},
     ),
     HistoricalExposure(
         exposure_id="hist-equipment-retract",
@@ -222,7 +227,7 @@ HISTORICAL_EXPOSURES: tuple[HistoricalExposure, ...] = (
         outcome="equipment_report",
         deciding_rule="34.101(a)(2)",
         narrative="The source assembly would not retract to its fully shielded position. The crew withdrew, surveyed the boundary and called the RSO. TEDE 0.8 rem.",
-        normalized_fields={'tede': '0.8 rem', 'equipment': 'inability to retract'},
+        normalized_fields={"tede": "0.8 rem", "equipment": "inability to retract"},
     ),
     HistoricalExposure(
         exposure_id="hist-equipment-cable",
@@ -232,7 +237,7 @@ HISTORICAL_EXPOSURES: tuple[HistoricalExposure, ...] = (
         outcome="equipment_report",
         deciding_rule="34.101(a)(2)",
         narrative="Drive cable kinked and the source stuck in the guide tube for 12 minutes before it could be cranked back. TEDE 1.1 rem.",
-        normalized_fields={'tede': '1.1 rem', 'equipment': 'source stuck in guide tube'},
+        normalized_fields={"tede": "1.1 rem", "equipment": "source stuck in guide tube"},
     ),
     HistoricalExposure(
         exposure_id="hist-messy-units",
@@ -242,7 +247,7 @@ HISTORICAL_EXPOSURES: tuple[HistoricalExposure, ...] = (
         outcome="no_report",
         deciding_rule="R2",
         narrative="Dosimetry report lists 30 mSv with a handwritten correction to 3 rem TEDE; the vendor confirmed 3 rem.",
-        normalized_fields={'tede': '30 mSv (3 rem)'},
+        normalized_fields={"tede": "30 mSv (3 rem)"},
     ),
     HistoricalExposure(
         exposure_id="hist-insufficient",
@@ -257,7 +262,9 @@ HISTORICAL_EXPOSURES: tuple[HistoricalExposure, ...] = (
 )
 
 
-def apply_seeds(session: Session, embed: Callable[[str], list[float]] | None = None) -> dict[str, int]:
+def apply_seeds(
+    session: Session, embed: Callable[[str], list[float]] | None = None
+) -> dict[str, int]:
     """Insert the seed rows. Running it twice changes nothing."""
 
     for officer_code, districts in OFFICER_DISTRICTS.items():
@@ -280,9 +287,13 @@ def apply_seeds(session: Session, embed: Callable[[str], list[float]] | None = N
     if embed is not None:
         try:
             for record in queries.historical_exposures_missing_embedding(session):
-                queries.insert_historical_exposure(session, record, embedding=embed(record.narrative))
+                queries.insert_historical_exposure(
+                    session, record, embedding=embed(record.narrative)
+                )
                 embedded += 1
-        except Exception as error:  # without model access the rows stay; seeding again later embeds them
+        except (
+            Exception
+        ) as error:  # without model access the rows stay; seeding again later embeds them
             logger.warning("seeds.embedding_skipped", extra={"detail": str(error)})
 
     session.commit()

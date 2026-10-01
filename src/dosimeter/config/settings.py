@@ -157,6 +157,9 @@ class Settings(BaseSettings):
     near_boundary_margins: NearBoundaryMargins = Field(default_factory=NearBoundaryMargins)
     bounds: Bounds = Field(default_factory=Bounds)
 
+    # local harness calls the Tool API over HTTP; deployed calls use AgentCore Gateway
+    tool_api_url: str = Field(default="http://localhost:8080", min_length=1)
+
     # the stub identity header is for docker compose only; deployed calls carry a verified one
     tool_api_dev_identity: bool = False
     tool_api_identity_header: str = Field(default="X-Dosimeter-Officer", min_length=1)

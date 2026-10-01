@@ -36,7 +36,12 @@ RESULTS = [
         "content": {"type": "TEXT", "text": "Each licensee shall control the occupational dose."},
         "score": 0.81,
         "location": {"type": "S3"},
-        "metadata": {"doc_id": "CFR-20", "title": "10 CFR Part 20", "status": "in_force", "page": 3},
+        "metadata": {
+            "doc_id": "CFR-20",
+            "title": "10 CFR Part 20",
+            "status": "in_force",
+            "page": 3,
+        },
     },
     {
         "content": {"type": "TEXT", "text": "A barely related passage."},
@@ -54,7 +59,9 @@ requests_seen: list[dict] = []
 def retrieve(retrievalQuery: dict, retrievalConfiguration: dict | None = None) -> dict[str, Any]:
     """Queries a knowledge base and retrieves information from it."""
 
-    requests_seen.append({"retrievalQuery": retrievalQuery, "retrievalConfiguration": retrievalConfiguration})
+    requests_seen.append(
+        {"retrievalQuery": retrievalQuery, "retrievalConfiguration": retrievalConfiguration}
+    )
     return {"retrievalResults": RESULTS}
 
 
@@ -64,7 +71,9 @@ def kb_url():
         probe.bind(("127.0.0.1", 0))
         port = probe.getsockname()[1]
 
-    server = uvicorn.Server(uvicorn.Config(stub.streamable_http_app(), host="127.0.0.1", port=port, log_level="warning"))
+    server = uvicorn.Server(
+        uvicorn.Config(stub.streamable_http_app(), host="127.0.0.1", port=port, log_level="warning")
+    )
     thread = threading.Thread(target=server.run, daemon=True)
     thread.start()
     while not server.started:
@@ -83,7 +92,9 @@ def fresh_requests():
 
 def test_each_request_is_signed_for_agentcore() -> None:
     auth = SigV4HttpxAuth(credentials=Credentials("AKIDEXAMPLE", "secret"), region="us-east-1")
-    request = httpx.Request("POST", "https://kb.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp", content=b"{}")
+    request = httpx.Request(
+        "POST", "https://kb.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp", content=b"{}"
+    )
 
     signed = next(auth.auth_flow(request))
 
@@ -94,7 +105,9 @@ def test_each_request_is_signed_for_agentcore() -> None:
 
 def test_the_request_keeps_only_the_fields_the_tool_declares() -> None:
     request = {"retrievalQuery": {"text": "dose"}, "retrievalConfiguration": {"x": 1}}
-    narrow = McpTool(name="t___Retrieve", inputSchema={"type": "object", "properties": {"retrievalQuery": {}}})
+    narrow = McpTool(
+        name="t___Retrieve", inputSchema={"type": "object", "properties": {"retrievalQuery": {}}}
+    )
     open_schema = McpTool(name="t___Retrieve", inputSchema={"type": "object"})
 
     assert retrieve_arguments(narrow, request) == {"retrievalQuery": {"text": "dose"}}
@@ -113,7 +126,9 @@ def test_results_come_from_structured_content_or_json_text() -> None:
 
 
 def test_documents_come_back_with_their_citation_fields_above_the_threshold(kb_url: str) -> None:
-    retriever = GatewayKnowledgeBaseRetriever(url=kb_url, k=3, threshold=0.4, status="in_force", auth=NO_SIGNING)
+    retriever = GatewayKnowledgeBaseRetriever(
+        url=kb_url, k=3, threshold=0.4, status="in_force", auth=NO_SIGNING
+    )
 
     documents = retriever.invoke("occupational dose limits")
 
@@ -137,8 +152,12 @@ def test_an_unreachable_kb_gateway_is_a_typed_failure() -> None:
         retriever.invoke("dose")
 
 
-def test_the_kb_gateway_setting_chooses_the_gateway_retriever(monkeypatch: pytest.MonkeyPatch) -> None:
-    settings = retrieval.get_settings().model_copy(update={"kb_gateway_url": "https://kb.example/mcp"})
+def test_the_kb_gateway_setting_chooses_the_gateway_retriever(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    settings = retrieval.get_settings().model_copy(
+        update={"kb_gateway_url": "https://kb.example/mcp"}
+    )
     monkeypatch.setattr(retrieval, "get_settings", lambda: settings)
 
     chosen = retrieval.get_retriever(k=2, status="in_force")
@@ -147,15 +166,23 @@ def test_the_kb_gateway_setting_chooses_the_gateway_retriever(monkeypatch: pytes
     assert (chosen.url, chosen.k, chosen.status) == ("https://kb.example/mcp", 2, "in_force")
 
 
-def test_the_search_tool_cites_what_came_through_the_gateway(kb_url: str, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_the_search_tool_cites_what_came_through_the_gateway(
+    kb_url: str, monkeypatch: pytest.MonkeyPatch
+) -> None:
     monkeypatch.setattr(
         search_module,
         "get_retriever",
-        lambda k, status: GatewayKnowledgeBaseRetriever(url=kb_url, k=k, threshold=0.4, status=status, auth=NO_SIGNING),
+        lambda k, status: GatewayKnowledgeBaseRetriever(
+            url=kb_url, k=k, threshold=0.4, status=status, auth=NO_SIGNING
+        ),
     )
-    subject = Subject(session_id="s", officer_id=1, officer_code="OFF-101", exposure_id="EXP-2026-0412")
+    subject = Subject(
+        session_id="s", officer_id=1, officer_code="OFF-101", exposure_id="EXP-2026-0412"
+    )
 
-    output = search_module._search_knowledge_base(subject, KnowledgeBaseSearchInput(query="occupational dose"))
+    output = search_module._search_knowledge_base(
+        subject, KnowledgeBaseSearchInput(query="occupational dose")
+    )
 
     assert output.found
     assert output.sources[0].doc_id == "CFR-20"

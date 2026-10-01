@@ -74,7 +74,9 @@ def dose_checks(
     return near, annual
 
 
-def signals_from_state(state: GraphState, margins: NearBoundaryMargins | None = None) -> TriggerSignals:
+def signals_from_state(
+    state: GraphState, margins: NearBoundaryMargins | None = None
+) -> TriggerSignals:
     """Read the turn's own record out of graph state. No model opinion here."""
 
     verdicts = state.get("reviewer_verdicts") or []
@@ -103,11 +105,15 @@ def signals_from_state(state: GraphState, margins: NearBoundaryMargins | None = 
             *(f"{field} (not readable)" for field in state.get("missing_dose_fields") or []),
         ],
         insufficient_data_rules=sorted(
-            rule_id for rule_id, result in results.items() if result["outcome"] == "insufficient_data"
+            rule_id
+            for rule_id, result in results.items()
+            if result["outcome"] == "insufficient_data"
         ),
         near_boundary_rules=near,
         reviewer_iterations=iterations,
-        reviewer_approved=bool(latest) and iterations <= 1 and all(v == "approved" for v in latest.values()),
+        reviewer_approved=bool(latest)
+        and iterations <= 1
+        and all(v == "approved" for v in latest.values()),
         unresolved_citations=unresolved_citations,
         retrieval_below_threshold=any(
             entry.get("found") is False for entry in state.get("retrieval_log") or []

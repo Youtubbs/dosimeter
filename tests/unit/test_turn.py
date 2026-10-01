@@ -9,12 +9,22 @@ from pydantic import BaseModel, ConfigDict
 from dosimeter.config.settings import Bounds, NearBoundaryMargins
 from dosimeter.graph.checkpointer import state_types
 from dosimeter.graph.nodes.coordinator import route_after_coordinator
-from dosimeter.graph.nodes.eligibility import eligibility_node, route_on_readiness, signals_from_state
+from dosimeter.graph.nodes.eligibility import (
+    eligibility_node,
+    route_on_readiness,
+    signals_from_state,
+)
 from dosimeter.graph.nodes.reviewer import cited_source
 from dosimeter.graph.schemas import DispatchPlan, ReviewerVerdict, Subject
 from dosimeter.harness.budgets import SessionLedger
 from dosimeter.models.bedrock import run_tool_loop
-from dosimeter.tools.dispatcher import InvocationRecord, Tool, ToolDispatcher, ToolErrorCode, build_registry
+from dosimeter.tools.dispatcher import (
+    InvocationRecord,
+    Tool,
+    ToolDispatcher,
+    ToolErrorCode,
+    build_registry,
+)
 from dosimeter.tools.proposals import PROPOSE_NOTIFICATION_TOOL
 from dosimeter.tools.rules import EVALUATE_RULE_TOOL, evaluate_rule
 from dosimeter.workers.models import NotificationProposal
@@ -48,7 +58,9 @@ def dispatcher(*tools: Tool) -> ToolDispatcher:
     )
 
 
-def rule_call(rule_id: str, outcome: str, inputs: dict | None = None, threshold: dict | None = None) -> dict:
+def rule_call(
+    rule_id: str, outcome: str, inputs: dict | None = None, threshold: dict | None = None
+) -> dict:
     return {
         "tool": "evaluate_rule",
         "result": {
@@ -172,7 +184,10 @@ def test_the_tool_loop_ends_once_the_proposal_is_accepted() -> None:
 
 
 def test_a_worker_that_never_proposes_leaves_the_turn_running() -> None:
-    with patch("dosimeter.workers.nodes.run_notification_worker", side_effect=RuntimeError("loop exhausted")):
+    with patch(
+        "dosimeter.workers.nodes.run_notification_worker",
+        side_effect=RuntimeError("loop exhausted"),
+    ):
         node = make_notification_node(ledger=SessionLedger(bounds=Bounds()), shared_tools=[])
 
         assert node({"subject": SUBJECT}) == {}
@@ -192,7 +207,9 @@ def test_a_worker_logs_its_searches_so_the_reviewer_can_reread_them() -> None:
     ]
     proposal = NotificationProposal.model_validate_json(json.dumps(NOTIFICATION))
 
-    with patch("dosimeter.workers.nodes.run_notification_worker", return_value=(proposal, invocations)):
+    with patch(
+        "dosimeter.workers.nodes.run_notification_worker", return_value=(proposal, invocations)
+    ):
         node = make_notification_node(ledger=SessionLedger(bounds=Bounds()), shared_tools=[])
         update = node({"subject": SUBJECT})
 
@@ -214,7 +231,10 @@ def test_an_approved_worker_is_not_dispatched_again() -> None:
             goals={"notification": "again", "equipment": "again"},
             rationale="re-dispatch",
         ),
-        "reviewer_verdicts": [verdict(1, "equipment", "approved"), verdict(1, "notification", "rejected")],
+        "reviewer_verdicts": [
+            verdict(1, "equipment", "approved"),
+            verdict(1, "notification", "rejected"),
+        ],
     }
 
     assert route_after_coordinator(state) == ["notification"]
@@ -236,7 +256,10 @@ def test_a_required_notification_rule_escalates_the_turn() -> None:
 def test_approval_on_a_second_pass_is_not_approval_first_time() -> None:
     state = {
         "reviewer_iterations": 2,
-        "reviewer_verdicts": [verdict(1, "notification", "rejected"), verdict(2, "notification", "approved")],
+        "reviewer_verdicts": [
+            verdict(1, "notification", "rejected"),
+            verdict(2, "notification", "approved"),
+        ],
     }
 
     assert signals_from_state(state).reviewer_approved is False
@@ -269,7 +292,10 @@ def test_a_dose_near_a_limit_and_a_dose_at_the_annual_limit_are_flagged() -> Non
 
 def test_a_low_confidence_dose_field_stops_the_turn_before_dispatch() -> None:
     assert route_on_readiness({"low_confidence_fields": []}) == "coordinator"
-    assert route_on_readiness({"low_confidence_fields": ["Total Effective Dose Equivalent"]}) == "eligibility_check"
+    assert (
+        route_on_readiness({"low_confidence_fields": ["Total Effective Dose Equivalent"]})
+        == "eligibility_check"
+    )
 
     stopped = eligibility_node({"low_confidence_fields": ["Total Effective Dose Equivalent"]})
 

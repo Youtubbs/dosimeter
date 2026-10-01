@@ -38,7 +38,11 @@ def state_types() -> list[tuple[str, str]]:
     types = []
     for name in STATE_MODULES:
         for attr, value in vars(importlib.import_module(name)).items():
-            if isinstance(value, type) and value.__module__ == name and issubclass(value, (BaseModel, Enum)):
+            if (
+                isinstance(value, type)
+                and value.__module__ == name
+                and issubclass(value, (BaseModel, Enum))
+            ):
                 types.append((name, attr))
     return types
 

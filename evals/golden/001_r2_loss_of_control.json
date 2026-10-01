@@ -1,0 +1,48 @@
+{
+  "id": "GOLD-001",
+  "category": "single_document",
+  "query": "A worker received 6 rem total effective dose equivalent after loss of control of licensed material. Does this require notification within 24 hours?",
+  "expected_outcome": "required",
+  "sources": [
+    {
+      "document_id": "CFR-20-REPORTS",
+      "section": "§ 20.2202(b)"
+    }
+  ],
+  "exposure_id": null,
+  "why": "Tests the conjunctive 24-hour notification rule: loss of control and a TEDE exceeding 5 rem must both be present.",
+  "threshold": null,
+  "refusal": null,
+  "turns": [],
+  "required_terms": [
+    "loss of control",
+    "total effective dose equivalent",
+    "24"
+  ],
+  "forbidden_sources": [],
+  "expected_missing_fields": [],
+  "expected_triggers": [],
+  "execution": {
+    "kind": "rule",
+    "rule_id": "R2",
+    "inputs": {
+      "loss_of_control": true,
+      "tede": {
+        "value": 6.0,
+        "unit": "rem"
+      },
+      "lens": {
+        "value": 0.0,
+        "unit": "rem"
+      },
+      "shallow": {
+        "value": 0.0,
+        "unit": "rem",
+        "site": "skin"
+      },
+      "intake": {
+        "value": 0.0
+      }
+    }
+  }
+}

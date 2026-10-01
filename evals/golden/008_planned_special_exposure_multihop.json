@@ -1,0 +1,46 @@
+{
+  "id": "GOLD-008",
+  "category": "multi_hop",
+  "query": "A worker received a dose above the ordinary § 20.1201 annual limit during a planned special exposure that satisfied all seven conditions in § 20.1206(a)-(g). Does exceeding the ordinary annual limit itself require a § 20.2203 overexposure report, and what reporting duty still applies?",
+  "expected_outcome": "planned_special_exposure_report_required",
+  "sources": [
+    {
+      "document_id": "CFR-20-LIMITS",
+      "section": "§ 20.1201(a)"
+    },
+    {
+      "document_id": "CFR-20-LIMITS",
+      "section": "§ 20.1206(a)-(g)"
+    },
+    {
+      "document_id": "CFR-20-REPORTS",
+      "section": "§ 20.2203(a)(2)(i)"
+    },
+    {
+      "document_id": "CFR-20-REPORTS",
+      "section": "§ 20.2204"
+    }
+  ],
+  "exposure_id": null,
+  "why": "Tests the multi-hop exception and reporting chain: a valid planned special exposure is excepted from the ordinary § 20.1201 limits for the § 20.2203 overexposure determination, while § 20.2204 still requires its own 30-day report.",
+  "threshold": null,
+  "refusal": null,
+  "turns": [],
+  "required_terms": [
+    "planned special exposure",
+    "§ 20.1206",
+    "§ 20.2204",
+    "30 days"
+  ],
+  "forbidden_sources": [
+    "FR-DOSE"
+  ],
+  "expected_missing_fields": [],
+  "expected_triggers": [],
+  "execution": {
+    "kind": "retrieval",
+    "k": 10,
+    "status": "in_force",
+    "expect_found": true
+  }
+}

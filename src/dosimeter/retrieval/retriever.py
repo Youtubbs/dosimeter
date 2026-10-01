@@ -74,7 +74,10 @@ def load_corpus_chunks() -> list[Document]:
 def fetch_chunk(chunk_id: str) -> Document | None:
     """One corpus chunk by id, read from the same files the Knowledge Base was built from."""
 
-    return next((chunk for chunk in load_corpus_chunks() if chunk.metadata.get("chunk_id") == chunk_id), None)
+    return next(
+        (chunk for chunk in load_corpus_chunks() if chunk.metadata.get("chunk_id") == chunk_id),
+        None,
+    )
 
 
 class ScoreThresholdRetriever(BaseRetriever):
@@ -252,10 +255,14 @@ class GatewayKnowledgeBaseRetriever(BaseRetriever):
             ) from error
 
         if result.isError:
-            raise ExternalServiceError("the knowledge base Gateway refused the search", detail=_result_text(result))
+            raise ExternalServiceError(
+                "the knowledge base Gateway refused the search", detail=_result_text(result)
+            )
 
         # the same conversion the direct retriever uses, so both paths return the same documents
-        converted = AmazonKnowledgeBasesRetriever._retrieval_results_to_documents(retrieval_results(result))
+        converted = AmazonKnowledgeBasesRetriever._retrieval_results_to_documents(
+            retrieval_results(result)
+        )
 
         return flatten_citation_metadata(converted, threshold=self.threshold)
 
@@ -278,7 +285,9 @@ def retrieval_results(result: CallToolResult) -> list[dict]:
         try:
             payload = json.loads(text) if text else {}
         except json.JSONDecodeError as error:
-            raise ExternalServiceError("the knowledge base Gateway answered with no results", detail=text) from error
+            raise ExternalServiceError(
+                "the knowledge base Gateway answered with no results", detail=text
+            ) from error
 
     return list(payload.get("retrievalResults", [])) if isinstance(payload, dict) else []
 

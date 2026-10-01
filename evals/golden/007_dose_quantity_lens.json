@@ -1,0 +1,49 @@
+{
+  "id": "GOLD-007",
+  "category": "determination",
+  "query": "Licensed material was out of control and a worker received 20 rem lens dose equivalent. Does the 24-hour notification threshold apply? Identify the dose quantity used in the comparison.",
+  "expected_outcome": "required",
+  "sources": [
+    {
+      "document_id": "CFR-20-REPORTS",
+      "section": "§ 20.2202(b)"
+    }
+  ],
+  "exposure_id": null,
+  "why": "Tests that the system compares 20 rem against the lens dose equivalent threshold of 15 rem rather than incorrectly comparing it against the TEDE threshold.",
+  "threshold": null,
+  "refusal": null,
+  "turns": [],
+  "required_terms": [
+    "lens dose equivalent",
+    "20 rem",
+    "15 rem",
+    "loss of control"
+  ],
+  "forbidden_sources": [],
+  "expected_missing_fields": [],
+  "expected_triggers": [],
+  "execution": {
+    "kind": "rule",
+    "rule_id": "R2",
+    "inputs": {
+      "loss_of_control": true,
+      "tede": {
+        "value": 0.0,
+        "unit": "rem"
+      },
+      "lens": {
+        "value": 20.0,
+        "unit": "rem"
+      },
+      "shallow": {
+        "value": 0.0,
+        "unit": "rem",
+        "site": "skin"
+      },
+      "intake": {
+        "value": 0.0
+      }
+    }
+  }
+}

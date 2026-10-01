@@ -49,7 +49,9 @@ def _this_turn(turn: Turn) -> str:
 
     proposals = {name: item.payload for name, item in (turn.state.get("proposals") or {}).items()}
     results = {
-        rule_id: {key: result.get(key) for key in ("outcome", "inputs_used", "threshold", "explanation")}
+        rule_id: {
+            key: result.get(key) for key in ("outcome", "inputs_used", "threshold", "explanation")
+        }
         for rule_id, result in rule_results(turn.state).items()
     }
     return json.dumps({"proposals": proposals, "rule_results": results}, default=str)
@@ -68,7 +70,9 @@ def compose_answer(question: str, previous_dossier: str, turn: Turn) -> AskAnswe
     )
 
     started = time.perf_counter()
-    result = structured_model.invoke([SystemMessage(content=ASK_SYSTEM_PROMPT), HumanMessage(content=prompt)])
+    result = structured_model.invoke(
+        [SystemMessage(content=ASK_SYSTEM_PROMPT), HumanMessage(content=prompt)]
+    )
 
     usage = getattr(result.get("raw"), "usage_metadata", None) or {}
     record_usage(
@@ -85,7 +89,9 @@ def compose_answer(question: str, previous_dossier: str, turn: Turn) -> AskAnswe
     return answer if isinstance(answer, AskAnswer) else AskAnswer.model_validate(answer)
 
 
-def run_ask(session: Session, exposure_id: str, officer_code: str, question: str, settings: Settings) -> AskResult:
+def run_ask(
+    session: Session, exposure_id: str, officer_code: str, question: str, settings: Settings
+) -> AskResult:
     """Answer one follow-up question, continuing the officer's session on this exposure."""
 
     # there has to be an earlier turn to follow up on
@@ -115,7 +121,9 @@ def run_ask(session: Session, exposure_id: str, officer_code: str, question: str
     queries.end_session(session, turn.session_id)
     session.commit()
 
-    logger.info("ask.completed", extra={"exposure_id": exposure_id, "run_id": str(turn.recorder.run_id)})
+    logger.info(
+        "ask.completed", extra={"exposure_id": exposure_id, "run_id": str(turn.recorder.run_id)}
+    )
 
     return AskResult(
         exposure_id=exposure_id,

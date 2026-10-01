@@ -43,7 +43,9 @@ def test_iam_auth_needs_no_password_and_uses_the_token() -> None:
 def test_each_connection_asks_for_a_new_token() -> None:
     tokens = iter(["first-token", "second-token"])
 
-    with patch("dosimeter.repository.connection.rds_auth_token", side_effect=lambda _: next(tokens)):
+    with patch(
+        "dosimeter.repository.connection.rds_auth_token", side_effect=lambda _: next(tokens)
+    ):
         provider = rds_token_provider(RDS)
 
         assert provider() == "first-token"

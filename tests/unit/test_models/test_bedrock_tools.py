@@ -320,7 +320,10 @@ def test_run_tool_loop_counts_and_records_every_model_call() -> None:
         )
 
     assert ledger.session_tokens == 180
-    assert [(call["agent"], call["input_tokens"], call["output_tokens"]) for call in recorder.model_calls] == [
+    assert [
+        (call["agent"], call["input_tokens"], call["output_tokens"])
+        for call in recorder.model_calls
+    ] == [
         ("notification", 100, 20),
         ("notification", 50, 10),
     ]

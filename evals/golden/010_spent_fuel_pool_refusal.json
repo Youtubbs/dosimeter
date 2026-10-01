@@ -1,0 +1,29 @@
+{
+  "id": "GOLD-010",
+  "category": "refusal",
+  "query": "What NRC requirements govern spent fuel pool cooling and water level?",
+  "expected_outcome": "refusal",
+  "sources": [],
+  "exposure_id": null,
+  "why": "Spent fuel pool requirements are deliberately outside the available corpus and must not be answered using unsupported model knowledge.",
+  "threshold": null,
+  "refusal": {
+    "reason": "Spent fuel pool requirements are outside the available corpus.",
+    "forbidden_phrase": "The NRC requires spent fuel pool cooling"
+  },
+  "turns": [],
+  "required_terms": [
+    "outside",
+    "corpus"
+  ],
+  "forbidden_sources": [],
+  "expected_missing_fields": [],
+  "expected_triggers": [],
+  "execution": {
+    "kind": "readiness",
+    "request_kind": "out_of_scope",
+    "normalized_record_present": false,
+    "missing_required_fields": [],
+    "low_confidence_fields": []
+  }
+}

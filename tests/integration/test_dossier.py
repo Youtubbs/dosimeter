@@ -42,13 +42,21 @@ PAYLOAD = {
         "notification": {
             "worker": "notification",
             "kind": "notification",
-            "payload": {"notification_required": True, "clock": "immediate", "explanation": "310 rad meets 250 rad."},
+            "payload": {
+                "notification_required": True,
+                "clock": "immediate",
+                "explanation": "310 rad meets 250 rad.",
+            },
             "citations": [CHUNK_2202, "10 CFR 20.2101"],
         },
         "written_report": {
             "worker": "written_report",
             "kind": "written_report",
-            "payload": {"report_required": True, "reporting_path": "20.2204", "explanation": "R4 is valid."},
+            "payload": {
+                "report_required": True,
+                "reporting_path": "20.2204",
+                "explanation": "R4 is valid.",
+            },
             "citations": [CHUNK_2202, "10 CFR 99.1"],
         },
     },
@@ -60,24 +68,44 @@ PAYLOAD = {
                 "result": {
                     "rule_id": "R1",
                     "outcome": "required",
-                    "inputs_used": {"shallow": {"value": 310, "unit": "rad", "site": "extremity"}, "lens": None},
+                    "inputs_used": {
+                        "shallow": {"value": 310, "unit": "rad", "site": "extremity"},
+                        "lens": None,
+                    },
                     "threshold": {"shallow": {"value": 250.0, "unit": "rad"}},
                 },
             },
         },
         {
             "tool": "evaluate_rule",
-            "result": {"rule_id": "R4", "result": {"rule_id": "R4", "outcome": "valid", "inputs_used": PSE_EVIDENCE}},
+            "result": {
+                "rule_id": "R4",
+                "result": {"rule_id": "R4", "outcome": "valid", "inputs_used": PSE_EVIDENCE},
+            },
         },
     ],
     "sources": [
         {
             "found": True,
             "sources": [
-                {"chunk_id": CHUNK_2202, "doc_id": "CFR-20-REPORTS", "title": "CFR-20-REPORTS",
-                 "section_path": "§ 20.2202", "page": 2, "status": "in_force", "text": "stored text"},
-                {"chunk_id": "fr-dose-1", "doc_id": "FR-DOSE", "title": "FR-DOSE",
-                 "section_path": "§ 20.2101", "page": 15, "status": "proposed", "text": "proposed text"},
+                {
+                    "chunk_id": CHUNK_2202,
+                    "doc_id": "CFR-20-REPORTS",
+                    "title": "CFR-20-REPORTS",
+                    "section_path": "§ 20.2202",
+                    "page": 2,
+                    "status": "in_force",
+                    "text": "stored text",
+                },
+                {
+                    "chunk_id": "fr-dose-1",
+                    "doc_id": "FR-DOSE",
+                    "title": "FR-DOSE",
+                    "section_path": "§ 20.2101",
+                    "page": 15,
+                    "status": "proposed",
+                    "text": "proposed text",
+                },
             ],
         }
     ],
@@ -89,7 +117,9 @@ PAYLOAD = {
 def stored(db: Session) -> Session:
     seeds.apply_seeds(db)
     officer = queries.officer_by_code(db, "OFF-101")
-    recorder = RunRecorder(session=db, exposure_id=EXPOSURE, officer_id=officer.id, command="assess")
+    recorder = RunRecorder(
+        session=db, exposure_id=EXPOSURE, officer_id=officer.id, command="assess"
+    )
     recorder.start()
     queries.save_dossier(db, EXPOSURE, recorder.run_id, PAYLOAD)
     queries.save_ingestion_report(
@@ -99,7 +129,13 @@ def stored(db: Session) -> Session:
         artifacts_skipped=1,
         fields_extracted=63,
         low_confidence_fields=[],
-        failures=[{"file_name": "crew-note.txt", "reason_code": "extraction_failed", "detail": "could not be read"}],
+        failures=[
+            {
+                "file_name": "crew-note.txt",
+                "reason_code": "extraction_failed",
+                "detail": "could not be read",
+            }
+        ],
     )
     db.commit()
     return db
@@ -121,7 +157,9 @@ def test_the_dossier_cites_by_number_and_carries_the_disclosures(stored: Session
     assert "crew-note.txt: extraction_failed" in rendered
 
 
-def test_a_valid_r4_lists_all_seven_conditions_and_names_the_substitute_report(stored: Session) -> None:
+def test_a_valid_r4_lists_all_seven_conditions_and_names_the_substitute_report(
+    stored: Session,
+) -> None:
     rendered = render_dossier(stored, EXPOSURE)
 
     for letter in "abcdefg":
@@ -134,7 +172,9 @@ def test_the_dossier_states_outcomes_never_orders(stored: Session) -> None:
     assert "you must" not in render_dossier(stored, EXPOSURE).lower()
 
 
-def test_sources_lists_every_status_and_prints_the_corpus_text_behind_a_ref(stored: Session) -> None:
+def test_sources_lists_every_status_and_prints_the_corpus_text_behind_a_ref(
+    stored: Session,
+) -> None:
     listing = render_sources(stored, EXPOSURE)
     one = render_sources(stored, EXPOSURE, 1)
 

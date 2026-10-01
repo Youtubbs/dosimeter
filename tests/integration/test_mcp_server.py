@@ -50,7 +50,9 @@ def mcp_url():
         port = probe.getsockname()[1]
 
     server = uvicorn.Server(
-        uvicorn.Config(mcp_server.mcp.streamable_http_app(), host="127.0.0.1", port=port, log_level="warning")
+        uvicorn.Config(
+            mcp_server.mcp.streamable_http_app(), host="127.0.0.1", port=port, log_level="warning"
+        )
     )
     thread = threading.Thread(target=server.run, daemon=True)
     thread.start()
@@ -71,7 +73,9 @@ def seeded(db: Session, monkeypatch: pytest.MonkeyPatch) -> Session:
     def session_scope():
         yield db
 
-    keys = SimpleNamespace(get_signing_key_from_jwt=lambda token: SimpleNamespace(key=SIGNING_KEY.public_key()))
+    keys = SimpleNamespace(
+        get_signing_key_from_jwt=lambda token: SimpleNamespace(key=SIGNING_KEY.public_key())
+    )
     monkeypatch.setattr("dosimeter.api.identity._signing_keys", lambda issuer: keys)
     monkeypatch.setattr(mcp_server, "session_scope", session_scope)
     monkeypatch.setattr(mcp_server, "get_settings", lambda: SETTINGS)
@@ -90,7 +94,9 @@ def test_an_entitled_officer_reads_the_extraction_over_mcp(mcp_url: str, seeded:
     assert payload["low_confidence_field_keys"] == ["Shallow Dose Equivalent"]
 
 
-def test_the_entitlement_check_runs_against_the_token_officer(mcp_url: str, seeded: Session) -> None:
+def test_the_entitlement_check_runs_against_the_token_officer(
+    mcp_url: str, seeded: Session
+) -> None:
     payload = transport(mcp_url, access_token("OFF-104")).call("get_exposure_extraction", EXPOSURE)
 
     assert payload["reason_code"] == "no_grants"
@@ -98,7 +104,9 @@ def test_the_entitlement_check_runs_against_the_token_officer(mcp_url: str, seed
 
 
 def test_a_token_the_user_pool_did_not_sign_is_refused(mcp_url: str, seeded: Session) -> None:
-    forged = access_token("OFF-101", key=rsa.generate_private_key(public_exponent=65537, key_size=2048))
+    forged = access_token(
+        "OFF-101", key=rsa.generate_private_key(public_exponent=65537, key_size=2048)
+    )
 
     payload = transport(mcp_url, forged).call("get_exposure_extraction", EXPOSURE)
 
@@ -110,22 +118,30 @@ def test_the_equipment_worker_search_succeeds_over_mcp(mcp_url: str, seeded: Ses
     dispatcher = ToolDispatcher(
         registry=build_registry(toolset.tools()),
         ledger=SessionLedger(bounds=Bounds()),
-        subject=Subject(session_id="session-1", officer_id=1, officer_code="OFF-101", exposure_id=EXPOSURE),
+        subject=Subject(
+            session_id="session-1", officer_id=1, officer_code="OFF-101", exposure_id=EXPOSURE
+        ),
     )
 
-    found = dispatcher.invoke("find_similar_exposures", {"query_text": "source would not retract", "limit": 2})
+    found = dispatcher.invoke(
+        "find_similar_exposures", {"query_text": "source would not retract", "limit": 2}
+    )
 
     assert found.ok
     assert found.value["candidates"][0]["exposure_id"] == "hist-0001"
     assert toolset.capabilities_lost() == []
 
 
-def test_a_denial_over_mcp_reaches_the_dispatcher_as_a_denial(mcp_url: str, seeded: Session) -> None:
+def test_a_denial_over_mcp_reaches_the_dispatcher_as_a_denial(
+    mcp_url: str, seeded: Session
+) -> None:
     toolset = ApiToolset(transport=transport(mcp_url, access_token("OFF-104")))
     dispatcher = ToolDispatcher(
         registry=build_registry(toolset.tools()),
         ledger=SessionLedger(bounds=Bounds()),
-        subject=Subject(session_id="session-1", officer_id=4, officer_code="OFF-104", exposure_id=EXPOSURE),
+        subject=Subject(
+            session_id="session-1", officer_id=4, officer_code="OFF-104", exposure_id=EXPOSURE
+        ),
     )
 
     response = dispatcher.invoke("get_exposure_extraction", {})

@@ -105,7 +105,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             return _render(args.command, lambda session: render_dossier(session, args.exposure_id))
 
         if args.command == "sources":
-            return _render(args.command, lambda session: render_sources(session, args.exposure_id, args.ref))
+            return _render(
+                args.command, lambda session: render_sources(session, args.exposure_id, args.ref)
+            )
 
         if args.command == "queue":
             return _queue(args.officer)
