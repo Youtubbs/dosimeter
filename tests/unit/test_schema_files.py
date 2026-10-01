@@ -88,7 +88,9 @@ def test_the_migrations_ship_inside_the_wheel() -> None:
     from pathlib import Path
 
     pyproject = Path(__file__).resolve().parents[2] / "pyproject.toml"
-    package_data = tomllib.loads(pyproject.read_text(encoding="utf-8"))["tool"]["setuptools"]["package-data"]
+    package_data = tomllib.loads(pyproject.read_text(encoding="utf-8"))["tool"]["setuptools"][
+        "package-data"
+    ]
     patterns = package_data["dosimeter.repository"]
 
     # every image installs the wheel, so a migration left out of it never runs

@@ -1,0 +1,25 @@
+{
+  "id": "GOLD-012",
+  "category": "single_document",
+  "query": "An industrial radiography source assembly could not be retracted to its fully shielded position, but no worker received a measurable radiation dose. Is a written report still required?",
+  "expected_outcome": "required",
+  "sources": [
+    {
+      "document_id": "CFR-34",
+      "section": "§ 34.101(a)"
+    }
+  ],
+  "exposure_id": null,
+  "why": "Tests the independent equipment-failure reporting duty: inability to retract the source assembly is reportable even when there is no measurable worker dose.",
+  "threshold": null,
+  "refusal": null,
+  "turns": [],
+  "required_terms": [
+    "§ 34.101",
+    "30 days",
+    "retract"
+  ],
+  "forbidden_sources": [],
+  "expected_missing_fields": [],
+  "expected_triggers": []
+}

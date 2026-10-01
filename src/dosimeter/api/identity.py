@@ -45,7 +45,9 @@ def resolve_caller(headers: Mapping[str, str], settings: Settings) -> CallerIden
 
 
 def cognito_issuer(settings: Settings) -> str:
-    return f"https://cognito-idp.{settings.aws_region}.amazonaws.com/{settings.identity_user_pool_id}"
+    return (
+        f"https://cognito-idp.{settings.aws_region}.amazonaws.com/{settings.identity_user_pool_id}"
+    )
 
 
 @lru_cache(maxsize=4)
@@ -74,8 +76,13 @@ def _token_caller(headers: Mapping[str, str], settings: Settings) -> CallerIdent
         logger.warning("api.caller_rejected", extra={"detail": str(error)})
         return None
 
-    if claims.get("token_use") != "access" or claims.get("client_id") != settings.identity_client_id:
-        logger.warning("api.caller_rejected", extra={"detail": "not an access token for this client"})
+    if (
+        claims.get("token_use") != "access"
+        or claims.get("client_id") != settings.identity_client_id
+    ):
+        logger.warning(
+            "api.caller_rejected", extra={"detail": "not an access token for this client"}
+        )
         return None
 
     officer_code = claims.get("username")

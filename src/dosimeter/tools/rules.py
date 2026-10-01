@@ -11,9 +11,11 @@ from typing import Any, Literal
 from pydantic import BaseModel, ConfigDict
 
 from dosimeter.domain.dose import (
+    DoseUnit,
     IntakeMultipleOfALI,
     LensDoseEquivalent,
     ShallowDoseEquivalent,
+    ShallowDoseSite,
     TotalEffectiveDoseEquivalent,
 )
 from dosimeter.domain.rules import RuleInvocation, RuleResult
@@ -182,8 +184,15 @@ def _optional_model(
     if not isinstance(value, dict):
         raise TypeError(f"Expected {model_type.__name__} or a mapping.")
 
-    # the model sends JSON, so enum fields like unit and site arrive as strings
-    return model_type.model_validate_json(json.dumps(value))
+    data = dict(value)
+
+    if "unit" in data and isinstance(data["unit"], str):
+        data["unit"] = DoseUnit(data["unit"])
+
+    if model_type is ShallowDoseEquivalent and "site" in data and isinstance(data["site"], str):
+        data["site"] = ShallowDoseSite(data["site"])
+
+    return model_type.model_validate(data)
 
 
 def _reject_unknown_inputs(
@@ -250,8 +259,7 @@ EVALUATE_RULE_TOOL = Tool(
     description=(
         "Evaluate one deterministic regulatory rule (R1-R5) using "
         "validated inputs. Regulatory thresholds remain inside the "
-        "rules engine; this tool does not invent or override thresholds. "
-        + RULE_INPUTS
+        "rules engine; this tool does not invent or override thresholds. " + RULE_INPUTS
     ),
     input_model=EvaluateRuleRequest,
     output_model=RuleInvocation,

@@ -17,7 +17,10 @@ SYNTHETIC_NOTICE = "Synthetic data: the exposure packets are fictional but the r
 
 # seven 20.1206 conditions R4 checks, each with the evidence fields that meet it
 R4_CONDITIONS = {
-    "(a) exceptional situation, no alternative": ["exceptional_situation", "alternatives_unavailable_or_impractical"],
+    "(a) exceptional situation, no alternative": [
+        "exceptional_situation",
+        "alternatives_unavailable_or_impractical",
+    ],
     "(b) written authorization before the exposure": [
         "licensee_written_authorization",
         "employer_written_authorization",
@@ -29,8 +32,14 @@ R4_CONDITIONS = {
         "worker_instructed_in_alara_measures",
     ],
     "(d) prior lifetime doses ascertained": ["prior_lifetime_doses_ascertained"],
-    "(e) annual and lifetime PSE limits": ["annual_pse_limit_satisfied", "lifetime_pse_limit_satisfied"],
-    "(f) records kept and the 20.2204 report": ["required_records_maintained", "report_under_20_2204_submitted"],
+    "(e) annual and lifetime PSE limits": [
+        "annual_pse_limit_satisfied",
+        "lifetime_pse_limit_satisfied",
+    ],
+    "(f) records kept and the 20.2204 report": [
+        "required_records_maintained",
+        "report_under_20_2204_submitted",
+    ],
     "(g) dose recorded and the worker told in writing": [
         "best_dose_estimate_recorded",
         "worker_informed_of_dose_in_writing",
@@ -42,7 +51,9 @@ R4_CONDITIONS = {
 def latest_payload(session: Session, exposure_id: str) -> dict[str, Any]:
     row = queries.latest_dossier(session, exposure_id)
     if row is None:
-        raise GateError("there is no dossier for this exposure yet; run assess first", exposure_id=exposure_id)
+        raise GateError(
+            "there is no dossier for this exposure yet; run assess first", exposure_id=exposure_id
+        )
     return row.payload
 
 
@@ -60,7 +71,11 @@ def numbered_sources(payload: dict[str, Any]) -> list[tuple[str, dict | None]]:
 def _status(source: dict | None) -> str:
     if source is None:
         return "unresolved: the turn did not retrieve this text"
-    return "PROPOSED, NOT IN FORCE" if source.get("status") == "proposed" else str(source.get("status", ""))
+    return (
+        "PROPOSED, NOT IN FORCE"
+        if source.get("status") == "proposed"
+        else str(source.get("status", ""))
+    )
 
 
 def _source_line(ref: int, citation: str, source: dict | None) -> str:
@@ -109,7 +124,11 @@ def render_dossier(session: Session, exposure_id: str) -> str:
     for worker in payload.get("workers", []):
         item = payload["proposals"][worker]
         cited = " ".join(f"[{number[citation]}]" for citation in item.get("citations", []))
-        lines += ["", f"proposed by the {worker} worker", f"  {_headline(item['kind'], item['payload'])}"]
+        lines += [
+            "",
+            f"proposed by the {worker} worker",
+            f"  {_headline(item['kind'], item['payload'])}",
+        ]
         lines.append(f"  {item['payload'].get('explanation', '')} {cited}".rstrip())
 
     results = rule_results(payload)
@@ -121,7 +140,10 @@ def render_dossier(session: Session, exposure_id: str) -> str:
                 for name, value in (result.get("inputs_used") or {}).items()
                 if value is not None
             )
-            limits = ", ".join(f"{name} {_amount(value)}" for name, value in (result.get("threshold") or {}).items())
+            limits = ", ".join(
+                f"{name} {_amount(value)}"
+                for name, value in (result.get("threshold") or {}).items()
+            )
             lines.append(f"  {rule_id}: {result['outcome']} on {inputs or 'no inputs'}")
             if limits:
                 lines.append(f"      against {limits}")
@@ -133,10 +155,15 @@ def render_dossier(session: Session, exposure_id: str) -> str:
         for condition, fields in R4_CONDITIONS.items():
             met = all(evidence.get(field) is True for field in fields)
             lines.append(f"  {condition}: {'met' if met else 'not shown'} ({', '.join(fields)})")
-        lines.append("  the 20.2204 report to the NRC Regional Office within 30 days is the substitute report")
+        lines.append(
+            "  the 20.2204 report to the NRC Regional Office within 30 days is the substitute report"
+        )
 
     lines += ["", "sources"]
-    lines += [_source_line(index, citation, source) for index, (citation, source) in enumerate(refs, start=1)]
+    lines += [
+        _source_line(index, citation, source)
+        for index, (citation, source) in enumerate(refs, start=1)
+    ]
     if not refs:
         lines.append("  none cited")
 
@@ -144,7 +171,8 @@ def render_dossier(session: Session, exposure_id: str) -> str:
     if report is not None and report.failures:
         lines += ["", "not read from the packet"]
         lines += [
-            f"  {item['file_name']}: {item['reason_code']}" + (f" - {item['detail']}" if item.get("detail") else "")
+            f"  {item['file_name']}: {item['reason_code']}"
+            + (f" - {item['detail']}" if item.get("detail") else "")
             for item in report.failures
         ]
 
@@ -159,7 +187,10 @@ def render_sources(session: Session, exposure_id: str, ref: int | None = None) -
 
     if ref is None:
         lines = [f"sources cited in the dossier for {exposure_id}"]
-        lines += [_source_line(index, citation, source) for index, (citation, source) in enumerate(refs, start=1)]
+        lines += [
+            _source_line(index, citation, source)
+            for index, (citation, source) in enumerate(refs, start=1)
+        ]
         return "\n".join(lines if refs else [*lines, "  none cited"])
 
     if not 1 <= ref <= len(refs):

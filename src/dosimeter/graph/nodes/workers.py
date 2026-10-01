@@ -1,11 +1,15 @@
-"""The three workers. Each one is given a single question to answer"""
+"""LangGraph worker-node builders."""
 
 from collections.abc import Iterable
 
 from dosimeter.harness.budgets import SessionLedger
 from dosimeter.harness.run_record import RunRecorder
 from dosimeter.tools.dispatcher import Tool
-from dosimeter.workers.nodes import make_equipment_node, make_notification_node, make_written_report_node
+from dosimeter.workers.nodes import (
+    make_equipment_node,
+    make_notification_node,
+    make_written_report_node,
+)
 
 
 def build_notification_node(
@@ -14,7 +18,7 @@ def build_notification_node(
     shared_tools: Iterable[Tool],
     recorder: RunRecorder | None = None,
 ):
-    """Does any 20.2202 tier fire, and on what clock?"""
+    """Build the LangGraph Notification Worker node."""
 
     return make_notification_node(
         ledger=ledger,
@@ -29,7 +33,7 @@ def build_written_report_node(
     shared_tools: Iterable[Tool],
     recorder: RunRecorder | None = None,
 ):
-    """Is a 20.2203 report owed, or does 20.1206 except the dose and substitute 20.2204?"""
+    """Build the LangGraph Written Report Worker node."""
 
     return make_written_report_node(
         ledger=ledger,

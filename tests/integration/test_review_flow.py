@@ -123,7 +123,9 @@ def test_the_card_names_what_each_trigger_found(queued: Session) -> None:
     from dosimeter.harness.review_cli import render_decision_card
 
     officer = queries.officer_by_code(queued, OWNER)
-    recorder = RunRecorder(session=queued, exposure_id=EXPOSURE, officer_id=officer.id, command="assess")
+    recorder = RunRecorder(
+        session=queued, exposure_id=EXPOSURE, officer_id=officer.id, command="assess"
+    )
     recorder.start()
     recorder.trigger_evaluated("notification_required", fired=True, detail="R1")
     queries.save_dossier(queued, EXPOSURE, recorder.run_id, DOSSIER)

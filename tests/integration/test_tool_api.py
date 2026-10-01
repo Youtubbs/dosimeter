@@ -44,7 +44,9 @@ class FlaskClientTransport:
         self.client = client
         self.officer_code = officer_code
 
-    def call(self, tool: str, exposure_id: str, arguments: dict[str, Any] | None = None) -> dict[str, Any]:
+    def call(
+        self, tool: str, exposure_id: str, arguments: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
         method, path = ROUTES[tool]
         response = self.client.open(
             path.format(exposure_id=exposure_id),

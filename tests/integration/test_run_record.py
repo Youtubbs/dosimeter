@@ -79,8 +79,15 @@ def seed_doses(db: Session, exposure_id: str = "EXP-2026-0412") -> None:
     queries.insert_extracted_fields(
         db,
         [
-            ExtractedField(exposure_id=exposure_id, artifact_id=artifact_id, field_key=key,
-                           value=value, unit=None, confidence=0.95, page=1)
+            ExtractedField(
+                exposure_id=exposure_id,
+                artifact_id=artifact_id,
+                field_key=key,
+                value=value,
+                unit=None,
+                confidence=0.95,
+                page=1,
+            )
             for key, value in [
                 ("Total Effective Dose Equivalent (TEDE)", "4.1 rem"),
                 ("Lens Dose Equivalent", "9.0 rem"),
@@ -253,8 +260,14 @@ def dispatch_two_workers(monkeypatch: pytest.MonkeyPatch) -> None:
             "reviewer_iterations": state.get("reviewer_iterations", 0) + 1,
         }
 
-    monkeypatch.setattr("dosimeter.graph.graph.build_notification_node", lambda **_: worker("notification"))
-    monkeypatch.setattr("dosimeter.graph.graph.build_written_report_node", lambda **_: worker("written_report"))
+    monkeypatch.setattr(
+        "dosimeter.graph.graph.build_notification_node",
+        lambda **_: worker("notification"),
+    )
+    monkeypatch.setattr(
+        "dosimeter.graph.graph.build_written_report_node",
+        lambda **_: worker("written_report"),
+    )
     monkeypatch.setattr("dosimeter.graph.graph.make_reviewer_node", lambda **_: reviewer)
     monkeypatch.setattr(
         "dosimeter.graph.nodes.eligibility.evaluate",
@@ -419,8 +432,14 @@ def test_the_record_checks_read_the_stored_record(seeded: Session) -> None:
     assert status.offenders == ["FR-DOSE#0001"]
 
 
-def test_only_dose_fields_below_the_floor_stop_a_turn_and_facts_list_each_field_once(db: Session) -> None:
-    from dosimeter.harness.assess import low_confidence_dose_fields, missing_dose_fields, packet_facts
+def test_only_dose_fields_below_the_floor_stop_a_turn_and_facts_list_each_field_once(
+    db: Session,
+) -> None:
+    from dosimeter.harness.assess import (
+        low_confidence_dose_fields,
+        missing_dose_fields,
+        packet_facts,
+    )
     from tests.integration.test_tool_api import EXPOSURE as SEEDED_EXPOSURE
     from tests.integration.test_tool_api import seed_extraction
 

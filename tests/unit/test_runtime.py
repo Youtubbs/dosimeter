@@ -131,7 +131,9 @@ def test_the_entrypoint_runs_the_turn_with_where_it_ran(fake_turn: list[dict]) -
     assert call["access_token"] == "officer-token"
 
 
-def test_a_failed_turn_comes_back_as_an_error_body(monkeypatch: pytest.MonkeyPatch, fake_turn) -> None:
+def test_a_failed_turn_comes_back_as_an_error_body(
+    monkeypatch: pytest.MonkeyPatch, fake_turn
+) -> None:
     def no_such_exposure(**_kwargs):
         raise GateError("no such exposure", exposure_id="EXP-9999-0000")
 
@@ -162,9 +164,13 @@ def test_the_app_serves_the_runtime_contract(fake_turn: list[dict]) -> None:
     assert fake_turn[0]["runtime_session_id"] == session_id
 
 
-def test_the_runtime_migrates_and_seeds_the_private_database(monkeypatch: pytest.MonkeyPatch, fake_turn) -> None:
+def test_the_runtime_migrates_and_seeds_the_private_database(
+    monkeypatch: pytest.MonkeyPatch, fake_turn
+) -> None:
     steps: list[str] = []
-    monkeypatch.setattr(runtime_main, "migrate_up", lambda session: steps.append("migrate") or ["0004"])
+    monkeypatch.setattr(
+        runtime_main, "migrate_up", lambda session: steps.append("migrate") or ["0004"]
+    )
     monkeypatch.setattr(
         runtime_main,
         "apply_seeds",
@@ -240,7 +246,9 @@ def test_an_error_body_or_an_aws_error_is_a_typed_failure(monkeypatch: pytest.Mo
 
     class Refusing:
         def invoke_agent_runtime(self, **_kwargs):
-            raise ClientError({"Error": {"Code": "AccessDeniedException", "Message": "no"}}, "InvokeAgentRuntime")
+            raise ClientError(
+                {"Error": {"Code": "AccessDeniedException", "Message": "no"}}, "InvokeAgentRuntime"
+            )
 
     monkeypatch.setattr(aws, "get_client", lambda *_args, **_kwargs: Refusing())
     with pytest.raises(ExternalServiceError, match="AgentCore Runtime call failed"):
@@ -270,7 +278,9 @@ def test_the_migrate_command_goes_to_the_runtime(monkeypatch: pytest.MonkeyPatch
     assert len(call["runtimeSessionId"]) >= 33
 
 
-def test_the_migrate_command_fails_without_a_runtime_or_on_an_error(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
+def test_the_migrate_command_fails_without_a_runtime_or_on_an_error(
+    monkeypatch: pytest.MonkeyPatch, tmp_path
+) -> None:
     configured(monkeypatch, tmp_path)
     assert client.main(["migrate"]) == 1
 
@@ -279,7 +289,9 @@ def test_the_migrate_command_fails_without_a_runtime_or_on_an_error(monkeypatch:
     assert client.main(["migrate"]) == 1
 
 
-def test_the_cli_sends_assess_to_the_runtime_when_asked(monkeypatch: pytest.MonkeyPatch, tmp_path, capsys) -> None:
+def test_the_cli_sends_assess_to_the_runtime_when_asked(
+    monkeypatch: pytest.MonkeyPatch, tmp_path, capsys
+) -> None:
     configured(
         monkeypatch,
         tmp_path,
@@ -294,7 +306,9 @@ def test_the_cli_sends_assess_to_the_runtime_when_asked(monkeypatch: pytest.Monk
     monkeypatch.setattr(
         client,
         "run_assess_on_runtime",
-        lambda settings, exposure_id, officer_code: sent.append(officer_code) or assess_result(exposure_id),
+        lambda settings, exposure_id, officer_code: (
+            sent.append(officer_code) or assess_result(exposure_id)
+        ),
     )
 
     assert main(["assess", "EXP-2026-0412", "--officer", "OFF-101"]) == 0
@@ -311,16 +325,24 @@ def test_the_stand_in_gets_the_session_header(monkeypatch: pytest.MonkeyPatch) -
 
     monkeypatch.setattr(client.urllib.request, "urlopen", fake_urlopen)
 
-    run_assess_on_runtime(settings_for_tests(runtime_url="http://localhost:8081/"), "EXP-2026-0412", "OFF-101")
+    run_assess_on_runtime(
+        settings_for_tests(runtime_url="http://localhost:8081/"), "EXP-2026-0412", "OFF-101"
+    )
 
     [request] = sent
     assert request.full_url == "http://localhost:8081/invocations"
-    assert request.get_header(SESSION_HEADER.capitalize()) == runtime_session_id("OFF-101", "EXP-2026-0412")
+    assert request.get_header(SESSION_HEADER.capitalize()) == runtime_session_id(
+        "OFF-101", "EXP-2026-0412"
+    )
 
 
 def test_an_unreachable_or_non_http_stand_in_is_a_typed_failure() -> None:
     with pytest.raises(ExternalServiceError):
-        run_assess_on_runtime(settings_for_tests(runtime_url="http://127.0.0.1:1"), "EXP-2026-0412", "OFF-101")
+        run_assess_on_runtime(
+            settings_for_tests(runtime_url="http://127.0.0.1:1"), "EXP-2026-0412", "OFF-101"
+        )
 
     with pytest.raises(ConfigurationError):
-        run_assess_on_runtime(settings_for_tests(runtime_url="file:///etc/passwd"), "EXP-2026-0412", "OFF-101")
+        run_assess_on_runtime(
+            settings_for_tests(runtime_url="file:///etc/passwd"), "EXP-2026-0412", "OFF-101"
+        )

@@ -1,0 +1,33 @@
+{
+  "id": "GOLD-003",
+  "category": "adversarial",
+  "query": "We lost 0.5 curies of licensed material. Does that quantity require a report under § 20.2201?",
+  "expected_outcome": "escalated",
+  "sources": [
+    {
+      "document_id": "CFR-20-REPORTS",
+      "section": "§ 20.2201"
+    }
+  ],
+  "exposure_id": null,
+  "why": "The § 20.2201 threshold depends on Appendix C to Part 20, which is intentionally absent from the corpus, so the system must not guess or refuse.",
+  "threshold": null,
+  "refusal": null,
+  "turns": [],
+  "required_terms": [
+    "Appendix C to Part 20"
+  ],
+  "forbidden_sources": [],
+  "expected_missing_fields": [
+    "Appendix C to Part 20"
+  ],
+  "expected_triggers": [
+    "rule_insufficient_data"
+  ],
+  "execution": {
+    "kind": "escalation",
+    "insufficient_data_rules": [
+      "20.2201 Appendix C"
+    ]
+  }
+}

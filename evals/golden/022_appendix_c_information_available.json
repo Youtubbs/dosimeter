@@ -1,0 +1,28 @@
+{
+  "id": "GOLD-022",
+  "category": "escalation",
+  "query": "For this evaluation case, the applicable Appendix C threshold has been supplied and verified for the licensed material. Is additional Appendix C information still required before the § 20.2201 determination can proceed?",
+  "expected_outcome": "not_escalated",
+  "sources": [
+    {
+      "document_id": "CFR-20-REPORTS",
+      "section": "§ 20.2201"
+    }
+  ],
+  "exposure_id": null,
+  "why": "Pairs with GOLD-003 to verify that the insufficient-data escalation clears when the otherwise-missing Appendix C threshold information is explicitly available and verified.",
+  "threshold": null,
+  "refusal": null,
+  "turns": [],
+  "required_terms": [
+    "Appendix C",
+    "sufficient"
+  ],
+  "forbidden_sources": [],
+  "expected_missing_fields": [],
+  "expected_triggers": [],
+  "execution": {
+    "kind": "escalation",
+    "insufficient_data_rules": []
+  }
+}

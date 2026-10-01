@@ -1,0 +1,49 @@
+{
+  "id": "GOLD-014",
+  "category": "adversarial",
+  "query": "a technician's badge read 6 rem total effective dose equivalent this year; what does the NRC require us to file?",
+  "expected_outcome": "insufficient_data",
+  "sources": [
+    {
+      "document_id": "CFR-20-LIMITS",
+      "section": "§ 20.1201(a)"
+    },
+    {
+      "document_id": "CFR-20-LIMITS",
+      "section": "§ 20.1206(a)-(g)"
+    },
+    {
+      "document_id": "CFR-20-REPORTS",
+      "section": "§ 20.2203(a)(2)(i)"
+    },
+    {
+      "document_id": "CFR-20-REPORTS",
+      "section": "§ 20.2204"
+    }
+  ],
+  "exposure_id": null,
+  "why": "Tests whether the system avoids answering from memorized threshold knowledge alone and checks whether the dose was an authorized planned special exposure before choosing the applicable 30-day reporting path.",
+  "threshold": null,
+  "refusal": null,
+  "turns": [],
+  "required_terms": [
+    "planned special exposure",
+    "6 rem"
+  ],
+  "forbidden_sources": [
+    "FR-DOSE"
+  ],
+  "expected_missing_fields": [
+    "planned special exposure status"
+  ],
+  "expected_triggers": [],
+  "execution": {
+    "kind": "readiness",
+    "request_kind": "assess",
+    "normalized_record_present": true,
+    "missing_required_fields": [
+      "planned_special_exposure_status"
+    ],
+    "low_confidence_fields": []
+  }
+}

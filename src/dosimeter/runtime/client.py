@@ -1,4 +1,4 @@
-""" running an assess turn on the AgentCore Runtime instead of in the CLI """
+"""running an assess turn on the AgentCore Runtime instead of in the CLI"""
 
 import argparse
 import json
@@ -21,20 +21,23 @@ logger = logging.getLogger(__name__)
 
 
 def runtime_session_id(officer_code: str, exposure_id: str) -> str:
-    """ one Runtime session per officer and exposure. AgentCore needs at least 33 characters """
+    """one Runtime session per officer and exposure. AgentCore needs at least 33 characters"""
 
     return f"dosimeter-{uuid.uuid5(uuid.NAMESPACE_URL, f'{officer_code}:{exposure_id}')}"
 
 
 def invoke_runtime(settings: Settings, payload: dict[str, Any], session_id: str) -> dict[str, Any]:
-    """ the deployed Runtime by ARN, or the docker compose stand-in by URL """
+    """the deployed Runtime by ARN, or the docker compose stand-in by URL"""
 
     # a whole turn can run up to the wall clock limit, well past the per-call timeout
     wait = settings.bounds.per_turn_wall_clock_seconds + 30
 
     if settings.runtime_arn:
         body = invoke_agent_runtime(
-            settings.runtime_arn, session_id, {**payload, "runtime_arn": settings.runtime_arn}, read_timeout=wait
+            settings.runtime_arn,
+            session_id,
+            {**payload, "runtime_arn": settings.runtime_arn},
+            read_timeout=wait,
         )
     elif settings.runtime_url:
         body = _invoke_stand_in(settings.runtime_url, payload, session_id, wait)
@@ -49,8 +52,10 @@ def invoke_runtime(settings: Settings, payload: dict[str, Any], session_id: str)
     return body
 
 
-def _invoke_stand_in(url: str, payload: dict[str, Any], session_id: str, wait: float) -> dict[str, Any]:
-    """ the stand-in speaks the same contract as the Runtime, over plain HTTP """
+def _invoke_stand_in(
+    url: str, payload: dict[str, Any], session_id: str, wait: float
+) -> dict[str, Any]:
+    """the stand-in speaks the same contract as the Runtime, over plain HTTP"""
 
     if not url.startswith(("http://", "https://")):
         raise ConfigurationError("the Runtime URL must be http or https", field="runtime_url")
@@ -64,11 +69,13 @@ def _invoke_stand_in(url: str, payload: dict[str, Any], session_id: str, wait: f
         with urllib.request.urlopen(request, timeout=wait) as response:  # noqa: S310 - scheme checked above
             return json.loads(response.read().decode())
     except (urllib.error.URLError, TimeoutError, OSError) as error:
-        raise ExternalServiceError("the Runtime stand-in is unreachable", detail=str(error)) from error
+        raise ExternalServiceError(
+            "the Runtime stand-in is unreachable", detail=str(error)
+        ) from error
 
 
 def run_assess_on_runtime(settings: Settings, exposure_id: str, officer_code: str) -> AssessResult:
-    """ send the turn to the Runtime and read back the same result the CLI would have produced """
+    """send the turn to the Runtime and read back the same result the CLI would have produced"""
 
     payload: dict[str, Any] = {
         "command": "assess",
@@ -77,7 +84,11 @@ def run_assess_on_runtime(settings: Settings, exposure_id: str, officer_code: st
     }
 
     # through the Gateway the Runtime calls the tools as this officer, so the CLI signs them in
-    if settings.tool_transport == "gateway" and settings.identity_client_id and settings.identity_password:
+    if (
+        settings.tool_transport == "gateway"
+        and settings.identity_client_id
+        and settings.identity_password
+    ):
         payload["access_token"] = cognito_access_token(
             officer_code,
             settings.identity_password.get_secret_value(),
@@ -89,9 +100,9 @@ def run_assess_on_runtime(settings: Settings, exposure_id: str, officer_code: st
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    """ migrate the private RDS database through the workflow Runtime, which sits in its VPC
+    """migrate the private RDS database through the workflow Runtime, which sits in its VPC
 
-            python -m dosimeter.runtime.client migrate
+    python -m dosimeter.runtime.client migrate
     """
 
     parser = argparse.ArgumentParser(prog="dosimeter-runtime")
@@ -100,7 +111,9 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     configure_logging()
     try:
-        body = invoke_runtime(load_settings(), {"command": args.command}, f"dosimeter-migrate-{uuid.uuid4()}")
+        body = invoke_runtime(
+            load_settings(), {"command": args.command}, f"dosimeter-migrate-{uuid.uuid4()}"
+        )
     except DosimeterError as error:
         logger.error("runtime.failed", extra={"command": args.command, "detail": str(error)})
         return 1

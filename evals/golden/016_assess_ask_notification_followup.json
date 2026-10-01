@@ -1,0 +1,33 @@
+{
+  "id": "GOLD-016",
+  "category": "multi_turn",
+  "query": "Assess exposure exp-0412 and determine whether notification is required.",
+  "expected_outcome": "follow_up_answer",
+  "sources": [
+    {
+      "document_id": "CFR-20-REPORTS",
+      "section": "§ 20.2202(a)"
+    }
+  ],
+  "exposure_id": "EXP-2026-0412",
+  "why": "Tests that a follow-up question can reuse the previous assess session context rather than starting a new unrelated conversation.",
+  "turns": [
+    {
+      "command": "assess",
+      "text": "Assess exposure exp-0412.",
+      "expected_outcome": "immediate_notification_required"
+    },
+    {
+      "command": "ask",
+      "text": "Why was immediate notification required?",
+      "expected_outcome": "explain_using_previous_assessment"
+    }
+  ],
+  "required_terms": [
+    "310 rad",
+    "shallow"
+  ],
+  "forbidden_sources": [],
+  "expected_missing_fields": [],
+  "expected_triggers": []
+}

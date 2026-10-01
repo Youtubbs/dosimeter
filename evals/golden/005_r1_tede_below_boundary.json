@@ -1,0 +1,53 @@
+{
+  "id": "GOLD-005",
+  "category": "threshold",
+  "query": "A worker received 24.9 rem total effective dose equivalent. Is immediate notification required under § 20.2202(a)?",
+  "expected_outcome": "not_required",
+  "sources": [
+    {
+      "document_id": "CFR-20-REPORTS",
+      "section": "§ 20.2202(a)"
+    }
+  ],
+  "exposure_id": null,
+  "why": "Pairs with GOLD-004 to verify that a TEDE just below 25 rem does not satisfy the immediate-notification threshold.",
+  "threshold": {
+    "pair_id": "R1-TEDE-25",
+    "boundary": 25.0,
+    "value": 24.9,
+    "dose_quantity": "total_effective_dose_equivalent",
+    "side": "below",
+    "expected_rule_outcome": "not_required"
+  },
+  "refusal": null,
+  "turns": [],
+  "required_terms": [
+    "total effective dose equivalent",
+    "25 rem"
+  ],
+  "forbidden_sources": [],
+  "expected_missing_fields": [],
+  "expected_triggers": [],
+  "execution": {
+    "kind": "rule",
+    "rule_id": "R1",
+    "inputs": {
+      "tede": {
+        "value": 24.9,
+        "unit": "rem"
+      },
+      "lens": {
+        "value": 0.0,
+        "unit": "rem"
+      },
+      "shallow": {
+        "value": 0.0,
+        "unit": "rad",
+        "site": "skin"
+      },
+      "intake": {
+        "value": 0.0
+      }
+    }
+  }
+}

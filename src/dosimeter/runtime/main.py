@@ -1,4 +1,4 @@
-""" the Dosimeter workflow on AgentCore Runtime. POST /invocations runs one assess turn, GET /ping is the health check """
+"""the Dosimeter workflow on AgentCore Runtime. POST /invocations runs one assess turn, GET /ping is the health check"""
 
 from typing import Any
 
@@ -22,9 +22,9 @@ log = app.logger
 # transport is free to start its own event loop
 @app.entrypoint
 def invoke(payload: dict[str, Any], context) -> dict[str, Any]:
-    """ handle POST /invocations
-            expect body to be: {"command": "assess", "exposure_id": "...", "officer_code": "..."}
-            or {"command": "migrate"}, since RDS is only reachable from inside the VPC
+    """handle POST /invocations
+    expect body to be: {"command": "assess", "exposure_id": "...", "officer_code": "..."}
+    or {"command": "migrate"}, since RDS is only reachable from inside the VPC
     """
 
     # the AgentCore SDK maps the header 'X-Amzn-Bedrock-AgentCore-Runtime-Session-Id' to context's session_id
@@ -68,7 +68,7 @@ def assess(payload: dict[str, Any], session_id: str | None) -> dict[str, Any]:
 
 
 def migrate() -> dict[str, Any]:
-    """ the schema, the seed rows and the checkpoint tables. each step is safe to repeat """
+    """the schema, the seed rows and the checkpoint tables. each step is safe to repeat"""
 
     with session_scope() as session:
         applied = migrate_up(session)
@@ -80,7 +80,6 @@ def migrate() -> dict[str, Any]:
 
 
 if __name__ == "__main__":
-
     configure_logging(get_settings().log_level)
 
     # what starts up the server on port 8080

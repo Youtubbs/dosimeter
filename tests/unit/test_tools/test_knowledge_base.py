@@ -151,10 +151,16 @@ def test_bedrock_citation_fields_come_up_from_source_metadata() -> None:
             page_content="the 20.2202 text",
             metadata={
                 "score": 0.9,
-                "source_metadata": {"doc_id": "FR-DOSE", "section_path": "20.2101", "status": "proposed"},
+                "source_metadata": {
+                    "doc_id": "FR-DOSE",
+                    "section_path": "20.2101",
+                    "status": "proposed",
+                },
             },
         ),
-        Document(page_content="weak", metadata={"score": 0.1, "source_metadata": {"doc_id": "CFR-34"}}),
+        Document(
+            page_content="weak", metadata={"score": 0.1, "source_metadata": {"doc_id": "CFR-34"}}
+        ),
     ]
 
     [kept] = flatten_citation_metadata(documents, threshold=0.4)

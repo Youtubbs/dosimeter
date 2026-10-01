@@ -1,7 +1,7 @@
-""" print a Cognito access token for one officer, so an outside MCP client
-    can call the read tools Gateway as that officer
+"""print a Cognito access token for one officer, so an outside MCP client
+can call the read tools Gateway as that officer
 
-        python -m dosimeter.aws.officer_token OFF-102
+    python -m dosimeter.aws.officer_token OFF-102
 """
 
 import argparse
@@ -18,7 +18,9 @@ from dosimeter.errors import ConfigurationError
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="dosimeter-officer-token")
     parser.add_argument("officer_code", help="the Cognito user to sign in as, for example OFF-102")
-    parser.add_argument("--header", action="store_true", help="print the whole Authorization header")
+    parser.add_argument(
+        "--header", action="store_true", help="print the whole Authorization header"
+    )
     args = parser.parse_args(argv)
 
     try:
@@ -28,7 +30,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 2
 
     if not (settings.identity_client_id and settings.identity_password):
-        sys.stderr.write("set DOSIMETER_IDENTITY_CLIENT_ID and DOSIMETER_IDENTITY_PASSWORD in .env\n")
+        sys.stderr.write(
+            "set DOSIMETER_IDENTITY_CLIENT_ID and DOSIMETER_IDENTITY_PASSWORD in .env\n"
+        )
         return 2
 
     try:

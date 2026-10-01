@@ -199,7 +199,9 @@ class ToolDispatcher:
         except ValidationError as error:
             # some models send a nested object as a JSON string; decode those and check once more
             try:
-                parsed = tool.input_model.model_validate_json(json.dumps(_decode_json_strings(supplied)))
+                parsed = tool.input_model.model_validate_json(
+                    json.dumps(_decode_json_strings(supplied))
+                )
             except ValidationError:
                 return fail(
                     ToolErrorCode.INVALID_ARGUMENTS,
