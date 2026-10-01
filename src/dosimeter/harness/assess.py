@@ -222,7 +222,7 @@ def run_turn(
             ledger=ledger,
             recorder=recorder,
             # the read tools reach the tool API as this officer, directly or through the Gateway
-            shared_tools=shared_tools(settings, officer_code, access_token),
+            shared_tools=shared_tools,
             checkpointer=checkpointer,
         )
 
