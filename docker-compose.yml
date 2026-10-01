@@ -16,11 +16,18 @@ services:
       timeout: 5s
       retries: 20
 
-  # The same image that runs on ECS, as the local stand-in for the tool API.
-  api:
+  # Runs once on every `docker compose up`: migrations, the graph checkpointer
+  # tables, then the seed officers, grants and exposures
+  migrate:
     build:
       context: .
-    container_name: dosimeter-api
+    container_name: dosimeter-migrate
+    volumes:
+      - ~/.aws:/home/dosimeter/.aws:ro
+    env_file:
+      - path: .env
+        required: false
+    command: ["sh", "-c", "python -m dosimeter.repository.migrate up && python -m dosimeter.repository.seeds"]
     depends_on:
       postgres:
         condition: service_healthy
@@ -32,6 +39,34 @@ services:
       DOSIMETER_DB_USE_IAM_AUTH: "false"
       DOSIMETER_DB_PASSWORD: dosimeter_local_dev
       DOSIMETER_DB_SSLMODE: prefer
+    restart: "no"
+
+  # The same image that runs on ECS, as the local stand-in for the tool API.
+  api:
+    build:
+      context: .
+    container_name: dosimeter-api
+    # .env and ~/.aws give the similar-exposure search its embedding model
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      - ~/.aws:/home/dosimeter/.aws:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    environment:
+      DOSIMETER_DB_HOST: postgres
+      DOSIMETER_DB_PORT: "5432"
+      DOSIMETER_DB_NAME: dosimeter
+      DOSIMETER_DB_USER: dosimeter
+      DOSIMETER_DB_USE_IAM_AUTH: "false"
+      DOSIMETER_DB_PASSWORD: dosimeter_local_dev
+      DOSIMETER_DB_SSLMODE: prefer
+      # local stand-in only: the officer arrives in a header instead of a verified token
+      DOSIMETER_TOOL_API_DEV_IDENTITY: "true"
       BEDROCK_MODEL_ID: ${BEDROCK_MODEL_ID:-local-placeholder}
       BEDROCK_EMBED_MODEL_ID: ${BEDROCK_EMBED_MODEL_ID:-local-placeholder}
       BEDROCK_KB_ID: ${BEDROCK_KB_ID:-in-memory}
@@ -42,6 +77,77 @@ services:
       - "8080:8080"
     healthcheck:
       test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8080/health/ready')\""]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # The read tools as an MCP server, the same image their AgentCore Runtime runs. It
+  # needs the DOSIMETER_IDENTITY_* settings in .env to verify callers.
+  mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile.mcp
+    container_name: dosimeter-mcp
+    volumes:
+      - ~/.aws:/home/dosimeter/.aws:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DOSIMETER_DB_HOST: postgres
+      DOSIMETER_DB_PORT: "5432"
+      DOSIMETER_DB_NAME: dosimeter
+      DOSIMETER_DB_USER: dosimeter
+      DOSIMETER_DB_USE_IAM_AUTH: "false"
+      DOSIMETER_DB_PASSWORD: dosimeter_local_dev
+      DOSIMETER_DB_SSLMODE: prefer
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/mcp/health')\""]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # The same image AgentCore Runtime runs, as its local stand-in. It serves the Runtime
+  # on http://localhost:8081: POST /invocations and GET /ping
+  workflow:
+    build:
+      context: .
+      dockerfile: Dockerfile.workflow
+    container_name: dosimeter-workflow
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+      api:
+        condition: service_healthy
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DOSIMETER_DB_HOST: postgres
+      DOSIMETER_DB_PORT: "5432"
+      DOSIMETER_DB_NAME: dosimeter
+      DOSIMETER_DB_USER: dosimeter
+      DOSIMETER_DB_USE_IAM_AUTH: "false"
+      DOSIMETER_DB_PASSWORD: dosimeter_local_dev
+      DOSIMETER_DB_SSLMODE: prefer
+      DOSIMETER_TOOL_API_BASE_URL: http://api:8080
+      # the stand-in runs the turn itself rather than forwarding it again
+      DOSIMETER_WORKFLOW: local
+    volumes:
+      - ~/.aws:/home/dosimeter/.aws:ro
+    ports:
+      - "8081:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8080/ping')\""]
       interval: 10s
       timeout: 5s
       retries: 10

@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from dosimeter.cli.main import COMMANDS, EXIT_CONFIG_ERROR, EXIT_NOT_IMPLEMENTED, build_parser, main
+from dosimeter.cli.main import COMMANDS, EXIT_CONFIG_ERROR, build_parser, main
 
 EXPECTED_COMMANDS = (
     "submit",
@@ -20,22 +20,19 @@ EXPECTED_COMMANDS = (
 
 # submit is built, and has its own tests. Take a command out of this list as it
 # lands.
-IMPLEMENTED_COMMANDS = ("submit", "assess", "trace", "queue", "review")
+IMPLEMENTED_COMMANDS = ("submit", "assess", "ask", "dossier", "sources", "trace", "queue", "review")
 
 # What each command needs on the command line, beyond its own name.
 ARGUMENTS: dict[str, list[str]] = {
     "submit": ["./packets/exp-0412"],
     "assess": ["EXP-2026-0412", "--officer", "OFF-101"],
     "dossier": ["EXP-2026-0412"],
-    "ask": ["EXP-2026-0412", "why no call?"],
+    "ask": ["EXP-2026-0412", "why no call?", "--officer", "OFF-101"],
     "sources": ["EXP-2026-0412", "--ref", "2"],
     "trace": ["EXP-2026-0412"],
     "queue": ["--officer", "OFF-101"],
     "review": ["EXP-2026-0412", "--officer", "OFF-102"],
 }
-UNFINISHED_COMMANDS = tuple(
-    command for command in EXPECTED_COMMANDS if command not in IMPLEMENTED_COMMANDS
-)
 
 
 @pytest.fixture
@@ -65,19 +62,8 @@ def test_subcommand_parses(command: str) -> None:
     assert args.command == command
 
 
-@pytest.mark.parametrize("command", UNFINISHED_COMMANDS)
-def test_subcommand_exits_non_zero_with_not_implemented(
-    command: str,
-    configured: None,
-    caplog: pytest.LogCaptureFixture,
-) -> None:
-    with caplog.at_level("ERROR"):
-        exit_code = main([command, *ARGUMENTS.get(command, [])])
-
-    assert exit_code == EXIT_NOT_IMPLEMENTED
-    assert exit_code != 0
-    assert caplog.records[-1].message == "command.not_implemented"
-    assert caplog.records[-1].detail == "not implemented"
+def test_every_command_is_implemented() -> None:
+    assert set(IMPLEMENTED_COMMANDS) == set(EXPECTED_COMMANDS)
 
 
 def test_command_loads_configuration_before_anything_else(
@@ -93,7 +79,7 @@ def test_command_loads_configuration_before_anything_else(
             monkeypatch.delenv(name, raising=False)
 
     with caplog.at_level("ERROR"):
-        exit_code = main(["ask", "EXP-2026-0412", "why no call?"])
+        exit_code = main(["ask", "EXP-2026-0412", "why no call?", "--officer", "OFF-101"])
 
     assert exit_code == EXIT_CONFIG_ERROR
     assert caplog.records[-1].message == "config.invalid"

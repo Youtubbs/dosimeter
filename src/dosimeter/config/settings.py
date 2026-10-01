@@ -10,7 +10,7 @@ The AWS and Bedrock values keep the names the .env already uses
 """
 
 from functools import lru_cache
-from typing import Any, Self
+from typing import Any, Literal, Self
 
 from pydantic import BaseModel, ConfigDict, Field, SecretStr, ValidationError, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -101,13 +101,13 @@ class Bounds(BaseModel):
     )
     # any model call that is not one of the agents above
     default_max_tokens_per_call: int = Field(default=600, gt=0)
-    max_tool_invocations_per_turn: int = Field(default=8, gt=0)
+    max_tool_invocations_per_turn: int = Field(default=48, gt=0)
     max_recursion_depth: int = Field(default=12, gt=0)
-    max_retrieved_chunks: int = Field(default=12, gt=0)
-    max_retrieved_tokens: int = Field(default=8000, gt=0)
-    per_turn_wall_clock_seconds: float = Field(default=180.0, gt=0)
+    max_retrieved_chunks: int = Field(default=120, gt=0)
+    max_retrieved_tokens: int = Field(default=72000, gt=0)
+    per_turn_wall_clock_seconds: float = Field(default=420.0, gt=0)
     per_call_http_timeout_seconds: float = Field(default=30.0, gt=0)
-    max_session_tokens: int = Field(default=120_000, gt=0)
+    max_session_tokens: int = Field(default=1_000_000, gt=0)
     reviewer_iteration_cap: int = Field(default=3, gt=0)
     max_artifacts_per_packet: int = Field(default=12, gt=0)
     max_artifact_bytes: int = Field(default=25 * 1024 * 1024, gt=0)
@@ -163,6 +163,23 @@ class Settings(BaseSettings):
     # the stub identity header is for docker compose only; deployed calls carry a verified one
     tool_api_dev_identity: bool = False
     tool_api_identity_header: str = Field(default="X-Dosimeter-Officer", min_length=1)
+
+    # how the read tools reach the tool API: straight over HTTP, or through the AgentCore Gateway
+    tool_transport: Literal["http", "gateway"] = "http"
+    tool_api_base_url: str = Field(default="http://127.0.0.1:8080", min_length=1)
+    gateway_url: str | None = None
+    # the knowledge base as a connector target on its own AWS_IAM Gateway; unset, retrieval calls the KB directly
+    kb_gateway_url: str | None = None
+
+    # where assess runs: in the CLI, or on the AgentCore Runtime (deployed ARN or local stand-in URL)
+    workflow: Literal["local", "runtime"] = "local"
+    runtime_arn: str | None = None
+    runtime_url: str | None = None
+
+    # AgentCore Identity: the Cognito user pool the Gateway trusts, one user per officer
+    identity_user_pool_id: str | None = None
+    identity_client_id: str | None = None
+    identity_password: SecretStr | None = None
 
     log_level: str = Field(default="INFO", min_length=1)
 

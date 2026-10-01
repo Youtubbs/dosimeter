@@ -66,15 +66,7 @@ def make_reviewer_node(
             reason = "Proposal passed automated review."
 
             for citation in proposal.citations:
-                source = next(
-                    (
-                        source
-                        for entry in retrieval_log
-                        for source in entry.get("sources", [])
-                        if source.get("chunk_id") == citation
-                    ),
-                    None,
-                )
+                source = cited_source(citation, retrieval_log)
 
                 if source is None:
                     approved = False
@@ -123,6 +115,23 @@ def make_reviewer_node(
         }
 
     return reviewer_node
+
+
+def cited_source(citation: str, retrieval_log: list[dict]) -> dict | None:
+    """The retrieved chunk a citation names: by chunk id, or by the section a worker quoted."""
+
+    sources = [source for entry in retrieval_log for source in entry.get("sources", [])]
+
+    for source in sources:
+        if source.get("chunk_id") == citation:
+            return source
+
+    for source in sources:
+        section = str(source.get("section_path", "")).replace("\u00a7", "").strip()
+        if section and section in citation:
+            return source
+
+    return None
 
 
 def route_after_reviewer(

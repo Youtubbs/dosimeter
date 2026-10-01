@@ -128,3 +128,38 @@ def test_search_returns_refusal_when_no_documents() -> None:
     documents = retriever.invoke("What dose limit applies to an adult radiation worker?")
 
     assert documents == []
+
+
+def test_a_managed_knowledge_base_gets_managed_search_with_the_status_filter() -> None:
+    from dosimeter.retrieval.retriever import retrieval_configuration
+
+    assert retrieval_configuration(3, "in_force") == {
+        "managedSearchConfiguration": {
+            "numberOfResults": 3,
+            "filter": {"equals": {"key": "status", "value": "in_force"}},
+        }
+    }
+
+
+def test_bedrock_citation_fields_come_up_from_source_metadata() -> None:
+    from langchain_core.documents import Document
+
+    from dosimeter.retrieval.retriever import flatten_citation_metadata
+
+    documents = [
+        Document(
+            page_content="the 20.2202 text",
+            metadata={
+                "score": 0.9,
+                "source_metadata": {"doc_id": "FR-DOSE", "section_path": "20.2101", "status": "proposed"},
+            },
+        ),
+        Document(page_content="weak", metadata={"score": 0.1, "source_metadata": {"doc_id": "CFR-34"}}),
+    ]
+
+    [kept] = flatten_citation_metadata(documents, threshold=0.4)
+
+    # a proposed chunk must say so, not fall back to in_force
+    assert kept.metadata["doc_id"] == "FR-DOSE"
+    assert kept.metadata["status"] == "proposed"
+    assert "source_metadata" not in kept.metadata

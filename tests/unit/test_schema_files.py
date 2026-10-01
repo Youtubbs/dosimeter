@@ -80,3 +80,17 @@ def test_the_mapped_tables_match_the_migrations() -> None:
 def test_the_vector_extension_is_enabled() -> None:
     assert "CREATE EXTENSION IF NOT EXISTS vector" in SQL
     assert f"embedding           vector({orm.EMBEDDING_DIMENSIONS})" in SQL
+
+
+def test_the_migrations_ship_inside_the_wheel() -> None:
+    import tomllib
+    from fnmatch import fnmatch
+    from pathlib import Path
+
+    pyproject = Path(__file__).resolve().parents[2] / "pyproject.toml"
+    package_data = tomllib.loads(pyproject.read_text(encoding="utf-8"))["tool"]["setuptools"]["package-data"]
+    patterns = package_data["dosimeter.repository"]
+
+    # every image installs the wheel, so a migration left out of it never runs
+    for path in migration_files():
+        assert any(fnmatch(f"migrations/{path.name}", pattern) for pattern in patterns), path.name

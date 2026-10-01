@@ -34,6 +34,9 @@ def render_trace(session: Session, exposure_id: str, run_id: UUID | None = None)
     ]
     if getattr(row, "corrects_run_id", None):
         lines.append(_line("corrects", row.corrects_run_id))
+    if getattr(row, "runtime_arn", None):
+        lines.append(_line("agentcore runtime", row.runtime_arn))
+        lines.append(_line("runtime session", row.runtime_session_id))
 
     lines.append("")
     lines.append("workers dispatched")

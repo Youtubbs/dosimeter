@@ -36,6 +36,10 @@ dependencies = [
     # corpus dependencies
     "reportlab==5.0.1",
     "pypdf==6.18.0",
+
+    # agentcore dependencies
+    "bedrock-agentcore==1.23.1",
+    "mcp==1.24.0",
 ]
 
 [project.optional-dependencies]
@@ -55,6 +59,10 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["dosimeter*"]
+
+# the SQL migrations ship inside the wheel, so every image can migrate the database
+[tool.setuptools.package-data]
+"dosimeter.repository" = ["migrations/*.sql"]
 
 # cli commands eventually will be implemented
 #  - submit, assess, dossier, ask, sources, trace, queue, review
@@ -81,4 +89,10 @@ asyncio_mode = "auto"
 markers = [
     "integration: touches a real service and is not run in CI",
     "eval: runs the evaluation harness",
+]
+# both come from inside libraries (bedrock-agentcore and mcp), not our code
+filterwarnings = [
+    "ignore:Support for class-based `config` is deprecated:pydantic.warnings.PydanticDeprecatedSince20:bedrock_agentcore.*",
+    "ignore:Field 'lifespan' has an incomplete definition",
+    "ignore:datetime.datetime.utcnow:DeprecationWarning:bedrock_agentcore.*",
 ]

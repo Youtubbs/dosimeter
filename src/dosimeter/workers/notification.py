@@ -136,7 +136,7 @@ def run_notification_worker(
     ledger: SessionLedger,
     shared_tools: Iterable[Tool],
     prompt: str,
-    max_iterations: int = 10,
+    max_iterations: int = 16,
     recorder: RunRecorder | None = None,
 ) -> tuple[NotificationProposal, list[InvocationRecord]]:
     """Run the Notification Worker through its Bedrock tool loop.

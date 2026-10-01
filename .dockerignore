@@ -16,3 +16,6 @@ old
 Dockerfile
 docker-compose.yml
 .dockerignore
+Dockerfile.workflow
+Dockerfile.mcp
+DosimeterCloud/

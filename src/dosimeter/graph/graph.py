@@ -6,7 +6,7 @@ from langgraph.graph import END, START, StateGraph
 
 from dosimeter.config.settings import Bounds
 from dosimeter.graph.nodes.coordinator import make_coordinator_node, route_after_coordinator
-from dosimeter.graph.nodes.eligibility import eligibility_node
+from dosimeter.graph.nodes.eligibility import eligibility_node, route_on_readiness
 from dosimeter.graph.nodes.reviewer import make_reviewer_node, route_after_reviewer
 from dosimeter.graph.nodes.workers import (
     build_equipment_node,
@@ -78,7 +78,8 @@ def build_graph(
     graph.add_node("eligibility_check", eligibility_node)
 
     # --- EDGES ---
-    graph.add_edge(START, "coordinator")
+    # the readiness gate can stop a turn before dispatch, never start one
+    graph.add_conditional_edges(START, route_on_readiness, ["coordinator", "eligibility_check"])
 
     # The model chooses what; the graph routes it:
     # 0 to 3 workers from the dispatch plan.

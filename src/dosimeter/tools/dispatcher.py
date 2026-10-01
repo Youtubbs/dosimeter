@@ -197,11 +197,15 @@ class ToolDispatcher:
         try:
             parsed = tool.input_model.model_validate_json(json.dumps(supplied))
         except ValidationError as error:
-            return fail(
-                ToolErrorCode.INVALID_ARGUMENTS,
-                "the arguments did not match the tool schema",
-                errors=error.errors(include_url=False),
-            )
+            # some models send a nested object as a JSON string; decode those and check once more
+            try:
+                parsed = tool.input_model.model_validate_json(json.dumps(_decode_json_strings(supplied)))
+            except ValidationError:
+                return fail(
+                    ToolErrorCode.INVALID_ARGUMENTS,
+                    "the arguments did not match the tool schema",
+                    errors=error.errors(include_url=False),
+                )
         except (TypeError, ValueError) as error:
             return fail(
                 ToolErrorCode.INVALID_ARGUMENTS,
@@ -217,6 +221,9 @@ class ToolDispatcher:
             return fail(ToolErrorCode.BUDGET_EXHAUSTED, str(error))
         except DosimeterError as error:
             return fail(ToolErrorCode.INTERNAL, str(error))
+        except (ValidationError, ValueError, TypeError) as error:
+            # the model can fix its own inputs when it is told what was wrong
+            return fail(ToolErrorCode.INVALID_ARGUMENTS, str(error))
         except Exception as error:  # a tool never raises at the model
             logger.exception("tool.handler_failed", extra={"tool": tool_name})
             return fail(ToolErrorCode.INTERNAL, "the tool failed", error_type=type(error).__name__)
@@ -346,3 +353,16 @@ def _dose_quantity(result: dict[str, Any]) -> str | None:
         return None
 
     return ", ".join(dose_quantities)
+
+
+def _decode_json_strings(arguments: dict[str, Any]) -> dict[str, Any]:
+    decoded = dict(arguments)
+
+    for name, value in arguments.items():
+        if isinstance(value, str) and value.lstrip().startswith(("{", "[")):
+            try:
+                decoded[name] = json.loads(value)
+            except json.JSONDecodeError:
+                pass
+
+    return decoded

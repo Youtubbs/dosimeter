@@ -5,12 +5,12 @@ rule evaluation. Regulatory thresholds remain exclusively inside the
 deterministic rule implementations.
 """
 
+import json
 from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict
 
 from dosimeter.domain.dose import (
-    DoseUnit,
     IntakeMultipleOfALI,
     LensDoseEquivalent,
     ShallowDoseEquivalent,
@@ -32,6 +32,29 @@ from dosimeter.tools.dispatcher import Tool
 
 RuleId = Literal["R1", "R2", "R3", "R4", "R5"]
 EVALUATE_RULE = "evaluate_rule"
+
+
+def _fields(model: type[BaseModel]) -> str:
+    """The model's field names, optional ones marked with ?, read from its own schema."""
+
+    schema = model.model_json_schema()
+    required = set(schema.get("required", []))
+    return ", ".join(name if name in required else f"{name}?" for name in schema["properties"])
+
+
+# the model sees `inputs` as a free-form object, so it is told each rule's exact field names
+RULE_INPUTS = (
+    "Put the rule's inputs in `inputs` using exactly these field names (? means optional). "
+    'A dose is {"value": number, "unit": "rem" | "rad" | "Sv" | "Gy"}; a shallow dose adds '
+    '"site": "skin" | "extremity"; intake is {"value": number}, a multiple of the ALI. '
+    "R1: tede?, lens?, shallow?, intake?. "
+    "R2: loss_of_control? (true or false), tede?, lens?, shallow?, intake?. "
+    f"R3: {_fields(R3Inputs)}; population is adult_worker, minor, declared_pregnant_worker "
+    "or member_of_public, and r1_required and r2_required come from your R1 and R2 results. "
+    f"R4: {_fields(PSEConditions)}, each true, false or null. "
+    f'R5: {_fields(R5Inputs)}, where fields is a list of {{"field_name", "confidence"}}; '
+    "confidence_floor? is a number."
+)
 
 
 class EvaluateRuleRequest(BaseModel):
@@ -113,14 +136,14 @@ def _evaluate_r2(inputs: dict[str, Any]) -> RuleResult:
 def _evaluate_r3(inputs: dict[str, Any]) -> RuleResult:
     """Validate and evaluate R3 inputs."""
 
-    validated = R3Inputs.model_validate(inputs)
+    validated = R3Inputs.model_validate_json(json.dumps(inputs))
     return evaluate_r3(validated)
 
 
 def _evaluate_r4(inputs: dict[str, Any]) -> RuleResult:
     """Validate and evaluate R4 inputs."""
 
-    validated = PSEConditions.model_validate(inputs)
+    validated = PSEConditions.model_validate_json(json.dumps(inputs))
     return evaluate_r4(validated)
 
 
@@ -131,7 +154,7 @@ def _evaluate_r5(inputs: dict[str, Any]) -> RuleResult:
 
     rule_inputs = {key: value for key, value in inputs.items() if key != "confidence_floor"}
 
-    validated = R5Inputs.model_validate(rule_inputs)
+    validated = R5Inputs.model_validate_json(json.dumps(rule_inputs))
 
     if confidence_floor is None:
         return evaluate_r5(validated)
@@ -235,7 +258,8 @@ EVALUATE_RULE_TOOL = Tool(
     description=(
         "Evaluate one deterministic regulatory rule (R1-R5) using "
         "validated inputs. Regulatory thresholds remain inside the "
-        "rules engine; this tool does not invent or override thresholds."
+        "rules engine; this tool does not invent or override thresholds. "
+        + RULE_INPUTS
     ),
     input_model=EvaluateRuleRequest,
     output_model=RuleInvocation,

@@ -14,6 +14,7 @@ from dosimeter.harness.run_record import RunRecorder
 from dosimeter.harness.trace import render_trace
 from dosimeter.logging_config import correlation_scope
 from dosimeter.repository import Session, orm, queries, seeds
+from dosimeter.repository.models import Artifact, ExtractedField
 
 EXPOSURE = "EXP-2026-0412"
 OFFICER = "OFF-101"
@@ -61,9 +62,38 @@ def coordinator_answers(
     )
 
 
+def seed_doses(db: Session, exposure_id: str = "EXP-2026-0412") -> None:
+    """The three dose fields a submitted packet carries, so the readiness gate lets the turn run."""
+
+    artifact_id = queries.insert_artifact(
+        db,
+        Artifact(
+            exposure_id=exposure_id,
+            kind="exposure-report",
+            content_sha256="b" * 64,
+            s3_bucket="packets",
+            s3_key="artifacts/bb/" + "b" * 64 + ".pdf",
+            status="stored",
+        ),
+    )
+    queries.insert_extracted_fields(
+        db,
+        [
+            ExtractedField(exposure_id=exposure_id, artifact_id=artifact_id, field_key=key,
+                           value=value, unit=None, confidence=0.95, page=1)
+            for key, value in [
+                ("Total Effective Dose Equivalent (TEDE)", "4.1 rem"),
+                ("Lens Dose Equivalent", "9.0 rem"),
+                ("Shallow-Dose Equivalent", "310 rad"),
+            ]
+        ],
+    )
+
+
 @pytest.fixture
 def seeded(db: Session) -> Session:
     seeds.apply_seeds(db)
+    seed_doses(db)
     db.commit()
     return db
 
@@ -295,9 +325,10 @@ def test_the_session_ceiling_carries_across_two_turns(
     settings = settings_for_tests(bounds=Bounds(max_session_tokens=1000))
 
     first = run_assess(seeded, EXPOSURE, OFFICER, settings)
-    second = run_assess(seeded, EXPOSURE, OFFICER, settings)
-
     first_record = queries.get_run_record(seeded, first.run_id)
+
+    # a follow-up turn continues the session
+    second = run_assess(seeded, EXPOSURE, OFFICER, settings, session_id=first_record.session_id)
     second_record = queries.get_run_record(seeded, second.run_id)
     second_detail = queries.run_record_detail(seeded, second.run_id)
 
@@ -316,6 +347,11 @@ def test_the_session_ceiling_carries_across_two_turns(
     assert queries.latest_dossier(seeded, EXPOSURE).payload["partial"]["ceiling"] == (
         "max_session_tokens"
     )
+
+    # a new assess starts a fresh session with the whole budget
+    fresh = run_assess(seeded, EXPOSURE, OFFICER, settings)
+    assert fresh.partial is None
+    assert queries.get_run_record(seeded, fresh.run_id).session_id != first_record.session_id
 
 
 def test_trace_renders_what_the_turn_did_reading_only_from_postgres(seeded: Session) -> None:
@@ -347,6 +383,30 @@ def test_trace_renders_what_the_turn_did_reading_only_from_postgres(seeded: Sess
     assert "iteration 1 on equipment: rejected" in rendered
     assert "objection: {'reason': 'no citation'}" in rendered
     assert "equipment: 120" in rendered
+    assert "agentcore runtime" not in rendered
+
+
+def test_a_turn_on_the_runtime_says_where_it_ran(seeded: Session) -> None:
+    officer = queries.officer_by_code(seeded, OFFICER)
+    arn = "arn:aws:bedrock-agentcore:us-east-1:123456789012:runtime/DosimeterWorkflow-abc"
+    recorder = RunRecorder(
+        session=seeded,
+        exposure_id=EXPOSURE,
+        officer_id=officer.id,
+        command="assess",
+        runtime_arn=arn,
+        runtime_session_id="dosimeter-session-0000000000000000000000",
+    )
+    recorder.start()
+    recorder.finish("complete")
+
+    stored = queries.get_run_record(seeded, recorder.run_id)
+    rendered = render_trace(seeded, EXPOSURE)
+
+    assert stored.runtime_arn == arn
+    assert stored.runtime_session_id == "dosimeter-session-0000000000000000000000"
+    assert arn in rendered
+    assert "dosimeter-session-0000000000000000000000" in rendered
 
 
 def test_the_record_checks_read_the_stored_record(seeded: Session) -> None:
@@ -363,3 +423,20 @@ def test_the_record_checks_read_the_stored_record(seeded: Session) -> None:
     assert attribution.offenders == ["R3"]
     assert status.passed is False
     assert status.offenders == ["FR-DOSE#0001"]
+
+
+def test_only_dose_fields_below_the_floor_stop_a_turn_and_facts_list_each_field_once(db: Session) -> None:
+    from dosimeter.harness.assess import low_confidence_dose_fields, missing_dose_fields, packet_facts
+    from tests.integration.test_tool_api import EXPOSURE as SEEDED_EXPOSURE
+    from tests.integration.test_tool_api import seed_extraction
+
+    seed_extraction(db)
+
+    # Shallow Dose Equivalent was read at 0.42; Total Effective Dose Equivalent at 0.99
+    assert low_confidence_dose_fields(db, SEEDED_EXPOSURE, 0.60) == ["Shallow Dose Equivalent"]
+    # the seeded extraction has no lens dose at all
+    assert missing_dose_fields(db, SEEDED_EXPOSURE) == ["Lens Dose Equivalent"]
+    assert packet_facts(db, SEEDED_EXPOSURE) == [
+        "Total Effective Dose Equivalent: 4.1",
+        "Shallow Dose Equivalent: 310",
+    ]

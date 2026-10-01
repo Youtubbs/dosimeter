@@ -1,9 +1,10 @@
 """invoking our bedrock modal"""
 
 import time
+from functools import lru_cache
 from typing import Any
 
-from langchain_aws import ChatBedrockConverse
+from langchain_aws import BedrockEmbeddings, ChatBedrockConverse
 from langchain_core.language_models import BaseChatModel
 
 from ..aws.aws import client_config, get_client
@@ -63,6 +64,23 @@ def converse(
     )
 
     return response["output"]["message"]["content"][0]["text"]
+
+
+@lru_cache(maxsize=1)
+def _embeddings() -> BedrockEmbeddings:
+    settings = get_settings()
+    return BedrockEmbeddings(
+        model_id=settings.bedrock_embed_model_id,
+        region_name=settings.aws_region,
+        credentials_profile_name=settings.aws_profile,
+        config=client_config(),
+    )
+
+
+def embed_text(text: str) -> list[float]:
+    """The same embedding model the Knowledge Base uses, for the similar-exposure search."""
+
+    return _embeddings().embed_query(text)
 
 
 def get_chat_model(*, temperature: float = 0.0, max_tokens: int | None = None) -> BaseChatModel:
@@ -217,6 +235,7 @@ def run_tool_loop(
             return _extract_text(assistant_message)
 
         tool_results: list[dict[str, Any]] = []
+        proposed: list[tuple[str, bool]] = []
 
         for block in assistant_message["content"]:
             tool_use = block.get("toolUse")
@@ -232,6 +251,7 @@ def run_tool_loop(
                 tool_name,
                 arguments,
             )
+            proposed.append((tool_name, result.ok))
 
             result_payload = result.model_dump(
                 mode="json",
@@ -261,6 +281,10 @@ def run_tool_loop(
                 "content": tool_results,
             }
         )
+
+        # a worker is done once its proposal is accepted
+        if any(name.startswith("propose_") and ok for name, ok in proposed):
+            return ""
 
     raise RuntimeError(f"Bedrock tool loop exceeded {max_iterations} iterations")
 
